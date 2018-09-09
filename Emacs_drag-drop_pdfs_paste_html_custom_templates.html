@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- 2018-09-09 Sun 04:50 -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Emacs drag-drop pdfs, paste html, custom templates</title>
+<meta name="generator" content="Org mode">
+<meta name="author" content="ivanaf">
+<link rel="stylesheet" type="text/css" href="css/org.css"/>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2018 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="content">
+<div class="head">
+<div class="title">
+<p>
+<a href="Index.html">Ivanaf @ Home</a>
+</p>
+
+</div>
+
+<menu>
+<ul class="org-ul">
+<li><a href="Index.html">home</a></li>
+</ul>
+</menu>
+
+</div>
+
+
+<p>
+ <h1>
+Emacs drag-drop pdfs, paste html, custom templates 
+ </h1>
+</p>
+
+<nav id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#org0b495f7">1. UPDATE:</a></li>
+<li><a href="#pdf-files-drag-drop">2. PDF files drag-drop</a></li>
+<li><a href="#custom-easy-templates">3. Custom easy templates</a></li>
+<li><a href="#pasting-html-in-org-mode">4. Pasting HTML in org mode</a></li>
+</ul>
+</div>
+</nav>
+<div id="outline-container-org0b495f7" class="outline-2">
+<h2 id="org0b495f7"><span class="section-number-2">1</span> UPDATE:</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+I created a tiny package to paste html or picture. See <a href="https://github.com/itf/clipboard2org/blob/master/clipboard2org.el">clipboard2org</a>
+</p>
+</div>
+</div>
+
+<div id="outline-container-org9646bc6" class="outline-2">
+<h2 id="pdf-files-drag-drop"><a id="org9646bc6"></a><span class="section-number-2">2</span> PDF files drag-drop</h2>
+<div class="outline-text-2" id="text-pdf-files-drag-drop">
+<p>
+I wanted to be able to drag and drop pdf files, as well as drag and drop
+pdf URLs to emacs. The result of dragging should be to download the file
+to a directory under the same directory as the org file you are editing
+and then create a link to the file. It also allows for drag and drop of
+image files.
+</p>
+
+<p>
+The code was based on <a href="https://github.com/abo-abo/org-download">org download</a>. If it is not a pdf, or if it is but the download fails, it
+fails back to the original drag and drop code.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">    (<span style="color: #a626a4;">defun</span> <span style="color: #0184bc;">org-file-copy-pdf</span> (fname)
+      (<span style="color: #a626a4;">let*</span> ((path (substring fname 5))
+             (org-file-pdf-directory <span style="color: #50a14f;">"./pdflib"</span>)
+             (name (file-name-nondirectory (file-name-sans-extension path))))
+        (make-directory org-file-pdf-directory <span style="color: #e44649;">:parents</span>)
+        (<span style="color: #a626a4;">condition-case</span> nill
+            (copy-file (dnd-unescape-uri path) (expand-file-name (format <span style="color: #50a14f;">"%s.pdf"</span> name) org-file-pdf-directory))
+          (<span style="color: #ff0000; font-weight: bold;">error</span>
+           ())
+          )
+        (file-relative-name (expand-file-name (format <span style="color: #50a14f;">"%s.pdf"</span> name) org-file-pdf-directory) <span style="color: #50a14f;">"./"</span>))
+      )
+
+    (<span style="color: #a626a4;">defun</span> <span style="color: #0184bc;">org-file-insert</span> (fname)
+      (<span style="color: #a626a4;">let*</span> ((img-regexp <span style="color: #50a14f;">"</span><span style="color: #000000; font-weight: bold;">\\</span><span style="color: #000000; font-weight: bold;">(</span><span style="color: #50a14f;">[pP][nN][gG]</span><span style="color: #000000; font-weight: bold;">\\</span><span style="color: #000000; font-weight: bold;">|</span><span style="color: #50a14f;">[jJ][pP][eE]?[gG]</span><span style="color: #000000; font-weight: bold;">\\</span><span style="color: #000000; font-weight: bold;">)</span><span style="color: #50a14f;">\\&gt;"</span>)
+             (pdf-regexp  <span style="color: #50a14f;">"</span><span style="color: #000000; font-weight: bold;">\\</span><span style="color: #000000; font-weight: bold;">(</span><span style="color: #50a14f;">[pP][dD][fF]</span><span style="color: #000000; font-weight: bold;">\\</span><span style="color: #000000; font-weight: bold;">)</span><span style="color: #50a14f;">\\&gt;"</span>))
+        (<span style="color: #a626a4;">cond</span>  
+         ((string-match img-regexp fname)
+          (insert <span style="color: #50a14f;">"#+ATTR_ORG: :width 300\n"</span>)
+          (insert (concat  <span style="color: #50a14f;">"#+CAPTION: "</span>  <span style="color: #50a14f;">"\n"</span>))
+          (insert (format <span style="color: #50a14f;">"[[%s]]"</span> fname))
+          (org-display-inline-images t t))
+         ((string-match pdf-regexp fname)
+          (insert (format <span style="color: #50a14f;">"[[file:%s][%s]]\n"</span>  (org-file-copy-pdf fname) (file-name-nondirectory (file-name-sans-extension path)))))
+         (t (insert (format <span style="color: #50a14f;">"[[%s]]\n"</span> fname))
+            )
+         )
+        )
+      )
+
+    (<span style="color: #a626a4;">defun</span> <span style="color: #0184bc;">org-file-dnd-fallback</span> (uri action)
+      (<span style="color: #a626a4;">let</span> ((dnd-protocol-alist
+             (rassq-delete-all
+              'org-file-dnd-protocol
+              (copy-alist dnd-protocol-alist))))
+        (dnd-handle-one-url nil action uri)))
+
+    (<span style="color: #a626a4;">defun</span> <span style="color: #0184bc;">org-file-dnd-protocol</span> (uri action)
+      (<span style="color: #a626a4;">cond</span> ((eq major-mode 'org-mode)
+             (<span style="color: #a626a4;">condition-case</span> nil
+                 (org-file-insert uri)
+               (<span style="color: #ff0000; font-weight: bold;">error</span>
+                (org-file-dnd-fallback uri action))))
+            (t
+             (org-file-dnd-fallback uri action))))
+
+
+    (add-to-list 'dnd-protocol-alist '(<span style="color: #50a14f;">"^file:"</span> .  org-file-dnd-protocol))
+
+
+    (<span style="color: #a626a4;">require</span> '<span style="color: #008b8b;">url</span>)
+
+    (<span style="color: #a626a4;">defun</span> <span style="color: #0184bc;">org-file-pdf-url-insert</span> (url)
+      (<span style="color: #a626a4;">let*</span> ((org-file-pdf-directory <span style="color: #50a14f;">"./pdflib"</span>)
+             (name (file-name-nondirectory url))
+             (path (expand-file-name (file-name-nondirectory url) org-file-pdf-directory))
+             (relative-path (file-relative-name path <span style="color: #50a14f;">"./"</span>)))
+        (make-directory org-file-pdf-directory <span style="color: #e44649;">:parents</span>)
+        (url-copy-file url path t)
+        (insert (format <span style="color: #50a14f;">"[[file:%s][%s]]\n"</span>  relative-path name)))
+      )
+
+    (<span style="color: #a626a4;">defun</span> <span style="color: #0184bc;">org-file-pdf-url-dnd-fallback</span> (uri action)
+      (<span style="color: #a626a4;">let</span> ((dnd-protocol-alist
+             (rassq-delete-all
+              'org-file-pdf-url-dnd-protocol
+              (copy-alist dnd-protocol-alist))))
+        (dnd-handle-one-url nil action uri)))
+
+    (<span style="color: #a626a4;">defun</span> <span style="color: #0184bc;">org-file-pdf-url-dnd-protocol</span> (uri action)
+      (<span style="color: #a626a4;">cond</span> ((eq major-mode 'org-mode)
+             (<span style="color: #a626a4;">condition-case</span> nil
+                 (org-file-pdf-url-insert uri)
+               (<span style="color: #ff0000; font-weight: bold;">error</span>
+                (org-file-pdf-url-dnd-fallback uri action))))
+            (t
+             (org-file-pdf-url-dnd-fallback uri action))))
+
+
+    (add-to-list 'dnd-protocol-alist '(<span style="color: #50a14f;">"^https?.*\\.pdf"</span> .  org-file-pdf-url-dnd-protocol))
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org10ba12e" class="outline-2">
+<h2 id="custom-easy-templates"><a id="org10ba12e"></a><span class="section-number-2">3</span> Custom easy templates</h2>
+<div class="outline-text-2" id="text-custom-easy-templates">
+<p>
+Easy templates cannot run arbitrary code. They are handled by org-cycle,
+which is a function that handles every action that TAB performs in org
+mode.
+</p>
+
+<p>
+So, I created a function and added an advice to org-cycle, This detects
+strings of the type "<code>&gt;[a-zA-Z]+</code>", i.e. &gt; followed by letters and then
+runs a function.
+</p>
+
+<p>
+In order to create other templates, add another block similar to
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">    ((string= key <span style="color: #50a14f;">"t"</span>)
+    (insert-todays-date)
+    t)
+</pre>
+</div>
+
+<p>
+under it.
+</p>
+
+<p>
+This particular template inserts today's date when someone writes &gt;t and
+presses tab.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">    (<span style="color: #a626a4;">defun</span> <span style="color: #0184bc;">insert-todays-date</span> ()
+      (<span style="color: #a626a4;">interactive</span>)
+      (insert (format-time-string <span style="color: #50a14f;">"&lt;%Y-%m-%d&gt;"</span>)))
+
+    (<span style="color: #a626a4;">defun</span> <span style="color: #0184bc;">org-try-my-template-function</span> (<span style="color: #c18401;">&amp;optional</span> arg)
+        <span style="color: #50a14f; font-style: italic;">"Try to complete a structure template before point.</span>
+<span style="color: #50a14f; font-style: italic;">    This looks for strings like \"&lt;e\" on an otherwise empty line and</span>
+<span style="color: #50a14f; font-style: italic;">    expands them."</span>
+        (<span style="color: #a626a4;">interactive</span>)
+        (<span style="color: #a626a4;">let</span> ((l (buffer-substring (point-at-bol) (point)))
+          a)
+          (<span style="color: #a626a4;">if</span> (<span style="color: #a626a4;">and</span> (looking-at <span style="color: #50a14f;">"[ \t]*$"</span>)
+               (string-match <span style="color: #50a14f;">"^[ \t]*&gt;</span><span style="color: #000000; font-weight: bold;">\\</span><span style="color: #000000; font-weight: bold;">(</span><span style="color: #50a14f;">[a-zA-Z]+</span><span style="color: #000000; font-weight: bold;">\\</span><span style="color: #000000; font-weight: bold;">)</span><span style="color: #50a14f;">$"</span> l))
+              (<span style="color: #a626a4;">let*</span> ((key (match-string 1 l))
+                     (start  (point-at-bol))
+                     (end (point)))
+                (<span style="color: #a626a4;">when</span>
+                    (<span style="color: #a626a4;">cond</span>
+                     ((string= key <span style="color: #50a14f;">"t"</span>)
+                      (insert-todays-date)
+                      t)
+                     )
+                  (delete-region start end)
+                  t)
+                ))))
+
+
+    (<span style="color: #a626a4;">require</span> '<span style="color: #008b8b;">org</span>)
+    (<span style="color: #a626a4;">with-eval-after-load</span> 'org 
+      (advice-add #'org-cycle <span style="color: #e44649;">:before-until</span>   #' org-try-my-template-function))
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgab0c821" class="outline-2">
+<h2 id="pasting-html-in-org-mode"><a id="orgab0c821"></a><span class="section-number-2">4</span> Pasting HTML in org mode</h2>
+<div class="outline-text-2" id="text-pasting-html-in-org-mode">
+<p>
+This was inspired by
+<a href="https://emacs.stackexchange.com/questions/12121/org-mode-parsing-rich-html-directly-when-pasting">this stack overflow question</a>. It suggested using <code>xclip</code> to access the
+clipboard.
+</p>
+
+<p>
+The problem is that <code>xclip</code> causes emacs to hang, because it forks a
+child that keeps stdout open. So instead, one can use the emacs backed
+for getting the xselection from the clipboard.
+</p>
+
+<p>
+This code requests a text/html selection and checks if it exists. If it
+exists, it first decodes it using whatever encoding was being used, and
+then uses pandoc to convert the html to org mode.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">    (<span style="color: #a626a4;">defun</span> <span style="color: #0184bc;">html2org-clipboard</span> ()
+      <span style="color: #50a14f; font-style: italic;">"Convert clipboard contents from HTML to Org and then paste (yank)."</span>
+      (<span style="color: #a626a4;">interactive</span>)
+      (<span style="color: #a626a4;">let*</span> (
+           (text_html (gui-backend-get-selection 'PRIMARY 'text/html))
+           (text_raw (gui-get-selection)) 
+           (text_html (<span style="color: #a626a4;">when</span> text_html
+                        (decode-coding-string text_html 'unix)))
+           (text_html (<span style="color: #a626a4;">when</span> text_html
+                        (shell-command-to-string (concat <span style="color: #50a14f;">"echo "</span>  (shell-quote-argument text_html) <span style="color: #50a14f;">"|timeout 2  pandoc -f html-native_divs-native_spans -t org"</span>))))
+           (text (<span style="color: #a626a4;">or</span> text_html
+                   text_raw))
+           )
+        (<span style="color: #a626a4;">progn</span>  (kill-new text) (yank))))
+
+
+    (<span style="color: #a626a4;">with-eval-after-load</span> 'org 
+      (define-key org-mode-map (kbd <span style="color: #50a14f;">"C-y "</span>) 'html2org-clipboard)
+      (define-key org-mode-map (kbd <span style="color: #50a14f;">"C-&lt;tab&gt;"</span>) '(lambda() (<span style="color: #a626a4;">interactive</span>) (<span style="color: #a626a4;">save-excursion</span>  (org-back-to-heading)
+                                                                      (org-cycle))))
+      )
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: ivanaf</p>
+<p class="date">Created: 2018-09-09 Sun 04:50</p>
+<p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
+</div>
+</body>
+</html>
