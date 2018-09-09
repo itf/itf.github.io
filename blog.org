@@ -405,11 +405,11 @@ Creates a hard link to org.css in the export directory.
 * Menu :noexport:header:
 #+begin_head
 #+begin_title
-[[Index][Ivanaf @ Home]]
+[[index][Ivanaf @ Home]]
 #+end_title
 
 #+begin_menu
-- [[Index][Home]]
+- [[index][Home]]
 - [[About][About]]
 - [[Resume][Resume]]
 - [[Portfolio][Portfolio]]
@@ -428,12 +428,12 @@ Creates a hard link to org.css in the export directory.
 @@html:</small> </span> @@
 #+TOC: headlines 2
 
-* Index  :reexport:
+* index                                                            :reexport:
   :PROPERTIES:
   :CREATION-DATE: 2018-09-09
   :MODIFICATION-DATE: 2018-09-09
-  :HASH:     3cd6a4e69e6a1debb47d7b25a1335392
-  :PREVIOUS-HASH: 3cd6a4e69e6a1debb47d7b25a1335392
+  :HASH:     67dae60fb68f2711649388f4ab356b72
+  :PREVIOUS-HASH: 67dae60fb68f2711649388f4ab356b72
   :END:
 Hello everyone and welcome to my blog! 
 
@@ -614,8 +614,8 @@ Contact me through email (ivan af @ mit). If you need to meet with me, below is 
   :PROPERTIES:
   :CREATION-DATE: 2018-09-09
   :MODIFICATION-DATE: 2018-09-09
-  :HASH:     e9b57dd7f3da86b2c7ce879d95f0c9ea
-  :PREVIOUS-HASH: e9b57dd7f3da86b2c7ce879d95f0c9ea
+  :HASH:     c5c2eab91aa3c5e6fc539127e8b81f51
+  :PREVIOUS-HASH: c5c2eab91aa3c5e6fc539127e8b81f51
   :END:
 
 In construction.
