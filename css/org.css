@@ -1171,10 +1171,17 @@ menu a {
 
 
 .responsive-table {
- display:flex;
- align-items:stretch;
- flex-wrap:wrap
+    display:flex;
+    align-items:stretch;
+    flex-wrap:wrap;
 }
+
+/*make text work as separators in the responsive table*/
+.responsive-table p{
+    display: inline;
+    flex-basis: 100%;
+}
+
 @media (max-width: 480px) {
  .responsive-table>div {
   width:98%
@@ -1190,18 +1197,87 @@ menu a {
   width:32%
  }
 }
+
+
 .portfolio-project {
- box-shadow:0 7px 15px grey;
- margin-bottom:1.5em;
- border-radius:10px;
- margin-right:1%;
- padding-left:3%;
- padding-right:3%;
- padding-top:5px
+    box-shadow:0 7px 15px grey;
+    margin-bottom:1.5em;
+    border-radius:10px;
+    margin-right:1%;
+    padding-left:3%;
+    padding-right:3%;
+    padding-top:5px;
+    display:inline-flex;
+    flex-flow: column;
 }
 .project-thumbnail img {
- width:60%
+    width:60%
 }
 .text-center {
- text-align:center !important
+    text-align:center !important
 }
+
+
+* {
+ box-sizing:border-box;
+}
+
+@media (min-width: 500px) {
+    #table-of-contents {
+    background: white;
+	position: fixed;
+	right: 0em;
+	top: 0em;
+	text-align: right;
+	box-shadow: 0 0 1em #777777;
+	-webkit-box-shadow: 0 0 1em #777777;
+	-moz-box-shadow: 0 0 1em #777777;
+	-webkit-border-bottom-left-radius: 5px;
+	-moz-border-radius-bottomleft: 5px;
+	/* ensure doesn't flow off the screen when expanded */
+	max-height: 80%;
+	overflow: auto; }
+    #table-of-contents h2 {
+	padding-left: 0.5em;
+	padding-right: 0.5em;
+	padding-top: 0.05em;
+	padding-bottom: 0.05em; }
+    #table-of-contents #text-table-of-contents {
+	display: none;
+	text-align: left; }
+    #table-of-contents:hover #text-table-of-contents {
+	display: block;
+	padding: 0.5em;
+	margin-top: -1.5em; }
+}
+
+@media (max-width: 500px) {
+    #table-of-contents {
+    background: white;
+	right: 0em;
+	top: 0em;
+	-webkit-border-bottom-left-radius: 5px;
+	-moz-border-radius-bottomleft: 5px;
+	/* ensure doesn't flow off the screen when expanded */
+	max-height: 80%;
+	overflow: auto; }
+    #table-of-contents h2 {
+	padding-left: 0.5em;
+	padding-right: 0.5em;
+	padding-top: 0.05em;
+	padding-bottom: 0.05em; }
+    #table-of-contents #text-table-of-contents {
+	display: none;
+	text-align: left; }
+    #table-of-contents:hover #text-table-of-contents {
+	display: block;
+	padding: 0.5em;
+	margin-top: -1.5em; }
+}
+
+@media screen
+{
+    #table-of-contents {
+	border: 1px solid #CCC;
+	overflow: auto;
+    }

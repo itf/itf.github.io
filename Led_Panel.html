@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2018-09-09 Sun 04:40 -->
+<!-- 2018-09-09 Sun 13:51 -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Led Panel</title>
@@ -67,7 +67,11 @@ for the JavaScript code in this tag.
 
 <menu>
 <ul class="org-ul">
-<li><a href="Index.html">home</a></li>
+<li><a href="Index.html">Home</a></li>
+<li><a href="About.html">About</a></li>
+<li><a href="Resume.html">Resume</a></li>
+<li><a href="Portfolio.html">Portfolio</a></li>
+<li><a href="Contact.html">Contact</a></li>
 </ul>
 </menu>
 
@@ -80,6 +84,11 @@ Led Panel
  </h1>
 </p>
 
+<p>
+<span class=page-date> <small>
+2018-09-09, updated 2018-09-09
+</small> </span> 
+</p>
 <nav id="table-of-contents">
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
@@ -104,8 +113,8 @@ focus mainly on the software, but first, let's skim through the
 hardware.
 </p>
 
-<div id="outline-container-orgf532a77" class="outline-2">
-<h2 id="material"><a id="orgf532a77"></a><span class="section-number-2">1</span> Material:</h2>
+<div id="outline-container-org12f9a81" class="outline-2">
+<h2 id="material"><a id="org12f9a81"></a><span class="section-number-2">1</span> Material:</h2>
 <div class="outline-text-2" id="text-material">
 <ul class="org-ul">
 <li>70 meters of ws2812 strips</li>
@@ -121,8 +130,8 @@ hardware.
 </div>
 </div>
 
-<div id="outline-container-org446085d" class="outline-2">
-<h2 id="construction"><a id="org446085d"></a><span class="section-number-2">2</span> Construction</h2>
+<div id="outline-container-org53472b1" class="outline-2">
+<h2 id="construction"><a id="org53472b1"></a><span class="section-number-2">2</span> Construction</h2>
 <div class="outline-text-2" id="text-construction">
 
 <figure>
@@ -170,8 +179,8 @@ to go, as long as you calculate the voltage drop before building it.
 </div>
 </div>
 
-<div id="outline-container-orgcaae505" class="outline-2">
-<h2 id="software-1"><a id="orgcaae505"></a><span class="section-number-2">3</span> Software</h2>
+<div id="outline-container-orge01c7fe" class="outline-2">
+<h2 id="software-1"><a id="orge01c7fe"></a><span class="section-number-2">3</span> Software</h2>
 <div class="outline-text-2" id="text-software-1">
 
 <figure>
@@ -216,8 +225,8 @@ skip direct to the patterns and effects session to see the cool parts!
 </p>
 </div>
 
-<div id="outline-container-org9c892aa" class="outline-3">
-<h3 id="starting"><a id="org9c892aa"></a><span class="section-number-3">3.1</span> Starting</h3>
+<div id="outline-container-orgf567f4b" class="outline-3">
+<h3 id="starting"><a id="orgf567f4b"></a><span class="section-number-3">3.1</span> Starting</h3>
 <div class="outline-text-3" id="text-starting">
 <p>
 I started programming the led panel long before I had the LED panel. So
@@ -260,8 +269,8 @@ patterns.
 </div>
 </div>
 
-<div id="outline-container-org09c49e0" class="outline-3">
-<h3 id="patterns-and-effects"><a id="org09c49e0"></a><span class="section-number-3">3.2</span> Patterns and effects</h3>
+<div id="outline-container-orgfcb5511" class="outline-3">
+<h3 id="patterns-and-effects"><a id="orgfcb5511"></a><span class="section-number-3">3.2</span> Patterns and effects</h3>
 <div class="outline-text-3" id="text-patterns-and-effects">
 <p>
 Patterns objective:
@@ -313,8 +322,8 @@ don't haven an internal state.
 </p>
 </div>
 
-<div id="outline-container-org50b90ad" class="outline-4">
-<h4 id="why-no-internal-state"><a id="org50b90ad"></a><span class="section-number-4">3.2.1</span> Why no internal state?</h4>
+<div id="outline-container-org42e780a" class="outline-4">
+<h4 id="why-no-internal-state"><a id="org42e780a"></a><span class="section-number-4">3.2.1</span> Why no internal state?</h4>
 <div class="outline-text-4" id="text-why-no-internal-state">
 <p>
 The main advantage of not having an internal state is that it allows one
@@ -334,8 +343,8 @@ can create any kind of pattern that involves circles that change sizes.
 </div>
 </div>
 
-<div id="outline-container-orgefccad9" class="outline-4">
-<h4 id="what-about-this-input"><a id="orgefccad9"></a><span class="section-number-4">3.2.2</span> What about this input?</h4>
+<div id="outline-container-org73cdcb5" class="outline-4">
+<h4 id="what-about-this-input"><a id="org73cdcb5"></a><span class="section-number-4">3.2.2</span> What about this input?</h4>
 <div class="outline-text-4" id="text-what-about-this-input">
 <p>
 You might ask now, what about this input? Wouldn't it be very specific
@@ -355,8 +364,8 @@ potentially modify it or have it modified by functions!
 </div>
 </div>
 
-<div id="outline-container-org7e72319" class="outline-4">
-<h4 id="fast-development"><a id="org7e72319"></a><span class="section-number-4">3.2.3</span> Fast development</h4>
+<div id="outline-container-org138b129" class="outline-4">
+<h4 id="fast-development"><a id="org138b129"></a><span class="section-number-4">3.2.3</span> Fast development</h4>
 <div class="outline-text-4" id="text-fast-development">
 <p>
 After defining the input to patterns all the development got faster.
@@ -394,8 +403,8 @@ modify a pattern.
 </div>
 </div>
 
-<div id="outline-container-orgf52f10c" class="outline-4">
-<h4 id="what-is-arg"><a id="orgf52f10c"></a><span class="section-number-4">3.2.4</span> What is arg?</h4>
+<div id="outline-container-orgc9015de" class="outline-4">
+<h4 id="what-is-arg"><a id="orgc9015de"></a><span class="section-number-4">3.2.4</span> What is arg?</h4>
 <div class="outline-text-4" id="text-what-is-arg">
 <p>
 I needed a way to modify the aruments to the functions. However, since
@@ -429,8 +438,8 @@ patterns, etc.
 </div>
 </div>
 
-<div id="outline-container-org428e4eb" class="outline-4">
-<h4 id="problems-with-lack-of-states."><a id="org428e4eb"></a><span class="section-number-4">3.2.5</span> Problems with lack of states.</h4>
+<div id="outline-container-org576d657" class="outline-4">
+<h4 id="problems-with-lack-of-states."><a id="org576d657"></a><span class="section-number-4">3.2.5</span> Problems with lack of states.</h4>
 <div class="outline-text-4" id="text-problems-with-lack-of-states.">
 <p>
 However, the design choice of abolishing internal states could only me
@@ -458,8 +467,8 @@ change their color and make them brighter and darker with the rithm..
 </div>
 </div>
 
-<div id="outline-container-org838d99b" class="outline-3">
-<h3 id="other-small-detais"><a id="org838d99b"></a><span class="section-number-3">3.3</span> Other small detais</h3>
+<div id="outline-container-org16114b7" class="outline-3">
+<h3 id="other-small-detais"><a id="org16114b7"></a><span class="section-number-3">3.3</span> Other small detais</h3>
 <div class="outline-text-3" id="text-other-small-detais">
 <p>
 This covers most of the development of the software. The audio
@@ -475,15 +484,14 @@ UDP.
 
 <p>
 The code was meant to be easy to develop and use, not meant to be fast.
-In order to run it at fast speeds, you need to use pypy.
-</p>
+In order to run it at fast speeds, you need to use pypy.</p>
 </div>
 </div>
 </div>
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: ivanaf</p>
-<p class="date">Created: 2018-09-09 Sun 04:40</p>
+<p class="date">Created: 2018-09-09 Sun 13:51</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>

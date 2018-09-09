@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2018-09-09 Sun 04:50 -->
+<!-- 2018-09-09 Sun 13:51 -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Multi-audio (In development)</title>
@@ -89,7 +89,11 @@ for the JavaScript code in this tag.
 
 <menu>
 <ul class="org-ul">
-<li><a href="Index.html">home</a></li>
+<li><a href="Index.html">Home</a></li>
+<li><a href="About.html">About</a></li>
+<li><a href="Resume.html">Resume</a></li>
+<li><a href="Portfolio.html">Portfolio</a></li>
+<li><a href="Contact.html">Contact</a></li>
 </ul>
 </menu>
 
@@ -102,6 +106,11 @@ Multi-audio (In development)
  </h1>
 </p>
 
+<p>
+<span class=page-date> <small>
+2018-09-09, updated 2018-09-09
+</small> </span> 
+</p>
 <nav id="table-of-contents">
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
@@ -111,7 +120,7 @@ Multi-audio (In development)
 <li><a href="#basic-idea">3. Basic idea</a></li>
 <li><a href="#about-the-tools">4. About the tools</a>
 <ul>
-<li><a href="#org385061d">4.1. JACK</a></li>
+<li><a href="#org1689be9">4.1. JACK</a></li>
 <li><a href="#zita-convolver">4.2. Zita Convolver</a></li>
 <li><a href="#qt">4.3. QT</a></li>
 </ul>
@@ -127,8 +136,8 @@ on headphones and listening to the
 <a href="https://www.youtube.com/watch?v=IUDTlvagjJA">virtual barber shop</a>.
 </p>
 
-<div id="outline-container-orgcab0137" class="outline-2">
-<h2 id="what-makes-audio-binaural"><a id="orgcab0137"></a><span class="section-number-2">1</span> What makes audio binaural?</h2>
+<div id="outline-container-org3c8ae8d" class="outline-2">
+<h2 id="what-makes-audio-binaural"><a id="org3c8ae8d"></a><span class="section-number-2">1</span> What makes audio binaural?</h2>
 <div class="outline-text-2" id="text-what-makes-audio-binaural">
 <p>
 In few words, you can detect from which location a sound is coming from
@@ -143,8 +152,8 @@ between the ears.
 </div>
 </div>
 
-<div id="outline-container-org296d244" class="outline-2">
-<h2 id="programs-that-use-hrtf"><a id="org296d244"></a><span class="section-number-2">2</span> Programs that use HRTF</h2>
+<div id="outline-container-orge5f7e64" class="outline-2">
+<h2 id="programs-that-use-hrtf"><a id="orge5f7e64"></a><span class="section-number-2">2</span> Programs that use HRTF</h2>
 <div class="outline-text-2" id="text-programs-that-use-hrtf">
 <p>
 The response of each ear based on the direction of the sound is called
@@ -161,8 +170,8 @@ movies with a headphone a fairly pleasing experience.
 </div>
 </div>
 
-<div id="outline-container-org15907f9" class="outline-2">
-<h2 id="basic-idea"><a id="org15907f9"></a><span class="section-number-2">3</span> Basic idea</h2>
+<div id="outline-container-orgbb2084e" class="outline-2">
+<h2 id="basic-idea"><a id="orgbb2084e"></a><span class="section-number-2">3</span> Basic idea</h2>
 <div class="outline-text-2" id="text-basic-idea">
 <p>
 It is easy to set up audio pipes using jack. I usually install
@@ -176,13 +185,13 @@ moving around me.
 </div>
 </div>
 
-<div id="outline-container-org5c1f37d" class="outline-2">
-<h2 id="about-the-tools"><a id="org5c1f37d"></a><span class="section-number-2">4</span> About the tools</h2>
+<div id="outline-container-org35a1bae" class="outline-2">
+<h2 id="about-the-tools"><a id="org35a1bae"></a><span class="section-number-2">4</span> About the tools</h2>
 <div class="outline-text-2" id="text-about-the-tools">
 </div>
 
-<div id="outline-container-org385061d" class="outline-3">
-<h3 id="org385061d"><span class="section-number-3">4.1</span> <a href="http://www.jackaudio.org/">JACK</a></h3>
+<div id="outline-container-org1689be9" class="outline-3">
+<h3 id="org1689be9"><span class="section-number-3">4.1</span> <a href="http://www.jackaudio.org/">JACK</a></h3>
 <div class="outline-text-3" id="text-4-1">
 <p>
 (<a href="http://kxstudio.linuxaudio.org/Applications:Cadence">Cadence</a>)
@@ -220,8 +229,8 @@ been able to install JACK, nor use it without installing Cadence.
 </div>
 </div>
 
-<div id="outline-container-orgda84fa1" class="outline-3">
-<h3 id="zita-convolver"><a id="orgda84fa1"></a><span class="section-number-3">4.2</span> <a href="https://directory.fsf.org/wiki/Zita-convolver">Zita Convolver</a></h3>
+<div id="outline-container-org1981e5b" class="outline-3">
+<h3 id="zita-convolver"><a id="org1981e5b"></a><span class="section-number-3">4.2</span> <a href="https://directory.fsf.org/wiki/Zita-convolver">Zita Convolver</a></h3>
 <div class="outline-text-3" id="text-zita-convolver">
 <p>
 Install from libzita-convolver.
@@ -242,8 +251,8 @@ impulse response to audio!
 </div>
 </div>
 
-<div id="outline-container-orgd8ae87c" class="outline-3">
-<h3 id="qt"><a id="orgd8ae87c"></a><span class="section-number-3">4.3</span> <a href="https://www.qt.io/">QT</a></h3>
+<div id="outline-container-org4f6dd49" class="outline-3">
+<h3 id="qt"><a id="org4f6dd49"></a><span class="section-number-3">4.3</span> <a href="https://www.qt.io/">QT</a></h3>
 <div class="outline-text-3" id="text-qt">
 <p>
 I wanted the tool to have a gui. QT is one that is cross-platform.</p>
@@ -253,7 +262,7 @@ I wanted the tool to have a gui. QT is one that is cross-platform.</p>
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: ivanaf</p>
-<p class="date">Created: 2018-09-09 Sun 04:50</p>
+<p class="date">Created: 2018-09-09 Sun 13:51</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>
