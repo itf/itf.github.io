@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- 2018-09-12 Wed 17:22 -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Simple proof weak master theorem</title>
+<meta name="generator" content="Org mode">
+<meta name="author" content="ivanaf">
+<link rel="stylesheet" type="text/css" href="css/org.css"/>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2018 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        displayAlign: "center",
+        displayIndent: "0em",
+
+        "HTML-CSS": { scale: 100,
+                        linebreaks: { automatic: "false" },
+                        webFont: "TeX"
+                       },
+        SVG: {scale: 100,
+              linebreaks: { automatic: "false" },
+              font: "TeX"},
+        NativeMML: {scale: 100},
+        TeX: { equationNumbers: {autoNumber: "AMS"},
+               MultLineWidth: "85%",
+               TagSide: "right",
+               TagIndent: ".8em"
+             }
+});
+</script>
+<script type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML"></script>
+</head>
+<body>
+<div id="content">
+<div class="head">
+<div class="title">
+<p>
+<a href="index.html">Ivanaf @ Home</a>
+</p>
+
+</div>
+
+<menu>
+<ul class="org-ul">
+<li><a href="index.html">Home</a></li>
+<li><a href="About.html">About</a></li>
+<li><a href="Resume.html">Resume</a></li>
+<li><a href="Portfolio.html">Portfolio</a></li>
+<li><a href="Contact.html">Contact</a></li>
+</ul>
+</menu>
+
+</div>
+
+
+<p>
+ <h1>
+Simple proof weak master theorem 
+ </h1>
+</p>
+
+<p>
+<span class=page-date> <small>
+2018-09-12, updated 2018-09-12 <a href="index.html">next</a> - <a href="Emacs_drag-drop_pdfs_paste_html_custom_templates.html">previous</a>
+</small> </span> 
+</p>
+<nav id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#workperlevel">1. Work per level:</a></li>
+<li><a href="#numberoflevels">2. Number of levels</a></li>
+<li><a href="#totalworkonthetree">3. Total work on the tree</a></li>
+<li><a href="#casefracabc">4. Case 1: \[\frac{a}{b^c}<1\]</a></li>
+<li><a href="#casefracabc1">5. Case 2: \[\frac{a}{b^c}=1\]</a></li>
+<li><a href="#casefracabc2">6. Case 3: \[\frac{a}{b^c}>1\]</a></li>
+</ul>
+</div>
+</nav>
+
+<p>
+For a 006 student piazza question. Te student liked my answer so I decided to share!
+</p>
+
+<div id="outline-container-workperlevel" class="outline-2">
+<h2 id="workperlevel"><span class="section-number-2">1</span> Work per level:</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+Suppose you have:
+</p>
+
+
+<p>
+\[T(n) = a T(n/b) + n^c\]
+</p>
+
+
+<p>
+The amount of work done on the root of the tree is:
+</p>
+
+
+<p>
+\[n^c\].
+</p>
+
+
+<p>
+The amount of work done in the next level is:
+</p>
+
+
+<p>
+\[n^c \frac{a}{b^c}\]
+</p>
+
+
+<p>
+so on the \[i^{th}\]  level, considering the root to be level 0 is:
+</p>
+
+
+<p>
+\[n^c \left(\frac{a}{b^c}\right)^i\]
+</p>
+</div>
+</div>
+
+
+
+<div id="outline-container-numberoflevels" class="outline-2">
+<h2 id="numberoflevels"><span class="section-number-2">2</span> Number of levels</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+Given that the size of an element of the tree decreases by \(b\) in each level, e.g. \(n\) -&gt; n/b, n/b^2&#x2026;
+</p>
+
+<p>
+An element of the tree will have size 1 at the level:
+\[\log_bn\]
+</p>
+</div>
+</div>
+
+
+
+
+<div id="outline-container-totalworkonthetree" class="outline-2">
+<h2 id="totalworkonthetree"><span class="section-number-2">3</span> Total work on the tree</h2>
+<div class="outline-text-2" id="text-3">
+<p>
+The total amount of work on the tree is therefore:
+</p>
+
+
+<p>
+\[\sum_{i=0}^{\log_bn} n^c \left(\frac{a}{b^c}\right)^i = n^c \sum_{i=0}^{\log_bn} \left(\frac{a}{b^c}\right)^i \]
+</p>
+
+
+<p>
+This naturally leads to 3 cases:
+</p>
+
+
+<p>
+\[ \left(\frac{a}{b^c}\right) >1\]
+</p>
+
+<p>
+\[ \left(\frac{a}{b^c}\right) = 1\]
+</p>
+
+<p>
+\[ \left(\frac{a}{b^c}\right) < 1\]
+</p>
+</div>
+</div>
+
+
+
+
+<div id="outline-container-casefracabc" class="outline-2">
+<h2 id="casefracabc"><span class="section-number-2">4</span> Case 1: \[\frac{a}{b^c}<1\]</h2>
+<div class="outline-text-2" id="text-4">
+<p>
+You have a geometric series of ratio &lt; 1:
+</p>
+
+
+<p>
+\[n^c \sum_{i=0}^{\log_bn} \left(\frac{a}{b^c}\right)^i \le n^c <br/> \sum_{i=0}^{\infty} \left(\frac{a}{b^c}\right)^i = n^c \frac{1}{1-\left(\frac{a}{b^c}\right)}\]
+</p>
+
+
+<p>
+And this new term is just a constant
+</p>
+
+
+<p>
+So:
+</p>
+
+
+<p>
+\[\theta ( n^{c})\]
+</p>
+</div>
+</div>
+
+<div id="outline-container-casefracabc1" class="outline-2">
+<h2 id="casefracabc1"><span class="section-number-2">5</span> Case 2: \[\frac{a}{b^c}=1\]</h2>
+<div class="outline-text-2" id="text-5">
+<p>
+Now the amount of work per level is the same, so:
+</p>
+
+
+<p>
+\[n^c \sum_{i=0}^{\log_bn} \left(\frac{a}{b^c}\right)^i= n^c \sum_{i=0}^{\log_bn} 1 = n^c \log_bn \]
+</p>
+</div>
+</div>
+
+
+
+<div id="outline-container-casefracabc2" class="outline-2">
+<h2 id="casefracabc2"><span class="section-number-2">6</span> Case 3: \[\frac{a}{b^c}>1\]</h2>
+<div class="outline-text-2" id="text-6">
+<p>
+The easiest way to deal with this case is to simply turn the tree upside down.
+</p>
+
+
+<p>
+The amount of work done at the leaves of the tree is the same as the number of leaves on the tree, which is:
+</p>
+
+
+<p>
+\[a^{\log_b n} = \left(b^{\log_ba} \right)^{\log_bn} = \left(b^{\log_bn} \right)^{\log_ba} = n^{\log_ba}\]
+</p>
+
+
+<p>
+At every level above the leaves, the amound of work is multiplied by
+</p>
+
+
+<p>
+\[\frac{1}{\frac{a}{b^c}} = \frac{b^c}{a}\]
+</p>
+
+
+<p>
+So the total amount of work done in the tree is:
+</p>
+
+
+<p>
+\[ \sum_{i=0}^{\log_bn} n^{\log_ba} \left(\frac{b^c}{a}\right)^i = n^{\log_ba} \sum_{i=0}^{\log_bn} \left(\frac{b^c}{a}\right)^i \]
+</p>
+
+<p>
+\[\le n^{\log_ba} \sum_{i=0}^{\infty} \left(\frac{b^c}{a}\right)^i = n^{\log_ba} \frac{1}{1-\left(\frac{b^c}{a}\right)}\]
+</p>
+
+
+<p>
+And similar to the first case, this is simply
+</p>
+
+
+<p>
+\[\theta ( n^{\log_ba})\]
+</p>
+
+
+
+
+<p>
+Does this help? This will be covered in detail in today's recitation.
+</p>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: ivanaf</p>
+<p class="date">Created: 2018-09-12 Wed 17:22</p>
+<p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
+</div>
+</body>
+</html>
