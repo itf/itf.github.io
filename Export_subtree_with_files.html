@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- 2018-09-13 Thu 03:36 -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Export subtree with files</title>
+<meta name="generator" content="Org mode">
+<meta name="author" content="ivanaf">
+<link rel="stylesheet" type="text/css" href="css/org.css"/>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2018 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="content">
+<div class="head">
+<div class="title">
+<p>
+<a href="index.html">Ivanaf @ Home</a>
+</p>
+
+</div>
+
+<menu>
+<ul class="org-ul">
+<li><a href="index.html">Home</a></li>
+<li><a href="About.html">About</a></li>
+<li><a href="Resume.html">Resume</a></li>
+<li><a href="Portfolio.html">Portfolio</a></li>
+<li><a href="Contact.html">Contact</a></li>
+</ul>
+</menu>
+
+</div>
+
+
+<p>
+ <h1>
+Export subtree with files 
+ </h1>
+</p>
+
+<p>
+<span class=page-date> <small>
+2018-09-13, updated 2018-09-13 <a href="index.html">next</a> - <a href="Simple_proof_weak_master_theorem.html">previous</a>
+</small> </span> 
+</p>
+<p>
+I have a main org files that contains notes for multiple classes and papers in different headlines. It is very easy to use this org file to find information since every note contains links to the relevant papers.
+</p>
+
+<p>
+However, sharing this file with someone can be challenging, since I just want to share the relevant notes/papers and not everything that is linked by this file.
+</p>
+
+<p>
+The code below solves this problem. It creates a hard link of every file linked by the specific headline into the export directory and fixes all the links in the exported pdf so that it points to the relative location of those files.
+</p>
+
+<p>
+This allows me to quickly generate a folder that contains all the files I wanna share as well as a pdf that allows the other person to easily navigate through the files and see the relevant information.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(<span style="color: #a626a4;">require</span> '<span style="color: #008b8b;">ox</span>)
+
+
+(<span style="color: #a626a4;">defun</span> <span style="color: #0184bc;">export-with-files-export</span> (<span style="color: #c18401;">&amp;optional</span> directory-name)
+  (<span style="color: #a626a4;">interactive</span>)
+  (<span style="color: #a626a4;">let</span> ((directory-name (<span style="color: #a626a4;">or</span> directory-name (read-directory-name <span style="color: #50a14f;">"Directory:"</span>))))
+    (make-directory directory-name t)
+    (widen)
+    (org-narrow-to-subtree)
+    
+    <span style="color: #a0a1a7; font-weight: bold;">;;</span><span style="color: #a0a1a7;">Create copy of the </span>
+    (<span style="color: #a626a4;">org-export-with-buffer-copy</span>
+     (<span style="color: #a626a4;">let*</span> ((ast (org-element-parse-buffer)))
+       (org-element-map ast 'link
+         (<span style="color: #a626a4;">lambda</span> (link)
+           (export-with-files--fix-file-external-link-ast directory-name link)))
+       
+       
+       <span style="color: #a0a1a7; font-weight: bold;">;;</span><span style="color: #a0a1a7;">Convert the buffer to contain the new AST, </span>
+        <span style="color: #a0a1a7; font-weight: bold;">;;</span><span style="color: #a0a1a7;">this is needed because the exporter expects the content to be in a buffer</span>
+       (erase-buffer) 
+       (insert (org-element-interpret-data ast))
+       
+       (outline-show-all)
+       (goto-char (point-min))
+       (<span style="color: #a626a4;">let*</span> ((file-name  (export-with-files--escaped-headline))
+              (new-file-name (concat directory-name file-name)))
+         (org-set-property
+          <span style="color: #50a14f;">"EXPORT_FILE_NAME"</span>
+          file-name)
+         (deactivate-mark)
+        (org-latex-export-to-pdf nil t)
+        (rename-file (concat file-name <span style="color: #50a14f;">".tex"</span>) (concat new-file-name <span style="color: #50a14f;">".tex"</span>) t)
+        (rename-file (concat file-name <span style="color: #50a14f;">".pdf"</span>) (concat new-file-name <span style="color: #50a14f;">".pdf"</span>) t)))))
+  (widen))
+     
+
+
+(<span style="color: #a626a4;">defun</span> <span style="color: #0184bc;">export-with-files--fix-file-external-link-ast</span> (directory-path link)
+  <span style="color: #50a14f; font-style: italic;">"Creates hard links to the external files in the output directory"</span>
+  (<span style="color: #a626a4;">when</span> (string= (org-element-property <span style="color: #e44649;">:type</span> link) <span style="color: #50a14f;">"file"</span>)
+    (<span style="color: #a626a4;">let*</span> ((path (org-element-property <span style="color: #e44649;">:path</span> link))
+           (link-copy (org-element-copy link))
+           <span style="color: #a0a1a7; font-weight: bold;">;; </span><span style="color: #a0a1a7;">Put files in subdirectories with the extension of the file</span>
+           (new-relative-path 
+            (concat <span style="color: #50a14f;">"./"</span> (file-name-extension path) <span style="color: #50a14f;">"/"</span> (file-name-nondirectory path)))
+           (new-hard-link-path (concat directory-path new-relative-path))
+           (new-hard-link-directory (file-name-directory new-hard-link-path)))
+      
+      <span style="color: #a0a1a7; font-weight: bold;">;;</span><span style="color: #a0a1a7;">Fix the AST</span>
+      (apply #'org-element-adopt-elements link-copy (org-element-contents link))
+      (org-element-put-property link-copy <span style="color: #e44649;">:path</span> new-relative-path)
+      (org-element-set-element link  link-copy)
+      
+      <span style="color: #a0a1a7; font-weight: bold;">;;</span><span style="color: #a0a1a7;">Create hard link folder</span>
+      (make-directory new-hard-link-directory t)
+      <span style="color: #a0a1a7; font-weight: bold;">;;</span><span style="color: #a0a1a7;">Create hard link, not replacing if it already exists, catching error if file does not exist</span>
+      (<span style="color: #a626a4;">condition-case</span> nil
+          (add-name-to-file path new-hard-link-path nil)
+        (<span style="color: #ff0000; font-weight: bold;">error</span> nil)))))
+
+
+
+(<span style="color: #a626a4;">defun</span> <span style="color: #0184bc;">export-with-files--escaped-headline</span> ()
+  (export-with-files--escape
+   (nth 4 (org-heading-components))))
+
+(<span style="color: #a626a4;">defun</span> <span style="color: #0184bc;">export-with-files--escape</span>(text)
+  (replace-regexp-in-string <span style="color: #50a14f;">"[\\?.,!:]"</span> <span style="color: #50a14f;">""</span>
+   (replace-regexp-in-string <span style="color: #50a14f;">"/"</span> <span style="color: #50a14f;">"-"</span> 
+    (replace-regexp-in-string <span style="color: #50a14f;">" "</span> <span style="color: #50a14f;">"_"</span> text))))
+</pre>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: Ivan Tadeu Ferreira Antunes Filho</p>
+<p class="date">Date: 2018-09-13 Thu 03:36</p>
+<p class="creator">Made with <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.50 (<a href="https://orgmode.org">Org</a> mode 9.1.9) and <a href="https://github.com/itf/org-export-head">Org export head</a> </p>
+</div>
+</body>
+</html>
