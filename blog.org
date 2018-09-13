@@ -5,6 +5,11 @@
 * Export command :noexport:
   [[elisp:(org-export-head "../publish/")]]
   [[elisp:(org-export-head-reexport "../publish/")]]
+  [[shell:cd publish && ls && git add . && git commit -m "new post!" && git push]]
+[[shell:cd publish && git add . && git commit -m "update post!" && git push]]
+
+[[shell:cd publish && git add . && git commit -m "update postamble!" && git push]]
+  [[shell: git add -u && git commit -m "new post!" && git push]]
 
 * README                                                           :noexport:
 Run the code inside the code block.
@@ -146,7 +151,11 @@ are exported to a filename derived from the headline text."
             "EXPORT_FILE_NAME"
             (concat directory-name (org-export-head--escaped-headline)))
            (deactivate-mark)
-           (org-html-export-to-html nil t)
+           (let ((org-html-postamble 
+"<p class=\"author\">Author: Ivan Tadeu Ferreira Antunes Filho</p>
+<p class=\"date\">Date: %T</p>
+<p class=\"creator\">Made with %c and <a href=\"https://github.com/itf/org-export-head\">Org export head</a> </p>"))
+             (org-html-export-to-html nil t))
            (set-buffer-modified-p t)) "-noexport-noreexport"))
   (if (equal backend "pdf")
       (org-export-head--run-on-each-heading 
@@ -368,8 +377,8 @@ Where match is a tag or -tag or combination of them."
             (next (nth 2 temp-list))
             (headline (gethash headline-name headlines-hash nil))
             (new-properties 
-             (list (cons "PREVIOUS" previous)
-                   (cons "NEXT" next)))
+             (list (cons "PREVIOUS" (or next "index"))
+                   (cons "NEXT" (or previous "index"))))
             (headline (append headline new-properties))) ;; In reverse order, to allow headline properties to shadow this.
         (puthash headline-name headline headlines-hash))
         (setq temp-list (cdr temp-list))))
@@ -424,7 +433,7 @@ Creates a hard link to org.css in the export directory.
 @@html: </h1>@@
 
 @@html:<span class=page-date> <small>@@
-###CREATION-DATE###, updated ###MODIFICATION-DATE###
+###CREATION-DATE###, updated ###MODIFICATION-DATE### [[###NEXT###][next]] - [[###PREVIOUS###][previous]]
 @@html:</small> </span> @@
 #+TOC: headlines 2
 
@@ -613,15 +622,23 @@ Contact me through email (ivan af @ mit). If you need to meet with me, below is 
 * Portfolio
   :PROPERTIES:
   :CREATION-DATE: 2018-09-09
-  :MODIFICATION-DATE: 2018-09-09
-  :HASH:     c5c2eab91aa3c5e6fc539127e8b81f51
-  :PREVIOUS-HASH: c5c2eab91aa3c5e6fc539127e8b81f51
+  :MODIFICATION-DATE: 2018-09-12
+  :HASH:     b669c48d4c44e2511541ccc3ff8c9201
+  :PREVIOUS-HASH: be50cd75d73ca8c7239d664191e7b8a0
   :END:
 
 In construction.
-Different projects I worked on over the years.
+Different projects I worked on over the years. Some very tiny,  some large ones.
+
 
 @@html:<div class="responsive-table">@@
+*** [[https://github.com/itf/org-export-head][Org export head]]
+    :PROPERTIES:
+    :HTML_CONTAINER_CLASS: portfolio-project
+    :END:
+    2018- Org mode to blog exporter. Converts each header to a different file. This blog was written using it!
+
+
 *** [[https://itf.github.io/2018/02/08/Groebner-Basis/][Groebner Basis for Linear Network Coding in Sage]]
     :PROPERTIES:
     :HTML_CONTAINER_CLASS: portfolio-project
@@ -630,14 +647,13 @@ Different projects I worked on over the years.
 #+ATTR_ORG: :width 300
 [[file:///home/ivanaf/org/blog/source/img/projects/sage0.png]]
 
- Proof of concept that it is possible, in a reasonable time, to test the
+2018-  Proof of concept that it is possible, in a reasonable time, to test the
  solvability of linear networks by calculating the Groebner basis of the
  linear network ideal.
 
  It implements an algorithm described on An Algebraic Approach to Network
  Coding by Ralf Koetter, Member, IEEE, and Muriel Médard, Senior Member,
  IEEE.
-
 
 
 *** [[https://www.facebook.com/media/set/?set=a.1844569188904101.1073741855.100000531142103&type=1&l=71845e495e][Yaoi on Fire - Photos]]
@@ -650,20 +666,8 @@ Different projects I worked on over the years.
 
 [[file:///home/ivanaf/org/blog/source/img/projects/yaoi-on-fire.jpg]]
 
- One of the photographers for the Yaoi on Fire performance of the MIT
+2017-  One of the photographers for the Yaoi on Fire performance of the MIT
  spinning arts club.
-
-*** [[https://github.com/itf/imagenet-download][Imagenet-download]]
-    :PROPERTIES:
-    :CUSTOM_ID: imagenet-download
-    :HTML_CONTAINER_CLASS: portfolio-project
-    :END:
-
-A simple command line tool to download images from the imagenet dataset
-while storing them with humanreadable names and ignoring images that are
-too small.
-
-
 
 *** Electric Skateboard
     :PROPERTIES:
@@ -674,7 +678,7 @@ too small.
 #+CAPTION: 
 [[file:///home/ivanaf/org/blog/source/img/projects/skate.png]]
 
-For the class Intro to Making at MIT, my friends and I built an Electric
+2017- For the class Intro to Making at MIT, my friends and I built an Electric
 Skateboard.
 
 
@@ -685,7 +689,7 @@ Skateboard.
     :HTML_CONTAINER_CLASS: portfolio-project
     :END:
 
-An experimental text based game inspired by “the space under the
+2017- An experimental text based game inspired by “the space under the
 window”, and by “A Dark Room”.
 
 The user interacts with the text, and the text is written and rewritten
@@ -704,7 +708,7 @@ the moment.
 [[file:///home/ivanaf/org/blog/source/img/projects/lazuli.jpg]]
 
 
-I took HDR pictures from the rooms of Lazuli Motel in Botuca, SP,
+2017- I took HDR pictures from the rooms of Lazuli Motel in Botuca, SP,
 Brazil, and created a website for it, using Hugo as a static website
 generator.
 
@@ -713,6 +717,18 @@ quality and sizes were chosen in such a way to improve the user
 experience, and it is also a single page website in order to not reload
 already loaded information, and if the user's network fails, they can
 still continue to see the information that has already been loaded.
+
+
+*** [[https://github.com/itf/imagenet-download][Imagenet-download]]
+    :PROPERTIES:
+    :CUSTOM_ID: imagenet-download
+    :HTML_CONTAINER_CLASS: portfolio-project
+    :END:
+
+2016- A simple command line tool to download images from the imagenet dataset
+while storing them with humanreadable names and ignoring images that are
+too small.
+
 
 
 *** [[http://lazulimotel.com/][Facebook advertisement for Lazuli Motel]]
@@ -724,7 +740,7 @@ still continue to see the information that has already been loaded.
 #+CAPTION: 
 [[file:///home/ivanaf/org/blog/source/img/projects/lazuli.jpg]]
 
-Created ad campaigns for the Lazuli Motel website I previously created
+2017- Created ad campaigns for the Lazuli Motel website I previously created
 with a tight budget. For about $1 a day for 3 months, it brought
 approximately 80 extra visitor to the website per day. The average time
 spent per user on the website was 3 minutes.
@@ -746,7 +762,7 @@ fairly successful.
 #+CAPTION: 
 [[file:///home/ivanaf/org/blog/source/img/projects/cloudsRainbow.png]]
 
-My friends and I built a 30x60 pixels led panel, using Ws2812b strips. I
+2016- My friends and I built a 30x60 pixels led panel, using Ws2812b strips. I
 programmed the led panel graphics using Python, in a way that makes it
 easy to combine patterns and functions into new patterns.
 
@@ -761,7 +777,7 @@ easy to combine patterns and functions into new patterns.
 #+CAPTION: 
 [[file:///home/ivanaf/org/blog/source/img/projects/janky.jpg]]
 
-We built Cocoabot, a robot capable of finding cubes on a field and
+2015- We built Cocoabot, a robot capable of finding cubes on a field and
 stacking them by color. Cocoabot had around 10.000 lines of C++11 code,
 split in 10 threads, running in an Intel Edison.
 
@@ -782,7 +798,7 @@ on tinyurl.com/cocoabot.
 #+CAPTION: 
 [[file:///home/ivanaf/org/blog/source/img/projects/loft.jpg]]
 
-Designed and built an L-shaped wooden loft for me and my roommate during
+2013- Designed and built an L-shaped wooden loft for me and my roommate during
 my first month at MIT. The loft was very stable and at one moment had
 over 6 people on top of it jumping and moving to confirm its stability.
 
@@ -800,7 +816,7 @@ over 6 people on top of it jumping and moving to confirm its stability.
 [[file:///home/ivanaf/org/blog/source/img/projects/iol.png]]
 
 
-Study guide for the International Linguistics Olympiad, in pt-br. I
+2012- Study guide for the International Linguistics Olympiad, in pt-br. I
 wrote it as I was preparing to take part in IOL 2012 in Slovenia, in
 order the following Brazilian teams to prepare for IOL.
 
@@ -816,7 +832,7 @@ order the following Brazilian teams to prepare for IOL.
 #+CAPTION: 
 [[file:///home/ivanaf/org/blog/source/img/projects/ipho.png]]
 
-Translation of the 2012 IPhO formula sheet from English to Portuguese,
+2012- Translation of the 2012 IPhO formula sheet from English to Portuguese,
 with minor edits to examples to make some concepts easier to understand.
 
 
@@ -827,7 +843,7 @@ with minor edits to examples to make some concepts easier to understand.
     :HTML_CONTAINER_CLASS: portfolio-project
     :END:
 
-A text based game inspired by “the space under the window”, written in
+2012- A text based game inspired by “the space under the window”, written in
 inform 7.
 
 The user interacts with the text, and the text is written and rewritten
@@ -843,7 +859,7 @@ based on the interaction with the user.
 #+CAPTION: 
 [[file:///home/ivanaf/org/blog/source/img/projects/bonecooc.png]]
 
-First Brazilian website to help high school students and teachers to
+2009- now. First Brazilian website to help high school students and teachers to
 participate in Science Olympiads.\\
 Used to have ∼500 visits per day.\\
 Made with wordpress.org, migrated to jekyll in 2016 after a problem with
@@ -2378,3 +2394,132 @@ This also shows an example of how to use it, by solving a problem from a
                                                                       (org-cycle))))
       )
  #+END_SRC
+* Self studying mathematics :noexport:
+  I've started reading Topology by james munkres, and the explanations there are very verbose and easy to follow. 
+* Simple proof weak master theorem
+  :PROPERTIES:
+  :CREATION-DATE: 2018-09-12
+  :MODIFICATION-DATE: 2018-09-12
+  :HASH:     ce3f5fa79fa6f23e0bb4e887dbd5f744
+  :PREVIOUS-HASH: ce3f5fa79fa6f23e0bb4e887dbd5f744
+  :END:
+
+For a 006 student piazza question. Te student liked my answer so I decided to share!
+
+** Work per level:
+
+
+Suppose you have:
+
+
+$$T(n) = a T(n/b) + n^c$$
+
+
+The amount of work done on the root of the tree is:
+
+
+$$n^c$$.
+
+
+The amount of work done in the next level is:
+
+
+$$n^c \frac{a}{b^c}$$
+
+
+so on the $i^{th}$  level, considering the root to be level 0, is:
+
+
+$$n^c \left(\frac{a}{b^c}\right)^i$$
+
+
+
+** Number of levels
+
+Given that the size of an element of the tree decreases by $b$ in each level, e.g. $n$ -> n/b, n/b^2...
+
+An element of the tree will have size 1 at the level:
+$$\log_bn$$
+
+
+
+
+** Total work on the tree
+
+
+The total amount of work on the tree is therefore:
+
+
+$$\sum_{i=0}^{\log_bn} n^c \left(\frac{a}{b^c}\right)^i = n^c \sum_{i=0}^{\log_bn} \left(\frac{a}{b^c}\right)^i $$
+
+
+This naturally leads to 3 cases:
+
+
+$$ \left(\frac{a}{b^c}\right) >1$$
+
+$$ \left(\frac{a}{b^c}\right) = 1$$
+
+$$ \left(\frac{a}{b^c}\right) < 1$$
+
+
+
+
+** Case 1: $$\frac{a}{b^c}<1$$
+
+
+You have a geometric series of ratio < 1:
+
+
+$$n^c \sum_{i=0}^{\log_bn} \left(\frac{a}{b^c}\right)^i \le n^c <br/> \sum_{i=0}^{\infty} \left(\frac{a}{b^c}\right)^i = n^c \frac{1}{1-\left(\frac{a}{b^c}\right)}$$
+
+
+And this new term is just a constant
+
+
+So:
+
+
+$$\theta ( n^{c})$$
+
+** Case 2: $$\frac{a}{b^c}=1$$
+
+
+Now the amount of work per level is the same, so:
+
+
+$$n^c \sum_{i=0}^{\log_bn} \left(\frac{a}{b^c}\right)^i= n^c \sum_{i=0}^{\log_bn} 1 = n^c \log_bn $$
+
+
+
+** Case 3: $$\frac{a}{b^c}>1$$
+
+
+The easiest way to deal with this case is to simply turn the tree upside down.
+
+
+The amount of work done at the leaves of the tree is the same as the number of leaves on the tree, which is:
+
+
+$$a^{\log_b n} = \left(b^{\log_ba} \right)^{\log_bn} = \left(b^{\log_bn} \right)^{\log_ba} = n^{\log_ba}$$
+
+
+At every level above the leaves, the amound of work is multiplied by
+
+
+$$\frac{1}{\frac{a}{b^c}} = \frac{b^c}{a}$$
+
+
+So the total amount of work done in the tree is:
+
+
+$$ \sum_{i=0}^{\log_bn} n^{\log_ba} \left(\frac{b^c}{a}\right)^i = n^{\log_ba} \sum_{i=0}^{\log_bn} \left(\frac{b^c}{a}\right)^i $$
+
+$$\le n^{\log_ba} \sum_{i=0}^{\infty} \left(\frac{b^c}{a}\right)^i = n^{\log_ba} \frac{1}{1-\left(\frac{b^c}{a}\right)}$$
+
+
+And similar to the first case, this is simply
+
+
+$$\theta ( n^{\log_ba})$$
+
