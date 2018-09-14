@@ -1281,3 +1281,7 @@ menu a {
 	border: 1px solid #CCC;
 	overflow: auto;
     }
+}
+#table-of-contents{
+     z-index: 1000; 
+}

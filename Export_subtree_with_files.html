@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2018-09-13 Thu 04:00 -->
+<!-- 2018-09-14 Fri 00:54 -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Export subtree with files</title>
@@ -86,7 +86,7 @@ Export subtree with files
 
 <p>
 <span class=page-date> <small>
-2018-09-13, updated 2018-09-13 <a href="index.html">next</a> - <a href="Simple_proof_weak_master_theorem.html">previous</a>
+2018-09-13, updated 2018-09-14 <a href="index.html">next</a> - <a href="Simple_proof_weak_master_theorem.html">previous</a>
 </small> </span> 
 </p>
 <nav id="table-of-contents">
@@ -154,13 +154,16 @@ The file links when exporting to latex need to be of the form [[<a href=".//file
        (goto-char (point-min))
        (<span style="color: #a626a4;">let*</span> ((file-name  (export-with-files--escaped-headline))
               (new-file-name (concat directory-name file-name)))
+         <span style="color: #a0a1a7; font-weight: bold;">;; </span><span style="color: #a0a1a7;">Make the buffer file be in the new directory, because</span>
+         <span style="color: #a0a1a7; font-weight: bold;">;; </span><span style="color: #a0a1a7;">org-latex-export-to-pdf always export to the working directory of the buffer</span>
+         (set-visited-file-name (concat new-file-name <span style="color: #50a14f;">".org"</span>))
+
+         <span style="color: #a0a1a7; font-weight: bold;">;; </span><span style="color: #a0a1a7;">Name of the tex file / pdf file</span>
          (org-set-property
           <span style="color: #50a14f;">"EXPORT_FILE_NAME"</span>
           file-name)
          (deactivate-mark)
-        (org-latex-export-to-pdf nil t)
-        (rename-file (concat file-name <span style="color: #50a14f;">".tex"</span>) (concat new-file-name <span style="color: #50a14f;">".tex"</span>) t)
-        (rename-file (concat file-name <span style="color: #50a14f;">".pdf"</span>) (concat new-file-name <span style="color: #50a14f;">".pdf"</span>) t)))))
+        (org-latex-export-to-pdf nil t)))))
   (widen))
      
 
@@ -169,15 +172,20 @@ The file links when exporting to latex need to be of the form [[<a href=".//file
   <span style="color: #50a14f; font-style: italic;">"Creates hard links to the external files in the output directory"</span>
   (<span style="color: #a626a4;">when</span> (string= (org-element-property <span style="color: #e44649;">:type</span> link) <span style="color: #50a14f;">"file"</span>)
     (<span style="color: #a626a4;">let*</span> ((path (org-element-property <span style="color: #e44649;">:path</span> link))
+           (extension (file-name-extension path))
            (link-copy (org-element-copy link))
+           (img-extensions '(<span style="color: #50a14f;">"jpg"</span> <span style="color: #50a14f;">"tiff"</span> <span style="color: #50a14f;">"png"</span> <span style="color: #50a14f;">"bmp"</span>))
+           (link-description (org-element-contents link))
            <span style="color: #a0a1a7; font-weight: bold;">;; </span><span style="color: #a0a1a7;">Put files in subdirectories with the extension of the file</span>
            (new-relative-path 
-            (concat <span style="color: #50a14f;">"./"</span> (file-name-extension path) <span style="color: #50a14f;">"/"</span> (file-name-nondirectory path)))
+            (concat <span style="color: #50a14f;">"./"</span> extension <span style="color: #50a14f;">"/"</span> (file-name-nondirectory path)))
            (new-hard-link-path (concat directory-path new-relative-path))
            (new-hard-link-directory (file-name-directory new-hard-link-path)))
       
       <span style="color: #a0a1a7; font-weight: bold;">;;</span><span style="color: #a0a1a7;">Fix the AST</span>
-      (apply #'org-element-adopt-elements link-copy (org-element-contents link))
+      <span style="color: #a0a1a7; font-weight: bold;">;;</span><span style="color: #a0a1a7;">If image, remove description so it will become a real image instead of a link</span>
+     (<span style="color: #a626a4;">unless</span> (<span style="color: #a626a4;">or</span> (member extension img-extensions) (not link-description))
+      (apply #'org-element-adopt-elements link-copy link-description))
       (org-element-put-property link-copy <span style="color: #e44649;">:path</span> new-relative-path)
       (org-element-set-element link  link-copy)
       
@@ -205,7 +213,7 @@ The file links when exporting to latex need to be of the form [[<a href=".//file
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Ivan Tadeu Ferreira Antunes Filho</p>
-<p class="date">Date: 2018-09-13 Thu 04:00</p>
+<p class="date">Date: 2018-09-14 Fri 00:54</p>
 <p class="creator">Made with <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.50 (<a href="https://orgmode.org">Org</a> mode 9.1.9) and <a href="https://github.com/itf/org-export-head">Org export head</a> </p>
 </div>
 </body>
