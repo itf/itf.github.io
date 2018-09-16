@@ -1163,9 +1163,9 @@ across different images.
 * Led Panel
   :PROPERTIES:
   :CREATION-DATE: 2016-03-16
-  :MODIFICATION-DATE: 2018-09-09
-  :HASH:     b9a8c8626b2e4effec47357a1b8c7cd6
-  :PREVIOUS-HASH: b9a8c8626b2e4effec47357a1b8c7cd6
+  :MODIFICATION-DATE: 2018-09-14
+  :HASH:     ce394bb36147f317502b8509db27f78d
+  :PREVIOUS-HASH: ce394bb36147f317502b8509db27f78d
   :END:
 
 
@@ -1227,7 +1227,6 @@ to go, as long as you calculate the voltage drop before building it.
 
 #+CAPTION: Panel
 #+ATTR_ORG: :width 300
-#+CAPTION: 
 [[file:///home/ivanaf/org/blog/source/img/panel.jpg]]
 
 The software of this project was pretty fun to code and it is pretty fun
@@ -2527,7 +2526,7 @@ $$\theta ( n^{\log_ba})$$
   :CREATION-DATE: 2018-09-13
   :MODIFICATION-DATE: 2018-09-14
   :HASH:     b1c4eecd5f1c0071c3556bcbb00c95bc
-  :PREVIOUS-HASH: d733f305070e1a73342fc504f2610122
+  :PREVIOUS-HASH: b1c4eecd5f1c0071c3556bcbb00c95bc
   :END:
   
 I have a main org files that contains notes for multiple classes and papers in different headlines. It is very easy to use this org file to find information since every note contains links to the relevant papers.
@@ -2621,4 +2620,32 @@ This allows me to quickly generate a folder that contains all the files I wanna 
   (replace-regexp-in-string "[\\?.,!:]" ""
    (replace-regexp-in-string "/" "-" 
     (replace-regexp-in-string " " "_" text))))
+#+END_SRC
+* Scan notes with laptop webcam
+  :PROPERTIES:
+  :CREATION-DATE: 2018-09-16
+  :MODIFICATION-DATE: 2018-09-16
+  :HASH:     02a9563a3790f24926f3b5b911df4966
+  :PREVIOUS-HASH: 6d0541064aaad722c54990f3d63a041e
+  :END:
+  
+
+I was solving a pset, and realized that I needed to draw a graph by hand and include it in my solution. I didn't want to deal with taking a picture with my phone and sending the picture to my computer in order to use it. I wanted to be able to quickly scan it using my webcam. 
+
+So I decided to write a scrip to just do that, I press
+I press ctrl print in an org file:
+
+It sets my screen brightness to max. Takes a pic. Prompts me to crop it. Uses textcleaner[1] to clean the picture up, and automatically inserts the pic in my org document.
+
+In other words, a quick and dirty scanner with computer screen flash to scan papers.
+
+#+include: "../../packages/webcamscan/webcam.py"  src python -n
+
+#+include: "../../packages/webcamscan/crop.py"  src python -n
+
+#+include: "../../packages/webcamscan/orgscan.el"  src elisp -n
+
+#+BEGIN_SRC sh
+sudo chgrp ivanaf /sys/class/backlight/intel_backlight/brightness
+sudo /bin/chmod g+w  /sys/class/backlight/intel_backlight/brightness
 #+END_SRC
