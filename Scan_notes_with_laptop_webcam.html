@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2018-09-16 Sun 14:12 -->
+<!-- 2018-09-16 Sun 14:14 -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Scan notes with laptop webcam</title>
@@ -148,37 +148,37 @@ Then I could just use
 I use pygame to take the picture.
 </p>
 <div class="org-src-container">
-<pre class="src src-python"><span class="linenr"> 1: </span><span style="color: #a626a4;">import</span> pygame
-<span class="linenr"> 2: </span><span style="color: #a626a4;">import</span> pygame.camera
-<span class="linenr"> 3: </span><span style="color: #a626a4;">from</span> pygame.<span style="color: #e44649;">locals</span> <span style="color: #a626a4;">import</span> *
-<span class="linenr"> 4: </span><span style="color: #a626a4;">import</span> sys
-<span class="linenr"> 5: </span><span style="color: #a626a4;">from</span> PIL <span style="color: #a626a4;">import</span> Image
-<span class="linenr"> 6: </span><span style="color: #a626a4;">import</span> os
-<span class="linenr"> 7: </span>
-<span class="linenr"> 8: </span><span style="color: #a626a4;">if</span> <span style="color: #e44649;">__name__</span> == <span style="color: #50a14f;">"__main__"</span>:
-<span class="linenr"> 9: </span><span style="background-color: #f2f2f2;"> </span>   <span style="color: #8b4513;">file_name</span> = <span style="color: #e44649;">str</span>(sys.argv[1]) 
-<span class="linenr">10: </span><span style="background-color: #f2f2f2;"> </span>   pygame.init()
-<span class="linenr">11: </span><span style="background-color: #f2f2f2;"> </span>   pygame.camera.init()
-<span class="linenr">12: </span>
-<span class="linenr">13: </span><span style="background-color: #f2f2f2;"> </span>   <span style="color: #8b4513;">cam</span> = pygame.camera.Camera(<span style="color: #50a14f;">"/dev/video1"</span>, (1280,720))
-<span class="linenr">14: </span><span style="background-color: #f2f2f2;"> </span>   cam.start()
-<span class="linenr">15: </span><span style="background-color: #f2f2f2;"> </span>   <span style="color: #8b4513;">image</span> = cam.get_image()
-<span class="linenr">16: </span><span style="background-color: #f2f2f2;"> </span>   cam.stop()
-<span class="linenr">17: </span>
-<span class="linenr">18: </span><span style="background-color: #f2f2f2;"> </span>   <span style="color: #8b4513;">pil_string_image</span> = pygame.image.tostring(image,<span style="color: #50a14f;">"RGB"</span>,<span style="color: #008b8b;">False</span>)
-<span class="linenr">19: </span><span style="background-color: #f2f2f2;"> </span>   <span style="color: #8b4513;">im</span> = Image.frombytes(<span style="color: #50a14f;">"RGB"</span>,(1280,720),pil_string_image)
-<span class="linenr">20: </span><span style="background-color: #f2f2f2;"> </span>   
-<span class="linenr">21: </span><span style="background-color: #f2f2f2;"> </span>   <span style="color: #8b4513;">out_file</span> = <span style="color: #e44649;">open</span>(file_name, <span style="color: #50a14f;">'wb'</span>)
-<span class="linenr">22: </span><span style="background-color: #f2f2f2;"> </span>   im.save(out_file, <span style="color: #50a14f;">"JPEG"</span>)
-<span class="linenr">23: </span>
-<span class="linenr">24: </span>
-<span class="linenr">25: </span><span style="background-color: #f2f2f2;"> </span>   <span style="color: #a0a1a7; font-weight: bold;">#</span><span style="color: #a0a1a7;">from: http://discourse.techart.online/t/pil-wait-for-image-save/3994/6</span>
-<span class="linenr">26: </span>
-<span class="linenr">27: </span><span style="background-color: #f2f2f2;"> </span>   out_file.flush()
-<span class="linenr">28: </span><span style="background-color: #f2f2f2;"> </span>   os.fsync(out_file)
-<span class="linenr">29: </span><span style="background-color: #f2f2f2;"> </span>   out_file.close()
-<span class="linenr">30: </span>
-<span class="linenr">31: </span><span style="background-color: #f2f2f2;"> </span>   pygame.<span style="color: #008b8b;">quit</span>()
+<pre class="src src-python"><span style="color: #a626a4;">import</span> pygame
+<span style="color: #a626a4;">import</span> pygame.camera
+<span style="color: #a626a4;">from</span> pygame.<span style="color: #e44649;">locals</span> <span style="color: #a626a4;">import</span> *
+<span style="color: #a626a4;">import</span> sys
+<span style="color: #a626a4;">from</span> PIL <span style="color: #a626a4;">import</span> Image
+<span style="color: #a626a4;">import</span> os
+
+<span style="color: #a626a4;">if</span> <span style="color: #e44649;">__name__</span> == <span style="color: #50a14f;">"__main__"</span>:
+<span style="background-color: #f2f2f2;"> </span>   <span style="color: #8b4513;">file_name</span> = <span style="color: #e44649;">str</span>(sys.argv[1]) 
+<span style="background-color: #f2f2f2;"> </span>   pygame.init()
+<span style="background-color: #f2f2f2;"> </span>   pygame.camera.init()
+
+<span style="background-color: #f2f2f2;"> </span>   <span style="color: #8b4513;">cam</span> = pygame.camera.Camera(<span style="color: #50a14f;">"/dev/video1"</span>, (1280,720))
+<span style="background-color: #f2f2f2;"> </span>   cam.start()
+<span style="background-color: #f2f2f2;"> </span>   <span style="color: #8b4513;">image</span> = cam.get_image()
+<span style="background-color: #f2f2f2;"> </span>   cam.stop()
+
+<span style="background-color: #f2f2f2;"> </span>   <span style="color: #8b4513;">pil_string_image</span> = pygame.image.tostring(image,<span style="color: #50a14f;">"RGB"</span>,<span style="color: #008b8b;">False</span>)
+<span style="background-color: #f2f2f2;"> </span>   <span style="color: #8b4513;">im</span> = Image.frombytes(<span style="color: #50a14f;">"RGB"</span>,(1280,720),pil_string_image)
+<span style="background-color: #f2f2f2;"> </span>   
+<span style="background-color: #f2f2f2;"> </span>   <span style="color: #8b4513;">out_file</span> = <span style="color: #e44649;">open</span>(file_name, <span style="color: #50a14f;">'wb'</span>)
+<span style="background-color: #f2f2f2;"> </span>   im.save(out_file, <span style="color: #50a14f;">"JPEG"</span>)
+
+
+<span style="background-color: #f2f2f2;"> </span>   <span style="color: #a0a1a7; font-weight: bold;">#</span><span style="color: #a0a1a7;">from: http://discourse.techart.online/t/pil-wait-for-image-save/3994/6</span>
+
+<span style="background-color: #f2f2f2;"> </span>   out_file.flush()
+<span style="background-color: #f2f2f2;"> </span>   os.fsync(out_file)
+<span style="background-color: #f2f2f2;"> </span>   out_file.close()
+
+<span style="background-color: #f2f2f2;"> </span>   pygame.<span style="color: #008b8b;">quit</span>()
 </pre>
 </div>
 </div>
@@ -193,97 +193,97 @@ Again, I use pygame, using the code from these online answers:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-python"><span class="linenr"> 1: </span><span style="color: #a626a4;">import</span> pygame
-<span class="linenr"> 2: </span><span style="color: #a626a4;">import</span> pygame.camera
-<span class="linenr"> 3: </span><span style="color: #a626a4;">from</span> pygame.<span style="color: #e44649;">locals</span> <span style="color: #a626a4;">import</span> *
-<span class="linenr"> 4: </span><span style="color: #a626a4;">import</span> sys
-<span class="linenr"> 5: </span><span style="color: #a626a4;">from</span> PIL <span style="color: #a626a4;">import</span> Image
-<span class="linenr"> 6: </span><span style="color: #a626a4;">import</span> os
-<span class="linenr"> 7: </span>
-<span class="linenr"> 8: </span><span style="color: #a0a1a7; font-weight: bold;">#</span><span style="color: #a0a1a7;">https://coderwall.com/p/hmp8uw/image-cropping-using-pygame</span>
-<span class="linenr"> 9: </span><span style="color: #a0a1a7; font-weight: bold;">#</span><span style="color: #a0a1a7;">https://stackoverflow.com/questions/6136588/image-cropping-using-python/8696558 </span>
-<span class="linenr">10: </span><span style="color: #a626a4;">import</span> pygame, sys
-<span class="linenr">11: </span><span style="color: #a626a4;">from</span> PIL <span style="color: #a626a4;">import</span> Image
-<span class="linenr">12: </span>pygame.init()
-<span class="linenr">13: </span>
-<span class="linenr">14: </span><span style="color: #a626a4;">def</span> <span style="color: #0184bc;">displayImage</span>(screen, px, topleft, prior):
-<span class="linenr">15: </span><span style="background-color: #f2f2f2;"> </span>   <span style="color: #a0a1a7; font-weight: bold;"># </span><span style="color: #a0a1a7;">ensure that the rect always has positive width, height</span>
-<span class="linenr">16: </span><span style="background-color: #f2f2f2;"> </span>   <span style="color: #8b4513;">x</span>, <span style="color: #8b4513;">y</span> = topleft
-<span class="linenr">17: </span><span style="background-color: #f2f2f2;"> </span>   <span style="color: #8b4513;">width</span> =  pygame.mouse.get_pos()[0] - topleft[0]
-<span class="linenr">18: </span><span style="background-color: #f2f2f2;"> </span>   <span style="color: #8b4513;">height</span> = pygame.mouse.get_pos()[1] - topleft[1]
-<span class="linenr">19: </span><span style="background-color: #f2f2f2;"> </span>   <span style="color: #a626a4;">if</span> width &lt; 0:
-<span class="linenr">20: </span><span style="background-color: #f2f2f2;"> </span>   <span style="background-color: #f2f2f2;"> </span>   <span style="color: #8b4513;">x</span> += width
-<span class="linenr">21: </span><span style="background-color: #f2f2f2;"> </span>   <span style="background-color: #f2f2f2;"> </span>   <span style="color: #8b4513;">width</span> = <span style="color: #e44649;">abs</span>(width)
-<span class="linenr">22: </span><span style="background-color: #f2f2f2;"> </span>   <span style="color: #a626a4;">if</span> height &lt; 0:
-<span class="linenr">23: </span><span style="background-color: #f2f2f2;"> </span>   <span style="background-color: #f2f2f2;"> </span>   <span style="color: #8b4513;">y</span> += height
-<span class="linenr">24: </span><span style="background-color: #f2f2f2;"> </span>   <span style="background-color: #f2f2f2;"> </span>   <span style="color: #8b4513;">height</span> = <span style="color: #e44649;">abs</span>(height)
-<span class="linenr">25: </span>
-<span class="linenr">26: </span><span style="background-color: #f2f2f2;"> </span>   <span style="color: #a0a1a7; font-weight: bold;"># </span><span style="color: #a0a1a7;">eliminate redundant drawing cycles (when mouse isn't moving)</span>
-<span class="linenr">27: </span><span style="background-color: #f2f2f2;"> </span>   <span style="color: #8b4513;">current</span> = x, y, width, height
-<span class="linenr">28: </span><span style="background-color: #f2f2f2;"> </span>   <span style="color: #a626a4;">if</span> <span style="color: #a626a4;">not</span> (width <span style="color: #a626a4;">and</span> height):
-<span class="linenr">29: </span><span style="background-color: #f2f2f2;"> </span>   <span style="background-color: #f2f2f2;"> </span>   <span style="color: #a626a4;">return</span> current
-<span class="linenr">30: </span><span style="background-color: #f2f2f2;"> </span>   <span style="color: #a626a4;">if</span> current == prior:
-<span class="linenr">31: </span><span style="background-color: #f2f2f2;"> </span>   <span style="background-color: #f2f2f2;"> </span>   <span style="color: #a626a4;">return</span> current
-<span class="linenr">32: </span>
-<span class="linenr">33: </span><span style="background-color: #f2f2f2;"> </span>   <span style="color: #a0a1a7; font-weight: bold;"># </span><span style="color: #a0a1a7;">draw transparent box and blit it onto canvas</span>
-<span class="linenr">34: </span><span style="background-color: #f2f2f2;"> </span>   screen.blit(px, px.get_rect())
-<span class="linenr">35: </span><span style="background-color: #f2f2f2;"> </span>   <span style="color: #8b4513;">im</span> = pygame.Surface((width, height))
-<span class="linenr">36: </span><span style="background-color: #f2f2f2;"> </span>   im.fill((128, 128, 128))
-<span class="linenr">37: </span><span style="background-color: #f2f2f2;"> </span>   pygame.draw.rect(im, (32, 32, 32), im.get_rect(), 1)
-<span class="linenr">38: </span><span style="background-color: #f2f2f2;"> </span>   im.set_alpha(128)
-<span class="linenr">39: </span><span style="background-color: #f2f2f2;"> </span>   screen.blit(im, (x, y))
-<span class="linenr">40: </span><span style="background-color: #f2f2f2;"> </span>   pygame.display.flip()
-<span class="linenr">41: </span>
-<span class="linenr">42: </span><span style="background-color: #f2f2f2;"> </span>   <span style="color: #a0a1a7; font-weight: bold;"># </span><span style="color: #a0a1a7;">return current box extents</span>
-<span class="linenr">43: </span><span style="background-color: #f2f2f2;"> </span>   <span style="color: #a626a4;">return</span> (x, y, width, height)
-<span class="linenr">44: </span>
-<span class="linenr">45: </span><span style="color: #a626a4;">def</span> <span style="color: #0184bc;">setup</span>(path):
-<span class="linenr">46: </span><span style="background-color: #f2f2f2;"> </span>   <span style="color: #8b4513;">px</span> = pygame.image.load(path)
-<span class="linenr">47: </span><span style="background-color: #f2f2f2;"> </span>   <span style="color: #8b4513;">screen</span> = pygame.display.set_mode( px.get_rect()[2:] )
-<span class="linenr">48: </span><span style="background-color: #f2f2f2;"> </span>   screen.blit(px, px.get_rect())
-<span class="linenr">49: </span><span style="background-color: #f2f2f2;"> </span>   pygame.display.flip()
-<span class="linenr">50: </span><span style="background-color: #f2f2f2;"> </span>   <span style="color: #a626a4;">return</span> screen, px
-<span class="linenr">51: </span>
-<span class="linenr">52: </span><span style="color: #a626a4;">def</span> <span style="color: #0184bc;">mainLoop</span>(screen, px):
-<span class="linenr">53: </span><span style="background-color: #f2f2f2;"> </span>   <span style="color: #8b4513;">topleft</span> = <span style="color: #8b4513;">bottomright</span> = <span style="color: #8b4513;">prior</span> = <span style="color: #008b8b;">None</span>
-<span class="linenr">54: </span><span style="background-color: #f2f2f2;"> </span>   <span style="color: #8b4513;">n</span>=0
-<span class="linenr">55: </span><span style="background-color: #f2f2f2;"> </span>   <span style="color: #a626a4;">while</span> n!=1:
-<span class="linenr">56: </span><span style="background-color: #f2f2f2;"> </span>   <span style="background-color: #f2f2f2;"> </span>   <span style="color: #a626a4;">for</span> event <span style="color: #a626a4;">in</span> pygame.event.get():
-<span class="linenr">57: </span><span style="background-color: #f2f2f2;"> </span>   <span style="background-color: #f2f2f2;"> </span>   <span style="background-color: #f2f2f2;"> </span>   <span style="color: #a626a4;">if</span> event.<span style="color: #e44649;">type</span> == pygame.MOUSEBUTTONUP:
-<span class="linenr">58: </span><span style="background-color: #f2f2f2;"> </span>   <span style="background-color: #f2f2f2;"> </span>   <span style="background-color: #f2f2f2;"> </span>   <span style="background-color: #f2f2f2;"> </span>   <span style="color: #a626a4;">if</span> <span style="color: #a626a4;">not</span> topleft:
-<span class="linenr">59: </span><span style="background-color: #f2f2f2;"> </span>   <span style="background-color: #f2f2f2;"> </span>   <span style="background-color: #f2f2f2;"> </span>   <span style="background-color: #f2f2f2;"> </span>   <span style="background-color: #f2f2f2;"> </span>   <span style="color: #8b4513;">topleft</span> = event.pos
-<span class="linenr">60: </span><span style="background-color: #f2f2f2;"> </span>   <span style="background-color: #f2f2f2;"> </span>   <span style="background-color: #f2f2f2;"> </span>   <span style="background-color: #f2f2f2;"> </span>   <span style="color: #a626a4;">else</span>:
-<span class="linenr">61: </span><span style="background-color: #f2f2f2;"> </span>   <span style="background-color: #f2f2f2;"> </span>   <span style="background-color: #f2f2f2;"> </span>   <span style="background-color: #f2f2f2;"> </span>   <span style="background-color: #f2f2f2;"> </span>   <span style="color: #8b4513;">bottomright</span> = event.pos
-<span class="linenr">62: </span><span style="background-color: #f2f2f2;"> </span>   <span style="background-color: #f2f2f2;"> </span>   <span style="background-color: #f2f2f2;"> </span>   <span style="background-color: #f2f2f2;"> </span>   <span style="background-color: #f2f2f2;"> </span>   <span style="color: #8b4513;">n</span>=1
-<span class="linenr">63: </span><span style="background-color: #f2f2f2;"> </span>   <span style="background-color: #f2f2f2;"> </span>   <span style="color: #a626a4;">if</span> topleft:
-<span class="linenr">64: </span><span style="background-color: #f2f2f2;"> </span>   <span style="background-color: #f2f2f2;"> </span>   <span style="background-color: #f2f2f2;"> </span>   <span style="color: #8b4513;">prior</span> = displayImage(screen, px, topleft, prior)
-<span class="linenr">65: </span><span style="background-color: #f2f2f2;"> </span>   <span style="color: #a626a4;">return</span> ( topleft + bottomright )
-<span class="linenr">66: </span>
-<span class="linenr">67: </span><span style="color: #a626a4;">if</span> <span style="color: #e44649;">__name__</span> == <span style="color: #50a14f;">"__main__"</span>:
-<span class="linenr">68: </span><span style="background-color: #f2f2f2;"> </span>   <span style="color: #8b4513;">input_loc</span> = <span style="color: #e44649;">str</span>(sys.argv[1]) 
-<span class="linenr">69: </span><span style="background-color: #f2f2f2;"> </span>   <span style="color: #8b4513;">output_loc</span> = input_loc
-<span class="linenr">70: </span><span style="background-color: #f2f2f2;"> </span>   <span style="color: #8b4513;">screen</span>, <span style="color: #8b4513;">px</span> = setup(input_loc)
-<span class="linenr">71: </span><span style="background-color: #f2f2f2;"> </span>   <span style="color: #8b4513;">left</span>, <span style="color: #8b4513;">upper</span>, <span style="color: #8b4513;">right</span>, <span style="color: #8b4513;">lower</span> = mainLoop(screen, px)
-<span class="linenr">72: </span>
-<span class="linenr">73: </span><span style="background-color: #f2f2f2;"> </span>   <span style="color: #a0a1a7; font-weight: bold;"># </span><span style="color: #a0a1a7;">ensure output rect always has positive width, height</span>
-<span class="linenr">74: </span><span style="background-color: #f2f2f2;"> </span>   <span style="color: #a626a4;">if</span> right &lt; left:
-<span class="linenr">75: </span><span style="background-color: #f2f2f2;"> </span>   <span style="background-color: #f2f2f2;"> </span>   <span style="color: #8b4513;">left</span>, <span style="color: #8b4513;">right</span> = right, left
-<span class="linenr">76: </span><span style="background-color: #f2f2f2;"> </span>   <span style="color: #a626a4;">if</span> lower &lt; upper:
-<span class="linenr">77: </span><span style="background-color: #f2f2f2;"> </span>   <span style="background-color: #f2f2f2;"> </span>   <span style="color: #8b4513;">lower</span>, <span style="color: #8b4513;">upper</span> = upper, lower
-<span class="linenr">78: </span><span style="background-color: #f2f2f2;"> </span>   <span style="color: #8b4513;">im</span> = Image.<span style="color: #e44649;">open</span>(input_loc)
-<span class="linenr">79: </span><span style="background-color: #f2f2f2;"> </span>   <span style="color: #8b4513;">im</span> = im.crop(( left, upper, right, lower))
-<span class="linenr">80: </span><span style="background-color: #f2f2f2;"> </span>   pygame.display.<span style="color: #008b8b;">quit</span>()
-<span class="linenr">81: </span><span style="background-color: #f2f2f2;"> </span>   
-<span class="linenr">82: </span><span style="background-color: #f2f2f2;"> </span>   <span style="color: #8b4513;">out_file</span> = <span style="color: #e44649;">open</span>(output_loc, <span style="color: #50a14f;">'wb'</span>)
-<span class="linenr">83: </span><span style="background-color: #f2f2f2;"> </span>   im.save(out_file, <span style="color: #50a14f;">"JPEG"</span>)
-<span class="linenr">84: </span>
-<span class="linenr">85: </span>
-<span class="linenr">86: </span><span style="background-color: #f2f2f2;"> </span>   <span style="color: #a0a1a7; font-weight: bold;">#</span><span style="color: #a0a1a7;">from: http://discourse.techart.online/t/pil-wait-for-image-save/3994/6</span>
-<span class="linenr">87: </span><span style="background-color: #f2f2f2;"> </span>   out_file.flush()
-<span class="linenr">88: </span><span style="background-color: #f2f2f2;"> </span>   os.fsync(out_file)
-<span class="linenr">89: </span><span style="background-color: #f2f2f2;"> </span>   out_file.close()
-<span class="linenr">90: </span>
-<span class="linenr">91: </span><span style="background-color: #f2f2f2;"> </span>   pygame.<span style="color: #008b8b;">quit</span>()
+<pre class="src src-python"><span style="color: #a626a4;">import</span> pygame
+<span style="color: #a626a4;">import</span> pygame.camera
+<span style="color: #a626a4;">from</span> pygame.<span style="color: #e44649;">locals</span> <span style="color: #a626a4;">import</span> *
+<span style="color: #a626a4;">import</span> sys
+<span style="color: #a626a4;">from</span> PIL <span style="color: #a626a4;">import</span> Image
+<span style="color: #a626a4;">import</span> os
+
+<span style="color: #a0a1a7; font-weight: bold;">#</span><span style="color: #a0a1a7;">https://coderwall.com/p/hmp8uw/image-cropping-using-pygame</span>
+<span style="color: #a0a1a7; font-weight: bold;">#</span><span style="color: #a0a1a7;">https://stackoverflow.com/questions/6136588/image-cropping-using-python/8696558 </span>
+<span style="color: #a626a4;">import</span> pygame, sys
+<span style="color: #a626a4;">from</span> PIL <span style="color: #a626a4;">import</span> Image
+pygame.init()
+
+<span style="color: #a626a4;">def</span> <span style="color: #0184bc;">displayImage</span>(screen, px, topleft, prior):
+<span style="background-color: #f2f2f2;"> </span>   <span style="color: #a0a1a7; font-weight: bold;"># </span><span style="color: #a0a1a7;">ensure that the rect always has positive width, height</span>
+<span style="background-color: #f2f2f2;"> </span>   <span style="color: #8b4513;">x</span>, <span style="color: #8b4513;">y</span> = topleft
+<span style="background-color: #f2f2f2;"> </span>   <span style="color: #8b4513;">width</span> =  pygame.mouse.get_pos()[0] - topleft[0]
+<span style="background-color: #f2f2f2;"> </span>   <span style="color: #8b4513;">height</span> = pygame.mouse.get_pos()[1] - topleft[1]
+<span style="background-color: #f2f2f2;"> </span>   <span style="color: #a626a4;">if</span> width &lt; 0:
+<span style="background-color: #f2f2f2;"> </span>   <span style="background-color: #f2f2f2;"> </span>   <span style="color: #8b4513;">x</span> += width
+<span style="background-color: #f2f2f2;"> </span>   <span style="background-color: #f2f2f2;"> </span>   <span style="color: #8b4513;">width</span> = <span style="color: #e44649;">abs</span>(width)
+<span style="background-color: #f2f2f2;"> </span>   <span style="color: #a626a4;">if</span> height &lt; 0:
+<span style="background-color: #f2f2f2;"> </span>   <span style="background-color: #f2f2f2;"> </span>   <span style="color: #8b4513;">y</span> += height
+<span style="background-color: #f2f2f2;"> </span>   <span style="background-color: #f2f2f2;"> </span>   <span style="color: #8b4513;">height</span> = <span style="color: #e44649;">abs</span>(height)
+
+<span style="background-color: #f2f2f2;"> </span>   <span style="color: #a0a1a7; font-weight: bold;"># </span><span style="color: #a0a1a7;">eliminate redundant drawing cycles (when mouse isn't moving)</span>
+<span style="background-color: #f2f2f2;"> </span>   <span style="color: #8b4513;">current</span> = x, y, width, height
+<span style="background-color: #f2f2f2;"> </span>   <span style="color: #a626a4;">if</span> <span style="color: #a626a4;">not</span> (width <span style="color: #a626a4;">and</span> height):
+<span style="background-color: #f2f2f2;"> </span>   <span style="background-color: #f2f2f2;"> </span>   <span style="color: #a626a4;">return</span> current
+<span style="background-color: #f2f2f2;"> </span>   <span style="color: #a626a4;">if</span> current == prior:
+<span style="background-color: #f2f2f2;"> </span>   <span style="background-color: #f2f2f2;"> </span>   <span style="color: #a626a4;">return</span> current
+
+<span style="background-color: #f2f2f2;"> </span>   <span style="color: #a0a1a7; font-weight: bold;"># </span><span style="color: #a0a1a7;">draw transparent box and blit it onto canvas</span>
+<span style="background-color: #f2f2f2;"> </span>   screen.blit(px, px.get_rect())
+<span style="background-color: #f2f2f2;"> </span>   <span style="color: #8b4513;">im</span> = pygame.Surface((width, height))
+<span style="background-color: #f2f2f2;"> </span>   im.fill((128, 128, 128))
+<span style="background-color: #f2f2f2;"> </span>   pygame.draw.rect(im, (32, 32, 32), im.get_rect(), 1)
+<span style="background-color: #f2f2f2;"> </span>   im.set_alpha(128)
+<span style="background-color: #f2f2f2;"> </span>   screen.blit(im, (x, y))
+<span style="background-color: #f2f2f2;"> </span>   pygame.display.flip()
+
+<span style="background-color: #f2f2f2;"> </span>   <span style="color: #a0a1a7; font-weight: bold;"># </span><span style="color: #a0a1a7;">return current box extents</span>
+<span style="background-color: #f2f2f2;"> </span>   <span style="color: #a626a4;">return</span> (x, y, width, height)
+
+<span style="color: #a626a4;">def</span> <span style="color: #0184bc;">setup</span>(path):
+<span style="background-color: #f2f2f2;"> </span>   <span style="color: #8b4513;">px</span> = pygame.image.load(path)
+<span style="background-color: #f2f2f2;"> </span>   <span style="color: #8b4513;">screen</span> = pygame.display.set_mode( px.get_rect()[2:] )
+<span style="background-color: #f2f2f2;"> </span>   screen.blit(px, px.get_rect())
+<span style="background-color: #f2f2f2;"> </span>   pygame.display.flip()
+<span style="background-color: #f2f2f2;"> </span>   <span style="color: #a626a4;">return</span> screen, px
+
+<span style="color: #a626a4;">def</span> <span style="color: #0184bc;">mainLoop</span>(screen, px):
+<span style="background-color: #f2f2f2;"> </span>   <span style="color: #8b4513;">topleft</span> = <span style="color: #8b4513;">bottomright</span> = <span style="color: #8b4513;">prior</span> = <span style="color: #008b8b;">None</span>
+<span style="background-color: #f2f2f2;"> </span>   <span style="color: #8b4513;">n</span>=0
+<span style="background-color: #f2f2f2;"> </span>   <span style="color: #a626a4;">while</span> n!=1:
+<span style="background-color: #f2f2f2;"> </span>   <span style="background-color: #f2f2f2;"> </span>   <span style="color: #a626a4;">for</span> event <span style="color: #a626a4;">in</span> pygame.event.get():
+<span style="background-color: #f2f2f2;"> </span>   <span style="background-color: #f2f2f2;"> </span>   <span style="background-color: #f2f2f2;"> </span>   <span style="color: #a626a4;">if</span> event.<span style="color: #e44649;">type</span> == pygame.MOUSEBUTTONUP:
+<span style="background-color: #f2f2f2;"> </span>   <span style="background-color: #f2f2f2;"> </span>   <span style="background-color: #f2f2f2;"> </span>   <span style="background-color: #f2f2f2;"> </span>   <span style="color: #a626a4;">if</span> <span style="color: #a626a4;">not</span> topleft:
+<span style="background-color: #f2f2f2;"> </span>   <span style="background-color: #f2f2f2;"> </span>   <span style="background-color: #f2f2f2;"> </span>   <span style="background-color: #f2f2f2;"> </span>   <span style="background-color: #f2f2f2;"> </span>   <span style="color: #8b4513;">topleft</span> = event.pos
+<span style="background-color: #f2f2f2;"> </span>   <span style="background-color: #f2f2f2;"> </span>   <span style="background-color: #f2f2f2;"> </span>   <span style="background-color: #f2f2f2;"> </span>   <span style="color: #a626a4;">else</span>:
+<span style="background-color: #f2f2f2;"> </span>   <span style="background-color: #f2f2f2;"> </span>   <span style="background-color: #f2f2f2;"> </span>   <span style="background-color: #f2f2f2;"> </span>   <span style="background-color: #f2f2f2;"> </span>   <span style="color: #8b4513;">bottomright</span> = event.pos
+<span style="background-color: #f2f2f2;"> </span>   <span style="background-color: #f2f2f2;"> </span>   <span style="background-color: #f2f2f2;"> </span>   <span style="background-color: #f2f2f2;"> </span>   <span style="background-color: #f2f2f2;"> </span>   <span style="color: #8b4513;">n</span>=1
+<span style="background-color: #f2f2f2;"> </span>   <span style="background-color: #f2f2f2;"> </span>   <span style="color: #a626a4;">if</span> topleft:
+<span style="background-color: #f2f2f2;"> </span>   <span style="background-color: #f2f2f2;"> </span>   <span style="background-color: #f2f2f2;"> </span>   <span style="color: #8b4513;">prior</span> = displayImage(screen, px, topleft, prior)
+<span style="background-color: #f2f2f2;"> </span>   <span style="color: #a626a4;">return</span> ( topleft + bottomright )
+
+<span style="color: #a626a4;">if</span> <span style="color: #e44649;">__name__</span> == <span style="color: #50a14f;">"__main__"</span>:
+<span style="background-color: #f2f2f2;"> </span>   <span style="color: #8b4513;">input_loc</span> = <span style="color: #e44649;">str</span>(sys.argv[1]) 
+<span style="background-color: #f2f2f2;"> </span>   <span style="color: #8b4513;">output_loc</span> = input_loc
+<span style="background-color: #f2f2f2;"> </span>   <span style="color: #8b4513;">screen</span>, <span style="color: #8b4513;">px</span> = setup(input_loc)
+<span style="background-color: #f2f2f2;"> </span>   <span style="color: #8b4513;">left</span>, <span style="color: #8b4513;">upper</span>, <span style="color: #8b4513;">right</span>, <span style="color: #8b4513;">lower</span> = mainLoop(screen, px)
+
+<span style="background-color: #f2f2f2;"> </span>   <span style="color: #a0a1a7; font-weight: bold;"># </span><span style="color: #a0a1a7;">ensure output rect always has positive width, height</span>
+<span style="background-color: #f2f2f2;"> </span>   <span style="color: #a626a4;">if</span> right &lt; left:
+<span style="background-color: #f2f2f2;"> </span>   <span style="background-color: #f2f2f2;"> </span>   <span style="color: #8b4513;">left</span>, <span style="color: #8b4513;">right</span> = right, left
+<span style="background-color: #f2f2f2;"> </span>   <span style="color: #a626a4;">if</span> lower &lt; upper:
+<span style="background-color: #f2f2f2;"> </span>   <span style="background-color: #f2f2f2;"> </span>   <span style="color: #8b4513;">lower</span>, <span style="color: #8b4513;">upper</span> = upper, lower
+<span style="background-color: #f2f2f2;"> </span>   <span style="color: #8b4513;">im</span> = Image.<span style="color: #e44649;">open</span>(input_loc)
+<span style="background-color: #f2f2f2;"> </span>   <span style="color: #8b4513;">im</span> = im.crop(( left, upper, right, lower))
+<span style="background-color: #f2f2f2;"> </span>   pygame.display.<span style="color: #008b8b;">quit</span>()
+<span style="background-color: #f2f2f2;"> </span>   
+<span style="background-color: #f2f2f2;"> </span>   <span style="color: #8b4513;">out_file</span> = <span style="color: #e44649;">open</span>(output_loc, <span style="color: #50a14f;">'wb'</span>)
+<span style="background-color: #f2f2f2;"> </span>   im.save(out_file, <span style="color: #50a14f;">"JPEG"</span>)
+
+
+<span style="background-color: #f2f2f2;"> </span>   <span style="color: #a0a1a7; font-weight: bold;">#</span><span style="color: #a0a1a7;">from: http://discourse.techart.online/t/pil-wait-for-image-save/3994/6</span>
+<span style="background-color: #f2f2f2;"> </span>   out_file.flush()
+<span style="background-color: #f2f2f2;"> </span>   os.fsync(out_file)
+<span style="background-color: #f2f2f2;"> </span>   out_file.close()
+
+<span style="background-color: #f2f2f2;"> </span>   pygame.<span style="color: #008b8b;">quit</span>()
 </pre>
 </div>
 </div>
@@ -305,34 +305,34 @@ This method is very effective. However, I found something even better, <a href="
 <h2 id="puttingitalltogether"><span class="section-number-2">5</span> Putting it all together</h2>
 <div class="outline-text-2" id="text-5">
 <div class="org-src-container">
-<pre class="src src-elisp"><span class="linenr"> 1: </span>(<span style="color: #a626a4;">defun</span> <span style="color: #0184bc;">ivanaf/org-scan</span>()
-<span class="linenr"> 2: </span>  (<span style="color: #a626a4;">interactive</span>)
-<span class="linenr"> 3: </span>  (<span style="color: #a626a4;">let*</span> ((python-cam-command <span style="color: #50a14f;">"~/org/packages/webcamscan/webcam.py"</span>)
-<span class="linenr"> 4: </span>         (python-crop-command <span style="color: #50a14f;">"~/org/packages/webcamscan/crop.py"</span>)
-<span class="linenr"> 5: </span>         (text-command <span style="color: #50a14f;">"~/org/packages/webcamscan/textcleaner"</span>)
-<span class="linenr"> 6: </span>         (directory <span style="color: #50a14f;">"./scan/"</span>)
-<span class="linenr"> 7: </span>         (file-name (replace-regexp-in-string <span style="color: #50a14f;">"\\."</span> <span style="color: #50a14f;">""</span> (format <span style="color: #50a14f;">"%s"</span> (float-time))))
-<span class="linenr"> 8: </span>         (file-name (concat directory file-name <span style="color: #50a14f;">".jpg"</span>))
-<span class="linenr"> 9: </span>         (file-name (expand-file-name file-name))
-<span class="linenr">10: </span>         (text-args <span style="color: #50a14f;">" -r cw -e normalize -s 1 -f 15 -o 5 -p 5 -u "</span>)
-<span class="linenr">11: </span>         (display-brightness-hw <span style="color: #50a14f;">"/sys/class/backlight/intel_backlight/brightness"</span>)
-<span class="linenr">12: </span>         (max-brightness <span style="color: #50a14f;">"1500"</span>)
-<span class="linenr">13: </span>         (cmd-file-name (shell-quote-argument file-name))
-<span class="linenr">14: </span>         (brightness (shell-command-to-string (concat <span style="color: #50a14f;">"cat "</span> display-brightness-hw)))
-<span class="linenr">15: </span>         (brightness (replace-regexp-in-string <span style="color: #50a14f;">"\n"</span> <span style="color: #50a14f;">""</span> brightness)))
-<span class="linenr">16: </span>    (make-directory directory t)
-<span class="linenr">17: </span>    (shell-command (format <span style="color: #50a14f;">"echo %s &gt; %s"</span> max-brightness display-brightness-hw))
-<span class="linenr">18: </span>    (shell-command (format <span style="color: #50a14f;">"python3 %s %s"</span> python-cam-command cmd-file-name))
-<span class="linenr">19: </span>    (shell-command (format <span style="color: #50a14f;">"echo %s &gt; %s"</span> brightness display-brightness-hw))
-<span class="linenr">20: </span>    (shell-command (format <span style="color: #50a14f;">"python3 %s %s"</span> python-crop-command cmd-file-name))
-<span class="linenr">21: </span>    (shell-command (format <span style="color: #50a14f;">"%s %s %s %s"</span> text-command text-args cmd-file-name cmd-file-name))
-<span class="linenr">22: </span>    (insert <span style="color: #50a14f;">"\n#+ATTR_ORG: :width 600\n"</span>)
-<span class="linenr">23: </span>    (insert (concat  <span style="color: #50a14f;">"#+CAPTION: "</span>  <span style="color: #50a14f;">"\n"</span>))
-<span class="linenr">24: </span>    (insert (concat <span style="color: #50a14f;">"[[file:"</span> file-name <span style="color: #50a14f;">"][file:"</span> file-name <span style="color: #50a14f;">"]]"</span>))
-<span class="linenr">25: </span>    (org-display-inline-images)))
-<span class="linenr">26: </span>
-<span class="linenr">27: </span>
-<span class="linenr">28: </span>(define-key org-mode-map (kbd <span style="color: #50a14f;">"C-&lt;print&gt; "</span>) 'ivanaf/org-scan)
+<pre class="src src-elisp">(<span style="color: #a626a4;">defun</span> <span style="color: #0184bc;">ivanaf/org-scan</span>()
+  (<span style="color: #a626a4;">interactive</span>)
+  (<span style="color: #a626a4;">let*</span> ((python-cam-command <span style="color: #50a14f;">"~/org/packages/webcamscan/webcam.py"</span>)
+         (python-crop-command <span style="color: #50a14f;">"~/org/packages/webcamscan/crop.py"</span>)
+         (text-command <span style="color: #50a14f;">"~/org/packages/webcamscan/textcleaner"</span>)
+         (directory <span style="color: #50a14f;">"./scan/"</span>)
+         (file-name (replace-regexp-in-string <span style="color: #50a14f;">"\\."</span> <span style="color: #50a14f;">""</span> (format <span style="color: #50a14f;">"%s"</span> (float-time))))
+         (file-name (concat directory file-name <span style="color: #50a14f;">".jpg"</span>))
+         (file-name (expand-file-name file-name))
+         (text-args <span style="color: #50a14f;">" -r cw -e normalize -s 1 -f 15 -o 5 -p 5 -u "</span>)
+         (display-brightness-hw <span style="color: #50a14f;">"/sys/class/backlight/intel_backlight/brightness"</span>)
+         (max-brightness <span style="color: #50a14f;">"1500"</span>)
+         (cmd-file-name (shell-quote-argument file-name))
+         (brightness (shell-command-to-string (concat <span style="color: #50a14f;">"cat "</span> display-brightness-hw)))
+         (brightness (replace-regexp-in-string <span style="color: #50a14f;">"\n"</span> <span style="color: #50a14f;">""</span> brightness)))
+    (make-directory directory t)
+    (shell-command (format <span style="color: #50a14f;">"echo %s &gt; %s"</span> max-brightness display-brightness-hw))
+    (shell-command (format <span style="color: #50a14f;">"python3 %s %s"</span> python-cam-command cmd-file-name))
+    (shell-command (format <span style="color: #50a14f;">"echo %s &gt; %s"</span> brightness display-brightness-hw))
+    (shell-command (format <span style="color: #50a14f;">"python3 %s %s"</span> python-crop-command cmd-file-name))
+    (shell-command (format <span style="color: #50a14f;">"%s %s %s %s"</span> text-command text-args cmd-file-name cmd-file-name))
+    (insert <span style="color: #50a14f;">"\n#+ATTR_ORG: :width 600\n"</span>)
+    (insert (concat  <span style="color: #50a14f;">"#+CAPTION: "</span>  <span style="color: #50a14f;">"\n"</span>))
+    (insert (concat <span style="color: #50a14f;">"[[file:"</span> file-name <span style="color: #50a14f;">"][file:"</span> file-name <span style="color: #50a14f;">"]]"</span>))
+    (org-display-inline-images)))
+
+
+(define-key org-mode-map (kbd <span style="color: #50a14f;">"C-&lt;print&gt; "</span>) 'ivanaf/org-scan)
 </pre>
 </div>
 </div>
@@ -358,7 +358,7 @@ Which is about as good as possible, give the quality of the light / camera.
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Ivan Tadeu Ferreira Antunes Filho</p>
-<p class="date">Date: 2018-09-16 Sun 14:12</p>
+<p class="date">Date: 2018-09-16 Sun 14:14</p>
 <p class="creator">Made with <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.50 (<a href="https://orgmode.org">Org</a> mode 9.1.9) and <a href="https://github.com/itf/org-export-head">Org export head</a> </p>
 </div>
 </body>
