@@ -6,10 +6,12 @@
   [[elisp:(org-export-head "../publish/")]]
   [[elisp:(org-export-head-reexport "../publish/")]]
   [[shell:cd publish  && git add . && git commit -m "new post!" && git push]]
-[[shell:cd publish && git add . && git commit -m "update post!" && git push]]
+[[shell:cd publish && git add . && git add -u && git commit -m "update post!" && git push]]
 
-[[shell:cd publish && git add . && git commit -m "update postamble!" && git push]]
+[[shell:cd publish && git add . && git add -u &&  git commit -m "update postamble!" && git push]]
   [[shell: git add -u && git commit -m "new post!" && git push]]
+
+  [[shell: git add -u && git commit -m "update post!" && git push]]
 
 * README                                                           :noexport:
 Run the code inside the code block.
@@ -154,6 +156,7 @@ are exported to a filename derived from the headline text."
            (let ((org-html-postamble 
 "<p class=\"author\">Author: Ivan Tadeu Ferreira Antunes Filho</p>
 <p class=\"date\">Date: %T</p>
+<p class=\"author\">Github:  <a href=\"https://github.com/itf/\">github.com/itf</a></p>
 <p class=\"creator\">Made with %c and <a href=\"https://github.com/itf/org-export-head\">Org export head</a> </p>"))
              (org-html-export-to-html nil t))
            (set-buffer-modified-p t)) "-noexport-noreexport"))
@@ -346,6 +349,9 @@ Where match is a tag or -tag or combination of them."
   (when (string= (org-element-property :type link) "file")
     (let* ((path (org-element-property :path link))
            (link-copy (org-element-copy link))
+           (extension (file-name-extension path))
+           (img-extensions '("jpg" "tiff" "png" "bmp"))
+           (link-description (org-element-contents link))
            ;;Removes ../ from the releative path of the file to force it to be moved to a subfolder
            ;;of the current dir. This causes some file conflits in edge cases
            ;;e.g: ../images and ../../images will map to the same place. This should be rare in normal usage
@@ -355,7 +361,9 @@ Where match is a tag or -tag or combination of them."
            (new-hard-link-directory (file-name-directory new-hard-link-path)))
       
       ;;Fix the AST
-      (apply #'org-element-adopt-elements link-copy (org-element-contents link))
+      ;;If image, remove description so it will become a real image instead of a link
+      (unless (or (member extension img-extensions))
+        (apply #'org-element-adopt-elements link-copy link-description))
       (org-element-put-property link-copy :path new-relative-path)
       (org-element-set-element link  link-copy)
       
@@ -452,8 +460,8 @@ Hello everyone and welcome to my blog!
 * About
   :PROPERTIES:
   :CREATION-DATE: 2018-09-09
-  :MODIFICATION-DATE: 2018-09-09
-  :HASH:     510224d3f45255c41242e4c3408e6114
+  :MODIFICATION-DATE: 2018-09-17
+  :HASH:     6a26771bde1db603f1bc3ddac07b0074
   :PREVIOUS-HASH: 510224d3f45255c41242e4c3408e6114
   :END:
 #+BEGIN_CENTER
@@ -461,10 +469,9 @@ Hello everyone and welcome to my blog!
 #+CAPTION: 
 [[file:///home/ivanaf/org/blog/source/img/ivan.jpg]]
 #+END_CENTER
-I am Ivan Tadeu Ferreira Antunes Filho, currently an MEng student in
-EECS at MIT. I'm really excited about science, technology and
-photography.
-
+I am Ivan Tadeu Ferreira Antunes Filho, currently a Master of Engineering in Computer Science student at MIT.  I'm really excited about science, technology and photography.
+** New stuff
+   You can see some of the recent things I've worked on on my [[Portfolio][portfolio]] or on my [[Resume][resume]] page, depending if you are interested in my side projects or more on academics and internships. 
 ** Old stuff
    :PROPERTIES:
    :CUSTOM_ID: old-stuff
@@ -584,15 +591,15 @@ TV.
 * Resume 
   :PROPERTIES:
   :CREATION-DATE: 2018-09-09
-  :MODIFICATION-DATE: 2018-09-09
-  :HASH:     6a301bbc15410b0b251bb383f55c6d67
-  :PREVIOUS-HASH: 6a301bbc15410b0b251bb383f55c6d67
+  :MODIFICATION-DATE: 2018-09-17
+  :HASH:     3705c5784926fda4e2517462ec46a7c9
+  :PREVIOUS-HASH: 3705c5784926fda4e2517462ec46a7c9
   :END:
 
 
 
 #+BEGIN_EXPORT html
-<object id='pdf' data='pdf/IvanFilho-Resume.pdf' type='application/pdf' class='pdf-viewer'>
+<object id='pdf' data='pdf/IvanFilho-ResumeFall2018.pdf' type='application/pdf' class='pdf-viewer'>
   Your browser does not support PDF objects in HTML.<br>
 </object>
 
@@ -606,7 +613,7 @@ TV.
 <!-- Copyright (c) 2016 Saswat Padhi, The MIT License (MIT).-->
 #+END_EXPORT
 
-Please download the PDF version [[file:pdflib/IvanFilho-Resume.pdf][here]].
+Please download the PDF version [[file:pdflib/IvanFilho-ResumeFall2018.pdf][here]]
 * Contact
   :PROPERTIES:
   :CREATION-DATE: 2018-09-09
@@ -2624,28 +2631,112 @@ This allows me to quickly generate a folder that contains all the files I wanna 
 * Scan notes with laptop webcam
   :PROPERTIES:
   :CREATION-DATE: 2018-09-16
-  :MODIFICATION-DATE: 2018-09-16
-  :HASH:     02a9563a3790f24926f3b5b911df4966
-  :PREVIOUS-HASH: 6d0541064aaad722c54990f3d63a041e
+  :MODIFICATION-DATE: 2018-09-17
+  :HASH:     9ba4328b016160c726bcfe1815bab156
+  :PREVIOUS-HASH: 9ba4328b016160c726bcfe1815bab156
   :END:
   
 
 I was solving a pset, and realized that I needed to draw a graph by hand and include it in my solution. I didn't want to deal with taking a picture with my phone and sending the picture to my computer in order to use it. I wanted to be able to quickly scan it using my webcam. 
 
-So I decided to write a scrip to just do that, I press
-I press ctrl print in an org file:
+So I decided to write a scrip to just do that, I press Ctrl-Print and the magic happens!
 
-It sets my screen brightness to max. Takes a pic. Prompts me to crop it. Uses textcleaner[1] to clean the picture up, and automatically inserts the pic in my org document.
+It sets my screen brightness to max. Takes a pic with my webcam. Sets the screen brightness to where it was.  Prompts me to crop the picture it took. Uses [[http://www.fmwconcepts.com/imagemagick/textcleaner/index.php][textcleaner]] to clean the picture up. And at last, it automatically inserts the picture in my org document, and displays the picture.
 
 In other words, a quick and dirty scanner with computer screen flash to scan papers.
+** Controlling the brightness 
 
-#+include: "../../packages/webcamscan/webcam.py"  src python -n
-
-#+include: "../../packages/webcamscan/crop.py"  src python -n
-
-#+include: "../../packages/webcamscan/orgscan.el"  src elisp -n
-
+First I needed to allow me to control the brightness without sudo. Here I added my group as a group with permissions to edit the brightness.
+   
 #+BEGIN_SRC sh
 sudo chgrp ivanaf /sys/class/backlight/intel_backlight/brightness
 sudo /bin/chmod g+w  /sys/class/backlight/intel_backlight/brightness
+ #+END_SRC
+
+Then I could just use 
+#+BEGIN_SRC sh
+echo brightness /sys/class/backlight/intel_backlight/brightness
 #+END_SRC
+** Taking the picture
+   I use pygame to take the picture.
+ #+include: "../../packages/webcamscan/webcam.py"  src python 
+** Cropping the picture
+Again, I use pygame, using the code from these online answers: 
+https://coderwall.com/p/hmp8uw/image-cropping-using-pygame
+https://stackoverflow.com/questions/6136588/image-cropping-using-python/8696558 
+
+ #+include: "../../packages/webcamscan/crop.py"  src python 
+** Cleaning the image
+To clean the image, I was trying to remove the background by blurring the image, and dividing the original image by the blurred one.
+
+This method is very effective. However, I found something even better, [[http://www.fmwconcepts.com/imagemagick/textcleaner/index.php][Fred's ImageMagick Scripts for text cleaning]].
+
+** Putting it all together
+ #+include: "../../packages/webcamscan/orgscan.el"  src elisp 
+** Results:
+
+Here is a "scan" of the back of the mit career fair book from last year, taken in my dark room.
+
+#+ATTR_ORG: :width 600
+#+CAPTION: 
+[[file:/home/ivanaf/org/blog/source/scan/15370864184127958.jpg][file:/home/ivanaf/org/blog/source/scan/15370864184127958.jpg]]  
+
+Which is about as good as possible, give the quality of the light / camera. 
+* Solving a problem set with orgmode
+  :PROPERTIES:
+  :CREATION-DATE: 2018-09-17
+  :MODIFICATION-DATE: 2018-09-17
+  :HASH:     c87cd4f089987887e309d78bf1b19e14
+  :PREVIOUS-HASH: c87cd4f089987887e309d78bf1b19e14
+  :END:
+  After I wrote my last two tiny projects, [[Scan notes with laptop webcam][Scan with webcam]], and [[Export subtree with files][Export Subtree with files]] I was ready to do one of my psets in org mode. It was absolutely fantastic.
+
+Scanning images with my webcam made it very easy and fast to simply add diagrams to my solutions, such as the following.
+
+ #+ATTR_ORG: :width 600
+ #+attr_latex: :float nil
+ #+CAPTION: 
+ [[file:/home/ivanaf/org/scan/15371305333151052.jpg][file:/home/ivanaf/org/scan/15371305333151052.jpg]]
+
+
+Being able to run arbitrary code during export, allowed me to very easily generate matrices and perform matrix multiplication using sympy. For example:
+
+ #+NAME: matrix_mult
+        #+BEGIN_SRC python  :results output raw :exports both  
+from sympy import I
+from sympy import latex
+from sympy.matrices import *
+import sys
+i=I
+
+sigmax = Matrix([[0,1],[1,0]])
+sigmay = Matrix([[0,-i],[i,0]])
+sigmaz = Matrix([[1,0],[0,-1]])
+
+print("\\begin{alignat*}{3}")
+print( "\\\\ \sigma_{x} \sigma_{x} &=" + latex(sigmax) + latex(sigmax) +" &&= " + latex(sigmax*sigmax) )
+print( "\\\\ \sigma_{y} \sigma_{y} &=" + latex(sigmay) + latex(sigmay) +" &&= " + latex(sigmay*sigmay) )
+print( "\\\\ \sigma_{z} \sigma_{z} &=" + latex(sigmaz) + latex(sigmaz) +" &&= " + latex(sigmaz*sigmaz) )
+
+print( "\\\\ \sigma_{x} \sigma_{y} &=" + latex(sigmax) + latex(sigmay) +" &&= " + latex(sigmax*sigmay) )
+print( "\\\\ \sigma_{y} \sigma_{z} &=" + latex(sigmay) + latex(sigmaz) +" &&= " + latex(sigmay*sigmaz) )
+print( "\\\\ \sigma_{z} \sigma_{x} &=" + latex(sigmaz) + latex(sigmax) +" &&= " + latex(sigmaz*sigmax) )
+
+print( "\\\\ \sigma_{y} \sigma_{x} &=" + latex(sigmay) + latex(sigmax) +" &&= " + latex(sigmay*sigmax) )
+print( "\\\\ \sigma_{z} \sigma_{y} &=" + latex(sigmaz) + latex(sigmay) +" &&= " + latex(sigmaz*sigmay) )
+print( "\\\\ \sigma_{x} \sigma_{z} &=" + latex(sigmax) + latex(sigmaz) +" &&= " + latex(sigmax*sigmaz) )
+print("\\\\ \\end{alignat*}")
+        #+END_SRC
+
+        #+RESULTS: matrix_mult
+        \begin{alignat*}{3}
+        \\ \sigma_{x} \sigma_{x} &=\left[\begin{matrix}0 & 1\\1 & 0\end{matrix}\right]\left[\begin{matrix}0 & 1\\1 & 0\end{matrix}\right] &&= \left[\begin{matrix}1 & 0\\0 & 1\end{matrix}\right]
+        \\ \sigma_{y} \sigma_{y} &=\left[\begin{matrix}0 & - i\\i & 0\end{matrix}\right]\left[\begin{matrix}0 & - i\\i & 0\end{matrix}\right] &&= \left[\begin{matrix}1 & 0\\0 & 1\end{matrix}\right]
+        \\ \sigma_{z} \sigma_{z} &=\left[\begin{matrix}1 & 0\\0 & -1\end{matrix}\right]\left[\begin{matrix}1 & 0\\0 & -1\end{matrix}\right] &&= \left[\begin{matrix}1 & 0\\0 & 1\end{matrix}\right]
+        \\ \sigma_{x} \sigma_{y} &=\left[\begin{matrix}0 & 1\\1 & 0\end{matrix}\right]\left[\begin{matrix}0 & - i\\i & 0\end{matrix}\right] &&= \left[\begin{matrix}i & 0\\0 & - i\end{matrix}\right]
+        \\ \sigma_{y} \sigma_{z} &=\left[\begin{matrix}0 & - i\\i & 0\end{matrix}\right]\left[\begin{matrix}1 & 0\\0 & -1\end{matrix}\right] &&= \left[\begin{matrix}0 & i\\i & 0\end{matrix}\right]
+        \\ \sigma_{z} \sigma_{x} &=\left[\begin{matrix}1 & 0\\0 & -1\end{matrix}\right]\left[\begin{matrix}0 & 1\\1 & 0\end{matrix}\right] &&= \left[\begin{matrix}0 & 1\\-1 & 0\end{matrix}\right]
+        \\ \sigma_{y} \sigma_{x} &=\left[\begin{matrix}0 & - i\\i & 0\end{matrix}\right]\left[\begin{matrix}0 & 1\\1 & 0\end{matrix}\right] &&= \left[\begin{matrix}- i & 0\\0 & i\end{matrix}\right]
+        \\ \sigma_{z} \sigma_{y} &=\left[\begin{matrix}1 & 0\\0 & -1\end{matrix}\right]\left[\begin{matrix}0 & - i\\i & 0\end{matrix}\right] &&= \left[\begin{matrix}0 & - i\\- i & 0\end{matrix}\right]
+        \\ \sigma_{x} \sigma_{z} &=\left[\begin{matrix}0 & 1\\1 & 0\end{matrix}\right]\left[\begin{matrix}1 & 0\\0 & -1\end{matrix}\right] &&= \left[\begin{matrix}0 & -1\\1 & 0\end{matrix}\right]
+        \\ \end{alignat*}
