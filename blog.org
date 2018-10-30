@@ -18,9 +18,16 @@ Run the code inside the code block.
 
 Run M-x org-export-head or (org-export-head directory backend)
 
-The MENU and FOOTNOTES have to be :noexport: It cannot contain a property drawer at the moment.
+The MENU and FOOTNOTES have to be :noexport: And they cannot contain a property drawer at the moment.
 
-* Code                                                             :noexport: 
+So far the only tags we use are:  header, noexport and reexport. 
+Put a header tag to mark what is the header that should be copied to every page. 
+Mark something with reexport to always reexport something.
+Put the noexport tag to state that some header should not become a page.
+
+You can use the macros ###MACRO###, which will be replaced with that particular headline property.
+
+* Code    `                                                        :noexport: 
 #+BEGIN_SRC emacs-lisp   
 
 ;; based on http://pragmaticemacs.com/emacs/export-org-mode-headlines-to-separate-files/
@@ -462,7 +469,7 @@ Hello everyone and welcome to my blog!
   :CREATION-DATE: 2018-09-09
   :MODIFICATION-DATE: 2018-09-17
   :HASH:     6a26771bde1db603f1bc3ddac07b0074
-  :PREVIOUS-HASH: 510224d3f45255c41242e4c3408e6114
+  :PREVIOUS-HASH: 6a26771bde1db603f1bc3ddac07b0074
   :END:
 #+BEGIN_CENTER
 #+ATTR_ORG: :width 300
@@ -2196,12 +2203,14 @@ This also shows an example of how to use it, by solving a problem from a
 * Emacs drag-drop pdfs, paste html, custom templates
   :PROPERTIES:
   :CREATION-DATE: 2018-08-19
-  :MODIFICATION-DATE: 2018-09-09
-  :HASH:     7a5fa24325de225d95f1e2c008388414
+  :MODIFICATION-DATE: 2018-09-23
+  :HASH:     7eb1e54b9f5c53a91592562b20fa3957
   :PREVIOUS-HASH: 7a5fa24325de225d95f1e2c008388414
   :END:
 ** UPDATE:
-   I created a tiny package to paste html or picture. See [[https://github.com/itf/clipboard2org/blob/master/clipboard2org.el][clipboard2org]]
+This documents my first experience with programming in elisp. In restrospect, I was really bad at it. This post then shows that you can still make something with elisp even if you are bad at it.
+
+A slightly better example of making something with elisp is on my package clipboard2org, a tiny package to paste html or picture. See [[https://github.com/itf/clipboard2org/blob/master/clipboard2org.el][clipboard2org]]
 
 ** PDF files drag-drop
    :PROPERTIES:
@@ -2659,7 +2668,7 @@ echo brightness /sys/class/backlight/intel_backlight/brightness
 #+END_SRC
 ** Taking the picture
    I use pygame to take the picture.
- #+include: "../../packages/webcamscan/webcam.py"  src python 
+   #+include: "../../packages/webcamscan/webcam.py"  src python 
 ** Cropping the picture
 Again, I use pygame, using the code from these online answers: 
 https://coderwall.com/p/hmp8uw/image-cropping-using-pygame
@@ -2686,8 +2695,8 @@ Which is about as good as possible, give the quality of the light / camera.
   :PROPERTIES:
   :CREATION-DATE: 2018-09-17
   :MODIFICATION-DATE: 2018-09-17
-  :HASH:     c87cd4f089987887e309d78bf1b19e14
-  :PREVIOUS-HASH: c87cd4f089987887e309d78bf1b19e14
+  :HASH:     d2d19860ef752ba7d76d09a533c86745
+  :PREVIOUS-HASH: d2d19860ef752ba7d76d09a533c86745
   :END:
   After I wrote my last two tiny projects, [[Scan notes with laptop webcam][Scan with webcam]], and [[Export subtree with files][Export Subtree with files]] I was ready to do one of my psets in org mode. It was absolutely fantastic.
 
@@ -2699,7 +2708,7 @@ Scanning images with my webcam made it very easy and fast to simply add diagrams
  [[file:/home/ivanaf/org/scan/15371305333151052.jpg][file:/home/ivanaf/org/scan/15371305333151052.jpg]]
 
 
-Being able to run arbitrary code during export, allowed me to very easily generate matrices and perform matrix multiplication using sympy. For example:
+Being able to run arbitrary code during export allowed me to very easily generate matrices and perform matrix multiplication using sympy. For example:
 
  #+NAME: matrix_mult
         #+BEGIN_SRC python  :results output raw :exports both  
@@ -2740,3 +2749,6 @@ print("\\\\ \\end{alignat*}")
         \\ \sigma_{z} \sigma_{y} &=\left[\begin{matrix}1 & 0\\0 & -1\end{matrix}\right]\left[\begin{matrix}0 & - i\\i & 0\end{matrix}\right] &&= \left[\begin{matrix}0 & - i\\- i & 0\end{matrix}\right]
         \\ \sigma_{x} \sigma_{z} &=\left[\begin{matrix}0 & 1\\1 & 0\end{matrix}\right]\left[\begin{matrix}1 & 0\\0 & -1\end{matrix}\right] &&= \left[\begin{matrix}0 & -1\\1 & 0\end{matrix}\right]
         \\ \end{alignat*}
+
+So in the end I could solve my problem set very efficiently, without having to work around the tools I was using.
+* Scan notes with webcam online
