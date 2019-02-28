@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2018-09-17 Mon 14:56 -->
+<!-- 2019-02-28 Thu 02:55 -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Scan notes with laptop webcam</title>
@@ -86,7 +86,7 @@ Scan notes with laptop webcam
 
 <p>
 <span class=page-date> <small>
-2018-09-16, updated 2018-09-17 <a href="Solving_a_problem_set_with_orgmode.html">next</a> - <a href="Export_subtree_with_files.html">previous</a>
+2018-09-16, updated 2019-02-28 <a href="Solving_a_problem_set_with_orgmode.html">next</a> - <a href="Export_subtree_with_files.html">previous</a>
 </small> </span> 
 </p>
 <nav id="table-of-contents">
@@ -155,12 +155,64 @@ I use pygame to take the picture.
 <span style="color: #a626a4;">from</span> PIL <span style="color: #a626a4;">import</span> Image
 <span style="color: #a626a4;">import</span> os
 <span style="color: #a626a4;">from</span> time <span style="color: #a626a4;">import</span> time
+<span style="color: #a626a4;">import</span> numpy <span style="color: #a626a4;">as</span> np
+
+
+<span style="color: #8b4513;">DEVICE</span> = <span style="color: #50a14f;">"/dev/video1"</span>
+<span style="color: #8b4513;">SIZE</span> = (1280, 720)
+
+<span style="color: #a0a1a7; font-weight: bold;">#</span><span style="color: #a0a1a7;">https://www.pyimagesearch.com/2015/09/07/blur-detection-with-opencv/</span>
+
+<span style="color: #a0a1a7; font-weight: bold;">#</span><span style="color: #a0a1a7;">try:</span>
+<span style="color: #a626a4;">if</span> <span style="color: #008b8b;">True</span>:
+<span style="background-color: #f2f2f2;"> </span>   <span style="color: #a626a4;">import</span> cv2
+<span style="background-color: #f2f2f2;"> </span>   <span style="color: #8b4513;">has_cv</span> = <span style="color: #008b8b;">True</span>
+
+<span style="background-color: #f2f2f2;"> </span>   <span style="color: #a626a4;">def</span> <span style="color: #0184bc;">variance_of_laplacian</span>(image):
+<span style="background-color: #f2f2f2;"> </span>   <span style="background-color: #f2f2f2;"> </span>   <span style="color: #a0a1a7; font-weight: bold;"># </span><span style="color: #a0a1a7;">compute the Laplacian of the image and then return the focus</span>
+<span style="background-color: #f2f2f2;"> </span>   <span style="background-color: #f2f2f2;"> </span>   <span style="color: #a0a1a7; font-weight: bold;"># </span><span style="color: #a0a1a7;">measure, which is simply the variance of the Laplacian</span>
+<span style="background-color: #f2f2f2;"> </span>   <span style="background-color: #f2f2f2;"> </span>   <span style="color: #8b4513;">ans</span> =  cv2.Laplacian(image, cv2.CV_64F).var()
+
+<span style="background-color: #f2f2f2;"> </span>   <span style="background-color: #f2f2f2;"> </span>   <span style="color: #a626a4;">print</span>(ans)
+<span style="background-color: #f2f2f2;"> </span>   <span style="background-color: #f2f2f2;"> </span>   <span style="color: #a626a4;">return</span> cv2.Laplacian(image, cv2.CV_64F).var()
+
+<span style="background-color: #f2f2f2;"> </span>   <span style="color: #a626a4;">def</span> <span style="color: #0184bc;">choose_best</span>(image1, image2):
+<span style="background-color: #f2f2f2;"> </span>   <span style="background-color: #f2f2f2;"> </span>   <span style="color: #a626a4;">if</span> variance_of_laplacian(pygame_to_cvimage(image1))&gt;variance_of_laplacian(pygame_to_cvimage(image2)):
+<span style="background-color: #f2f2f2;"> </span>   <span style="background-color: #f2f2f2;"> </span>   <span style="background-color: #f2f2f2;"> </span>   <span style="color: #a626a4;">return</span> image1
+<span style="background-color: #f2f2f2;"> </span>   <span style="background-color: #f2f2f2;"> </span>   <span style="color: #a626a4;">return</span> image2
+
+<span style="background-color: #f2f2f2;"> </span>   <span style="color: #a0a1a7; font-weight: bold;">#</span><span style="color: #a0a1a7;">https://gist.github.com/jpanganiban/3844261</span>
+<span style="background-color: #f2f2f2;"> </span>   <span style="color: #a626a4;">def</span> <span style="color: #0184bc;">pygame_to_cvimage</span>(surface):
+<span style="background-color: #f2f2f2;"> </span>   <span style="background-color: #f2f2f2;"> </span>   <span style="color: #50a14f; font-style: italic;">"""Convert a pygame surface into a cv image"""</span>
+<span style="background-color: #f2f2f2;"> </span>   <span style="background-color: #f2f2f2;"> </span>   <span style="color: #a0a1a7; font-weight: bold;">## </span><span style="color: #a0a1a7;">convert to pillow</span>
+<span style="background-color: #f2f2f2;"> </span>   <span style="background-color: #f2f2f2;"> </span>   <span style="color: #8b4513;">pil_string_image</span> = pygame.image.tostring(surface, <span style="color: #50a14f;">"RGB"</span>, <span style="color: #008b8b;">False</span>)
+<span style="background-color: #f2f2f2;"> </span>   <span style="background-color: #f2f2f2;"> </span>   <span style="color: #8b4513;">pil_im</span> = Image.frombytes(<span style="color: #50a14f;">"RGB"</span>, SIZE, pil_string_image)
+
+<span style="background-color: #f2f2f2;"> </span>   <span style="background-color: #f2f2f2;"> </span>   <span style="color: #8b4513;">numpy_image</span> = np.array(pil_im)
+<span style="background-color: #f2f2f2;"> </span>   <span style="background-color: #f2f2f2;"> </span>   <span style="color: #8b4513;">opencv_image</span> = cv2.cvtColor(numpy_image, cv2.COLOR_RGB2BGR) 
+<span style="background-color: #f2f2f2;"> </span>   <span style="background-color: #f2f2f2;"> </span>   <span style="color: #8b4513;">gray</span> = cv2.cvtColor(opencv_image, cv2.COLOR_BGR2GRAY)
+<span style="background-color: #f2f2f2;"> </span>   <span style="background-color: #f2f2f2;"> </span>   <span style="color: #a626a4;">return</span> gray
+
+<span style="color: #a0a1a7; font-weight: bold;">#</span><span style="color: #a0a1a7;">except ImportError:</span>
+<span style="color: #a626a4;">else</span>:
+<span style="background-color: #f2f2f2;"> </span>   <span style="color: #8b4513;">has_cv</span> = <span style="color: #008b8b;">False</span>
+
+<span style="background-color: #f2f2f2;"> </span>   <span style="color: #a626a4;">def</span> <span style="color: #0184bc;">choose_best</span>(image1, image2):
+<span style="background-color: #f2f2f2;"> </span>   <span style="background-color: #f2f2f2;"> </span>   <span style="color: #a626a4;">return</span> image2
+
+
+
+
+
+
+
+
+
+
 
 <span style="color: #a0a1a7; font-weight: bold;">#</span><span style="color: #a0a1a7;">based on https://gist.github.com/snim2/255151</span>
 <span style="color: #a0a1a7; font-weight: bold;">#</span><span style="color: #a0a1a7;">and https://www.pygame.org/docs/tut/CameraIntro.html</span>
 
-<span style="color: #8b4513;">DEVICE</span> = <span style="color: #50a14f;">"/dev/video1"</span>
-<span style="color: #8b4513;">SIZE</span> = (1280, 720)
 
 <span style="color: #a626a4;">if</span> <span style="color: #e44649;">__name__</span> == <span style="color: #50a14f;">"__main__"</span>:
 <span style="background-color: #f2f2f2;"> </span>   <span style="color: #8b4513;">file_name</span> = <span style="color: #e44649;">str</span>(sys.argv[1]) 
@@ -175,16 +227,17 @@ I use pygame to take the picture.
 <span style="background-color: #f2f2f2;"> </span>   <span style="color: #8b4513;">begin_time</span> = time()
 
 <span style="background-color: #f2f2f2;"> </span>   <span style="color: #a0a1a7; font-weight: bold;">#</span><span style="color: #a0a1a7;">Needed for the camera to adjust brightness and focus</span>
+<span style="background-color: #f2f2f2;"> </span>   <span style="color: #8b4513;">image</span> = cam.get_image()
 <span style="background-color: #f2f2f2;"> </span>   <span style="color: #a626a4;">while</span> time()-begin_time &lt; 1.1:
-<span style="background-color: #f2f2f2;"> </span>   <span style="background-color: #f2f2f2;"> </span>   <span style="color: #8b4513;">screen</span> = cam.get_image(screen)
+<span style="background-color: #f2f2f2;"> </span>   <span style="background-color: #f2f2f2;"> </span>   <span style="color: #8b4513;">screen</span> = cam.get_image()
 <span style="background-color: #f2f2f2;"> </span>   <span style="background-color: #f2f2f2;"> </span>   display.blit(screen, (0,0))
 <span style="background-color: #f2f2f2;"> </span>   <span style="background-color: #f2f2f2;"> </span>   pygame.display.flip()
+<span style="background-color: #f2f2f2;"> </span>   <span style="background-color: #f2f2f2;"> </span>   <span style="color: #8b4513;">image</span> = choose_best(image, screen)
 <span style="background-color: #f2f2f2;"> </span>   
-<span style="background-color: #f2f2f2;"> </span>   <span style="color: #8b4513;">image</span> = cam.get_image()
 <span style="background-color: #f2f2f2;"> </span>   cam.stop()
 
 <span style="background-color: #f2f2f2;"> </span>   <span style="color: #8b4513;">pil_string_image</span> = pygame.image.tostring(image,<span style="color: #50a14f;">"RGB"</span>,<span style="color: #008b8b;">False</span>)
-<span style="background-color: #f2f2f2;"> </span>   <span style="color: #8b4513;">im</span> = Image.frombytes(<span style="color: #50a14f;">"RGB"</span>,(1280,720),pil_string_image)
+<span style="background-color: #f2f2f2;"> </span>   <span style="color: #8b4513;">im</span> = Image.frombytes(<span style="color: #50a14f;">"RGB"</span>, SIZE ,pil_string_image)
 <span style="background-color: #f2f2f2;"> </span>   
 <span style="background-color: #f2f2f2;"> </span>   <span style="color: #8b4513;">out_file</span> = <span style="color: #e44649;">open</span>(file_name, <span style="color: #50a14f;">'wb'</span>)
 <span style="background-color: #f2f2f2;"> </span>   im.save(out_file, <span style="color: #50a14f;">"JPEG"</span>)
@@ -348,6 +401,7 @@ This method is very effective. However, I found something even better, <a href="
     (shell-command (format <span style="color: #50a14f;">"python3 %s %s"</span> python-crop-command cmd-file-name))
     (shell-command (format <span style="color: #50a14f;">"%s %s %s %s"</span> text-command text-args cmd-file-name cmd-file-name))
     (insert <span style="color: #50a14f;">"\n#+ATTR_ORG: :width 600\n"</span>)
+    (insert <span style="color: #50a14f;">"#+attr_latex: :float nil\n"</span>)
     (insert (concat  <span style="color: #50a14f;">"#+CAPTION: "</span>  <span style="color: #50a14f;">"\n"</span>))
     (insert (concat <span style="color: #50a14f;">"[[file:"</span> file-name <span style="color: #50a14f;">"][file:"</span> file-name <span style="color: #50a14f;">"]]"</span>))
     (org-display-inline-images)))
@@ -358,7 +412,7 @@ This method is very effective. However, I found something even better, <a href="
   (ivanaf/org-scan t))
 
 (define-key org-mode-map (kbd <span style="color: #50a14f;">"C-&lt;print&gt; "</span>) 'ivanaf/org-scan)
-(define-key org-mode-map (kbd <span style="color: #50a14f;">"C-M-&lt;print&gt; "</span>) 'ivanaf/org-scan-l)
+(define-key org-mode-map (kbd <span style="color: #50a14f;">"M-&lt;print&gt; "</span>) 'ivanaf/org-scan-l)
 </pre>
 </div>
 </div>
@@ -377,13 +431,33 @@ Here is a "scan" of the back of the mit career fair book from last year, taken i
 </figure>
 
 <p>
-Which is about as good as possible, give the quality of the light / camera. </p>
+Which is about as good as possible, give the quality of the light / camera. 
+</p>
+
+</br>
+<div class="comments">
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+/* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'ivanaf'; // Required - Replace '<example>' with your forum shortname
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    var showComments = function() {
+    var button = document.getElementById('comment-button')
+        button.style.display = 'none'
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        };
+    </script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<button id="comment-button" onclick="showComments()">Show comments</button>
+</div>
 </div>
 </div>
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Ivan Tadeu Ferreira Antunes Filho</p>
-<p class="date">Date: 2018-09-17 Mon 14:56</p>
+<p class="date">Date: 2019-02-28 Thu 02:55</p>
 <p class="author">Github:  <a href="https://github.com/itf/">github.com/itf</a></p>
 <p class="creator">Made with <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.50 (<a href="https://orgmode.org">Org</a> mode 9.1.9) and <a href="https://github.com/itf/org-export-head">Org export head</a> </p>
 </div>
