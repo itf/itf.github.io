@@ -1150,9 +1150,17 @@ menu a {
 
 .head {
     color: #888;
-    border-bottom: 1px solid #ccc;;
+    border-bottom: 1px solid #ccc;
 }
 
+.comments {
+    border-top: 1px solid #ccc;
+    padding-top: 5px;
+}
+#comment-button{
+  background-color: whitesmoke;
+  border-radius: 5%;
+}
 
 .page-date{
         color: #888;
