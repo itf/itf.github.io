@@ -13,7 +13,7 @@
 
   [[shell: git add -u && git commit -m "update post!" && git push]]
 
-  [[shell: git add -u && git commit -m "update readme!" && git push]]
+  [[shell: git add -u && git commit -m "update code for comments!" && git push]]
 
 * README                                                           :noexport:
 Run the code inside the code block.
@@ -341,19 +341,52 @@ Where match is a tag or -tag or combination of them."
   "Geneates an org list with the index of the website and inserts it in an alist"
   (let ((index "")
         (reverse-index "")
-        (index-with-dates ""))
+        (index-with-dates "")
+        (tags ())
+        (tags-indexes ()))
     (dolist (headline-name headlines-list)
       (let* ((headline-alist (gethash headline-name headlines-hash nil))
+             (entry-tags (assoc "ALLTAGS" headline-alist))
+             (entry-tags (when entry-tags (delete "" (split-string (cdr entry-tags) ":"))))
              (creation-date (cdr (assoc "CREATION-DATE" headline-alist)))
-             (modification-date (cdr (assoc "MODIFICATION-DATE" headline-alist))))
-        (setq index (concat index "- [["headline-name"]["headline-name"]]\n"))
-        (setq reverse-index (concat "- [["headline-name"]["headline-name"]]\n" index))
-        (setq index-with-dates (concat  index-with-dates
-                                        "- [["headline-name"]["headline-name"]]"
+             (modification-date (cdr (assoc "MODIFICATION-DATE" headline-alist)))
+             (index-entry (concat "- [["headline-name"]["headline-name"]]\n"))
+             (index-entry-with-date (concat "- [["headline-name"]["headline-name"]]"
                                        "@@html:<span class=\"page-date\">@@"
                                        " (" creation-date", updated " modification-date ")"
-                                       "@@html:</span>@@" "\n" ))))
-    (list (cons "INDEX" index) (cons "REVERSE-INDEX" reverse-index)  (cons "INDEX-WITH-DATES" index-with-dates))))
+                                       "@@html:</span>@@" "\n" )))
+        
+        (setq index (concat index index-entry))
+        (setq reverse-index (concat index-entry reverse-index))
+        (setq index-with-dates (concat  index-with-dates index-entry-with-date))
+
+        (dolist (tag entry-tags)
+          (if (not (member tag tags))
+              (setq tags (cons tag tags)))
+          (dolist (suffix '("" "-reverse" "-with-dates"))
+            ;; Initialize tags lists
+            (let ((tag-index-name (upcase (concat tag suffix))))
+              (unless (assoc tag tags-indexes) 
+                (setq tags-indexes (cons `(,tag-index-name . "")  tags-indexes)))))
+
+          ;;Add tag indexes to list
+          (let* ((tag (upcase tag))
+                (tag-reverse (upcase (concat tag "-reverse")))
+                (tag-with-dates (upcase (concat tag "-with-dates")))
+                (tag-assoc (assoc tag tags-indexes))
+                (tag-assoc-reverse (assoc tag-reverse tags-indexes))
+                (tag-assoc-with-dates (assoc tag-with-dates tags-indexes))
+                (tag-index (cdr tag-assoc))
+                (tag-index-reverse (cdr tag-assoc-reverse))
+                (tag-index-with-dates (cdr tag-assoc-with-dates)))
+            (setf (cdr tag-assoc) (concat tag-index index-entry))
+            (setf (cdr tag-assoc-reverse) (concat index-entry tag-index-reverse ))
+            (setf (cdr tag-assoc-with-dates) (concat tag-index-with-dates index-entry-with-date))))))
+    
+    (append 
+     (list (cons "INDEX" index) (cons "INDEX-REVERSE" reverse-index)  (cons "INDEX-WITH-DATES" index-with-dates))
+     tags-indexes)))
+
 ;;END OF NON AST (non org-element) SESSION
 
 
@@ -498,14 +531,13 @@ Creates a hard link to org.css in the export directory.
 * index                                                            :reexport:
   :PROPERTIES:
   :CREATION-DATE: 2018-09-09
-  :MODIFICATION-DATE: 2018-09-09
-  :HASH:     67dae60fb68f2711649388f4ab356b72
+  :MODIFICATION-DATE: 2019-04-21
+  :HASH:     8bc3c812e839ce83bda8ca9ade680020
   :PREVIOUS-HASH: 67dae60fb68f2711649388f4ab356b72
   :END:
 Hello everyone and welcome to my blog! 
 
 ###INDEX-WITH-DATES###
-
 
 * About
   :PROPERTIES:
@@ -2737,9 +2769,9 @@ Which is about as good as possible, give the quality of the light / camera.
 * Solving a problem set with orgmode
   :PROPERTIES:
   :CREATION-DATE: 2018-09-17
-  :MODIFICATION-DATE: 2018-09-17
-  :HASH:     d2d19860ef752ba7d76d09a533c86745
-  :PREVIOUS-HASH: d2d19860ef752ba7d76d09a533c86745
+  :MODIFICATION-DATE: 2019-02-28
+  :HASH:     a0ce3217eed18666d381de2b52d72e65
+  :PREVIOUS-HASH: a0ce3217eed18666d381de2b52d72e65
   :END:
   After I wrote my last two tiny projects, [[Scan notes with laptop webcam][Scan with webcam]], and [[Export subtree with files][Export Subtree with files]] I was ready to do one of my psets in org mode. It was absolutely fantastic.
 
