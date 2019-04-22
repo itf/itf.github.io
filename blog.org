@@ -13,7 +13,7 @@
 
   [[shell: git add -u && git commit -m "update post!" && git push]]
 
-  [[shell: git add -u && git commit -m "update code for comments!" && git push]]
+  [[shell: git add -u && git commit -m "Now with support for making indexes of tags!" && git push]]
 
 * README                                                           :noexport:
 Run the code inside the code block.
