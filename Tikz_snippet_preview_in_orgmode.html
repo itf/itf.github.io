@@ -4,7 +4,7 @@
 <!-- 2019-05-10 Fri 00:25 -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>index</title>
+<title>Tikz snippet preview in orgmode</title>
 <meta name="generator" content="Org mode">
 <meta name="author" content="ivanaf">
 <link rel="stylesheet" type="text/css" href="css/org.css"/>
@@ -80,43 +80,87 @@ for the JavaScript code in this tag.
 
 <p>
  <h1>
-index 
+Tikz snippet preview in orgmode 
  </h1>
 </p>
 
 <p>
 <span class=page-date> <small>
-2018-09-09, updated 2019-04-21 <a href="About.html">next</a> - <a href="index.html">previous</a>
+2019-05-09, updated 2019-05-10 <a href="index.html">next</a> - <a href="Baby_white-woodpeckers_are_dumb.html">previous</a>
 </small> </span> 
 </p>
 <p>
-Hello everyone and welcome to my blog! 
+For some reason, in my installation, both dvipng, and imagemgick don't work when using tikz, with errors such as the following when using a latex src block,
+</p>
+<blockquote>
+<p>
+org-compile-file: File "/tmp/babel-aqvAMK/latex-Ehm75V.pdf" wasn’t produced.  See "<b>Org PDF LaTeX Output</b>" for details
+</p>
+</blockquote>
+<p>
+Or the image was simply not showing up.
 </p>
 
-<ul class="org-ul">
-<li><a href="Tikz_snippet_preview_in_orgmode.html">Tikz snippet preview in orgmode</a><span class="page-date"> (2019-05-09, updated 2019-05-10)</span></li>
-<li><a href="Baby_white-woodpeckers_are_dumb.html">Baby white-woodpeckers are dumb</a><span class="page-date"> (2019-04-21, updated 2019-04-21)</span></li>
-<li><a href="Organizing_an_IAP_class.html">Organizing an IAP class</a><span class="page-date"> (2019-04-21, updated 2019-04-21)</span></li>
-<li><a href="Scan_notes_with_webcam_online_(incomplete).html">Scan notes with webcam online (incomplete)</a><span class="page-date"> (2019-02-28, updated 2019-04-21)</span></li>
-<li><a href="Solving_a_problem_set_with_orgmode.html">Solving a problem set with orgmode</a><span class="page-date"> (2018-09-17, updated 2019-02-28)</span></li>
-<li><a href="Scan_notes_with_laptop_webcam.html">Scan notes with laptop webcam</a><span class="page-date"> (2018-09-16, updated 2019-02-28)</span></li>
-<li><a href="Export_subtree_with_files.html">Export subtree with files</a><span class="page-date"> (2018-09-13, updated 2018-09-14)</span></li>
-<li><a href="Simple_proof_weak_master_theorem.html">Simple proof weak master theorem</a><span class="page-date"> (2018-09-12, updated 2018-09-12)</span></li>
-<li><a href="Emacs_drag-drop_pdfs_paste_html_custom_templates.html">Emacs drag-drop pdfs, paste html, custom templates</a><span class="page-date"> (2018-08-19, updated 2018-09-23)</span></li>
-<li><a href="Transfer_Functions_in_python.html">Transfer Functions in python</a><span class="page-date"> (2018-02-27, updated 2018-09-09)</span></li>
-<li><a href="Groebner_Basis_for_Linear_Network_Coding_in_Sage.html">Groebner Basis for Linear Network Coding in Sage</a><span class="page-date"> (2018-02-08, updated 2018-09-09)</span></li>
-<li><a href="Multi-audio_(In_development).html">Multi-audio (In development)</a><span class="page-date"> (2018-01-21, updated 2018-09-09)</span></li>
-<li><a href="MIT_entrepreneurship_resources.html">MIT entrepreneurship resources</a><span class="page-date"> (2018-01-21, updated 2018-09-09)</span></li>
-<li><a href="Led_Panel.html">Led Panel</a><span class="page-date"> (2016-03-16, updated 2018-09-14)</span></li>
-<li><a href="Linear_Panorama.html">Linear Panorama</a><span class="page-date"> (2015-12-13, updated 2018-09-09)</span></li>
-<li><a href="Hello_world.html">Hello world!</a><span class="page-date"> (2018-09-09, updated 2018-09-09)</span></li>
-<li><a href="Portfolio.html">Portfolio</a><span class="page-date"> (2018-09-09, updated 2018-09-12)</span></li>
-<li><a href="Contact.html">Contact</a><span class="page-date"> (2018-09-09, updated 2018-09-09)</span></li>
-<li><a href="Resume.html">Resume</a><span class="page-date"> (2018-09-09, updated 2018-09-17)</span></li>
-<li><a href="About.html">About</a><span class="page-date"> (2018-09-09, updated 2018-09-17)</span></li>
-<li><a href="index.html">index</a><span class="page-date"> (2018-09-09, updated 2019-04-21)</span></li>
-</ul>
 
+<p>
+My solution was to set use dvisvgm
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(<span style="color: #a626a4;">setq</span> org-preview-latex-default-process 'dvisvgm)
+</pre>
+</div>
+
+<p>
+This allows me to simply insert tikz code in my file, and the latex fragment will display it, as long as I have added the necessary header.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-org"><span style="color: #a0a1a7;">#+latex_header: \usepackage{tikz}</span>
+</pre>
+</div>
+
+
+<div class="org-src-container">
+<pre class="src src-latex"><span style="color: #a626a4;">\begin</span>{<span style="color: #0184bc;">tikzpicture</span>}
+<span style="color: #a626a4;">\draw</span>[-&gt;] (-3,0) -- (-2,0) arc[radius=0.5cm,start angle=-180,end angle=0] (-1,0) -- (1,0) arc[radius=0.5cm,start angle=180,end angle=0] (2,0) -- (3,0);
+<span style="color: #a626a4;">\filldraw</span> (-1.5,0) circle[radius=1mm];
+<span style="color: #a626a4;">\filldraw</span> (1.5,0) circle[radius=1mm];
+<span style="color: #a626a4;">\end</span>{<span style="color: #0184bc;">tikzpicture</span>}
+</pre>
+</div>
+
+
+<figure>
+<object type="image/svg+xml" data="./svg/example.svg" class="org-svg">
+Sorry, your browser does not support SVG.</object>
+
+</figure>
+
+
+
+<p>
+It is also considerably faster than using dvipng, at least on my machine. 
+</p>
+
+
+<p>
+If you want to use the image in your html export, instead of your pdf export, you can create a .svg folder, and then run the following:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-org"><span style="color: #a0a1a7;">#+HEADER: :file ./svg/example.svg </span>
+<span style="color: #a0a1a7;">#+HEADER: :results output raw :headers '("\\usepackage{tikz}")</span>
+<span style="color: #a0a1a7;">#+HEADER: :fit yes </span>
+<span style="color: #a0a1a7;">#+BEGIN_src latex</span>
+<span style="color: #a626a4;">\begin</span><span style="color: #7f7f7f;">{</span><span style="color: #0184bc;">tikzpicture</span><span style="color: #7f7f7f;">}</span>
+<span style="color: #a626a4;">\draw</span><span style="color: #7f7f7f;">[-&gt;] (-3,0) -- (-2,0) arc[radius=0.5cm,start angle=-180,end angle=0] (-1,0) -- (1,0) arc[radius=0.5cm,start angle=180,end angle=0] (2,0) -- (3,0);</span>
+<span style="color: #a626a4;">\filldraw</span><span style="color: #7f7f7f;"> (-1.5,0) circle[radius=1mm];</span>
+<span style="color: #a626a4;">\filldraw</span><span style="color: #7f7f7f;"> (1.5,0) circle[radius=1mm];</span>
+<span style="color: #a626a4;">\end</span><span style="color: #7f7f7f;">{</span><span style="color: #0184bc;">tikzpicture</span><span style="color: #7f7f7f;">}</span>
+<span style="color: #a0a1a7;">#+END_SRC latex</span>
+</pre>
+</div>
 
 </br>
 <div class="comments">
