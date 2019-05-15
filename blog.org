@@ -29,6 +29,12 @@ Put the noexport tag to state that some header should not become a page.
 
 You can use the macros ###MACRO###, which will be replaced with that particular headline property.
 
+You can also use ###INDEX-WITH-DATES###  or ###TAG-WITH-DATES###, or simply ###INDEX### / ###TAG###  to display list of matching posts.
+
+
+
+
+
 * Code    `                                                        :noexport: 
 #+BEGIN_SRC emacs-lisp   
 
@@ -2833,7 +2839,7 @@ So in the end I could solve my problem set very efficiently, without having to w
 :CREATION-DATE: 2019-02-28
 :MODIFICATION-DATE: 2019-04-21
 :HASH:     1d51247812d8510a436640119f20a46b
-:PREVIOUS-HASH: 44bb9c8dae38c7c88bd494dfb32eec2d
+:PREVIOUS-HASH: 1d51247812d8510a436640119f20a46b
 :END:
 In the same way that I can scan my notes when in emacs using the Webcam of my laptop, I want my students to do the same. 
 So I decided to port my note scanner to javascript. 
@@ -3030,3 +3036,64 @@ We released them after 2 weeks, and after a few days of acclimatizing to the pla
 The attacker sibling survived, the one being attacked disappeared after 2 days.
 
 I hope that the one who survived has found nice places to hide its head every time it gets scared.
+* Tikz snippet preview in orgmode
+  :PROPERTIES:
+  :CREATION-DATE: 2019-05-09
+  :MODIFICATION-DATE: 2019-05-10
+  :HASH:     27c8875da5266214ddf597f818d3f3e3
+  :PREVIOUS-HASH: 1a6fa9bd6dc8cc6a48346391f96ea43d
+  :END:
+For some reason, in my installation, both dvipng, and imagemgick don't work when using tikz, with errors such as the following when using a latex src block,
+#+BEGIN_quote
+org-compile-file: File "/tmp/babel-aqvAMK/latex-Ehm75V.pdf" wasn’t produced.  See "*Org PDF LaTeX Output*" for details
+#+END_quote
+Or the image was simply not showing up.
+
+
+My solution was to set use dvisvgm
+
+#+BEGIN_SRC emacs-lisp 
+(setq org-preview-latex-default-process 'dvisvgm)
+#+END_SRC
+
+This allows me to simply insert tikz code in my file, and the latex fragment will display it, as long as I have added the necessary header.
+
+#+BEGIN_SRC org
+#+latex_header: \usepackage{tikz}
+#+END_SRC
+
+
+#+HEADER: :file ./svg/example.svg 
+#+HEADER: :results output raw :headers '("\\usepackage{tikz}")
+#+HEADER: :fit yes :exports both
+#+BEGIN_src latex
+\begin{tikzpicture}
+\draw[->] (-3,0) -- (-2,0) arc[radius=0.5cm,start angle=-180,end angle=0] (-1,0) -- (1,0) arc[radius=0.5cm,start angle=180,end angle=0] (2,0) -- (3,0);
+\filldraw (-1.5,0) circle[radius=1mm];
+\filldraw (1.5,0) circle[radius=1mm];
+\end{tikzpicture}
+#+END_SRC
+
+#+RESULTS:
+[[file:./svg/example.svg]]
+
+
+
+It is also considerably faster than using dvipng, at least on my machine. 
+
+
+If you want to use the image in your html export, instead of your pdf export, you can create a .svg folder, and then run the following:
+
+#+BEGIN_SRC org
+#+HEADER: :file ./svg/example.svg 
+#+HEADER: :results output raw :headers '("\\usepackage{tikz}")
+#+HEADER: :fit yes 
+#+BEGIN_src latex
+\begin{tikzpicture}
+\draw[->] (-3,0) -- (-2,0) arc[radius=0.5cm,start angle=-180,end angle=0] (-1,0) -- (1,0) arc[radius=0.5cm,start angle=180,end angle=0] (2,0) -- (3,0);
+\filldraw (-1.5,0) circle[radius=1mm];
+\filldraw (1.5,0) circle[radius=1mm];
+\end{tikzpicture}
+,#+END_SRC 
+#+END_SRC 
+
