@@ -75,11 +75,13 @@ separate files.
 
 Subtrees that do not have the :EXPORT_FILE_NAME: property set
 are exported to a filename derived from the headline text."
-  ;; Delete content that has already been exported and set it to noreexport
   (org-export-head--update-hashes)
+
+  ;; Create summaries before deleting the posts
+  (org-export-head--create-summaries)
+  ;; Delete content that has already been exported and set it to noreexport
   (if (not reexport)
       (org-export-head--delete-noreexport))
-
 
   ;;Get headlines, and generate macros (previous post, etc)
   (let* ((headlines-hash-list (org-export-head--get-headlines))
@@ -97,7 +99,8 @@ are exported to a filename derived from the headline text."
          (header (org-export-head--get-content-subtree-match "header"))
          ;;And now the footer, for example, for comments
          (footer (org-export-head--get-content-subtree-match "footer")))
-    
+
+
       
     ;;For each not noexport/noreexport headline apply the template, i.e. copy contents
     (org-export-head--run-on-each-heading 
@@ -214,12 +217,44 @@ are exported to a filename derived from the headline text."
 
 
 (defun org-export-head--get-content-subtree-at-point()
+  (interactive)
   "Gets the content of the subtree at point"
   (save-excursion
     (deactivate-mark t)
     (let ((start (org-export-head--goto-header t))
           (end (org-end-of-subtree t))) 
       (buffer-substring start end))))
+
+
+(defun org-export-head--get-summary-at-point(&optional n-paragraphs n-chars)
+  "Gets the summary of the subtree at point"
+  (interactive)
+  (save-excursion
+    (deactivate-mark t)
+    (let* ((n-paragraphs (or n-paragraphs 1))
+           (n-chars (or n-chars 200))
+          (start (org-export-head--goto-header t))
+          (endmax (save-excursion (org-end-of-subtree t)))
+          (endparagraph
+           (save-excursion
+             (dotimes (i n-paragraphs)
+               (org-forward-paragraph))
+             (- (point) 1)))
+          (end (min endmax endparagraph (+ start n-chars))))
+      (buffer-substring start end))))
+
+
+(defun org-export-head--create-summaries()
+  "Creates summary for all the headings"
+  (org-export-head--run-on-each-heading 
+   #'(lambda()
+       (let* ((summary (org-entry-get-with-inheritance "SUMMARY"))
+              (summary (or summary (org-export-head--get-summary-at-point)))
+b              (summary (replace-regexp-in-string "\n" " " summary))
+              )
+         (if summary
+             (org-set-property "SUMMARY" summary))))
+   "-noexport"))
 
 
 ;;; HASH code
@@ -348,6 +383,7 @@ Where match is a tag or -tag or combination of them."
   (let ((index "")
         (reverse-index "")
         (index-with-dates "")
+        (index-with-summaries "")
         (tags ())
         (tags-indexes ()))
     (dolist (headline-name headlines-list)
@@ -356,15 +392,21 @@ Where match is a tag or -tag or combination of them."
              (entry-tags (when entry-tags (delete "" (split-string (cdr entry-tags) ":"))))
              (creation-date (cdr (assoc "CREATION-DATE" headline-alist)))
              (modification-date (cdr (assoc "MODIFICATION-DATE" headline-alist)))
+             (summary (string-trim (cdr (assoc "SUMMARY" headline-alist))))
              (index-entry (concat "- [["headline-name"]["headline-name"]]\n"))
              (index-entry-with-date (concat "- [["headline-name"]["headline-name"]]"
                                        "@@html:<span class=\"page-date\">@@"
                                        " (" creation-date", updated " modification-date ")"
-                                       "@@html:</span>@@" "\n" )))
+                                       "@@html:</span>@@" "\n" ))
+             (index-entry-with-summary 
+              (concat  index-entry-with-date 
+                       (unless (= (length summary) 0) 
+                         (concat "   - " summary "\n")))))
         
         (setq index (concat index index-entry))
         (setq reverse-index (concat index-entry reverse-index))
         (setq index-with-dates (concat  index-with-dates index-entry-with-date))
+        (setq index-with-summaries (concat  index-with-summaries index-entry-with-summary))
 
         (dolist (tag entry-tags)
           (if (not (member tag tags))
@@ -390,7 +432,7 @@ Where match is a tag or -tag or combination of them."
             (setf (cdr tag-assoc-with-dates) (concat tag-index-with-dates index-entry-with-date))))))
     
     (append 
-     (list (cons "INDEX" index) (cons "INDEX-REVERSE" reverse-index)  (cons "INDEX-WITH-DATES" index-with-dates))
+     (list (cons "INDEX" index) (cons "INDEX-REVERSE" reverse-index)  (cons "INDEX-WITH-DATES" index-with-dates) (cons "INDEX-WITH-SUMMARIES" index-with-summaries))
      tags-indexes)))
 
 ;;END OF NON AST (non org-element) SESSION
@@ -537,21 +579,23 @@ Creates a hard link to org.css in the export directory.
 * index                                                            :reexport:
   :PROPERTIES:
   :CREATION-DATE: 2018-09-09
-  :MODIFICATION-DATE: 2019-04-21
-  :HASH:     3cd6a4e69e6a1debb47d7b25a1335392
-  :PREVIOUS-HASH: 3cd6a4e69e6a1debb47d7b25a1335392
+  :MODIFICATION-DATE: 2019-05-18
+  :HASH:     0818c1ab5b23fd4f8559b3408f129feb
+  :PREVIOUS-HASH: 0818c1ab5b23fd4f8559b3408f129feb
   :END:
+
 Hello everyone and welcome to my blog! 
 
-###INDEX-WITH-DATES###
+###INDEX-WITH-SUMMARIES###
 
 * About
   :PROPERTIES:
   :CREATION-DATE: 2018-09-09
-  :MODIFICATION-DATE: 2018-09-17
-  :HASH:     6a26771bde1db603f1bc3ddac07b0074
-  :PREVIOUS-HASH: 6a26771bde1db603f1bc3ddac07b0074
+  :MODIFICATION-DATE: 2019-05-18
+  :HASH:     15739384645998b90a0324b902f3da56
+  :PREVIOUS-HASH: 15739384645998b90a0324b902f3da56
   :END:
+
 #+BEGIN_CENTER
 #+ATTR_ORG: :width 300
 #+CAPTION: 
@@ -705,10 +749,11 @@ Please download the PDF version [[file:pdflib/IvanFilho-ResumeFall2018.pdf][here
 * Contact
   :PROPERTIES:
   :CREATION-DATE: 2018-09-09
-  :MODIFICATION-DATE: 2018-09-09
-  :HASH:     9a881b2052547fa85699ae5b5c4a9741
+  :MODIFICATION-DATE: 2019-05-18
+  :HASH:     dfe67dae3ea88d0cd61667ba4990e592
   :PREVIOUS-HASH: 9a881b2052547fa85699ae5b5c4a9741
   :END:
+
 Contact me through email (ivan af @ mit). If you need to meet with me, below is my schedule.
 
 #+BEGIN_EXPORT html
@@ -2288,6 +2333,7 @@ This also shows an example of how to use it, by solving a problem from a
   :HASH:     7eb1e54b9f5c53a91592562b20fa3957
   :PREVIOUS-HASH: 7eb1e54b9f5c53a91592562b20fa3957
   :END:
+
 ** UPDATE:
 This documents my first experience with programming in elisp. In restrospect, I was really bad at it. This post then shows that you can still make something with elisp even if you are bad at it.
 
@@ -3039,9 +3085,9 @@ I hope that the one who survived has found nice places to hide its head every ti
 * Tikz snippet preview in orgmode
   :PROPERTIES:
   :CREATION-DATE: 2019-05-09
-  :MODIFICATION-DATE: 2019-05-10
-  :HASH:     27c8875da5266214ddf597f818d3f3e3
-  :PREVIOUS-HASH: 1a6fa9bd6dc8cc6a48346391f96ea43d
+  :MODIFICATION-DATE: 2019-05-18
+  :HASH:     7d68e358e08e556ec4dcb3f6807510e7
+  :PREVIOUS-HASH: 7d68e358e08e556ec4dcb3f6807510e7
   :END:
 For some reason, in my installation, both dvipng, and imagemgick don't work when using tikz, with errors such as the following when using a latex src block,
 #+BEGIN_quote
