@@ -106,8 +106,7 @@ are exported to a filename derived from the headline text."
     (org-export-head--run-on-each-heading 
      #'(lambda ()
          (org-export-head--insert-on-header header)
-         (org-export-head--insert-on-footer footer)
-)
+         (org-export-head--insert-on-footer footer))
      "-noexport-noreexport")
 
     ;;After applying the template we replace the macros on all places
@@ -250,8 +249,7 @@ are exported to a filename derived from the headline text."
    #'(lambda()
        (let* ((summary (org-entry-get-with-inheritance "SUMMARY"))
               (summary (or summary (org-export-head--get-summary-at-point)))
-b              (summary (replace-regexp-in-string "\n" " " summary))
-              )
+              (summary (replace-regexp-in-string "\n" " " summary)))
          (if summary
              (org-set-property "SUMMARY" summary))))
    "-noexport"))
@@ -394,14 +392,14 @@ Where match is a tag or -tag or combination of them."
              (modification-date (cdr (assoc "MODIFICATION-DATE" headline-alist)))
              (summary (string-trim (cdr (assoc "SUMMARY" headline-alist))))
              (index-entry (concat "- [["headline-name"]["headline-name"]]\n"))
-             (index-entry-with-date (concat "- [["headline-name"]["headline-name"]]"
+             (index-entry-with-date (concat "- @@html:<b>@@[["headline-name"]["headline-name"]]@@html:</b>@@"
                                        "@@html:<span class=\"page-date\">@@"
                                        " (" creation-date", updated " modification-date ")"
                                        "@@html:</span>@@" "\n" ))
              (index-entry-with-summary 
               (concat  index-entry-with-date 
                        (unless (= (length summary) 0) 
-                         (concat "   - " summary "\n")))))
+                         (concat "   @@html:<br>@@" summary "\n")))))
         
         (setq index (concat index index-entry))
         (setq reverse-index (concat index-entry reverse-index))
@@ -2331,7 +2329,7 @@ This also shows an example of how to use it, by solving a problem from a
   :CREATION-DATE: 2018-08-19
   :MODIFICATION-DATE: 2019-05-18
   :HASH:     f993f857cb0510f2d435e0a218f682f1
-  :PREVIOUS-HASH: 7eb1e54b9f5c53a91592562b20fa3957
+  :PREVIOUS-HASH: f993f857cb0510f2d435e0a218f682f1
   :END:
 
 ** UPDATE:
