@@ -13,7 +13,7 @@
 
   [[shell: git add -u && git commit -m "update post!" && git push]]
 
-  [[shell: git add -u && git commit -m "Now with support for making summaries!" && git push]]
+  [[shell: git add -u && git commit -m "Fixes bugs on the source" && git push]]
 
 * README                                                           :noexport:
 Run the code inside the code block.
