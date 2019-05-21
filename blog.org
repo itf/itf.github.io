@@ -13,7 +13,7 @@
 
   [[shell: git add -u && git commit -m "update post!" && git push]]
 
-  [[shell: git add -u && git commit -m "Fixes bugs on the source" && git push]]
+  [[shell: git add -u && git commit -m "Fixes bugs on the sourcez" && git push]]
 
 * README                                                           :noexport:
 Run the code inside the code block.
@@ -33,14 +33,19 @@ You can also use ###INDEX-WITH-DATES###  or ###TAG-WITH-DATES###, or simply ###I
 
 
 
-
-
-* Code    `                                                        :noexport: 
+* Code             :noexport: 
 #+BEGIN_SRC emacs-lisp   
 
 ;; based on http://pragmaticemacs.com/emacs/export-org-mode-headlines-to-separate-files/
 ;; export headlines to separate files
 ;; http://emacs.stackexchange.com/questions/2259/how-to-export-top-level-headings-of-org-mode-buffer-to-separate-files
+
+(setq org-export-head--html-postamble 
+"<p class=\"author\">Author: Ivan Tadeu Ferreira Antunes Filho</p>
+<p class=\"date\">Date: %T</p>
+<p class=\"author\">Github:  <a href=\"https://github.com/itf/\">github.com/itf</a></p>
+<p class=\"creator\">Made with %c and <a href=\"https://github.com/itf/org-export-head\">Org export head</a> </p>")
+
 
 (defun org-export-head--run-on-temp-copy-buffer (function-to-run &rest args)
   "Runs function on a temp buffer with the contents of the original buffer"
@@ -173,11 +178,7 @@ are exported to a filename derived from the headline text."
             "EXPORT_FILE_NAME"
             (concat directory-name (org-export-head--escaped-headline)))
            (deactivate-mark)
-           (let ((org-html-postamble 
-"<p class=\"author\">Author: Ivan Tadeu Ferreira Antunes Filho</p>
-<p class=\"date\">Date: %T</p>
-<p class=\"author\">Github:  <a href=\"https://github.com/itf/\">github.com/itf</a></p>
-<p class=\"creator\">Made with %c and <a href=\"https://github.com/itf/org-export-head\">Org export head</a> </p>"))
+           (let ((org-html-postamble org-export-head--html-postamble))
              (org-html-export-to-html nil t))
            (set-buffer-modified-p t)) "-noexport-noreexport"))
   (if (equal backend "pdf")
@@ -342,15 +343,18 @@ As well as a list of the headline names"
 or previous and next post.
 Any headline property can be used as a macro of this type."
   (save-excursion
-    (org-back-to-heading)
-    ;;End of subtree might change because of macro expansion, so it is recalculated.
-    (while (re-search-forward "\\#\\#\\#\\([-A-Za-z_]+\\)\\#\\#\\#" (save-excursion (org-end-of-subtree)) t)
-      (unless (org-in-src-block-p)
-        (let* ((macro (match-string-no-properties  1))
-               (macro-subs (cdr (assoc macro macro-alist))))
-          (if macro-subs
-              (replace-match  macro-subs t t)
-            (replace-match "")))))))
+    ;;Let's find the end of the headline as a marker, since it can move
+    (let ((subtree-end-marker  (save-excursion (org-end-of-subtree) (point-marker)))) 
+      ;; End of subtree might change because of macro expansion, so it is recalculated.
+      ;; Macros might be substituted for something smaller, so we move the point on to the left at the end.
+      (while (re-search-forward "\\#\\#\\#\\([-A-Za-z_]+\\)\\#\\#\\#" (marker-position subtree-end-marker) t)
+        (unless (org-in-src-block-p)
+          (let* ((macro (match-string-no-properties 1))
+                 (macro-subs (cdr (assoc macro macro-alist))))
+            (if macro-subs
+                (replace-match  macro-subs t t)
+              (replace-match ""))
+            (backward-char)))))))
 
 
 (defun org-export-head--get-content-subtree-match(match)
@@ -409,7 +413,7 @@ Where match is a tag or -tag or combination of them."
         (dolist (tag entry-tags)
           (if (not (member tag tags))
               (setq tags (cons tag tags)))
-          (dolist (suffix '("" "-reverse" "-with-dates"))
+          (dolist (suffix '("" "-reverse" "-with-dates" "-with-summaries"))
             ;; Initialize tags lists
             (let ((tag-index-name (upcase (concat tag suffix))))
               (unless (assoc tag tags-indexes) 
@@ -419,15 +423,21 @@ Where match is a tag or -tag or combination of them."
           (let* ((tag (upcase tag))
                 (tag-reverse (upcase (concat tag "-reverse")))
                 (tag-with-dates (upcase (concat tag "-with-dates")))
+                (tag-with-summaries (upcase (concat tag "-with-summaries")))
                 (tag-assoc (assoc tag tags-indexes))
                 (tag-assoc-reverse (assoc tag-reverse tags-indexes))
                 (tag-assoc-with-dates (assoc tag-with-dates tags-indexes))
+                (tag-assoc-with-summaries (assoc tag-with-summaries tags-indexes))
                 (tag-index (cdr tag-assoc))
                 (tag-index-reverse (cdr tag-assoc-reverse))
-                (tag-index-with-dates (cdr tag-assoc-with-dates)))
+                (tag-index-with-dates (cdr tag-assoc-with-dates))
+                (tag-index-with-summaries (cdr tag-assoc-with-summaries)))
+
             (setf (cdr tag-assoc) (concat tag-index index-entry))
             (setf (cdr tag-assoc-reverse) (concat index-entry tag-index-reverse ))
-            (setf (cdr tag-assoc-with-dates) (concat tag-index-with-dates index-entry-with-date))))))
+            (setf (cdr tag-assoc-with-dates) (concat tag-index-with-dates index-entry-with-date))
+            (setf (cdr tag-assoc-with-summaries) (concat tag-index-with-summaries index-entry-with-summary))))))
+
     
     (append 
      (list (cons "INDEX" index) (cons "INDEX-REVERSE" reverse-index)  (cons "INDEX-WITH-DATES" index-with-dates) (cons "INDEX-WITH-SUMMARIES" index-with-summaries))
@@ -513,12 +523,12 @@ Where match is a tag or -tag or combination of them."
       text)))
 
 
-
-
 #+END_SRC
 
 #+RESULTS:
 : org-export-head--escape
+
+
 
 
 
@@ -574,7 +584,7 @@ Creates a hard link to org.css in the export directory.
 </div>
 #+END_EXPORT
 
-* index                                                            :reexport:
+* index                           :reexport:
   :PROPERTIES:
   :CREATION-DATE: 2018-09-09
   :MODIFICATION-DATE: 2019-05-18
@@ -3080,7 +3090,7 @@ We released them after 2 weeks, and after a few days of acclimatizing to the pla
 The attacker sibling survived, the one being attacked disappeared after 2 days.
 
 I hope that the one who survived has found nice places to hide its head every time it gets scared.
-* Tikz snippet preview in orgmode
+* Tikz snippet preview in orgmode :emacs:
   :PROPERTIES:
   :CREATION-DATE: 2019-05-09
   :MODIFICATION-DATE: 2019-05-18
@@ -3140,4 +3150,19 @@ If you want to use the image in your html export, instead of your pdf export, yo
 \end{tikzpicture}
 ,#+END_SRC 
 #+END_SRC 
+* Emacs Tramp asking for password :emacs:
+:PROPERTIES:
+:CREATION-DATE: 2019-05-21
+:MODIFICATION-DATE: 2019-05-21
+:HASH:     6a884a6e70e6dbd0ef52fed2214b5e0c
+:END:
+For about a week, every time I initialized emacs, Tramp would constantly ask for my password, both for `sudo` and for `ssh`.
 
+This means that in the recent file list there is a sudo file or a ssh file, and everytime emacs initialize, it is trying to load this list (which requires it to re-ask for the password if it is not saved). 
+
+If this happens to you, the easiest fix is to clean the recent file lists by running:
+
+#+BEGIN_SRC emacs-lisp 
+(setq session-file-alist ())
+(setq file-name-history ())
+#+END_SRC
