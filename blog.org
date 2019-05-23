@@ -2334,13 +2334,14 @@ This also shows an example of how to use it, by solving a problem from a
             0.01129919+0.02054887j,  0.01129919-0.02054887j]), array([-0.49941512+0.86501235j, -0.49941512-0.86501235j,
             0.99883023+0.        j]))
 #+END_EXAMPLE
-* Emacs drag-drop pdfs, paste html, custom templates               :projects:
+* Emacs drag-drop pdfs, paste html, custom templates               :projects:emacs:
   :PROPERTIES:
   :CREATION-DATE: 2018-08-19
-  :MODIFICATION-DATE: 2019-05-18
-  :HASH:     f993f857cb0510f2d435e0a218f682f1
+  :MODIFICATION-DATE: 2019-05-23
+  :HASH:     890661c6074bd9e94e7ad15c1cb52487
   :PREVIOUS-HASH: f993f857cb0510f2d435e0a218f682f1
   :END:
+
 
 ** UPDATE:
 This documents my first experience with programming in elisp. In restrospect, I was really bad at it. This post then shows that you can still make something with elisp even if you are bad at it.
@@ -2672,14 +2673,18 @@ And similar to the first case, this is simply
 
 
 $$\theta ( n^{\log_ba})$$
-* Export subtree with files
+* Export subtree with files :projects:emacs:
   :PROPERTIES:
   :CREATION-DATE: 2018-09-13
-  :MODIFICATION-DATE: 2018-09-14
-  :HASH:     b1c4eecd5f1c0071c3556bcbb00c95bc
+  :MODIFICATION-DATE: 2019-05-23
+  :HASH:     473a8b4668da4dd99727b6c7a2616249
   :PREVIOUS-HASH: b1c4eecd5f1c0071c3556bcbb00c95bc
   :END:
-  
+
+** Update:
+Now this is on on github, in the repo [[https://github.com/itf/org-export-with-files][org-export-with-files]]. It is fairly usable and fairly useful. The next step is to figure out how to best deal with custom links.
+
+** Summary
 I have a main org files that contains notes for multiple classes and papers in different headlines. It is very easy to use this org file to find information since every note contains links to the relevant papers.
 
 However, sharing this file with someone can be challenging, since I just want to share the relevant notes/papers and not everything that is linked by this file.
@@ -3153,10 +3158,11 @@ If you want to use the image in your html export, instead of your pdf export, yo
 * Emacs Tramp asking for password :emacs:
 :PROPERTIES:
 :CREATION-DATE: 2019-05-21
-:MODIFICATION-DATE: 2019-05-21
-:HASH:     6a884a6e70e6dbd0ef52fed2214b5e0c
+:MODIFICATION-DATE: 2019-05-23
+:HASH:     bc831ce8b3458f76e357e2f9ee4f7efd
+:PREVIOUS-HASH: 6a884a6e70e6dbd0ef52fed2214b5e0c
 :END:
-For about a week, every time I initialized emacs, Tramp would constantly ask for my password, both for `sudo` and for `ssh`.
+For about a week, every time I initialized emacs, Tramp would constantly ask for my password, both for =sudo= and for =ssh=.
 
 This means that in the recent file list there is a sudo file or a ssh file, and everytime emacs initialize, it is trying to load this list (which requires it to re-ask for the password if it is not saved). 
 
