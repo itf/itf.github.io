@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2019-05-20 Mon 23:17 -->
+<!-- 2019-05-23 Thu 04:45 -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Contact</title>
@@ -86,14 +86,25 @@ Contact
 
 <p>
 <span class=page-date> <small>
-2018-09-09, updated 2019-05-18 <a href="Portfolio.html">next</a> - <a href="Resume.html">previous</a>
+2018-09-09, updated 2019-05-23 <a href="Portfolio.html">next</a> - <a href="Resume.html">previous</a>
 </small> </span> 
 </p>
 <p>
 Contact me through email (ivan af @ mit). If you need to meet with me, below is my schedule.
 </p>
 
-<iframe src="https://calendar.google.com/calendar/embed?mode=WEEK&src=itadeufa%40gmail.com&ctz=America%2FNew_York" style="border: 0" width="800" height="600" frameborder="0" scrolling="no"></iframe>---
+
+
+
+<button onclick="displayIframe()">Display Google calendar</button>
+<div id="iframeDisplay"></div>  
+
+<script>
+function displayIframe() {
+document.getElementById("iframeDisplay").innerHTML = "<iframe src=\"https://calendar.google.com/calendar/embed?mode=WEEK&src=itadeufa%40gmail.com&ctz=America%2FNew_York\"  style=\"border: 0\" width=\"800\" height=\"600\" frameborder=\"0\" scrolling=\"no\"</iframe>";
+}
+</script>
+</body>
 
 </br>
 <div class="comments">
@@ -116,7 +127,7 @@ Contact me through email (ivan af @ mit). If you need to meet with me, below is 
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Ivan Tadeu Ferreira Antunes Filho</p>
-<p class="date">Date: 2019-05-20 Mon 23:17</p>
+<p class="date">Date: 2019-05-23 Thu 04:45</p>
 <p class="author">Github:  <a href="https://github.com/itf/">github.com/itf</a></p>
 <p class="creator">Made with <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.50 (<a href="https://orgmode.org">Org</a> mode 9.1.9) and <a href="https://github.com/itf/org-export-head">Org export head</a> </p>
 </div>
