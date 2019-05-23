@@ -13,7 +13,7 @@
 
   [[shell: git add -u && git commit -m "update post!" && git push]]
 
-  [[shell: git add -u && git commit -m "Fixes bugs on the sourcez" && git push]]
+  [[shell: git add -u && git commit -m "update calendar page" && git push]]
 
 * README                                                           :noexport:
 Run the code inside the code block.
@@ -757,9 +757,9 @@ Please download the PDF version [[file:pdflib/IvanFilho-ResumeFall2018.pdf][here
 * Contact
   :PROPERTIES:
   :CREATION-DATE: 2018-09-09
-  :MODIFICATION-DATE: 2019-05-18
-  :HASH:     dfe67dae3ea88d0cd61667ba4990e592
-  :PREVIOUS-HASH: dfe67dae3ea88d0cd61667ba4990e592
+  :MODIFICATION-DATE: 2019-05-23
+  :HASH:     49e13ac662b842b40a9b54bb04dd68d7
+  :PREVIOUS-HASH: 1ecec9c2fdda1186725479373b159c42
   :END:
 
 Contact me through email (ivan af @ mit). If you need to meet with me, below is my schedule.
@@ -768,11 +768,13 @@ Contact me through email (ivan af @ mit). If you need to meet with me, below is 
 
 
 #+BEGIN_EXPORT html
-<button onclick="displayIframe()">Display Google calendar</button>
+<button onclick="displayIframe()" id="calendar-button">Display Google calendar</button>
 <div id="iframeDisplay"></div>  
 
 <script>
 function displayIframe() {
+var button = document.getElementById('calendar-button');
+button.style.display = 'none';
 document.getElementById("iframeDisplay").innerHTML = "<iframe src=\"https://calendar.google.com/calendar/embed?mode=WEEK&src=itadeufa%40gmail.com&ctz=America%2FNew_York\"  style=\"border: 0\" width=\"800\" height=\"600\" frameborder=\"0\" scrolling=\"no\"</iframe>";
 }
 </script>
@@ -3190,6 +3192,7 @@ If this happens to you, the easiest fix is to clean the recent file lists by run
 :CREATION-DATE: 2019-05-23
 :MODIFICATION-DATE: 2019-05-23
 :HASH:     ec1b8c7dd1dbdcad039aaf16f05b4074
+:PREVIOUS-HASH: ec1b8c7dd1dbdcad039aaf16f05b4074
 :END:
 I want this blog to be really light, so, if you've noticed, it doesn't load any javascript when you access it.  
 
