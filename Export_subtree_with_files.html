@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2019-05-20 Mon 23:17 -->
+<!-- 2019-05-23 Thu 03:46 -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Export subtree with files</title>
@@ -86,19 +86,33 @@ Export subtree with files
 
 <p>
 <span class=page-date> <small>
-2018-09-13, updated 2018-09-14 <a href="Scan_notes_with_laptop_webcam.html">next</a> - <a href="Simple_proof_weak_master_theorem.html">previous</a>
+2018-09-13, updated 2019-05-23 <a href="Scan_notes_with_laptop_webcam.html">next</a> - <a href="Simple_proof_weak_master_theorem.html">previous</a>
 </small> </span> 
 </p>
 <nav id="table-of-contents">
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#warning">1. Warning:</a></li>
-<li><a href="#code">2. Code</a></li>
+<li><a href="#update">1. Update:</a></li>
+<li><a href="#summary">2. Summary</a></li>
+<li><a href="#warning">3. Warning:</a></li>
+<li><a href="#code">4. Code</a></li>
 </ul>
 </div>
 </nav>
 
+<div id="outline-container-update" class="outline-2">
+<h2 id="update"><span class="section-number-2">1</span> Update:</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+Now this is on on github, in the repo <a href="https://github.com/itf/org-export-with-files">org-export-with-files</a>. It is fairly usable and fairly useful. The next step is to figure out how to best deal with custom links.
+</p>
+</div>
+</div>
+
+<div id="outline-container-summary" class="outline-2">
+<h2 id="summary"><span class="section-number-2">2</span> Summary</h2>
+<div class="outline-text-2" id="text-2">
 <p>
 I have a main org files that contains notes for multiple classes and papers in different headlines. It is very easy to use this org file to find information since every note contains links to the relevant papers.
 </p>
@@ -114,18 +128,20 @@ The code below solves this problem. It creates a hard link of every file linked 
 <p>
 This allows me to quickly generate a folder that contains all the files I wanna share as well as a pdf that allows the other person to easily navigate through the files and see the relevant information.
 </p>
+</div>
+</div>
 
 <div id="outline-container-warning" class="outline-2">
-<h2 id="warning"><span class="section-number-2">1</span> Warning:</h2>
-<div class="outline-text-2" id="text-1">
+<h2 id="warning"><span class="section-number-2">3</span> Warning:</h2>
+<div class="outline-text-2" id="text-3">
 <p>
 The file links when exporting to latex need to be of the form [[<a href=".//file">.//file</a>] [name of the link]]. I other words, they need a description. Links without descriptions are interpreted as images, even if they have extensions such as pdf.
 </p>
 </div>
 </div>
 <div id="outline-container-code" class="outline-2">
-<h2 id="code"><span class="section-number-2">2</span> Code</h2>
-<div class="outline-text-2" id="text-2">
+<h2 id="code"><span class="section-number-2">4</span> Code</h2>
+<div class="outline-text-2" id="text-4">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp">(<span style="color: #a626a4;">require</span> '<span style="color: #008b8b;">ox</span>)
 
@@ -232,7 +248,7 @@ The file links when exporting to latex need to be of the form [[<a href=".//file
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Ivan Tadeu Ferreira Antunes Filho</p>
-<p class="date">Date: 2019-05-20 Mon 23:17</p>
+<p class="date">Date: 2019-05-23 Thu 03:46</p>
 <p class="author">Github:  <a href="https://github.com/itf/">github.com/itf</a></p>
 <p class="creator">Made with <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.50 (<a href="https://orgmode.org">Org</a> mode 9.1.9) and <a href="https://github.com/itf/org-export-head">Org export head</a> </p>
 </div>
