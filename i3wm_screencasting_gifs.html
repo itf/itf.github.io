@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2019-05-24 Fri 04:45 -->
+<!-- 2019-05-24 Fri 17:34 -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>i3wm screencasting gifs</title>
@@ -101,7 +101,8 @@ i3wm screencasting gifs
 <li><a href="#makingthegifsmaller">4.1. Making the gif smaller</a></li>
 <li><a href="#copyingthefiletotheclipboard">4.2. Copying the file to the clipboard</a></li>
 <li><a href="#displayinganotificationwhenyoufinishrecording">4.3. Displaying a notification when you finish recording</a></li>
-<li><a href="#puttingitalltogether">4.4. Putting it all together</a></li>
+<li><a href="#recordingwebms">4.4. Recording webms</a></li>
+<li><a href="#puttingitalltogether">4.5. Putting it all together</a></li>
 </ul>
 </li>
 <li><a href="#example">5. Example!</a></li>
@@ -248,9 +249,23 @@ I do not use polybar. So instead I use <a href="https://github.com/vlevit/notify
 </div>
 </div>
 </div>
-<div id="outline-container-puttingitalltogether" class="outline-3">
-<h3 id="puttingitalltogether"><span class="section-number-3">4.4</span> Putting it all together</h3>
+<div id="outline-container-recordingwebms" class="outline-3">
+<h3 id="recordingwebms"><span class="section-number-3">4.4</span> Recording webms</h3>
 <div class="outline-text-3" id="text-4-4">
+<p>
+Webms are better than gifs when supported. They are supported by basically everything, except IOS devices and internet explorer. In other words, it is even better than being supported everywhere haha. 
+</p>
+<div class="org-src-container">
+<pre class="src src-bash">                webm)
+                        byzanz-record -w $<span style="color: #8b4513;">W</span> -h $<span style="color: #8b4513;">H</span> -x $<span style="color: #8b4513;">X</span> -y $<span style="color: #8b4513;">Y</span> -c --exec=<span style="color: #50a14f;">"$IS_RECORDING_SH"</span> $<span style="color: #8b4513;">FILE_NAME</span>
+                        ;;
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-puttingitalltogether" class="outline-3">
+<h3 id="puttingitalltogether"><span class="section-number-3">4.5</span> Putting it all together</h3>
+<div class="outline-text-3" id="text-4-5">
 <p>
 This is the end result.  The <b>Dependencies:</b> <code>byzanz-record</code> , <code>slop</code>, <code>gifsicle</code>, <code>notify-send.sh</code>.
 </p>
@@ -261,6 +276,7 @@ All  of the paths are based on the paths I've setup here, you should adapt them 
 
 <div class="org-src-container">
 <pre class="src src-bash"><span style="color: #a0a1a7; font-weight: bold;">#</span><span style="color: #a0a1a7;">!/usr/bin/</span><span style="color: #a626a4;">env</span><span style="color: #a0a1a7;"> bash</span>
+<span style="color: #a0a1a7; font-weight: bold;">#</span><span style="color: #a0a1a7;">!/usr/bin/env bash</span>
 <span style="color: #8b4513;">DIR</span>=<span style="color: #50a14f;">"$( cd "$( dirname "${BASH_SOURCE[0]}" )" &amp;&amp; pwd )"</span>
 <span style="color: #8b4513;">IS_RECORDING_PID</span>=<span style="color: #ff00ff;">`pgrep -a -f is-recording | cut -f1 -d' '`</span>
 <span style="color: #8b4513;">IS_RECORDING_SH</span>=$<span style="color: #8b4513;">HOME</span>/.tools/is-recording.sh
@@ -275,6 +291,9 @@ All  of the paths are based on the paths I've setup here, you should adapt them 
                 gif)
                         byzanz-record -w $<span style="color: #8b4513;">W</span> -h $<span style="color: #8b4513;">H</span> -x $<span style="color: #8b4513;">X</span> -y $<span style="color: #8b4513;">Y</span> -c --exec=<span style="color: #50a14f;">"$IS_RECORDING_SH"</span> $<span style="color: #8b4513;">FILE_NAME</span>
                         gifsicle --batch --optimize=3 $<span style="color: #8b4513;">FILE_NAME</span>
+                        ;;
+                webm)
+                        byzanz-record -w $<span style="color: #8b4513;">W</span> -h $<span style="color: #8b4513;">H</span> -x $<span style="color: #8b4513;">X</span> -y $<span style="color: #8b4513;">Y</span> -c --exec=<span style="color: #50a14f;">"$IS_RECORDING_SH"</span> $<span style="color: #8b4513;">FILE_NAME</span>
                         ;;
                 ogv)
                         byzanz-record -a -w $<span style="color: #8b4513;">W</span> -h $<span style="color: #8b4513;">H</span> -x $<span style="color: #8b4513;">X</span> -y $<span style="color: #8b4513;">Y</span> -c --exec=<span style="color: #50a14f;">"$IS_RECORDING_SH"</span> $<span style="color: #8b4513;">FILE_NAME</span> 
@@ -328,7 +347,7 @@ All  of the paths are based on the paths I've setup here, you should adapt them 
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Ivan Tadeu Ferreira Antunes Filho</p>
-<p class="date">Date: 2019-05-24 Fri 04:45</p>
+<p class="date">Date: 2019-05-24 Fri 17:34</p>
 <p class="author">Github:  <a href="https://github.com/itf/">github.com/itf</a></p>
 <p class="creator">Made with <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.50 (<a href="https://orgmode.org">Org</a> mode 9.1.9) and <a href="https://github.com/itf/org-export-head">Org export head</a> </p>
 </div>
