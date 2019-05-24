@@ -597,16 +597,16 @@ textarea{
     font-weight:700
 }
 body{
-    width:95%;
+    max-width:92%;
     margin:2% auto;
-    font-size:14px;
+    font-size:16px;
     line-height:1.75;
     font-family:Georgia,serif;
     color:#222;
 }
 @media screen and (min-width:600px){
     body{
-        font-size:18px
+        font-size:16px
     }
 }
 @media screen and (min-width:910px){
