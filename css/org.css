@@ -599,14 +599,14 @@ textarea{
 body{
     max-width:92%;
     margin:2% auto;
-    font-size:16px;
+    font-size:15pt;
     line-height:1.75;
     font-family:Georgia,serif;
     color:#222;
 }
 @media screen and (min-width:600px){
     body{
-        font-size:16px
+        font-size:15pt
     }
 }
 @media screen and (min-width:910px){
