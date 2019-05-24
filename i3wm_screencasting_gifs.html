@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- 2019-05-24 Fri 04:44 -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>i3wm screencasting gifs</title>
+<meta name="generator" content="Org mode">
+<meta name="author" content="ivanaf">
+<link rel="stylesheet" type="text/css" href="css/org.css"/>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2019 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="content">
+<div class="head">
+<div class="title">
+<p>
+<a href="index.html">Ivanaf @ Home</a>
+</p>
+
+</div>
+
+<menu>
+<ul class="org-ul">
+<li><a href="index.html">Home</a></li>
+<li><a href="About.html">About</a></li>
+<li><a href="Resume.html">Resume</a></li>
+<li><a href="Portfolio.html">Portfolio</a></li>
+<li><a href="Contact.html">Contact</a></li>
+</ul>
+</menu>
+
+</div>
+
+
+<p>
+ <h1>
+i3wm screencasting gifs 
+ </h1>
+</p>
+
+<p>
+<span class=page-date> <small>
+2019-05-24, updated 2019-05-24 <a href="index.html">next</a> - <a href="Disqus_and_javascript_random_thoughts.html">previous</a>
+</small> </span> 
+</p>
+<nav id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#createshortcuttostartandstopscreenrecording">1. Create shortcut to start and stop screenrecording</a></li>
+<li><a href="#recordscreensh">2. record-screen.sh</a></li>
+<li><a href="#isrecordingsh">3. is-recording.sh</a></li>
+<li><a href="#improvementsandchanges">4. Improvements and changes</a>
+<ul>
+<li><a href="#makingthegifsmaller">4.1. Making the gif smaller</a></li>
+<li><a href="#copyingthefiletotheclipboard">4.2. Copying the file to the clipboard</a></li>
+<li><a href="#displayinganotificationwhenyoufinishrecording">4.3. Displaying a notification when you finish recording</a></li>
+<li><a href="#puttingitalltogether">4.4. Putting it all together</a></li>
+</ul>
+</li>
+<li><a href="#example">5. Example!</a></li>
+</ul>
+</div>
+</nav>
+<p>
+I read an amazing <a href="https://en.reddit.com/r/i3wm/comments/65vis5/screenshot_commands_from_my_i3_config/dgnic66/">comment on reddit</a> about how to very easily record the screen into gifs and I'll report it here with some improvements. All of this can be used in any other window manager, as long as you can create keyboard shortcuts.
+</p>
+<div id="outline-container-createshortcuttostartandstopscreenrecording" class="outline-2">
+<h2 id="createshortcuttostartandstopscreenrecording"><span class="section-number-2">1</span> Create shortcut to start and stop screenrecording</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+First we create a shortcut to start and stop the screenrecording
+</p>
+
+<div class="org-src-container">
+<pre class="src src-bash">bindsym Shift+Ctrl+Print exec ~/.files/i3/record-screen.sh gif
+bindsym Shift+Mod4+Print exec ~/.files/i3/record-screen.sh ogv
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-recordscreensh" class="outline-2">
+<h2 id="recordscreensh"><span class="section-number-2">2</span> record-screen.sh</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+This is the file where most things happen.
+</p>
+
+<p>
+<b>Dependencies:</b> <code>byzanz-record</code> , <code>slop</code>.
+</p>
+
+<p>
+It uses <code>byzanz</code> to record the screen, and <code>slop</code> to select which screen to record from, as well as the <code>--exec</code> flag. <code>--exec</code> makes it so <code>byzanz</code> records until that process exists. This allows us to control exactly for how long the recording will last since we can simply kill it using our shortcut.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-bash"><span style="color: #a0a1a7; font-weight: bold;">#</span><span style="color: #a0a1a7;">!/usr/bin/</span><span style="color: #a626a4;">env</span><span style="color: #a0a1a7;"> bash</span>
+<span style="color: #8b4513;">DIR</span>=<span style="color: #50a14f;">"$( cd "$( dirname "${BASH_SOURCE[0]}" )" &amp;&amp; pwd )"</span>
+<span style="color: #8b4513;">IS_RECORDING_PID</span>=<span style="color: #ff00ff;">`pgrep -a -f is-recording | cut -f1 -d' '`</span>
+<span style="color: #8b4513;">IS_RECORDING_SH</span>=$<span style="color: #8b4513;">HOME</span>/.files/i3/is-recording.sh
+
+<span style="color: #a626a4;">if</span> [[ <span style="color: #50a14f;">"$IS_RECORDING_PID"</span> == <span style="color: #50a14f;">""</span> ]]; <span style="color: #a626a4;">then</span>
+        <span style="color: #e44649;">read</span> -r X Y W H &lt; &lt;(slop -n -l -c 0.157,0.333,0.466,0.4 -f <span style="color: #50a14f;">"%x %y %w %h"</span>)
+        <span style="color: #8b4513;">FILE_NAME</span>=~/Videos/Screencast-$(<span style="color: #ff00ff;">date</span> -Iseconds | cut -d<span style="color: #50a14f;">'+'</span> -f1)<span style="color: #e44649;">.</span>$<span style="color: #8b4513;">1</span>
+        <span style="color: #a626a4;">case</span> <span style="color: #50a14f;">"$1"</span><span style="color: #a626a4;"> in</span>
+                byzanz)
+                        byzanz-record -w $<span style="color: #8b4513;">W</span> -h $<span style="color: #8b4513;">H</span> -x $<span style="color: #8b4513;">X</span> -y $<span style="color: #8b4513;">Y</span> -c --exec=<span style="color: #50a14f;">"$IS_RECORDING_SH"</span> $<span style="color: #8b4513;">FILE_NAME</span> &gt;&amp; /dev/null
+                        ;;
+                gif)
+                        byzanz-record -w $<span style="color: #8b4513;">W</span> -h $<span style="color: #8b4513;">H</span> -x $<span style="color: #8b4513;">X</span> -y $<span style="color: #8b4513;">Y</span> -c --exec=<span style="color: #50a14f;">"$IS_RECORDING_SH"</span> $<span style="color: #8b4513;">FILE_NAME</span> &gt;&amp; /dev/null
+                        ;;
+                ogv)
+                        byzanz-record -a -w $<span style="color: #8b4513;">W</span> -h $<span style="color: #8b4513;">H</span> -x $<span style="color: #8b4513;">X</span> -y $<span style="color: #8b4513;">Y</span> -c --exec=<span style="color: #50a14f;">"$IS_RECORDING_SH"</span> $<span style="color: #8b4513;">FILE_NAME</span> &gt;&amp; /dev/null
+
+                        <span style="color: #a626a4;">if</span> [[ <span style="color: #50a14f;">"$2"</span> == <span style="color: #50a14f;">"--convert-to-gif"</span> ]]; <span style="color: #a626a4;">then</span>
+                                sleep 1
+                                $<span style="color: #8b4513;">DIR</span>/convert-ogv-to-gif.sh $<span style="color: #8b4513;">FILE_NAME</span> | xclip -selection clipboard
+                        <span style="color: #a626a4;">fi</span>
+                        ;;
+        <span style="color: #a626a4;">esac</span>
+<span style="color: #a626a4;">else</span>
+        polybar-msg hook is-recording 1
+        <span style="color: #e44649;">kill</span> $<span style="color: #8b4513;">IS_RECORDING_PID</span>
+<span style="color: #a626a4;">fi</span>
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-isrecordingsh" class="outline-2">
+<h2 id="isrecordingsh"><span class="section-number-2">3</span> is-recording.sh</h2>
+<div class="outline-text-2" id="text-3">
+<p>
+This is the process that when killed stops the recording. 
+</p>
+<div class="org-src-container">
+<pre class="src src-bash"><span style="color: #a0a1a7; font-weight: bold;">#</span><span style="color: #a0a1a7;">!/usr/bin/</span><span style="color: #a626a4;">env</span><span style="color: #a0a1a7;"> bash</span>
+
+polybar-msg hook is-recording 2
+
+<span style="color: #a626a4;">while</span> true; <span style="color: #a626a4;">do</span>
+        sleep 60
+<span style="color: #a626a4;">done</span>
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-improvementsandchanges" class="outline-2">
+<h2 id="improvementsandchanges"><span class="section-number-2">4</span> Improvements and changes</h2>
+<div class="outline-text-2" id="text-4">
+</div>
+<div id="outline-container-makingthegifsmaller" class="outline-3">
+<h3 id="makingthegifsmaller"><span class="section-number-3">4.1</span> Making the gif smaller</h3>
+<div class="outline-text-3" id="text-4-1">
+<p>
+Recording a gif using the above files will result in files that are unreasonably large. A 10s recording might take 10mb!
+</p>
+
+<p>
+Therefore the first thing we should do is optimize the gif so that it is smaller.  Luckily there is a program that does just that: <a href="https://github.com/kohler/gifsicle">gifsicle</a>. Since there are very few changes between each frame in a screencast, this can turn 10mb files into 100kb files!
+</p>
+
+<p>
+This is the relevant change:
+</p>
+<div class="org-src-container">
+<pre class="src src-bash">                gif)
+                        byzanz-record -w $<span style="color: #8b4513;">W</span> -h $<span style="color: #8b4513;">H</span> -x $<span style="color: #8b4513;">X</span> -y $<span style="color: #8b4513;">Y</span> -c --exec=<span style="color: #50a14f;">"$IS_RECORDING_SH"</span> $<span style="color: #8b4513;">FILE_NAME</span>
+                        gifsicle --batch --optimize=3 $<span style="color: #8b4513;">FILE_NAME</span>
+                        ;;
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-copyingthefiletotheclipboard" class="outline-3">
+<h3 id="copyingthefiletotheclipboard"><span class="section-number-3">4.2</span> Copying the file to the clipboard</h3>
+<div class="outline-text-3" id="text-4-2">
+<p>
+After you've save the file, it is useful to have it copied to the clipboard, so you can you use it in another place. In my case, I like being able to paste the screencast directly to my orgmode files by using my <a href="https://github.com/itf/clipboard2org/blob/master/clipboard2org.el">clipboard2org package</a>, but you can use other programs.  
+</p>
+
+<p>
+This depends on <code>xclip</code>.
+</p>
+<div class="org-src-container">
+<pre class="src src-bash">        <span style="color: #e44649;">echo</span> $<span style="color: #8b4513;">FILE_NAME</span>| xclip -i -selection clipboard -t text/uri-list
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-displayinganotificationwhenyoufinishrecording" class="outline-3">
+<h3 id="displayinganotificationwhenyoufinishrecording"><span class="section-number-3">4.3</span> Displaying a notification when you finish recording</h3>
+<div class="outline-text-3" id="text-4-3">
+<p>
+I do not use polybar. So instead I use <a href="https://github.com/vlevit/notify-send.sh">notify-send.sh</a> to send a notification when we finish the recording so I know that the command worked:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-bash">~/.config/i3/notify-send.sh/notify-send.sh -i display  <span style="color: #50a14f;">"finished recording"</span>
+<span style="color: #a626a4;">fi</span>
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-puttingitalltogether" class="outline-3">
+<h3 id="puttingitalltogether"><span class="section-number-3">4.4</span> Putting it all together</h3>
+<div class="outline-text-3" id="text-4-4">
+<p>
+This is the end result.  The <b>Dependencies:</b> <code>byzanz-record</code> , <code>slop</code>, <code>gifsicle</code>, <code>notify-send.sh</code>.
+</p>
+
+<p>
+All  of the paths are based on the paths I've setup here, you should adapt them to your case.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-bash"><span style="color: #a0a1a7; font-weight: bold;">#</span><span style="color: #a0a1a7;">!/usr/bin/</span><span style="color: #a626a4;">env</span><span style="color: #a0a1a7;"> bash</span>
+<span style="color: #8b4513;">DIR</span>=<span style="color: #50a14f;">"$( cd "$( dirname "${BASH_SOURCE[0]}" )" &amp;&amp; pwd )"</span>
+<span style="color: #8b4513;">IS_RECORDING_PID</span>=<span style="color: #ff00ff;">`pgrep -a -f is-recording | cut -f1 -d' '`</span>
+<span style="color: #8b4513;">IS_RECORDING_SH</span>=$<span style="color: #8b4513;">HOME</span>/.tools/is-recording.sh
+
+<span style="color: #a626a4;">if</span> [[ <span style="color: #50a14f;">"$IS_RECORDING_PID"</span> == <span style="color: #50a14f;">""</span> ]]; <span style="color: #a626a4;">then</span>
+        <span style="color: #e44649;">read</span> -r X Y W H &lt; &lt;(slop -n -l -c 0.157,0.333,0.466,0.4 -f <span style="color: #50a14f;">"%x %y %w %h"</span>)
+        <span style="color: #8b4513;">FILE_NAME</span>=~/Videos/Screencast-$(<span style="color: #ff00ff;">date</span> -Iseconds | cut -d<span style="color: #50a14f;">'+'</span> -f1)<span style="color: #e44649;">.</span>$<span style="color: #8b4513;">1</span>
+        <span style="color: #a626a4;">case</span> <span style="color: #50a14f;">"$1"</span><span style="color: #a626a4;"> in</span>
+                byzanz)
+                        byzanz-record -w $<span style="color: #8b4513;">W</span> -h $<span style="color: #8b4513;">H</span> -x $<span style="color: #8b4513;">X</span> -y $<span style="color: #8b4513;">Y</span> -c --exec=<span style="color: #50a14f;">"$IS_RECORDING_SH"</span> $<span style="color: #8b4513;">FILE_NAME</span> 
+                        ;;
+                gif)
+                        byzanz-record -w $<span style="color: #8b4513;">W</span> -h $<span style="color: #8b4513;">H</span> -x $<span style="color: #8b4513;">X</span> -y $<span style="color: #8b4513;">Y</span> -c --exec=<span style="color: #50a14f;">"$IS_RECORDING_SH"</span> $<span style="color: #8b4513;">FILE_NAME</span>
+                        gifsicle --batch --optimize=3 $<span style="color: #8b4513;">FILE_NAME</span>
+                        ;;
+                ogv)
+                        byzanz-record -a -w $<span style="color: #8b4513;">W</span> -h $<span style="color: #8b4513;">H</span> -x $<span style="color: #8b4513;">X</span> -y $<span style="color: #8b4513;">Y</span> -c --exec=<span style="color: #50a14f;">"$IS_RECORDING_SH"</span> $<span style="color: #8b4513;">FILE_NAME</span> 
+
+                        <span style="color: #a626a4;">if</span> [[ <span style="color: #50a14f;">"$2"</span> == <span style="color: #50a14f;">"--convert-to-gif"</span> ]]; <span style="color: #a626a4;">then</span>
+                                sleep 1
+                                $<span style="color: #8b4513;">DIR</span>/convert-ogv-to-gif.sh $<span style="color: #8b4513;">FILE_NAME</span> | xclip -selection clipboard
+                        <span style="color: #a626a4;">fi</span>
+                        ;;
+        <span style="color: #a626a4;">esac</span>
+        <span style="color: #e44649;">echo</span> $<span style="color: #8b4513;">FILE_NAME</span>| xclip -i -selection clipboard -t text/uri-list
+<span style="color: #a626a4;">else</span>
+        <span style="color: #a0a1a7; font-weight: bold;">#</span><span style="color: #a0a1a7;">polybar-msg hook is-recording 1</span>
+        <span style="color: #e44649;">kill</span> $<span style="color: #8b4513;">IS_RECORDING_PID</span>
+        ~/.config/i3/notify-send.sh/notify-send.sh -i display  <span style="color: #50a14f;">"finished recording"</span>
+<span style="color: #a626a4;">fi</span>
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-example" class="outline-2">
+<h2 id="example"><span class="section-number-2">5</span> Example!</h2>
+<div class="outline-text-2" id="text-5">
+<p>
+<a href="./gif/Screencast-2019-05-24T04:41:59-04:00.gif">Screencast-2019-05-24T04:41:59-04:00.gif</a>
+</p>
+
+</br>
+<div class="comments">
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+/* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'ivanaf'; // Required - Replace '<example>' with your forum shortname
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    var showComments = function() {
+    var button = document.getElementById('comment-button')
+        button.style.display = 'none'
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        };
+    </script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<button id="comment-button" onclick="showComments()">Show comments</button>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: Ivan Tadeu Ferreira Antunes Filho</p>
+<p class="date">Date: 2019-05-24 Fri 04:44</p>
+<p class="author">Github:  <a href="https://github.com/itf/">github.com/itf</a></p>
+<p class="creator">Made with <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.50 (<a href="https://orgmode.org">Org</a> mode 9.1.9) and <a href="https://github.com/itf/org-export-head">Org export head</a> </p>
+</div>
+</body>
+</html>
