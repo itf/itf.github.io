@@ -8,7 +8,7 @@
   [[shell:cd publish  && git add . && git commit -m "new post!" && git push]]
 [[shell:cd publish && git add . && git add -u && git commit -m "update post" && git push]]
 
-[[shell:cd publish && git add . && git add -u &&  git commit -m "update postamble!" && git push]]
+[[shell:cd publish && git add . && git add -u &&  git commit -m "update calendar page!" && git push]]
   [[shell: git add -u && git commit -m "new post!" && git push]]
 
   [[shell: git add -u && git commit -m "update post!" && git push]]
@@ -759,7 +759,7 @@ Please download the PDF version [[file:pdflib/IvanFilho-ResumeFall2018.pdf][here
   :CREATION-DATE: 2018-09-09
   :MODIFICATION-DATE: 2019-05-23
   :HASH:     49e13ac662b842b40a9b54bb04dd68d7
-  :PREVIOUS-HASH: 1ecec9c2fdda1186725479373b159c42
+  :PREVIOUS-HASH: 49e13ac662b842b40a9b54bb04dd68d7
   :END:
 
 Contact me through email (ivan af @ mit). If you need to meet with me, below is my schedule.
@@ -3201,3 +3201,6 @@ I've had to deal with slow internet connections or very tiny data caps enough ti
 If you want to read and write comments, you need to click on the comments button in order to load the Disqus javascript.
 
 And talking about Disqus, I've discovered today that by default Disqus does not allow guests to comment. You need to create an account in order to coment. I've just disabled this here, so it should be easier to write comments now.
+* i3wm screencasting :noexport:
+I read an amazing [[https://en.reddit.com/r/i3wm/comments/65vis5/screenshot_commands_from_my_i3_config/dgnic66/][comment on reddit]]
+* Enfuse with macrofusion :noexport:
