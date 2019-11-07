@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2019-08-05 Mon 21:29 -->
+<!-- 2019-11-06 Wed 22:31 -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Code</title>
@@ -80,13 +80,13 @@ for the JavaScript code in this tag.
 
 <p>
  </p><h1>
-Code 
+Code
  </h1><p>
 </p>
 
 <p>
 <span class=page-date> <small>
-2019-05-24, updated 2019-08-05 <a href="index.html">next</a> - <a href="index.html">previous</a>
+2019-05-24, updated 2019-11-06 <a href="index.html">next</a> - <a href="index.html">previous</a>
 </small> </span> 
 </p>
 <p>
@@ -154,6 +154,7 @@ This is the code that runs this blog! I might as well have it here as well!
          <span style="color: #a0a1a7; font-weight: bold;">;;</span><span style="color: #a0a1a7;">Insert extra things in the headlines-hash to be used for fixing the macros</span>
          <span style="color: #a0a1a7; font-weight: bold;">;;</span><span style="color: #a0a1a7;">To define new headline-level macros, add extra functions here</span>
          (headlines-hash (org-export-head--insert-next-previous-headline headlines-hash headlines-list))
+         (headlines-hash (org-export-head--add-title-macro headlines-hash headlines-list))
          <span style="color: #a0a1a7; font-weight: bold;">;;</span><span style="color: #a0a1a7;">Now we get global macros such as the index and the reversed index</span>
          (global-macros (org-export-head--generate-index-alist headlines-list headlines-hash))
          
@@ -236,8 +237,7 @@ This is the code that runs this blog! I might as well have it here as well!
             <span style="color: #50a14f;">"EXPORT_FILE_NAME"</span>
             (concat directory-name (org-export-head--escaped-headline)))
            (deactivate-mark)
-           (<span style="color: #a626a4;">let</span> ((org-html-postamble org-export-head--html-postamble)
-)
+           (<span style="color: #a626a4;">let</span> ((org-html-postamble org-export-head--html-postamble))
              (org-html-export-to-html nil t))
            (set-buffer-modified-p t)) <span style="color: #50a14f;">"-noexport-noreexport"</span>))
   (<span style="color: #a626a4;">if</span> (equal backend <span style="color: #50a14f;">"pdf"</span>)
@@ -398,7 +398,7 @@ This is the code that runs this blog! I might as well have it here as well!
 
 
 (<span style="color: #a626a4;">defun</span> <span style="color: #0184bc;">org-export-head--replace-headline-macros</span>(macro-alist)
-  <span style="color: #50a14f; font-style: italic;">"Replace macros of the type ###TEXT### They can contain information such as date</span>
+  <span style="color: #50a14f; font-style: italic;">"Replace macros of the type  They can contain information such as date</span>
 <span style="color: #50a14f; font-style: italic;">or previous and next post.</span>
 <span style="color: #50a14f; font-style: italic;">Any headline property can be used as a macro of this type."</span>
   (<span style="color: #a626a4;">save-excursion</span>
@@ -568,6 +568,20 @@ This is the code that runs this blog! I might as well have it here as well!
         (<span style="color: #a626a4;">setq</span> temp-list (cdr temp-list))))
   headlines-hash)
       
+(<span style="color: #a626a4;">defun</span> <span style="color: #0184bc;">org-export-head--add-title-macro</span>(headlines-hash headlines-list)
+  <span style="color: #50a14f; font-style: italic;">"Creates title macro"</span>
+  (<span style="color: #a626a4;">let*</span> ((temp-list (cons nil headlines-list))
+        (len (length headlines-list)))
+    (<span style="color: #a626a4;">dotimes</span> (i len)
+      (<span style="color: #a626a4;">let*</span> ((headline-name (nth 1 temp-list))
+            (headline (gethash headline-name headlines-hash nil))
+            (new-properties 
+             (list (cons <span style="color: #50a14f;">"TITLE"</span> headline-name)))
+            (headline (append headline new-properties))) <span style="color: #a0a1a7; font-weight: bold;">;; </span><span style="color: #a0a1a7;">In reverse order, to allow headline properties to shadow this.</span>
+        (puthash headline-name headline headlines-hash))
+        (<span style="color: #a626a4;">setq</span> temp-list (cdr temp-list))))
+  headlines-hash)
+
 
 (<span style="color: #a626a4;">defun</span> <span style="color: #0184bc;">org-export-head--headline-to-file</span>(headline-name)
   <span style="color: #50a14f; font-style: italic;">"Generate the file name of the headline"</span>
@@ -608,7 +622,7 @@ This is the code that runs this blog! I might as well have it here as well!
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Ivan Tadeu Ferreira Antunes Filho</p>
-<p class="date">Date: 2019-08-05 Mon 21:29</p>
+<p class="date">Date: 2019-11-06 Wed 22:31</p>
 <p class="author">Github:  <a href="https://github.com/itf/">github.com/itf</a></p>
 <p class="creator">Made with <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.50 (<a href="https://orgmode.org">Org</a> mode 9.1.9) and <a href="https://github.com/itf/org-export-head">Org export head</a> </p>
 </div>
