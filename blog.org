@@ -8,13 +8,14 @@
   [[elisp:(org-export-head-reexport "../publish/")]]
   [[shell:cd publish  && git add . && git commit -m "new post!" && git push]]
 [[shell:cd publish && git add . && git add -u && git commit -m "update post" && git push]]
+[[shell:cd publish && git add . && git add -u && git commit -m "drop letter css" && git push]]
 
 [[shell:cd publish && git add . && git add -u &&  git commit -m "update css" && git push]]
   [[shell: git add -u && git commit -m "new post!" && git push]]
 
   [[shell: git add -u && git commit -m "update post!" && git push]]
 
-  [[shell: git add -u && git commit -m "update calendar page" && git push]]
+  [[shell: git add -u && git commit -m "update html" && git push]]
 
 * README                                                           :noexport:
 Run the code inside the code block.
@@ -37,8 +38,8 @@ You can also use ###INDEX-WITH-DATES###  or ###TAG-WITH-DATES###, or simply ###I
 * Code   :tech:  
 :PROPERTIES:
 :CREATION-DATE: 2019-05-24
-:MODIFICATION-DATE: 2019-08-05
-:HASH:     d33eb8955f0be994c8ef878a21648031
+:MODIFICATION-DATE: 2019-10-12
+:HASH:     d7f1dc644c81de86ce31694a68044fa0
 :PREVIOUS-HASH: d33eb8955f0be994c8ef878a21648031
 :END:
 This is the code that runs this blog! I might as well have it here as well!
@@ -104,6 +105,7 @@ are exported to a filename derived from the headline text."
          ;;Insert extra things in the headlines-hash to be used for fixing the macros
          ;;To define new headline-level macros, add extra functions here
          (headlines-hash (org-export-head--insert-next-previous-headline headlines-hash headlines-list))
+         (headlines-hash (org-export-head--add-title-macro headlines-hash headlines-list))
          ;;Now we get global macros such as the index and the reversed index
          (global-macros (org-export-head--generate-index-alist headlines-list headlines-hash))
          
@@ -186,8 +188,7 @@ are exported to a filename derived from the headline text."
             "EXPORT_FILE_NAME"
             (concat directory-name (org-export-head--escaped-headline)))
            (deactivate-mark)
-           (let ((org-html-postamble org-export-head--html-postamble)
-)
+           (let ((org-html-postamble org-export-head--html-postamble))
              (org-html-export-to-html nil t))
            (set-buffer-modified-p t)) "-noexport-noreexport"))
   (if (equal backend "pdf")
@@ -518,6 +519,20 @@ Where match is a tag or -tag or combination of them."
         (setq temp-list (cdr temp-list))))
   headlines-hash)
       
+(defun org-export-head--add-title-macro(headlines-hash headlines-list)
+  "Creates title macro"
+  (let* ((temp-list (cons nil headlines-list))
+        (len (length headlines-list)))
+    (dotimes (i len)
+      (let* ((headline-name (nth 1 temp-list))
+            (headline (gethash headline-name headlines-hash nil))
+            (new-properties 
+             (list (cons "TITLE" headline-name)))
+            (headline (append headline new-properties))) ;; In reverse order, to allow headline properties to shadow this.
+        (puthash headline-name headline headlines-hash))
+        (setq temp-list (cdr temp-list))))
+  headlines-hash)
+
 
 (defun org-export-head--headline-to-file(headline-name)
   "Generate the file name of the headline"
@@ -563,7 +578,7 @@ file:./favicon.ico
 #+end_head
 
 @@html: </p><h1>@@
-{{{title}}} @@comment: This is the title of the headline @@
+###TITLE###
 @@html: </h1><p>@@
 
 @@html:<span class=page-date> <small>@@
@@ -596,12 +611,10 @@ file:./favicon.ico
 * index                           :reexport:
   :PROPERTIES:
   :CREATION-DATE: 2018-09-09
-  :MODIFICATION-DATE: 2019-08-02
-  :HASH:     ef7dd01255b8b3da82b17b786ed5c761
-  :PREVIOUS-HASH: ef7dd01255b8b3da82b17b786ed5c761
+  :MODIFICATION-DATE: 2019-09-02
+  :HASH:     075192631ac188e324f78d6c0f698d16
+  :PREVIOUS-HASH: 075192631ac188e324f78d6c0f698d16
   :END:
-
-Hello everyone and welcome to my blog! 
 ** Technical posts
 ###TECH-WITH-SUMMARIES###
 ** Personal posts
@@ -795,9 +808,9 @@ document.getElementById("iframeDisplay").innerHTML = "<iframe src=\"https://cale
 * Portfolio
   :PROPERTIES:
   :CREATION-DATE: 2018-09-09
-  :MODIFICATION-DATE: 2019-08-02
-  :HASH:     36a4c25bcd7bf4645283a665916fefee
-  :PREVIOUS-HASH: 36a4c25bcd7bf4645283a665916fefee
+  :MODIFICATION-DATE: 2019-09-02
+  :HASH:     f433f9e6c51489b21c305454b324caa3
+  :PREVIOUS-HASH: f433f9e6c51489b21c305454b324caa3
   :END:
 
 In construction.
@@ -871,6 +884,27 @@ based on the interaction with the user.
 The game is unfinished, and theres is only about 1 minute of gameplay at
 the moment.
 
+*** [[http://lazulimotel.com/][Facebook advertisement for Lazuli Motel]]
+    :PROPERTIES:
+    :CUSTOM_ID: facebook-advertisement-for-lazuli-motel
+    :HTML_CONTAINER_CLASS: portfolio-project
+    :END:
+#+ATTR_ORG: :width 300
+#+CAPTION: 
+[[file:///home/ivanaf/org/blog/source/img/projects/lazuli.jpg]]
+
+2017- Created ad campaigns for the Lazuli Motel website I previously created
+with a tight budget. For about $1 a day for 3 months, it brought
+approximately 80 extra visitor to the website per day. The average time
+spent per user on the website was 3 minutes.
+
+It was not possible to analyze exactly how many clients the ad campaign
+brought to the business, but given how many times the business got
+contacted by phone during the ad campaign it seems that the campaign was
+fairly successful.
+
+
+
 *** [[http://lazulimotel.com/][Lazuli Motel Website and pictures]]
     :PROPERTIES:
     :CUSTOM_ID: lazuli-motel-website-and-pictures
@@ -901,27 +935,6 @@ still continue to see the information that has already been loaded.
 2016- A simple command line tool to download images from the imagenet dataset
 while storing them with humanreadable names and ignoring images that are
 too small.
-
-
-
-*** [[http://lazulimotel.com/][Facebook advertisement for Lazuli Motel]]
-    :PROPERTIES:
-    :CUSTOM_ID: facebook-advertisement-for-lazuli-motel
-    :HTML_CONTAINER_CLASS: portfolio-project
-    :END:
-#+ATTR_ORG: :width 300
-#+CAPTION: 
-[[file:///home/ivanaf/org/blog/source/img/projects/lazuli.jpg]]
-
-2017- Created ad campaigns for the Lazuli Motel website I previously created
-with a tight budget. For about $1 a day for 3 months, it brought
-approximately 80 extra visitor to the website per day. The average time
-spent per user on the website was 3 minutes.
-
-It was not possible to analyze exactly how many clients the ad campaign
-brought to the business, but given how many times the business got
-contacted by phone during the ad campaign it seems that the campaign was
-fairly successful.
 
 
 
@@ -3553,9 +3566,9 @@ Gets name based on server-force-delete."
 * Blogging, past and not blogging rant                    :personal:
 :PROPERTIES:
 :CREATION-DATE: 2019-08-02
-:MODIFICATION-DATE: 2019-08-05
-:HASH:     b56ad8c064ce9670f34e6325d7ef78ea
-:PREVIOUS-HASH: b56ad8c064ce9670f34e6325d7ef78ea
+:MODIFICATION-DATE: 2019-09-02
+:HASH:     8c2f4038de72c4f7bfeefea6a436af90
+:PREVIOUS-HASH: 8c2f4038de72c4f7bfeefea6a436af90
 :END:
 I used to blog a lot in high school.
 
@@ -3603,8 +3616,64 @@ So for the longest time I've been afraid of writing stories or telling experienc
 
 But a huge part of me want this to change. A huge part of me wants to be able to just write, and tell stories and share pictures without worrying. Maybe that is just being naive and living in a fairy tale, but it brings back a bit of magic to my life. So maybe, just maybe, I will try to go back to writing these spells.
 
-Or maybe I will stay in fear of writing things online. Fear that even the smallest things could be taken out of context; fear that writing even about banal things could be taken out of context.
+Or maybe I will stay in fear of writing things online. Fear that even the smallest things could be taken out of context.
+* Baby deer :personal:
+Taking care of a baby deer. College app essay, partially erased and adapted to protect personal information.
+
+** Baby deer
+When I was fourteen,  I was designated the responsibility of caring for a rescued newborn deer. A hunter had killed its mom and left it there to die. The deer was weak, dehydrated and hungry — on the brink between life and death.
+
+ I named her “Lita.” In the beginning, she could barely bear her own weight. Each day I’d feed her with a little nursing bottle and play with her so she wouldn't feel lonely. Day by day, she was growing stronger. After three weeks she was able to walk and eat by herself, making my job much easier. She was cute and gentle — she always followed me at home and asked me for caress,touching my hand with her head.
+
+I started getting tired of taking care of her because it required so much time, but I couldn't go out and leave her alone. She was my responsibility. However, after one month I got bored and started to spend my time reading or playing on the computer. To be honest, I didn't want to keep looking after her. My routine was monotonous: putting milk in her plate, petting her and cleaning up her mess.
+
+She grew stronger and I stopped being so cautious. One day, I forgot to check if her milk was still good in the afternoon. It had spoiled, and she died that same night. This happened because I wasn't doing the best I could. No one blamed me, but I knew I could’ve saved her. A little lapse of my attention cost Lita her life. I was sad, but learned an important lesson: the difference between success and failure lies in the details. Some times, it is not you that suffers by your errors, but the ones next to you, and this is what I won't ever allow to happen again. When I make other mistakes in the future, it won't be because of lack of effort. Since then, I have always and I will always try to do my best.
+* Being a TA :noexport:
+Being a TA was 
 * Enfuse with macrofusion :noexport:
 To use macrofusion, you should use the fork that has supported for the updated enfuse soft. You can find one such fork here: [[https://github.com/da-phil/macrofusion][macrofusion]].
+* Long name problems :personal:
+:PROPERTIES:
+:CREATION-DATE: 2019-09-02
+:MODIFICATION-DATE: 2019-09-06
+:HASH:     5ffe554a569bd9dad371e3f5515a91b7
+:PREVIOUS-HASH: 5ffe554a569bd9dad371e3f5515a91b7
+:END:
 
+My name in my passport fairly long. (10 characters first name, 22 letters second name, with spaces in between). This causes me all kinds of trouble here in the US:
+- For 3 years in a row I had to call the IRS in order to get my tax return back; I believe it to be because the limit on the w2 forms was names of 30 characters, so my name didn't fully match.
+- I used to not be able to do online check-ins into flights, but this has changed in recent years!
+- As I was applying for health insurance, surprise! my name was accepted. However, on the last page where you have to rewrite your name to confirm you've read the instructions, they did not accept spaces in the first name, only on the last name. I had to apply through email and mail after half an hour on the phone with customer service.
+- Basically every single one of my science olympiad certificates has my name written in slightly different ways in order to make it shorter. Each remove a different part of my name.
+- I couldn't signup to pay for electricity and gas through the website.
+- Equifax still hasn't being able to deal with my long name, so it reports that I have no credit score. Therefore when people run a credit check on me, it is weird. Transunion has no problems with this.
+- When logging in the mit table tennis, I crashed the website. It tried to save my name, which was given by the mit certificate.
+*  : ARCHIVE : :personal:
+:PROPERTIES:
+:CREATION-DATE: 2019-09-06
+:MODIFICATION-DATE: 2019-09-06
+:HASH:     70b80613809c4d4c21430c525e380c18
+:PREVIOUS-HASH: 70b80613809c4d4c21430c525e380c18
+:END:
 
+I have a bad memory, but I really care about lots of my friends and I want to make sure they know this. And one I try to do so is to try to keep track of what is happening in their lives so I can ask them afterwards.  I keep track of their hobbies, what big changes are happening in their lives and I write little notes in an org mode file on my laptop. 
+But sometimes people move away, figuratively and literally speaking;  and I know that I won't be talking to this person anymore, maybe ever again.   Maybe the friendship was not strong enough and we were not close enough, so now that they moved out there is no reason for them to ever contact me again, and me contacting them would just be weird.  Or maybe something so horrible happened that the person should never be contacted again. Or maybe out of mutual agreement we decide that is time for things to end,
+
+Which brings me to the title of this post., :ARCHIVE:. When this happens,  I archive the notes. They still exist, just as memories will always exist, but it is time to move on.  They won't be updated anymore, and they shouldn't be opened anymore.  In a certain way it is my own personal way of grieving, putting a period at the end of a story. Writing Fin, and putting that very last dot on the "i". The way that the story ends, not with a bang, but with the silence following the last click of a keyboard key,  C'est la vie.
+* 10 things to smell per day
+Talking to a friend in San Francisco who is very attuned with her sense of smell made me realize that I mostly just ignore my sense of smell, to the point that I feel like I'm almost losing it. So I'll try to keep a list of at least 10 things I've smelled and try to make a conscious effort into remembering it. 
+
+I wonder if I generally ignore my sense of smell because I had to learn to tune it out when dealing with so many different animals and so many different types of animal poop back in the day. Seriously, it was quite horrible. 
+** [2019-10-16]
+1. Conditioner on my skin
+2. Chips that someone opened in the airplane
+3. The car smell on the Uber
+4. The sad smell that almost felt like cardboard of the chips bag I got in the plane
+5. The slightly better smell of the chips on the skin of my hand
+6. The ammonia smell in the men's bathroom
+7. My deodorant mixed with my own smell
+8. Wonderful green tea smell from the green tea bag
+9. Green tea smell in the water
+10. The sudden change of smell after putting sugar on the green tea.
+
+Update [2019-11-06] I feel like I'm a lot more in tune with my sense of smell now! It is not as great as it used to be, but it is getting better!
