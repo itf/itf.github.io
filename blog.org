@@ -38,9 +38,9 @@ You can also use ###INDEX-WITH-DATES###  or ###TAG-WITH-DATES###, or simply ###I
 * Code   :tech:  
 :PROPERTIES:
 :CREATION-DATE: 2019-05-24
-:MODIFICATION-DATE: 2019-10-12
-:HASH:     d7f1dc644c81de86ce31694a68044fa0
-:PREVIOUS-HASH: d33eb8955f0be994c8ef878a21648031
+:MODIFICATION-DATE: 2019-11-17
+:HASH:     79b4aa3ab6b23777335e3cc3078cdd46
+:PREVIOUS-HASH: ba8b55b1bacf01fa0f0e5ee8d3cf68ef
 :END:
 This is the code that runs this blog! I might as well have it here as well!
 #+BEGIN_SRC emacs-lisp   
@@ -463,12 +463,23 @@ Where match is a tag or -tag or combination of them."
     (when (string= (org-element-property :type link) "fuzzy")
       (let* ((path  (org-element-property :path link))
              (new-path (get-hash path headlines))) 
-        (when new-path
+        (if new-path
           (let ((link-copy (org-element-copy link)))
             (apply #'org-element-adopt-elements link-copy (org-element-contents link))
             (org-element-put-property link-copy :type "file")
             (org-element-put-property link-copy :path (concat (org-export-head--escape path) ".org"))
-            (org-element-set-element link link-copy)))))))
+            (org-element-set-element link link-copy))
+          ;; else: need to check if the link is linking to a subheadline
+         (save-excursion         
+           (org-link-search path)
+           ;; If the same heading contains multiple subheadings, each with the same name; it will simply link to the first one
+           (let ((link-copy (org-element-copy link)))
+            (apply #'org-element-adopt-elements link-copy (org-element-contents link))
+            (org-element-put-property link-copy :type "file")
+            (org-element-put-property link-copy :path (concat (org-export-head--escape (org-find-top-headline)) ".org"))
+            (org-element-put-property link-copy :search-option (concat "#" (org-export-head--escape path)))
+            (org-element-set-element link link-copy))
+           ))))))
 
 
 (defun org-export-head--fix-file-external-link-ast (directory-path link)
@@ -543,15 +554,57 @@ Where match is a tag or -tag or combination of them."
   (when text
     (let* ((text (replace-regexp-in-string " " "_" text))
            (text (replace-regexp-in-string "/" "-" text))
-           (text (replace-regexp-in-string "[\\?.,!]" "" text)))
+           (text  (replace-regexp-in-string "[^[:alnum:]-_]" "" (s-downcase text))))
       text)))
 
 
+;;Nice export headings http://ivanmalison.github.io/dotfiles/#usemyowndefaultnamingschemefororgheadings
+(defun imalison:org-get-raw-value (item)
+  (when (listp item)
+    (let* ((property-list (cadr item)))
+      (when property-list (plist-get property-list :raw-value)))))
+
+(defun imalison:generate-name (datum cache)
+  (let ((raw-value (imalison:org-get-raw-value datum)))
+    (if raw-value
+        (org-export-head--escape raw-value)
+      ;; This is the default implementation from org
+      (let ((type (org-element-type datum)))
+        (format "org%s%d"
+                (if type
+                    (replace-regexp-in-string "-" "" (symbol-name type))
+                    "secondarystring")
+                (incf (gethash type cache 0)))))))
+
+
+(use-package ox
+  :defer t
+  :config
+  (defun org-export-get-reference (datum info)
+    "Return a unique reference for DATUM, as a string.
+DATUM is either an element or an object.  INFO is the current
+export state, as a plist.  Returned reference consists of
+alphanumeric characters only."
+    (let ((type (org-element-type datum))
+          (cache (or (plist-get info :internal-references)
+                     (let ((h (make-hash-table :test #'eq)))
+                       (plist-put info :internal-references h)
+                       h)))
+          (reverse-cache (or (plist-get info :taken-internal-references)
+                             (let ((h (make-hash-table :test 'equal)))
+                               (plist-put info :taken-internal-references h)
+                               h))))
+      (or (gethash datum cache)
+          (let* ((name (imalison:generate-name datum cache))
+                 (number (+ 1 (gethash name reverse-cache -1)))
+                 (new-name (format "%s%s" name (if (< 0 number) (format "%s%s" "." number) ""))))
+            (puthash name number reverse-cache)
+            (puthash datum new-name cache)
+            new-name)))))
 #+END_SRC
 
 #+RESULTS:
-: org-export-head--escape
-
+: t
 
 
 
@@ -3618,6 +3671,12 @@ But a huge part of me want this to change. A huge part of me wants to be able to
 
 Or maybe I will stay in fear of writing things online. Fear that even the smallest things could be taken out of context.
 * Baby deer :personal:
+:PROPERTIES:
+:CREATION-DATE: 2019-11-06
+:MODIFICATION-DATE: 2019-11-06
+:HASH:     fc142466c8e9062db211e8a554c5a1e9
+:PREVIOUS-HASH: fc142466c8e9062db211e8a554c5a1e9
+:END:
 Taking care of a baby deer. College app essay, partially erased and adapted to protect personal information.
 
 ** Baby deer
@@ -3628,9 +3687,9 @@ When I was fourteen,  I was designated the responsibility of caring for a rescue
 I started getting tired of taking care of her because it required so much time, but I couldn't go out and leave her alone. She was my responsibility. However, after one month I got bored and started to spend my time reading or playing on the computer. To be honest, I didn't want to keep looking after her. My routine was monotonous: putting milk in her plate, petting her and cleaning up her mess.
 
 She grew stronger and I stopped being so cautious. One day, I forgot to check if her milk was still good in the afternoon. It had spoiled, and she died that same night. This happened because I wasn't doing the best I could. No one blamed me, but I knew I could’ve saved her. A little lapse of my attention cost Lita her life. I was sad, but learned an important lesson: the difference between success and failure lies in the details. Some times, it is not you that suffers by your errors, but the ones next to you, and this is what I won't ever allow to happen again. When I make other mistakes in the future, it won't be because of lack of effort. Since then, I have always and I will always try to do my best.
-* Being a TA :noexport:
+* WANT Being a TA                                                  :noexport:
 Being a TA was 
-* Enfuse with macrofusion :noexport:
+* MAYBE Enfuse with macrofusion                                    :noexport:
 To use macrofusion, you should use the fork that has supported for the updated enfuse soft. You can find one such fork here: [[https://github.com/da-phil/macrofusion][macrofusion]].
 * Long name problems :personal:
 :PROPERTIES:
@@ -3660,7 +3719,13 @@ I have a bad memory, but I really care about lots of my friends and I want to ma
 But sometimes people move away, figuratively and literally speaking;  and I know that I won't be talking to this person anymore, maybe ever again.   Maybe the friendship was not strong enough and we were not close enough, so now that they moved out there is no reason for them to ever contact me again, and me contacting them would just be weird.  Or maybe something so horrible happened that the person should never be contacted again. Or maybe out of mutual agreement we decide that is time for things to end,
 
 Which brings me to the title of this post., :ARCHIVE:. When this happens,  I archive the notes. They still exist, just as memories will always exist, but it is time to move on.  They won't be updated anymore, and they shouldn't be opened anymore.  In a certain way it is my own personal way of grieving, putting a period at the end of a story. Writing Fin, and putting that very last dot on the "i". The way that the story ends, not with a bang, but with the silence following the last click of a keyboard key,  C'est la vie.
-* 10 things to smell per day
+* 10 things to smell per day :personal:
+:PROPERTIES:
+:CREATION-DATE: 2019-11-06
+:MODIFICATION-DATE: 2019-11-06
+:HASH:     11b6db2c1c99e0e2846d45311189b88c
+:PREVIOUS-HASH: 11b6db2c1c99e0e2846d45311189b88c
+:END:
 Talking to a friend in San Francisco who is very attuned with her sense of smell made me realize that I mostly just ignore my sense of smell, to the point that I feel like I'm almost losing it. So I'll try to keep a list of at least 10 things I've smelled and try to make a conscious effort into remembering it. 
 
 I wonder if I generally ignore my sense of smell because I had to learn to tune it out when dealing with so many different animals and so many different types of animal poop back in the day. Seriously, it was quite horrible. 
@@ -3677,3 +3742,37 @@ I wonder if I generally ignore my sense of smell because I had to learn to tune 
 10. The sudden change of smell after putting sugar on the green tea.
 
 Update [2019-11-06] I feel like I'm a lot more in tune with my sense of smell now! It is not as great as it used to be, but it is getting better!
+* MAYBE Don't expect different results doing the same thing        :noexport:
+* College essays reblog                                            :personal:
+:PROPERTIES:
+:CREATION-DATE: 2013-03-29
+:MODIFICATION-DATE: 2019-11-17
+:HASH:     95e1d5a318d7b30ea46741af1d048b2a
+:PREVIOUS-HASH: 95e1d5a318d7b30ea46741af1d048b2a
+:END:
+This is a reblog from my [[http://olimpiadascientificas.org/vida-de-olimpico/ivan.olimpiadascientificas.com/2013/03/29/i-was-admitted-in-harvard-mit-yale-and-princeton/index.html][old blog]]. The missing college essay that was too personal is the one that was adapted to the [[Baby deer]] post.
+#+ATTR_ORG: :width 300
+#+CAPTION: 
+[[./png/bonecooc.png]]
+** I was admitted in Harvard, MIT, Yale and Princeton :)
+[2013-03-29 Fri]
+Hey there! Today’s post will be in English; I really hope my usual readers won’t mind that.
+
+Now that all the university results were released, I wanted to share my essays – maybe some day they will help someone. And even if they don’t help, I hope someone will find them interesting :).
+
+Sadly I won’t share every essay – some of them are too personal; it wouldn’t be nice if other people read them haha.
+
+Common App :)
+- [[file:./doc/FETECMS-revision1.0.doc][FETECMS-revision1.0.doc]]
+- [[file:./pdf/motivation-final-final.pdf][motivation final final]]
+
+MIT :)
+
+- [[file:./doc/1-background-revision-2.doc][1-background-revision-2.doc]]
+- [[file:./doc/2-Extra-activity-people-revision2.doc][2-Extra-activity-people-revision2.doc]]
+- [[file:./doc/6-challenge-revision-2.doc][6-challenge-revision-2.doc]]
+- [[file:./doc/5-world-revision3.doc][5-world-revision3.doc]]
+- [[file:./doc/4-personality-revision-2.1.doc][4-personality-revision-2.1.doc]]
+- [[file:./doc/3-program-UROP-revision-2.doc][3-program-UROP-revision-2.doc]]
+* MAYBE Losing the sparkle :noexport:personal:
+
