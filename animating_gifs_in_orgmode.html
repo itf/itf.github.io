@@ -4,7 +4,7 @@
 <!-- 2019-11-17 Sun 17:05 -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>10 things to smell per day</title>
+<title>Animating gifs in orgmode</title>
 <meta name="generator" content="Org mode">
 <meta name="author" content="ivanaf">
 <link rel="stylesheet" type="text/css" href="css/org.css"/>
@@ -80,49 +80,57 @@ for the JavaScript code in this tag.
 
 <p>
  </p><h1>
-10 things to smell per day
+Animating gifs in orgmode
  </h1><p>
 </p>
 
 <p>
 <span class=page-date> <small>
-2019-11-06, updated 2019-11-06 <a href="college_essays_reblog.html">next</a> - <a href="_archive_.html">previous</a>
+2019-05-25, updated 2019-05-25 <a href="automatic_latex_fragment_toggling_in_org-mode.html">next</a> - <a href="i3wm_screencasting_gifs.html">previous</a>
 </small> </span> 
 </p>
-<nav id="table-of-contents">
-<h2>Table of Contents</h2>
-<div id="text-table-of-contents">
-<ul>
-<li><a href="#2019-10-16_wed">1. <span class="timestamp-wrapper"><span class="timestamp">[2019-10-16 Wed]</span></span></a></li>
-</ul>
+<p>
+Makes gif animated in orgmode.
+</p>
+
+<p>
+From the <a href="https://github.com/Fuco1/org-inline-image/blob/master/org-inline-image.el">org-inline-image package</a>, with minimal modification ( the only change is testing if the figure is an image by checking the 'org-image-overlay, instead of the custom created oerlay). This requires the package dash.
+</p>
+
+<p>
+It will automatically play the gif after you've left the (point) on the image. Sadly play gifs seem to be computationally intensive on emacs.
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #a0a1a7; font-weight: bold;">;; </span><span style="color: #a0a1a7;">Copyright (C) 2014 Matus Goljer <a href="mailto:matus.goljer%40gmail.com">&lt;matus.goljer@gmail.com&gt;</a></span>
+<span style="color: #a0a1a7; font-weight: bold;">;; </span><span style="color: #a0a1a7;">Package-requires: ((dash "2.5.0"))</span>
+(<span style="color: #a626a4;">defun</span> <span style="color: #0184bc;">org-inline-image--get-current-image</span> ()
+  <span style="color: #50a14f; font-style: italic;">"Return the overlay associated with the image under point."</span>
+  (car (<span style="color: #a626a4;">--select</span> (eq (overlay-get it 'org-image-overlay) t) (overlays-at (point)))))
+
+(<span style="color: #a626a4;">defun</span> <span style="color: #0184bc;">org-inline-image--get</span> (prop)
+  <span style="color: #50a14f; font-style: italic;">"Return the value of property PROP for image under point."</span>
+  (<span style="color: #a626a4;">let</span> ((image (org-inline-image--get-current-image)))
+    (<span style="color: #a626a4;">when</span> image
+      (overlay-get image prop))))
+
+(<span style="color: #a626a4;">defun</span> <span style="color: #0184bc;">org-inline-image-animate</span> ()
+  <span style="color: #50a14f; font-style: italic;">"Animate the image if it's possible."</span>
+  (<span style="color: #a626a4;">interactive</span>)
+  (<span style="color: #a626a4;">let</span> ((image-props (org-inline-image--get 'display)))
+    (<span style="color: #a626a4;">when</span> (image-animated-p image-props)
+      (image-animate image-props))))
+
+(<span style="color: #a626a4;">defun</span> <span style="color: #0184bc;">org-inline-image-animate-auto</span> ()
+  (<span style="color: #a626a4;">interactive</span>)
+  (<span style="color: #a626a4;">when</span> (eq 'org-mode major-mode)
+    (<span style="color: #a626a4;">while-no-input</span> 
+      (run-with-idle-timer 0.3 nil 'org-inline-image-animate))))
+
+(<span style="color: #a626a4;">setq</span> org-inline-image--get-current-image (byte-compile 'org-inline-image--get-current-image))
+(<span style="color: #a626a4;">setq</span> org-inline-image-animate  (byte-compile 'org-inline-image-animate ))
+(add-hook 'post-command-hook 'org-inline-image-animate-auto)
+</pre>
 </div>
-</nav>
-<p>
-Talking to a friend in San Francisco who is very attuned with her sense of smell made me realize that I mostly just ignore my sense of smell, to the point that I feel like I'm almost losing it. So I'll try to keep a list of at least 10 things I've smelled and try to make a conscious effort into remembering it. 
-</p>
-
-<p>
-I wonder if I generally ignore my sense of smell because I had to learn to tune it out when dealing with so many different animals and so many different types of animal poop back in the day. Seriously, it was quite horrible. 
-</p>
-<div id="outline-container-2019-10-16_wed" class="outline-2">
-<h2 id="2019-10-16_wed"><span class="section-number-2">1</span> <span class="timestamp-wrapper"><span class="timestamp">[2019-10-16 Wed]</span></span></h2>
-<div class="outline-text-2" id="text-1">
-<ol class="org-ol">
-<li>Conditioner on my skin</li>
-<li>Chips that someone opened in the airplane</li>
-<li>The car smell on the Uber</li>
-<li>The sad smell that almost felt like cardboard of the chips bag I got in the plane</li>
-<li>The slightly better smell of the chips on the skin of my hand</li>
-<li>The ammonia smell in the men's bathroom</li>
-<li>My deodorant mixed with my own smell</li>
-<li>Wonderful green tea smell from the green tea bag</li>
-<li>Green tea smell in the water</li>
-<li>The sudden change of smell after putting sugar on the green tea.</li>
-</ol>
-
-<p>
-Update <span class="timestamp-wrapper"><span class="timestamp">[2019-11-06 Wed] </span></span> I feel like I'm a lot more in tune with my sense of smell now! It is not as great as it used to be, but it is getting better!
-</p>
 
 <br>
 <div class="comments">
@@ -141,8 +149,6 @@ Update <span class="timestamp-wrapper"><span class="timestamp">[2019-11-06 Wed] 
     </script>
 <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
 <button id="comment-button" onclick="showComments()">Show comments</button>
-</div>
-</div>
 </div>
 </div>
 <div id="postamble" class="status">

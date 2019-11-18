@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2019-08-05 Mon 21:29 -->
+<!-- 2019-11-17 Sun 17:05 -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>i3wm screencasting gifs</title>
@@ -69,10 +69,10 @@ for the JavaScript code in this tag.
 <menu>
 <ul class="org-ul">
 <li><a href="index.html">Home</a></li>
-<li><a href="About.html">About</a></li>
-<li><a href="Resume.html">Resume</a></li>
-<li><a href="Portfolio.html">Portfolio</a></li>
-<li><a href="Contact.html">Contact</a></li>
+<li><a href="about.html">About</a></li>
+<li><a href="resume.html">Resume</a></li>
+<li><a href="portfolio.html">Portfolio</a></li>
+<li><a href="contact.html">Contact</a></li>
 </ul>
 </menu>
 
@@ -80,29 +80,29 @@ for the JavaScript code in this tag.
 
 <p>
  </p><h1>
-i3wm screencasting gifs 
+i3wm screencasting gifs
  </h1><p>
 </p>
 
 <p>
 <span class=page-date> <small>
-2019-05-24, updated 2019-05-25 <a href="Animating_gifs_in_orgmode.html">next</a> - <a href="Disqus_and_javascript_random_thoughts.html">previous</a>
+2019-05-24, updated 2019-05-25 <a href="animating_gifs_in_orgmode.html">next</a> - <a href="disqus_and_javascript_random_thoughts.html">previous</a>
 </small> </span> 
 </p>
 <nav id="table-of-contents">
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#createshortcuttostartandstopscreenrecording">1. Create shortcut to start and stop screenrecording</a></li>
-<li><a href="#recordscreensh">2. record-screen.sh</a></li>
-<li><a href="#isrecordingsh">3. is-recording.sh</a></li>
-<li><a href="#improvementsandchanges">4. Improvements and changes</a>
+<li><a href="#create_shortcut_to_start_and_stop_screenrecording">1. Create shortcut to start and stop screenrecording</a></li>
+<li><a href="#record-screensh">2. record-screen.sh</a></li>
+<li><a href="#is-recordingsh">3. is-recording.sh</a></li>
+<li><a href="#improvements_and_changes">4. Improvements and changes</a>
 <ul>
-<li><a href="#makingthegifsmaller">4.1. Making the gif smaller</a></li>
-<li><a href="#copyingthefiletotheclipboard">4.2. Copying the file to the clipboard</a></li>
-<li><a href="#displayinganotificationwhenyoufinishrecording">4.3. Displaying a notification when you finish recording</a></li>
-<li><a href="#recordingwebms">4.4. Recording webms</a></li>
-<li><a href="#puttingitalltogether">4.5. Putting it all together</a></li>
+<li><a href="#making_the_gif_smaller">4.1. Making the gif smaller</a></li>
+<li><a href="#copying_the_file_to_the_clipboard">4.2. Copying the file to the clipboard</a></li>
+<li><a href="#displaying_a_notification_when_you_finish_recording">4.3. Displaying a notification when you finish recording</a></li>
+<li><a href="#recording_webms">4.4. Recording webms</a></li>
+<li><a href="#putting_it_all_together">4.5. Putting it all together</a></li>
 </ul>
 </li>
 <li><a href="#example">5. Example!</a></li>
@@ -112,8 +112,8 @@ i3wm screencasting gifs
 <p>
 I read an amazing <a href="https://en.reddit.com/r/i3wm/comments/65vis5/screenshot_commands_from_my_i3_config/dgnic66/">comment on reddit</a> about how to very easily record the screen into gifs and I'll report it here with some improvements. All of this can be used in any other window manager, as long as you can create keyboard shortcuts.
 </p>
-<div id="outline-container-createshortcuttostartandstopscreenrecording" class="outline-2">
-<h2 id="createshortcuttostartandstopscreenrecording"><span class="section-number-2">1</span> Create shortcut to start and stop screenrecording</h2>
+<div id="outline-container-create_shortcut_to_start_and_stop_screenrecording" class="outline-2">
+<h2 id="create_shortcut_to_start_and_stop_screenrecording"><span class="section-number-2">1</span> Create shortcut to start and stop screenrecording</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 First we create a shortcut to start and stop the screenrecording
@@ -126,8 +126,8 @@ bindsym Shift+Mod4+Print exec ~/.files/i3/record-screen.sh ogv
 </div>
 </div>
 </div>
-<div id="outline-container-recordscreensh" class="outline-2">
-<h2 id="recordscreensh"><span class="section-number-2">2</span> record-screen.sh</h2>
+<div id="outline-container-record-screensh" class="outline-2">
+<h2 id="record-screensh"><span class="section-number-2">2</span> record-screen.sh</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 This is the file where most things happen.
@@ -174,8 +174,8 @@ It uses <code>byzanz</code> to record the screen, and <code>slop</code> to selec
 </div>
 </div>
 </div>
-<div id="outline-container-isrecordingsh" class="outline-2">
-<h2 id="isrecordingsh"><span class="section-number-2">3</span> is-recording.sh</h2>
+<div id="outline-container-is-recordingsh" class="outline-2">
+<h2 id="is-recordingsh"><span class="section-number-2">3</span> is-recording.sh</h2>
 <div class="outline-text-2" id="text-3">
 <p>
 This is the process that when killed stops the recording. 
@@ -192,12 +192,12 @@ polybar-msg hook is-recording 2
 </div>
 </div>
 </div>
-<div id="outline-container-improvementsandchanges" class="outline-2">
-<h2 id="improvementsandchanges"><span class="section-number-2">4</span> Improvements and changes</h2>
+<div id="outline-container-improvements_and_changes" class="outline-2">
+<h2 id="improvements_and_changes"><span class="section-number-2">4</span> Improvements and changes</h2>
 <div class="outline-text-2" id="text-4">
 </div>
-<div id="outline-container-makingthegifsmaller" class="outline-3">
-<h3 id="makingthegifsmaller"><span class="section-number-3">4.1</span> Making the gif smaller</h3>
+<div id="outline-container-making_the_gif_smaller" class="outline-3">
+<h3 id="making_the_gif_smaller"><span class="section-number-3">4.1</span> Making the gif smaller</h3>
 <div class="outline-text-3" id="text-4-1">
 <p>
 Recording a gif using the above files will result in files that are unreasonably large. A 10s recording might take 10mb!
@@ -219,8 +219,8 @@ This is the relevant change:
 </div>
 </div>
 </div>
-<div id="outline-container-copyingthefiletotheclipboard" class="outline-3">
-<h3 id="copyingthefiletotheclipboard"><span class="section-number-3">4.2</span> Copying the file to the clipboard</h3>
+<div id="outline-container-copying_the_file_to_the_clipboard" class="outline-3">
+<h3 id="copying_the_file_to_the_clipboard"><span class="section-number-3">4.2</span> Copying the file to the clipboard</h3>
 <div class="outline-text-3" id="text-4-2">
 <p>
 After you've save the file, it is useful to have it copied to the clipboard, so you can you use it in another place. In my case, I like being able to paste the screencast directly to my orgmode files by using my <a href="https://github.com/itf/clipboard2org/blob/master/clipboard2org.el">clipboard2org package</a>, but you can use other programs.  
@@ -235,8 +235,8 @@ This depends on <code>xclip</code>.
 </div>
 </div>
 </div>
-<div id="outline-container-displayinganotificationwhenyoufinishrecording" class="outline-3">
-<h3 id="displayinganotificationwhenyoufinishrecording"><span class="section-number-3">4.3</span> Displaying a notification when you finish recording</h3>
+<div id="outline-container-displaying_a_notification_when_you_finish_recording" class="outline-3">
+<h3 id="displaying_a_notification_when_you_finish_recording"><span class="section-number-3">4.3</span> Displaying a notification when you finish recording</h3>
 <div class="outline-text-3" id="text-4-3">
 <p>
 I do not use polybar. So instead I use <a href="https://github.com/vlevit/notify-send.sh">notify-send.sh</a> to send a notification when we finish the recording so I know that the command worked:
@@ -249,8 +249,8 @@ I do not use polybar. So instead I use <a href="https://github.com/vlevit/notify
 </div>
 </div>
 </div>
-<div id="outline-container-recordingwebms" class="outline-3">
-<h3 id="recordingwebms"><span class="section-number-3">4.4</span> Recording webms</h3>
+<div id="outline-container-recording_webms" class="outline-3">
+<h3 id="recording_webms"><span class="section-number-3">4.4</span> Recording webms</h3>
 <div class="outline-text-3" id="text-4-4">
 <p>
 Webms are better than gifs when supported. They are supported by basically everything, except IOS devices and internet explorer. In other words, it is even better than being supported everywhere haha. 
@@ -263,8 +263,8 @@ Webms are better than gifs when supported. They are supported by basically every
 </div>
 </div>
 </div>
-<div id="outline-container-puttingitalltogether" class="outline-3">
-<h3 id="puttingitalltogether"><span class="section-number-3">4.5</span> Putting it all together</h3>
+<div id="outline-container-putting_it_all_together" class="outline-3">
+<h3 id="putting_it_all_together"><span class="section-number-3">4.5</span> Putting it all together</h3>
 <div class="outline-text-3" id="text-4-5">
 <p>
 This is the end result.  The <b>Dependencies:</b> <code>byzanz-record</code> , <code>slop</code>, <code>gifsicle</code>, <code>notify-send.sh</code>.
@@ -347,7 +347,7 @@ All  of the paths are based on the paths I've setup here, you should adapt them 
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Ivan Tadeu Ferreira Antunes Filho</p>
-<p class="date">Date: 2019-08-05 Mon 21:29</p>
+<p class="date">Date: 2019-11-17 Sun 17:05</p>
 <p class="author">Github:  <a href="https://github.com/itf/">github.com/itf</a></p>
 <p class="creator">Made with <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.50 (<a href="https://orgmode.org">Org</a> mode 9.1.9) and <a href="https://github.com/itf/org-export-head">Org export head</a> </p>
 </div>

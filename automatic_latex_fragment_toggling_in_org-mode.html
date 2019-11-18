@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- 2019-11-17 Sun 17:05 -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Automatic Latex Fragment Toggling in org-mode</title>
+<meta name="generator" content="Org mode">
+<meta name="author" content="ivanaf">
+<link rel="stylesheet" type="text/css" href="css/org.css"/>
+<link rel="icon" href="ico/favicon.ico" type="image/x- icon">
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2019 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="content">
+<div class="head">
+<div class="title">
+<p>
+<a href="index.html">Ivanaf @ Home</a>
+</p>
+
+</div>
+
+<menu>
+<ul class="org-ul">
+<li><a href="index.html">Home</a></li>
+<li><a href="about.html">About</a></li>
+<li><a href="resume.html">Resume</a></li>
+<li><a href="portfolio.html">Portfolio</a></li>
+<li><a href="contact.html">Contact</a></li>
+</ul>
+</menu>
+
+</div>
+
+<p>
+ </p><h1>
+Automatic Latex Fragment Toggling in org-mode
+ </h1><p>
+</p>
+
+<p>
+<span class=page-date> <small>
+2019-05-25, updated 2019-05-25 <a href="magically_setup_emacsclient.html">next</a> - <a href="animating_gifs_in_orgmode.html">previous</a>
+</small> </span> 
+</p>
+<p>
+Automatic toggle latex fragments in orgmode when point is in them.
+</p>
+
+<p>
+I found a solution by <a href="http://slumpy.org/blog/2017-02-01-automatic-latex-preview-in-org-mode/">Konstantin Kliakhandler</a>, based on a <a href="http://kitchingroup.cheme.cmu.edu/blog/2015/10/09/Automatic-latex-image-toggling-when-cursor-is-on-a-fragment/">solution premade by John
+Kitchin</a>.
+</p>
+
+<p>
+The code worked fine, however, it was fairly slow, and sometimes it would issue too many commands at once (for example, when it was scrolling).
+</p>
+
+<p>
+Therefore, I decided to improve it and make it faster!
+</p>
+
+<p>
+The first thing I did was to add a <code>while-no-input</code> to the beginning of the code, so that it can be interrupted with user input. The second thing was to add a <code>(run-with-idle-timer 0.05 nil</code> This adds a delay of .05 seconds before displaying or removing the image. This is particularly useful when scrolling, because, together with the <code>while-no-input</code>   it stops the function from running multiple times while you scroll, or move around the text quickly, or when you take multiple actions that take less than 0.05 seconds.
+</p>
+
+<p>
+At last, I improved the performance considerably by using the trick I learned from  <a href="https://github.com/Fuco1/org-inline-image/blob/master/org-inline-image.el">org-inline-image package</a>, i.e that we can get the overlay at point and filter it by a specific property. This way instead of going through a potentially very large list of overlays, we make use of a function that was implemented in C, which is likely much faster, and we only have to go through all the overlays that are defined at point, which are likely much fewer than the number of overlays on the buffer. 
+</p>
+
+<p>
+At last I decided to byte compile the function, because, why not? It will be run at the end of every input anyway.
+</p>
+
+<p>
+Putting this all together:
+</p>
+
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(<span style="color: #a626a4;">defvar</span> <span style="color: #8b4513;">org-latex-fragment-last</span> nil
+  <span style="color: #50a14f; font-style: italic;">"Holds last fragment/environment you were on."</span>)
+
+(<span style="color: #a626a4;">defun</span> <span style="color: #0184bc;">my/org-latex-fragment--get-current-latex-fragment</span> ()
+  <span style="color: #50a14f; font-style: italic;">"Return the overlay associated with the image under point."</span>
+  (car (<span style="color: #a626a4;">--select</span> (eq (overlay-get it 'org-overlay-type) 'org-latex-overlay) (overlays-at (point)))))
+
+(<span style="color: #a626a4;">defun</span> <span style="color: #0184bc;">my/org-in-latex-fragment-p</span> ()
+    <span style="color: #50a14f; font-style: italic;">"Return the point where the latex fragment begins, if inside</span>
+<span style="color: #50a14f; font-style: italic;">  a latex fragment. Else return false"</span>
+    (<span style="color: #a626a4;">let*</span> ((el (org-element-context))
+           (el-type (car el)))
+      (<span style="color: #a626a4;">and</span> (<span style="color: #a626a4;">or</span> (eq 'latex-fragment el-type) (eq 'latex-environment el-type))
+          (org-element-property <span style="color: #e44649;">:begin</span> el))))
+
+(<span style="color: #a626a4;">defun</span> <span style="color: #0184bc;">org-latex-fragment-toggle-auto</span> ()
+  <span style="color: #a0a1a7; font-weight: bold;">;; </span><span style="color: #a0a1a7;">Wait for the s</span>
+  (<span style="color: #a626a4;">interactive</span>)
+  (<span style="color: #a626a4;">while-no-input</span> 
+    (run-with-idle-timer 0.05 nil 'org-latex-fragment-toggle-helper)))
+
+(<span style="color: #a626a4;">defun</span> <span style="color: #0184bc;">org-latex-fragment-toggle-helper</span> ()
+    <span style="color: #50a14f; font-style: italic;">"Toggle a latex fragment image "</span>
+    (<span style="color: #a626a4;">condition-case</span> nil
+        (<span style="color: #a626a4;">and</span> (eq 'org-mode major-mode)
+             (<span style="color: #a626a4;">let*</span> ((begin (my/org-in-latex-fragment-p)))
+               (<span style="color: #a626a4;">cond</span>
+                <span style="color: #a0a1a7; font-weight: bold;">;; </span><span style="color: #a0a1a7;">were on a fragment and now on a new fragment</span>
+                ((<span style="color: #a626a4;">and</span>
+                  <span style="color: #a0a1a7; font-weight: bold;">;; </span><span style="color: #a0a1a7;">fragment we were on</span>
+                  org-latex-fragment-last
+                  <span style="color: #a0a1a7; font-weight: bold;">;; </span><span style="color: #a0a1a7;">and are on a fragment now</span>
+                  begin
+                  <span style="color: #a0a1a7; font-weight: bold;">;; </span><span style="color: #a0a1a7;">but not on the last one this is a little tricky. as you edit the</span>
+                  <span style="color: #a0a1a7; font-weight: bold;">;; </span><span style="color: #a0a1a7;">fragment, it is not equal to the last one. We use the begin</span>
+                  <span style="color: #a0a1a7; font-weight: bold;">;; </span><span style="color: #a0a1a7;">property which is less likely to change for the comparison.</span>
+                  (not (= begin
+                          org-latex-fragment-last)))
+                 <span style="color: #a0a1a7; font-weight: bold;">;; </span><span style="color: #a0a1a7;">go back to last one and put image back</span>
+                 (<span style="color: #a626a4;">save-excursion</span>
+                   (goto-char org-latex-fragment-last)
+                   (<span style="color: #a626a4;">when</span> (my/org-in-latex-fragment-p) (org-toggle-latex-fragment))
+                   <span style="color: #a0a1a7; font-weight: bold;">;; </span><span style="color: #a0a1a7;">now remove current imagea</span>
+                   (goto-char begin)
+                   (<span style="color: #a626a4;">let</span> ((ov (my/org-latex-fragment--get-current-latex-fragment)))
+                     (<span style="color: #a626a4;">when</span> ov
+                       (delete-overlay ov)))
+                   <span style="color: #a0a1a7; font-weight: bold;">;; </span><span style="color: #a0a1a7;">and save new fragment</span>
+                   (<span style="color: #a626a4;">setq</span> org-latex-fragment-last begin)))
+                
+                <span style="color: #a0a1a7; font-weight: bold;">;; </span><span style="color: #a0a1a7;">were on a fragment and now are not on a fragment</span>
+                ((<span style="color: #a626a4;">and</span>
+                  <span style="color: #a0a1a7; font-weight: bold;">;; </span><span style="color: #a0a1a7;">not on a fragment now</span>
+                  (not begin)
+                  <span style="color: #a0a1a7; font-weight: bold;">;; </span><span style="color: #a0a1a7;">but we were on one</span>
+                  org-latex-fragment-last)
+                 <span style="color: #a0a1a7; font-weight: bold;">;; </span><span style="color: #a0a1a7;">put image back on</span>
+                 (<span style="color: #a626a4;">save-excursion</span>
+                   (goto-char org-latex-fragment-last)
+                   (<span style="color: #a626a4;">when</span> (my/org-in-latex-fragment-p)(org-toggle-latex-fragment)))
+                 
+                 <span style="color: #a0a1a7; font-weight: bold;">;; </span><span style="color: #a0a1a7;">unset last fragment</span>
+                 (<span style="color: #a626a4;">setq</span> org-latex-fragment-last nil))
+                
+                <span style="color: #a0a1a7; font-weight: bold;">;; </span><span style="color: #a0a1a7;">were not on a fragment, and now are</span>
+                ((<span style="color: #a626a4;">and</span>
+                  <span style="color: #a0a1a7; font-weight: bold;">;; </span><span style="color: #a0a1a7;">we were not one one</span>
+                  (not org-latex-fragment-last)
+                  <span style="color: #a0a1a7; font-weight: bold;">;; </span><span style="color: #a0a1a7;">but now we are</span>
+                  begin)
+                 (<span style="color: #a626a4;">save-excursion</span>
+                   (goto-char begin)
+                   <span style="color: #a0a1a7; font-weight: bold;">;; </span><span style="color: #a0a1a7;">remove image</span>
+                   (<span style="color: #a626a4;">let</span> ((ov (my/org-latex-fragment--get-current-latex-fragment)))
+                     (<span style="color: #a626a4;">when</span> ov
+                       (delete-overlay ov)))
+                   (<span style="color: #a626a4;">setq</span> org-latex-fragment-last begin)))
+                <span style="color: #a0a1a7; font-weight: bold;">;; </span><span style="color: #a0a1a7;">else not on a fragment</span>
+                ((not begin)
+                 (<span style="color: #a626a4;">setq</span> org-latex-fragment-last nil)))))
+      (<span style="color: #ff0000; font-weight: bold;">error</span> nil)))
+
+
+
+(add-hook 'post-command-hook 'org-latex-fragment-toggle-auto)
+(<span style="color: #a626a4;">setq</span> org-latex-fragment-toggle-helper (byte-compile 'org-latex-fragment-toggle-helper))
+(<span style="color: #a626a4;">setq</span> org-latex-fragment-toggle-auto (byte-compile 'org-latex-fragment-toggle-auto))
+</pre>
+</div>
+
+<p>
+And here is an example!
+<img src="./gif/Screencast-2019-05-25T054725-0400.gif" alt="Screencast-2019-05-25T054725-0400.gif">
+</p>
+
+<br>
+<div class="comments">
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+/* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'ivanaf'; // Required - Replace '<example>' with your forum shortname
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    var showComments = function() {
+    var button = document.getElementById('comment-button')
+        button.style.display = 'none'
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        };
+    </script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<button id="comment-button" onclick="showComments()">Show comments</button>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: Ivan Tadeu Ferreira Antunes Filho</p>
+<p class="date">Date: 2019-11-17 Sun 17:05</p>
+<p class="author">Github:  <a href="https://github.com/itf/">github.com/itf</a></p>
+<p class="creator">Made with <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.50 (<a href="https://orgmode.org">Org</a> mode 9.1.9) and <a href="https://github.com/itf/org-export-head">Org export head</a> </p>
+</div>
+</body>
+</html>

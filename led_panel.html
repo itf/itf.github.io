@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- 2019-11-17 Sun 17:05 -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Led Panel</title>
+<meta name="generator" content="Org mode">
+<meta name="author" content="ivanaf">
+<link rel="stylesheet" type="text/css" href="css/org.css"/>
+<link rel="icon" href="ico/favicon.ico" type="image/x- icon">
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2019 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="content">
+<div class="head">
+<div class="title">
+<p>
+<a href="index.html">Ivanaf @ Home</a>
+</p>
+
+</div>
+
+<menu>
+<ul class="org-ul">
+<li><a href="index.html">Home</a></li>
+<li><a href="about.html">About</a></li>
+<li><a href="resume.html">Resume</a></li>
+<li><a href="portfolio.html">Portfolio</a></li>
+<li><a href="contact.html">Contact</a></li>
+</ul>
+</menu>
+
+</div>
+
+<p>
+ </p><h1>
+Led Panel
+ </h1><p>
+</p>
+
+<p>
+<span class=page-date> <small>
+2016-03-16, updated 2018-09-14 <a href="mit_entrepreneurship_resources.html">next</a> - <a href="linear_panorama.html">previous</a>
+</small> </span> 
+</p>
+<nav id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#material">1. Material:</a></li>
+<li><a href="#construction">2. Construction</a></li>
+<li><a href="#software-1">3. Software</a>
+<ul>
+<li><a href="#starting">3.1. Starting</a></li>
+<li><a href="#patterns-and-effects">3.2. Patterns and effects</a></li>
+<li><a href="#other-small-detais">3.3. Other small detais</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</nav>
+
+
+<p>
+My friends and I built an led matrix with 30x60 pixels. This post will
+focus mainly on the software, but first, let's skim through the
+hardware.
+</p>
+
+<div id="outline-container-material" class="outline-2">
+<h2 id="material"><a id="material"></a><span class="section-number-2">1</span> Material:</h2>
+<div class="outline-text-2" id="text-material">
+<ul class="org-ul">
+<li>70 meters of ws2812 strips</li>
+<li>A 90 amps, 5v power supply</li>
+<li>20 feet of gauge 2 stranded copper wire.</li>
+<li>A raspberry pi.</li>
+<li>2 ethernet cables.</li>
+<li>Speaker wire (any other medium-large wire would also work)</li>
+<li>Female header pins</li>
+<li>Hot glue</li>
+<li>Plywood, 2x3s pieces of wood and diffuse vinyl fabric for the frame.</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-construction" class="outline-2">
+<h2 id="construction"><a id="construction"></a><span class="section-number-2">2</span> Construction</h2>
+<div class="outline-text-2" id="text-construction">
+
+<figure>
+<img src="./png/ledbuilding.png" alt="ledbuilding.png">
+
+</figure>
+
+<p>
+The construction was simple, but took around 40 man hours.
+</p>
+
+<p>
+First, we cut all the Led strips into 2meter strips, and soldered header
+pins onto the cut parts.
+</p>
+
+<p>
+We built the 1x2m frame by cutting the wood pieces onto the necessary
+lengths at the store. We drilled holes on the frame and tied all the led
+strips onto it, and then hot glued the strips.
+</p>
+
+<p>
+For the power, we had a 90A, 5V power supply, connected using 2 10 feet
+gauge 2 stranded copper wire (which minimized the voltage drop to around
+0.2v); on the sides of the frame we attached 8 strands of speaker wire
+and soldered wires to them.
+</p>
+
+<p>
+The wires and strips were connected to each other, and held into place
+by hot glue.
+</p>
+
+<p>
+A raspberry pi connected to the Internet through Ethernet sends data to
+the LEDs using a stripped Ethernet cable.
+</p>
+
+<p>
+So far, the main difficulty was handling the voltage drop caused by
+90amps going through the wires. Just get larger wires and you'll be good
+to go, as long as you calculate the voltage drop before building it.
+</p>
+</div>
+</div>
+
+<div id="outline-container-software" class="outline-2">
+<h2 id="software-1"><a id="software"></a><span class="section-number-2">3</span> Software</h2>
+<div class="outline-text-2" id="text-software-1">
+
+<figure>
+<img src="./jpg/panel.jpg" alt="panel.jpg">
+
+<figcaption><span class="figure-number">Figure 2: </span>Panel</figcaption>
+</figure>
+
+<p>
+The software of this project was pretty fun to code and it is pretty fun
+to use in my opinion.
+</p>
+
+<p>
+All of it can be found in the
+<a href="https://github.com/itf/led-curtain-2"><i>github repo of the project</i></a>.
+If you want to take a look at the details of each design choice, just
+read the read-me of the github repo. This post describes what motivated
+each design choice and when each module was built, and why.
+</p>
+
+<p>
+Programming really complex effects is really hard and boring, so my main
+objective was to make it possible to combine simple patters and effects
+into more complex effects. More specifically those were the maing
+objectives:
+</p>
+
+<p>
+1- Capable of creating new functions by combining previous ones 2-
+Reacts to music / beats 3- Few dependencies / dependencies that are easy
+to install 4- Modular (can change the protocol to control other types of
+LED screens, LED strips, increase the number of strips being controlled,
+add plugins, etc) 5- Mostly in a single language 6- Ideally,
+communication through UDP / WebRTC 7- Should run on Linux, Windows and
+Mac.
+</p>
+
+<p>
+This will be written in the order that things were coded. You should
+skip direct to the patterns and effects session to see the cool parts!
+</p>
+</div>
+
+<div id="outline-container-starting" class="outline-3">
+<h3 id="starting"><a id="starting"></a><span class="section-number-3">3.1</span> Starting</h3>
+<div class="outline-text-3" id="text-starting">
+<p>
+I started programming the led panel long before I had the LED panel. So
+the first thing I needed, in my opinion, was a fake led panel.
+</p>
+
+<p>
+I found a friend's project <a href="https://github.com/mlsteele/curtain">Iron
+Curtain</a> that had some code for a local display; a display that
+mimecked an led panel. So I
+<a href="https://github.com/itf/led-curtain-2/blob/master/Display/Pygame/pgCurtain.py">modified
+the code</a> to be able to handle an arbirtrary number of pixels.
+</p>
+
+<p>
+After I had a way of testing my code, I needed a way of sending data. I
+made a
+<a href="https://github.com/itf/led-curtain-2/blob/master/Transportation/Sockets/ClientSocketUDP.py">"Client"
+and a "Server"</a> that communicated using UDP. The client sent data to
+the server, and the server sent the data to the local display. I wrote a
+<a href="https://github.com/itf/led-curtain-2/blob/master/Tests/TestSendData.py">few
+tests</a> to make sure everything worked.
+</p>
+
+<p>
+Now I needed a way to represent the pixels, in order to work with them.
+I wrote a
+<a href="https://github.com/itf/led-curtain-2/blob/8536d31cf1e8a3a9d30239358a54033fddf5a044/ScreenCanvas.py">canvas
+class</a> that I could use to represent the pixels of the screen, and that
+could handle all edge cases (for example, what to do when trying to
+address a pixel that is not on the screen?) I decided to handle such
+edge cases by making the screen "repeatable and infinite" i.e. if you
+address the pixel -1 you go back to the right most pixel.
+</p>
+
+<p>
+After all the basics were built it was time to start building the
+patterns.
+</p>
+</div>
+</div>
+
+<div id="outline-container-patterns_and_effects" class="outline-3">
+<h3 id="patterns-and-effects"><a id="patterns_and_effects"></a><span class="section-number-3">3.2</span> Patterns and effects</h3>
+<div class="outline-text-3" id="text-patterns-and-effects">
+<p>
+Patterns objective:
+</p>
+
+<p>
+1- Be easy to modify or add effects (example: increase speed, change
+colors, etc) 2- Be easy to combine 3- Possible to save to a file and
+load from files.
+</p>
+
+<p>
+How to make patterns in a way that it is easy to combine?
+</p>
+
+<p>
+There are basically two options of how to make the patterns: they can be
+functions or they can be objects.
+</p>
+
+<p>
+One option was to have each pattern being an object, and having objects
+that take other objects on their input to combine patterns. This would
+allow to have states in a very simple way, and change the states in each
+update. This is how 1e, a different hall in my dorm, does it, as seen on
+their <a href="https://github.com/FirstEast/1e-Disco/blob/master/server/pattern/pattern.py">gitrepo</a>.
+</p>
+
+<p>
+If they are functions they should be easier to compose; however, in
+order to have an internal state, one needs to use closure, which can add
+a lot of complexity to the code.
+</p>
+
+<p>
+I first tried to make the patterns objects. But it was really hard for
+me to reason about what was the right behavior for the patterns and how
+to combine them in interesting ways without adding a lot of boiler plate
+code. For example, what does it mean to take the mean of two (object)
+patterns? It means to call a function in the the first pattern to
+generate an image, do the same on the second pattern, and, at last,
+create a new object that implements a function that generates this
+particulat image.
+</p>
+
+<p>
+Instead, I decided to make the patterns functions that, when possible,
+don't haven an internal state.
+</p>
+</div>
+
+<div id="outline-container-why_no_internal_state" class="outline-4">
+<h4 id="why-no-internal-state"><a id="why_no_internal_state"></a><span class="section-number-4">3.2.1</span> Why no internal state?</h4>
+<div class="outline-text-4" id="text-why-no-internal-state">
+<p>
+The main advantage of not having an internal state is that it allows one
+to easily modify the patterns. Let's say that we want to generate a
+circle that increases and decreases its size in each frame. One option
+is to create a pattern that contains the circle radius as part of its
+internal state and at each frame it changes the circle radius. This
+works, but is rather hard to modify.
+</p>
+
+<p>
+A simpler solution is to have a pattern that simply creates a circle and
+takes as its input something that can be used to generate the circle
+radius. At each step, we can have this input change, and, this way, we
+can create any kind of pattern that involves circles that change sizes.
+</p>
+</div>
+</div>
+
+<div id="outline-container-what_about_this_input" class="outline-4">
+<h4 id="what-about-this-input"><a id="what_about_this_input"></a><span class="section-number-4">3.2.2</span> What about this input?</h4>
+<div class="outline-text-4" id="text-what-about-this-input">
+<p>
+You might ask now, what about this input? Wouldn't it be very specific
+to each pattern and make it hard to modify or combine them? In theory,
+this could be the case if you don't make the input generic enough. In
+order to have it as generic as possible, the input was simply a python
+dictionary.
+</p>
+
+<p>
+On this input, which was conveniently called "Pattern Input" all the
+necessary information related to patterns is stored. It stores the frame
+number, the canvas that will contain the image that will be generated,
+the radius of the circle, audio information, etc. And any pattern could
+potentially modify it or have it modified by functions!
+</p>
+</div>
+</div>
+
+<div id="outline-container-fast_development" class="outline-4">
+<h4 id="fast-development"><a id="fast_development"></a><span class="section-number-4">3.2.3</span> Fast development</h4>
+<div class="outline-text-4" id="text-fast-development">
+<p>
+After defining the input to patterns all the development got faster.
+Patterns were defined as "Functions that take pattern inputs and return
+pattern inputs" . Functions were defined as "Functions that take
+patterns and return patterns". Some of the basic patterns that I created
+were: "Red": makes the canvas red. "Circle": makes a circle of radius
+"cradius". "Trivial": returns the same pattern input that it received.
+</p>
+
+<p>
+Some of the basic functions I created first were: "hue", shifits the hue
+of the image by an specied amount. "Rainbow": shifts the hue by an
+amount linearly dependent on the position.
+</p>
+
+<p>
+Some of the auxiliary decorators I made in the code were: "defaultArgs":
+add default arguments to the pattern input. An example is: the circle
+gets the radius from the pattern input. However, if the pattern input
+has no info about the circle radius, it should be initialized to a
+default value.
+</p>
+
+<p>
+This was enough to create many interesting and simple functions, but it
+was not enough to generate arbitrarily complex functions.
+</p>
+
+<p>
+The next milestone on the development, was when I created the function
+"arg". Arg is the only function in the code that doesn't immediately
+modify a pattern.
+</p>
+</div>
+</div>
+
+<div id="outline-container-what_is_arg" class="outline-4">
+<h4 id="what-is-arg"><a id="what_is_arg"></a><span class="section-number-4">3.2.4</span> What is arg?</h4>
+<div class="outline-text-4" id="text-what-is-arg">
+<p>
+I needed a way to modify the aruments to the functions. However, since
+every function took a pattern and every pattern took a pattern input,
+there was no where to modify the arguments themselves besides hard
+coding them in the code. "Arg" is the function that solves this problem.
+</p>
+
+<p>
+Arg is a function that takes a string and returns a "Function". Remember
+that "Functions" are things that modify patterns. So far, "arg" is not
+special. The special part is that it runs the string as if it was python
+code, but from inside the context of the "Pattern Input". In other
+words:
+</p>
+
+<p>
+arg("cRadius=frame/10.%20")(circle)
+</p>
+
+<p>
+Is a pattern that generates a circle whose radius depends on the frame
+number. It is a pattern that evolves in time!
+</p>
+
+<p>
+After arg was defined, lots of other patterns and functions were
+created. Patterns that opened images, functions that took the mean of
+patterns, etc.
+</p>
+</div>
+</div>
+
+<div id="outline-container-problems_with_lack_of_states" class="outline-4">
+<h4 id="problems-with-lack-of-states."><a id="problems_with_lack_of_states"></a><span class="section-number-4">3.2.5</span> Problems with lack of states.</h4>
+<div class="outline-text-4" id="text-problems-with-lack-of-states.">
+<p>
+However, the design choice of abolishing internal states could only me
+so far. I wanted to create transitions between patterns and patterns
+such as the snake game.
+</p>
+
+<p>
+To solve the problem of transitions, using closure, transitions keep
+track of how much it has already transitioned between patterns. Because
+of this, it is hard to modify the transitions themselves without changes
+in the code.
+</p>
+
+<p>
+To create patterns with internal states, the solution was similar,
+certain patterns could have access to an internal dictionary that keeps
+track of its internal state. As with the transtions, the internal state
+can't be modified by other patterns. Even with those limitations, those
+patterns could make extensive use of the rest of the functions. As soon
+as I created a snake game pattern it was possible to blur the snakes,
+change their color and make them brighter and darker with the rithm..
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-other_small_detais" class="outline-3">
+<h3 id="other-small-detais"><a id="other_small_detais"></a><span class="section-number-3">3.3</span> Other small detais</h3>
+<div class="outline-text-3" id="text-other-small-detais">
+<p>
+This covers most of the development of the software. The audio
+information are functions inside the pattern input, and any pattern can
+make use of the audio.
+</p>
+
+<p>
+The leds make use of a linear color profile, and therefore I had to
+convert the colors from SRGB to linear before sending the data through
+UDP.
+</p>
+
+<p>
+The code was meant to be easy to develop and use, not meant to be fast.
+In order to run it at fast speeds, you need to use pypy.
+</p>
+
+<br>
+<div class="comments">
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+/* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'ivanaf'; // Required - Replace '<example>' with your forum shortname
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    var showComments = function() {
+    var button = document.getElementById('comment-button')
+        button.style.display = 'none'
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        };
+    </script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<button id="comment-button" onclick="showComments()">Show comments</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: Ivan Tadeu Ferreira Antunes Filho</p>
+<p class="date">Date: 2019-11-17 Sun 17:05</p>
+<p class="author">Github:  <a href="https://github.com/itf/">github.com/itf</a></p>
+<p class="creator">Made with <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.50 (<a href="https://orgmode.org">Org</a> mode 9.1.9) and <a href="https://github.com/itf/org-export-head">Org export head</a> </p>
+</div>
+</body>
+</html>

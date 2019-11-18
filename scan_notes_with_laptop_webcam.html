@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- 2019-11-17 Sun 17:05 -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Scan notes with laptop webcam</title>
+<meta name="generator" content="Org mode">
+<meta name="author" content="ivanaf">
+<link rel="stylesheet" type="text/css" href="css/org.css"/>
+<link rel="icon" href="ico/favicon.ico" type="image/x- icon">
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2019 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="content">
+<div class="head">
+<div class="title">
+<p>
+<a href="index.html">Ivanaf @ Home</a>
+</p>
+
+</div>
+
+<menu>
+<ul class="org-ul">
+<li><a href="index.html">Home</a></li>
+<li><a href="about.html">About</a></li>
+<li><a href="resume.html">Resume</a></li>
+<li><a href="portfolio.html">Portfolio</a></li>
+<li><a href="contact.html">Contact</a></li>
+</ul>
+</menu>
+
+</div>
+
+<p>
+ </p><h1>
+Scan notes with laptop webcam
+ </h1><p>
+</p>
+
+<p>
+<span class=page-date> <small>
+2018-09-16, updated 2019-02-28 <a href="solving_a_problem_set_with_orgmode.html">next</a> - <a href="export_subtree_with_files.html">previous</a>
+</small> </span> 
+</p>
+<nav id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#controlling_the_brightness">1. Controlling the brightness</a></li>
+<li><a href="#taking_the_picture">2. Taking the picture</a></li>
+<li><a href="#cropping_the_picture">3. Cropping the picture</a></li>
+<li><a href="#cleaning_the_image">4. Cleaning the image</a></li>
+<li><a href="#putting_it_all_together">5. Putting it all together</a></li>
+<li><a href="#results">6. Results:</a></li>
+</ul>
+</div>
+</nav>
+
+
+<p>
+I was solving a pset, and realized that I needed to draw a graph by hand and include it in my solution. I didn't want to deal with taking a picture with my phone and sending the picture to my computer in order to use it. I wanted to be able to quickly scan it using my webcam. 
+</p>
+
+<p>
+So I decided to write a scrip to just do that, I press Ctrl-Print and the magic happens!
+</p>
+
+<p>
+It sets my screen brightness to max. Takes a pic with my webcam. Sets the screen brightness to where it was.  Prompts me to crop the picture it took. Uses <a href="http://www.fmwconcepts.com/imagemagick/textcleaner/index.php">textcleaner</a> to clean the picture up. And at last, it automatically inserts the picture in my org document, and displays the picture.
+</p>
+
+<p>
+In other words, a quick and dirty scanner with computer screen flash to scan papers.
+</p>
+<div id="outline-container-controlling_the_brightness" class="outline-2">
+<h2 id="controlling_the_brightness"><span class="section-number-2">1</span> Controlling the brightness</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+First I needed to allow me to control the brightness without sudo. Here I added my group as a group with permissions to edit the brightness.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh">sudo chgrp ivanaf /sys/class/backlight/intel_backlight/brightness
+sudo /bin/chmod g+w  /sys/class/backlight/intel_backlight/brightness
+</pre>
+</div>
+
+<p>
+Then I could just use 
+</p>
+<div class="org-src-container">
+<pre class="src src-sh"><span style="color: #e44649;">echo</span> brightness /sys/class/backlight/intel_backlight/brightness
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-taking_the_picture" class="outline-2">
+<h2 id="taking_the_picture"><span class="section-number-2">2</span> Taking the picture</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+I use pygame to take the picture.
+</p>
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #a626a4;">import</span> pygame
+<span style="color: #a626a4;">import</span> pygame.camera
+<span style="color: #a626a4;">from</span> pygame.<span style="color: #e44649;">locals</span> <span style="color: #a626a4;">import</span> *
+<span style="color: #a626a4;">import</span> sys
+<span style="color: #a626a4;">from</span> PIL <span style="color: #a626a4;">import</span> Image
+<span style="color: #a626a4;">import</span> os
+<span style="color: #a626a4;">from</span> time <span style="color: #a626a4;">import</span> time
+<span style="color: #a626a4;">import</span> numpy <span style="color: #a626a4;">as</span> np
+
+
+<span style="color: #8b4513;">DEVICE</span> = <span style="color: #50a14f;">"/dev/video1"</span>
+<span style="color: #8b4513;">SIZE</span> = (1280, 720)
+
+<span style="color: #a0a1a7; font-weight: bold;">#</span><span style="color: #a0a1a7;">https://www.pyimagesearch.com/2015/09/07/blur-detection-with-opencv/</span>
+
+<span style="color: #a0a1a7; font-weight: bold;">#</span><span style="color: #a0a1a7;">try:</span>
+<span style="color: #a626a4;">if</span> <span style="color: #008b8b;">True</span>:
+<span style="background-color: #f2f2f2;"> </span>   <span style="color: #a626a4;">import</span> cv2
+<span style="background-color: #f2f2f2;"> </span>   <span style="color: #8b4513;">has_cv</span> = <span style="color: #008b8b;">True</span>
+
+<span style="background-color: #f2f2f2;"> </span>   <span style="color: #a626a4;">def</span> <span style="color: #0184bc;">variance_of_laplacian</span>(image):
+<span style="background-color: #f2f2f2;"> </span>   <span style="background-color: #f2f2f2;"> </span>   <span style="color: #a0a1a7; font-weight: bold;"># </span><span style="color: #a0a1a7;">compute the Laplacian of the image and then return the focus</span>
+<span style="background-color: #f2f2f2;"> </span>   <span style="background-color: #f2f2f2;"> </span>   <span style="color: #a0a1a7; font-weight: bold;"># </span><span style="color: #a0a1a7;">measure, which is simply the variance of the Laplacian</span>
+<span style="background-color: #f2f2f2;"> </span>   <span style="background-color: #f2f2f2;"> </span>   <span style="color: #8b4513;">ans</span> =  cv2.Laplacian(image, cv2.CV_64F).var()
+
+<span style="background-color: #f2f2f2;"> </span>   <span style="background-color: #f2f2f2;"> </span>   <span style="color: #a626a4;">print</span>(ans)
+<span style="background-color: #f2f2f2;"> </span>   <span style="background-color: #f2f2f2;"> </span>   <span style="color: #a626a4;">return</span> cv2.Laplacian(image, cv2.CV_64F).var()
+
+<span style="background-color: #f2f2f2;"> </span>   <span style="color: #a626a4;">def</span> <span style="color: #0184bc;">choose_best</span>(image1, image2):
+<span style="background-color: #f2f2f2;"> </span>   <span style="background-color: #f2f2f2;"> </span>   <span style="color: #a626a4;">if</span> variance_of_laplacian(pygame_to_cvimage(image1))&gt;variance_of_laplacian(pygame_to_cvimage(image2)):
+<span style="background-color: #f2f2f2;"> </span>   <span style="background-color: #f2f2f2;"> </span>   <span style="background-color: #f2f2f2;"> </span>   <span style="color: #a626a4;">return</span> image1
+<span style="background-color: #f2f2f2;"> </span>   <span style="background-color: #f2f2f2;"> </span>   <span style="color: #a626a4;">return</span> image2
+
+<span style="background-color: #f2f2f2;"> </span>   <span style="color: #a0a1a7; font-weight: bold;">#</span><span style="color: #a0a1a7;">https://gist.github.com/jpanganiban/3844261</span>
+<span style="background-color: #f2f2f2;"> </span>   <span style="color: #a626a4;">def</span> <span style="color: #0184bc;">pygame_to_cvimage</span>(surface):
+<span style="background-color: #f2f2f2;"> </span>   <span style="background-color: #f2f2f2;"> </span>   <span style="color: #50a14f; font-style: italic;">"""Convert a pygame surface into a cv image"""</span>
+<span style="background-color: #f2f2f2;"> </span>   <span style="background-color: #f2f2f2;"> </span>   <span style="color: #a0a1a7; font-weight: bold;">## </span><span style="color: #a0a1a7;">convert to pillow</span>
+<span style="background-color: #f2f2f2;"> </span>   <span style="background-color: #f2f2f2;"> </span>   <span style="color: #8b4513;">pil_string_image</span> = pygame.image.tostring(surface, <span style="color: #50a14f;">"RGB"</span>, <span style="color: #008b8b;">False</span>)
+<span style="background-color: #f2f2f2;"> </span>   <span style="background-color: #f2f2f2;"> </span>   <span style="color: #8b4513;">pil_im</span> = Image.frombytes(<span style="color: #50a14f;">"RGB"</span>, SIZE, pil_string_image)
+
+<span style="background-color: #f2f2f2;"> </span>   <span style="background-color: #f2f2f2;"> </span>   <span style="color: #8b4513;">numpy_image</span> = np.array(pil_im)
+<span style="background-color: #f2f2f2;"> </span>   <span style="background-color: #f2f2f2;"> </span>   <span style="color: #8b4513;">opencv_image</span> = cv2.cvtColor(numpy_image, cv2.COLOR_RGB2BGR) 
+<span style="background-color: #f2f2f2;"> </span>   <span style="background-color: #f2f2f2;"> </span>   <span style="color: #8b4513;">gray</span> = cv2.cvtColor(opencv_image, cv2.COLOR_BGR2GRAY)
+<span style="background-color: #f2f2f2;"> </span>   <span style="background-color: #f2f2f2;"> </span>   <span style="color: #a626a4;">return</span> gray
+
+<span style="color: #a0a1a7; font-weight: bold;">#</span><span style="color: #a0a1a7;">except ImportError:</span>
+<span style="color: #a626a4;">else</span>:
+<span style="background-color: #f2f2f2;"> </span>   <span style="color: #8b4513;">has_cv</span> = <span style="color: #008b8b;">False</span>
+
+<span style="background-color: #f2f2f2;"> </span>   <span style="color: #a626a4;">def</span> <span style="color: #0184bc;">choose_best</span>(image1, image2):
+<span style="background-color: #f2f2f2;"> </span>   <span style="background-color: #f2f2f2;"> </span>   <span style="color: #a626a4;">return</span> image2
+
+
+
+
+
+
+
+
+
+
+
+<span style="color: #a0a1a7; font-weight: bold;">#</span><span style="color: #a0a1a7;">based on https://gist.github.com/snim2/255151</span>
+<span style="color: #a0a1a7; font-weight: bold;">#</span><span style="color: #a0a1a7;">and https://www.pygame.org/docs/tut/CameraIntro.html</span>
+
+
+<span style="color: #a626a4;">if</span> <span style="color: #e44649;">__name__</span> == <span style="color: #50a14f;">"__main__"</span>:
+<span style="background-color: #f2f2f2;"> </span>   <span style="color: #8b4513;">file_name</span> = <span style="color: #e44649;">str</span>(sys.argv[1]) 
+<span style="background-color: #f2f2f2;"> </span>   pygame.init()
+<span style="background-color: #f2f2f2;"> </span>   pygame.camera.init()
+
+<span style="background-color: #f2f2f2;"> </span>   <span style="color: #8b4513;">cam</span> = pygame.camera.Camera(DEVICE, SIZE)
+<span style="background-color: #f2f2f2;"> </span>   cam.start()
+
+<span style="background-color: #f2f2f2;"> </span>   <span style="color: #8b4513;">display</span> = pygame.display.set_mode(SIZE, 0)
+<span style="background-color: #f2f2f2;"> </span>   <span style="color: #8b4513;">screen</span> = pygame.surface.Surface(SIZE, 0, display)
+<span style="background-color: #f2f2f2;"> </span>   <span style="color: #8b4513;">begin_time</span> = time()
+
+<span style="background-color: #f2f2f2;"> </span>   <span style="color: #a0a1a7; font-weight: bold;">#</span><span style="color: #a0a1a7;">Needed for the camera to adjust brightness and focus</span>
+<span style="background-color: #f2f2f2;"> </span>   <span style="color: #8b4513;">image</span> = cam.get_image()
+<span style="background-color: #f2f2f2;"> </span>   <span style="color: #a626a4;">while</span> time()-begin_time &lt; 1.1:
+<span style="background-color: #f2f2f2;"> </span>   <span style="background-color: #f2f2f2;"> </span>   <span style="color: #8b4513;">screen</span> = cam.get_image()
+<span style="background-color: #f2f2f2;"> </span>   <span style="background-color: #f2f2f2;"> </span>   display.blit(screen, (0,0))
+<span style="background-color: #f2f2f2;"> </span>   <span style="background-color: #f2f2f2;"> </span>   pygame.display.flip()
+<span style="background-color: #f2f2f2;"> </span>   <span style="background-color: #f2f2f2;"> </span>   <span style="color: #8b4513;">image</span> = choose_best(image, screen)
+<span style="background-color: #f2f2f2;"> </span>   
+<span style="background-color: #f2f2f2;"> </span>   cam.stop()
+
+<span style="background-color: #f2f2f2;"> </span>   <span style="color: #8b4513;">pil_string_image</span> = pygame.image.tostring(image,<span style="color: #50a14f;">"RGB"</span>,<span style="color: #008b8b;">False</span>)
+<span style="background-color: #f2f2f2;"> </span>   <span style="color: #8b4513;">im</span> = Image.frombytes(<span style="color: #50a14f;">"RGB"</span>, SIZE ,pil_string_image)
+<span style="background-color: #f2f2f2;"> </span>   
+<span style="background-color: #f2f2f2;"> </span>   <span style="color: #8b4513;">out_file</span> = <span style="color: #e44649;">open</span>(file_name, <span style="color: #50a14f;">'wb'</span>)
+<span style="background-color: #f2f2f2;"> </span>   im.save(out_file, <span style="color: #50a14f;">"JPEG"</span>)
+
+
+<span style="background-color: #f2f2f2;"> </span>   <span style="color: #a0a1a7; font-weight: bold;">#</span><span style="color: #a0a1a7;">from: http://discourse.techart.online/t/pil-wait-for-image-save/3994/6</span>
+
+<span style="background-color: #f2f2f2;"> </span>   out_file.flush()
+<span style="background-color: #f2f2f2;"> </span>   os.fsync(out_file)
+<span style="background-color: #f2f2f2;"> </span>   out_file.close()
+
+<span style="background-color: #f2f2f2;"> </span>   pygame.<span style="color: #008b8b;">quit</span>()
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-cropping_the_picture" class="outline-2">
+<h2 id="cropping_the_picture"><span class="section-number-2">3</span> Cropping the picture</h2>
+<div class="outline-text-2" id="text-3">
+<p>
+Again, I use pygame, using the code from these online answers: 
+<a href="https://coderwall.com/p/hmp8uw/image-cropping-using-pygame">https://coderwall.com/p/hmp8uw/image-cropping-using-pygame</a>
+<a href="https://stackoverflow.com/questions/6136588/image-cropping-using-python/8696558">https://stackoverflow.com/questions/6136588/image-cropping-using-python/8696558</a> 
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #a626a4;">import</span> pygame
+<span style="color: #a626a4;">import</span> pygame.camera
+<span style="color: #a626a4;">from</span> pygame.<span style="color: #e44649;">locals</span> <span style="color: #a626a4;">import</span> *
+<span style="color: #a626a4;">import</span> sys
+<span style="color: #a626a4;">from</span> PIL <span style="color: #a626a4;">import</span> Image
+<span style="color: #a626a4;">import</span> os
+
+<span style="color: #a0a1a7; font-weight: bold;">#</span><span style="color: #a0a1a7;">https://coderwall.com/p/hmp8uw/image-cropping-using-pygame</span>
+<span style="color: #a0a1a7; font-weight: bold;">#</span><span style="color: #a0a1a7;">https://stackoverflow.com/questions/6136588/image-cropping-using-python/8696558 </span>
+<span style="color: #a626a4;">import</span> pygame, sys
+<span style="color: #a626a4;">from</span> PIL <span style="color: #a626a4;">import</span> Image
+pygame.init()
+
+<span style="color: #a626a4;">def</span> <span style="color: #0184bc;">displayImage</span>(screen, px, topleft, prior):
+<span style="background-color: #f2f2f2;"> </span>   <span style="color: #a0a1a7; font-weight: bold;"># </span><span style="color: #a0a1a7;">ensure that the rect always has positive width, height</span>
+<span style="background-color: #f2f2f2;"> </span>   <span style="color: #8b4513;">x</span>, <span style="color: #8b4513;">y</span> = topleft
+<span style="background-color: #f2f2f2;"> </span>   <span style="color: #8b4513;">width</span> =  pygame.mouse.get_pos()[0] - topleft[0]
+<span style="background-color: #f2f2f2;"> </span>   <span style="color: #8b4513;">height</span> = pygame.mouse.get_pos()[1] - topleft[1]
+<span style="background-color: #f2f2f2;"> </span>   <span style="color: #a626a4;">if</span> width &lt; 0:
+<span style="background-color: #f2f2f2;"> </span>   <span style="background-color: #f2f2f2;"> </span>   <span style="color: #8b4513;">x</span> += width
+<span style="background-color: #f2f2f2;"> </span>   <span style="background-color: #f2f2f2;"> </span>   <span style="color: #8b4513;">width</span> = <span style="color: #e44649;">abs</span>(width)
+<span style="background-color: #f2f2f2;"> </span>   <span style="color: #a626a4;">if</span> height &lt; 0:
+<span style="background-color: #f2f2f2;"> </span>   <span style="background-color: #f2f2f2;"> </span>   <span style="color: #8b4513;">y</span> += height
+<span style="background-color: #f2f2f2;"> </span>   <span style="background-color: #f2f2f2;"> </span>   <span style="color: #8b4513;">height</span> = <span style="color: #e44649;">abs</span>(height)
+
+<span style="background-color: #f2f2f2;"> </span>   <span style="color: #a0a1a7; font-weight: bold;"># </span><span style="color: #a0a1a7;">eliminate redundant drawing cycles (when mouse isn't moving)</span>
+<span style="background-color: #f2f2f2;"> </span>   <span style="color: #8b4513;">current</span> = x, y, width, height
+<span style="background-color: #f2f2f2;"> </span>   <span style="color: #a626a4;">if</span> <span style="color: #a626a4;">not</span> (width <span style="color: #a626a4;">and</span> height):
+<span style="background-color: #f2f2f2;"> </span>   <span style="background-color: #f2f2f2;"> </span>   <span style="color: #a626a4;">return</span> current
+<span style="background-color: #f2f2f2;"> </span>   <span style="color: #a626a4;">if</span> current == prior:
+<span style="background-color: #f2f2f2;"> </span>   <span style="background-color: #f2f2f2;"> </span>   <span style="color: #a626a4;">return</span> current
+
+<span style="background-color: #f2f2f2;"> </span>   <span style="color: #a0a1a7; font-weight: bold;"># </span><span style="color: #a0a1a7;">draw transparent box and blit it onto canvas</span>
+<span style="background-color: #f2f2f2;"> </span>   screen.blit(px, px.get_rect())
+<span style="background-color: #f2f2f2;"> </span>   <span style="color: #8b4513;">im</span> = pygame.Surface((width, height))
+<span style="background-color: #f2f2f2;"> </span>   im.fill((128, 128, 128))
+<span style="background-color: #f2f2f2;"> </span>   pygame.draw.rect(im, (32, 32, 32), im.get_rect(), 1)
+<span style="background-color: #f2f2f2;"> </span>   im.set_alpha(128)
+<span style="background-color: #f2f2f2;"> </span>   screen.blit(im, (x, y))
+<span style="background-color: #f2f2f2;"> </span>   pygame.display.flip()
+
+<span style="background-color: #f2f2f2;"> </span>   <span style="color: #a0a1a7; font-weight: bold;"># </span><span style="color: #a0a1a7;">return current box extents</span>
+<span style="background-color: #f2f2f2;"> </span>   <span style="color: #a626a4;">return</span> (x, y, width, height)
+
+<span style="color: #a626a4;">def</span> <span style="color: #0184bc;">setup</span>(path):
+<span style="background-color: #f2f2f2;"> </span>   <span style="color: #8b4513;">px</span> = pygame.image.load(path)
+<span style="background-color: #f2f2f2;"> </span>   <span style="color: #8b4513;">screen</span> = pygame.display.set_mode( px.get_rect()[2:] )
+<span style="background-color: #f2f2f2;"> </span>   screen.blit(px, px.get_rect())
+<span style="background-color: #f2f2f2;"> </span>   pygame.display.flip()
+<span style="background-color: #f2f2f2;"> </span>   <span style="color: #a626a4;">return</span> screen, px
+
+<span style="color: #a626a4;">def</span> <span style="color: #0184bc;">mainLoop</span>(screen, px):
+<span style="background-color: #f2f2f2;"> </span>   <span style="color: #8b4513;">topleft</span> = <span style="color: #8b4513;">bottomright</span> = <span style="color: #8b4513;">prior</span> = <span style="color: #008b8b;">None</span>
+<span style="background-color: #f2f2f2;"> </span>   <span style="color: #8b4513;">n</span>=0
+<span style="background-color: #f2f2f2;"> </span>   <span style="color: #a626a4;">while</span> n!=1:
+<span style="background-color: #f2f2f2;"> </span>   <span style="background-color: #f2f2f2;"> </span>   <span style="color: #a626a4;">for</span> event <span style="color: #a626a4;">in</span> pygame.event.get():
+<span style="background-color: #f2f2f2;"> </span>   <span style="background-color: #f2f2f2;"> </span>   <span style="background-color: #f2f2f2;"> </span>   <span style="color: #a626a4;">if</span> event.<span style="color: #e44649;">type</span> == pygame.MOUSEBUTTONUP:
+<span style="background-color: #f2f2f2;"> </span>   <span style="background-color: #f2f2f2;"> </span>   <span style="background-color: #f2f2f2;"> </span>   <span style="background-color: #f2f2f2;"> </span>   <span style="color: #a626a4;">if</span> <span style="color: #a626a4;">not</span> topleft:
+<span style="background-color: #f2f2f2;"> </span>   <span style="background-color: #f2f2f2;"> </span>   <span style="background-color: #f2f2f2;"> </span>   <span style="background-color: #f2f2f2;"> </span>   <span style="background-color: #f2f2f2;"> </span>   <span style="color: #8b4513;">topleft</span> = event.pos
+<span style="background-color: #f2f2f2;"> </span>   <span style="background-color: #f2f2f2;"> </span>   <span style="background-color: #f2f2f2;"> </span>   <span style="background-color: #f2f2f2;"> </span>   <span style="color: #a626a4;">else</span>:
+<span style="background-color: #f2f2f2;"> </span>   <span style="background-color: #f2f2f2;"> </span>   <span style="background-color: #f2f2f2;"> </span>   <span style="background-color: #f2f2f2;"> </span>   <span style="background-color: #f2f2f2;"> </span>   <span style="color: #8b4513;">bottomright</span> = event.pos
+<span style="background-color: #f2f2f2;"> </span>   <span style="background-color: #f2f2f2;"> </span>   <span style="background-color: #f2f2f2;"> </span>   <span style="background-color: #f2f2f2;"> </span>   <span style="background-color: #f2f2f2;"> </span>   <span style="color: #8b4513;">n</span>=1
+<span style="background-color: #f2f2f2;"> </span>   <span style="background-color: #f2f2f2;"> </span>   <span style="color: #a626a4;">if</span> topleft:
+<span style="background-color: #f2f2f2;"> </span>   <span style="background-color: #f2f2f2;"> </span>   <span style="background-color: #f2f2f2;"> </span>   <span style="color: #8b4513;">prior</span> = displayImage(screen, px, topleft, prior)
+<span style="background-color: #f2f2f2;"> </span>   <span style="color: #a626a4;">return</span> ( topleft + bottomright )
+
+<span style="color: #a626a4;">if</span> <span style="color: #e44649;">__name__</span> == <span style="color: #50a14f;">"__main__"</span>:
+<span style="background-color: #f2f2f2;"> </span>   <span style="color: #8b4513;">input_loc</span> = <span style="color: #e44649;">str</span>(sys.argv[1]) 
+<span style="background-color: #f2f2f2;"> </span>   <span style="color: #8b4513;">output_loc</span> = input_loc
+<span style="background-color: #f2f2f2;"> </span>   <span style="color: #8b4513;">screen</span>, <span style="color: #8b4513;">px</span> = setup(input_loc)
+<span style="background-color: #f2f2f2;"> </span>   <span style="color: #8b4513;">left</span>, <span style="color: #8b4513;">upper</span>, <span style="color: #8b4513;">right</span>, <span style="color: #8b4513;">lower</span> = mainLoop(screen, px)
+
+<span style="background-color: #f2f2f2;"> </span>   <span style="color: #a0a1a7; font-weight: bold;"># </span><span style="color: #a0a1a7;">ensure output rect always has positive width, height</span>
+<span style="background-color: #f2f2f2;"> </span>   <span style="color: #a626a4;">if</span> right &lt; left:
+<span style="background-color: #f2f2f2;"> </span>   <span style="background-color: #f2f2f2;"> </span>   <span style="color: #8b4513;">left</span>, <span style="color: #8b4513;">right</span> = right, left
+<span style="background-color: #f2f2f2;"> </span>   <span style="color: #a626a4;">if</span> lower &lt; upper:
+<span style="background-color: #f2f2f2;"> </span>   <span style="background-color: #f2f2f2;"> </span>   <span style="color: #8b4513;">lower</span>, <span style="color: #8b4513;">upper</span> = upper, lower
+<span style="background-color: #f2f2f2;"> </span>   <span style="color: #8b4513;">im</span> = Image.<span style="color: #e44649;">open</span>(input_loc)
+<span style="background-color: #f2f2f2;"> </span>   <span style="color: #8b4513;">im</span> = im.crop(( left, upper, right, lower))
+<span style="background-color: #f2f2f2;"> </span>   pygame.display.<span style="color: #008b8b;">quit</span>()
+<span style="background-color: #f2f2f2;"> </span>   
+<span style="background-color: #f2f2f2;"> </span>   <span style="color: #8b4513;">out_file</span> = <span style="color: #e44649;">open</span>(output_loc, <span style="color: #50a14f;">'wb'</span>)
+<span style="background-color: #f2f2f2;"> </span>   im.save(out_file, <span style="color: #50a14f;">"JPEG"</span>)
+
+
+<span style="background-color: #f2f2f2;"> </span>   <span style="color: #a0a1a7; font-weight: bold;">#</span><span style="color: #a0a1a7;">from: http://discourse.techart.online/t/pil-wait-for-image-save/3994/6</span>
+<span style="background-color: #f2f2f2;"> </span>   out_file.flush()
+<span style="background-color: #f2f2f2;"> </span>   os.fsync(out_file)
+<span style="background-color: #f2f2f2;"> </span>   out_file.close()
+
+<span style="background-color: #f2f2f2;"> </span>   pygame.<span style="color: #008b8b;">quit</span>()
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-cleaning_the_image" class="outline-2">
+<h2 id="cleaning_the_image"><span class="section-number-2">4</span> Cleaning the image</h2>
+<div class="outline-text-2" id="text-4">
+<p>
+To clean the image, I was trying to remove the background by blurring the image, and dividing the original image by the blurred one.
+</p>
+
+<p>
+This method is very effective. However, I found something even better, <a href="http://www.fmwconcepts.com/imagemagick/textcleaner/index.php">Fred's ImageMagick Scripts for text cleaning</a>.
+</p>
+</div>
+</div>
+
+<div id="outline-container-putting_it_all_together" class="outline-2">
+<h2 id="putting_it_all_together"><span class="section-number-2">5</span> Putting it all together</h2>
+<div class="outline-text-2" id="text-5">
+<div class="org-src-container">
+<pre class="src src-elisp">(<span style="color: #a626a4;">defun</span> <span style="color: #0184bc;">ivanaf/org-scan</span>(<span style="color: #c18401;">&amp;optional</span> landscape)
+  (<span style="color: #a626a4;">interactive</span>)
+  (<span style="color: #a626a4;">let*</span> ((python-cam-command <span style="color: #50a14f;">"~/org/packages/webcamscan/webcam.py"</span>)
+         (python-crop-command <span style="color: #50a14f;">"~/org/packages/webcamscan/crop.py"</span>)
+         (text-command <span style="color: #50a14f;">"~/org/packages/webcamscan/textcleaner"</span>)
+         (directory <span style="color: #50a14f;">"./scan/"</span>)
+         (file-name (replace-regexp-in-string <span style="color: #50a14f;">"\\."</span> <span style="color: #50a14f;">""</span> (format <span style="color: #50a14f;">"%s"</span> (float-time))))
+         (file-name (concat directory file-name <span style="color: #50a14f;">".jpg"</span>))
+         (file-name (expand-file-name file-name))
+         (text-args
+          (<span style="color: #a626a4;">if</span> landscape
+              <span style="color: #50a14f;">"-l l -r cw -e normalize -s 1 -f 15 -o 5 -p 5 -u -T"</span>
+            <span style="color: #50a14f;">"  -r cw -e normalize -s 1 -f 15 -o 5 -p 5 -u -T"</span>))
+         (display-brightness-hw <span style="color: #50a14f;">"/sys/class/backlight/intel_backlight/brightness"</span>)
+         (max-brightness <span style="color: #50a14f;">"1500"</span>)
+         (cmd-file-name (shell-quote-argument file-name))
+         (brightness (shell-command-to-string (concat <span style="color: #50a14f;">"cat "</span> display-brightness-hw)))
+         (brightness (replace-regexp-in-string <span style="color: #50a14f;">"\n"</span> <span style="color: #50a14f;">""</span> brightness)))
+    (make-directory directory t)
+    (shell-command (format <span style="color: #50a14f;">"echo %s &gt; %s"</span> max-brightness display-brightness-hw))
+    (shell-command (format <span style="color: #50a14f;">"python3 %s %s"</span> python-cam-command cmd-file-name))
+    (shell-command (format <span style="color: #50a14f;">"echo %s &gt; %s"</span> brightness display-brightness-hw))
+    (shell-command (format <span style="color: #50a14f;">"python3 %s %s"</span> python-crop-command cmd-file-name))
+    (shell-command (format <span style="color: #50a14f;">"%s %s %s %s"</span> text-command text-args cmd-file-name cmd-file-name))
+    (insert <span style="color: #50a14f;">"\n#+ATTR_ORG: :width 600\n"</span>)
+    (insert <span style="color: #50a14f;">"#+attr_latex: :float nil\n"</span>)
+    (insert (concat  <span style="color: #50a14f;">"#+CAPTION: "</span>  <span style="color: #50a14f;">"\n"</span>))
+    (insert (concat <span style="color: #50a14f;">"[[file:"</span> file-name <span style="color: #50a14f;">"][file:"</span> file-name <span style="color: #50a14f;">"]]"</span>))
+    (org-display-inline-images)))
+
+
+(<span style="color: #a626a4;">defun</span> <span style="color: #0184bc;">ivanaf/org-scan-l</span>()
+  (<span style="color: #a626a4;">interactive</span>)
+  (ivanaf/org-scan t))
+
+(define-key org-mode-map (kbd <span style="color: #50a14f;">"C-&lt;print&gt; "</span>) 'ivanaf/org-scan)
+(define-key org-mode-map (kbd <span style="color: #50a14f;">"M-&lt;print&gt; "</span>) 'ivanaf/org-scan-l)
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-results" class="outline-2">
+<h2 id="results"><span class="section-number-2">6</span> Results:</h2>
+<div class="outline-text-2" id="text-6">
+<p>
+Here is a "scan" of the back of the mit career fair book from last year, taken in my dark room.
+</p>
+
+
+<figure>
+<img src="./jpg/15370864184127958.jpg" alt="15370864184127958.jpg">  
+
+</figure>
+
+<p>
+Which is about as good as possible, give the quality of the light / camera. 
+</p>
+
+<br>
+<div class="comments">
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+/* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'ivanaf'; // Required - Replace '<example>' with your forum shortname
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    var showComments = function() {
+    var button = document.getElementById('comment-button')
+        button.style.display = 'none'
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        };
+    </script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<button id="comment-button" onclick="showComments()">Show comments</button>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: Ivan Tadeu Ferreira Antunes Filho</p>
+<p class="date">Date: 2019-11-17 Sun 17:05</p>
+<p class="author">Github:  <a href="https://github.com/itf/">github.com/itf</a></p>
+<p class="creator">Made with <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.50 (<a href="https://orgmode.org">Org</a> mode 9.1.9) and <a href="https://github.com/itf/org-export-head">Org export head</a> </p>
+</div>
+</body>
+</html>
