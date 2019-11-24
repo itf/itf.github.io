@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2019-11-17 Sun 17:05 -->
+<!-- 2019-11-24 Sun 04:13 -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Code</title>
@@ -86,7 +86,7 @@ Code
 
 <p>
 <span class=page-date> <small>
-2019-05-24, updated 2019-11-17 <a href="index.html">next</a> - <a href="index.html">previous</a>
+2019-05-24, updated 2019-11-24 <a href="index.html">next</a> - <a href="index.html">previous</a>
 </small> </span> 
 </p>
 <p>
@@ -238,7 +238,8 @@ This is the code that runs this blog! I might as well have it here as well!
             (concat directory-name (org-export-head--escaped-headline)))
            (deactivate-mark)
            (<span style="color: #a626a4;">let</span> ((org-html-postamble org-export-head--html-postamble))
-             (org-html-export-to-html nil t))
+                (<span style="color: #a626a4;">cl-letf</span> (((symbol-function 'org-export-get-reference) (symbol-function 'org-export-get-reference-custom)))
+                  (org-html-export-to-html nil t)))
            (set-buffer-modified-p t)) <span style="color: #50a14f;">"-noexport-noreexport"</span>))
   (<span style="color: #a626a4;">if</span> (equal backend <span style="color: #50a14f;">"pdf"</span>)
       (org-export-head--run-on-each-heading 
@@ -626,10 +627,10 @@ This is the code that runs this blog! I might as well have it here as well!
                 (<span style="color: #a626a4;">incf</span> (gethash type cache 0)))))))
 
 
-(<span style="color: #a626a4;">use-package</span> <span style="color: #008b8b;">ox</span>
+(<span style="color: #a626a4;">use-package</span> <span style="color: #008b8b;">ox</span>)
   <span style="color: #e44649;">:defer</span> t
   <span style="color: #e44649;">:config</span>
-  (<span style="color: #a626a4;">defun</span> <span style="color: #0184bc;">org-export-get-reference</span> (datum info)
+  (<span style="color: #a626a4;">defun</span> <span style="color: #0184bc;">org-export-get-reference-custom</span> (datum info)
     <span style="color: #50a14f; font-style: italic;">"Return a unique reference for DATUM, as a string.</span>
 <span style="color: #50a14f; font-style: italic;">DATUM is either an element or an object.  INFO is the current</span>
 <span style="color: #50a14f; font-style: italic;">export state, as a plist.  Returned reference consists of</span>
@@ -677,7 +678,7 @@ This is the code that runs this blog! I might as well have it here as well!
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Ivan Tadeu Ferreira Antunes Filho</p>
-<p class="date">Date: 2019-11-17 Sun 17:05</p>
+<p class="date">Date: 2019-11-24 Sun 04:13</p>
 <p class="author">Github:  <a href="https://github.com/itf/">github.com/itf</a></p>
 <p class="creator">Made with <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.50 (<a href="https://orgmode.org">Org</a> mode 9.1.9) and <a href="https://github.com/itf/org-export-head">Org export head</a> </p>
 </div>
