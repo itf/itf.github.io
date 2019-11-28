@@ -7,7 +7,7 @@
 [[elisp:(org-export-head "../publish/")]]
   [[elisp:(org-export-head-reexport "../publish/")]]
   [[shell:cd publish  && git add . && git commit -m "new post!" && git push]]
-[[shell:cd publish && git add . && git add -u && git commit -m "update post" && git push]]
+[[shell:cd publish && git add . && git add -u && git commit -m "update posts" && git push]]
 [[shell:cd publish && git add . && git add -u && git commit -m "drop letter css" && git push]]
 
 [[shell:cd publish && git add . && git add -u &&  git commit -m "update css" && git push]]
@@ -38,9 +38,9 @@ You can also use ###INDEX-WITH-DATES###  or ###TAG-WITH-DATES###, or simply ###I
 * Code   :tech:  
 :PROPERTIES:
 :CREATION-DATE: 2019-05-24
-:MODIFICATION-DATE: 2019-11-17
-:HASH:     79b4aa3ab6b23777335e3cc3078cdd46
-:PREVIOUS-HASH: ba8b55b1bacf01fa0f0e5ee8d3cf68ef
+:MODIFICATION-DATE: 2019-11-24
+:HASH:     ca37fb9f9a44b4c93ed496fae3328243
+:PREVIOUS-HASH: ca37fb9f9a44b4c93ed496fae3328243
 :END:
 This is the code that runs this blog! I might as well have it here as well!
 #+BEGIN_SRC emacs-lisp   
@@ -189,7 +189,8 @@ are exported to a filename derived from the headline text."
             (concat directory-name (org-export-head--escaped-headline)))
            (deactivate-mark)
            (let ((org-html-postamble org-export-head--html-postamble))
-             (org-html-export-to-html nil t))
+                (cl-letf (((symbol-function 'org-export-get-reference) (symbol-function 'org-export-get-reference-custom)))
+                  (org-html-export-to-html nil t)))
            (set-buffer-modified-p t)) "-noexport-noreexport"))
   (if (equal backend "pdf")
       (org-export-head--run-on-each-heading 
@@ -577,10 +578,10 @@ Where match is a tag or -tag or combination of them."
                 (incf (gethash type cache 0)))))))
 
 
-(use-package ox
+(use-package ox)
   :defer t
   :config
-  (defun org-export-get-reference (datum info)
+  (defun org-export-get-reference-custom (datum info)
     "Return a unique reference for DATUM, as a string.
 DATUM is either an element or an object.  INFO is the current
 export state, as a plist.  Returned reference consists of
@@ -604,7 +605,7 @@ alphanumeric characters only."
 #+END_SRC
 
 #+RESULTS:
-: t
+: org-export-get-reference-custom
 
 
 
@@ -639,8 +640,8 @@ file:./favicon.ico
 @@html:</small> </span> @@
 #+TOC: headlines 2
 * Footer :noexport:footer:
-
 #+BEGIN_EXPORT html
+</div></div>
 <br>
 <div class="comments">
 <div id="disqus_thread"></div>
@@ -659,6 +660,7 @@ file:./favicon.ico
 <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
 <button id="comment-button" onclick="showComments()">Show comments</button>
 </div>
+<div><div>
 #+END_EXPORT
 
 * index                           :reexport:
@@ -672,6 +674,54 @@ file:./favicon.ico
 ###TECH-WITH-SUMMARIES###
 ** Personal posts
 ###PERSONAL-WITH-SUMMARIES###
+
+#+BEGIN_EXPORT html
+<style>
+.outline-2 h2{
+ font-size:1.6em;
+ margin-top:0.67em;
+ margin-bottom:0.67em;
+ margin-left:0;
+ margin-right:0;
+ font-weight:bold
+}
+.outline-text-2 ul li {
+ border-top:dotted 2px rgba(160,160,160,0.3);
+ margin:1.5em 0 0 0
+}
+.outline-text-2 ul {
+ margin-left:0px;
+ list-style:none;
+padding-left: 1em;
+}
+.outline-text-2 ul li b a {
+ text-align:left;
+ display:block;
+ font-size:1.3em;
+ margin-top:0.83em;
+ margin-left:0;
+ margin-right:0;
+ font-weight:bold
+}
+.outline-2 {
+ box-shadow:0px 2px 10px rgba(0,0,0,0.5);
+ padding:10px;
+ margin-top:20px
+}
+.rss-item-auth {
+ text-align:left;
+ font-size:14px;
+ color:#828282
+}
+.rss-date {
+ text-align:left;
+ display:block;
+ font-size:14px;
+ font-weight:800;
+ color:#828282
+}
+</style>
+#+END_EXPORT
 * About
   :PROPERTIES:
   :CREATION-DATE: 2018-09-09
@@ -861,9 +911,9 @@ document.getElementById("iframeDisplay").innerHTML = "<iframe src=\"https://cale
 * Portfolio
   :PROPERTIES:
   :CREATION-DATE: 2018-09-09
-  :MODIFICATION-DATE: 2019-09-02
-  :HASH:     f433f9e6c51489b21c305454b324caa3
-  :PREVIOUS-HASH: f433f9e6c51489b21c305454b324caa3
+  :MODIFICATION-DATE: 2019-11-27
+  :HASH:     4f35b2a9489b9a3aa8fd91c734edc841
+  :PREVIOUS-HASH: 4f35b2a9489b9a3aa8fd91c734edc841
   :END:
 
 In construction.
@@ -1108,10 +1158,6 @@ the competitions.
 
 It was cited by the largest Brazilian newspaper in 2012,
 tinyurl.com/ocientificas.
-*** 
-:PROPERTIES:
-:UNNUMBERED: t
-:END:
 @@html:</div>@@
 
 @@html: @@
@@ -1119,15 +1165,15 @@ tinyurl.com/ocientificas.
 * Hello world! :personal:
   :PROPERTIES:
   :CREATION-DATE: 2018-09-09
-  :MODIFICATION-DATE: 2018-09-09
-  :HASH:     c24ebb8c5bac67c91c59f78632e7bcd7
-  :PREVIOUS-HASH: c24ebb8c5bac67c91c59f78632e7bcd7
+  :MODIFICATION-DATE: 2019-11-24
+  :HASH:     53a45ecab603c06a3c9fb2db381f62dc
+  :PREVIOUS-HASH: 53a45ecab603c06a3c9fb2db381f62dc
   :END:
 
 I've always felt that I am more productive when I share my work or study
 with others. This caused me to have many blogs 3 main blogs/websites in
 the past. 
-- 1 was focused in national and international science olympiads informing people about the multiple competitions that there exists, and explaining how to study for themwww.olimpiadascientificas.com. 
+- 1 was focused in national and international science olympiads informing people about the multiple competitions that there exists, and explaining how to study for them www.olimpiadascientificas.com. 
 - Another explained my own methods of study, motivations and stories related to those same science competitions.
 - And later I made a third blog focused on the activities I took part on, such as biking, running or exploring.
 
@@ -3707,18 +3753,18 @@ My name in my passport fairly long. (10 characters first name, 22 letters second
 - I couldn't signup to pay for electricity and gas through the website.
 - Equifax still hasn't being able to deal with my long name, so it reports that I have no credit score. Therefore when people run a credit check on me, it is weird. Transunion has no problems with this.
 - When logging in the mit table tennis, I crashed the website. It tried to save my name, which was given by the mit certificate.
-*  : ARCHIVE : :personal:
+* -ARCHIVE-                                                        :personal:
 :PROPERTIES:
 :CREATION-DATE: 2019-09-06
-:MODIFICATION-DATE: 2019-09-06
-:HASH:     70b80613809c4d4c21430c525e380c18
-:PREVIOUS-HASH: 70b80613809c4d4c21430c525e380c18
+:MODIFICATION-DATE: 2019-11-24
+:HASH:     dd171e9baf6630917abc48da80911829
+:PREVIOUS-HASH: dd171e9baf6630917abc48da80911829
 :END:
 
 I have a bad memory, but I really care about lots of my friends and I want to make sure they know this. And one I try to do so is to try to keep track of what is happening in their lives so I can ask them afterwards.  I keep track of their hobbies, what big changes are happening in their lives and I write little notes in an org mode file on my laptop. 
 But sometimes people move away, figuratively and literally speaking;  and I know that I won't be talking to this person anymore, maybe ever again.   Maybe the friendship was not strong enough and we were not close enough, so now that they moved out there is no reason for them to ever contact me again, and me contacting them would just be weird.  Or maybe something so horrible happened that the person should never be contacted again. Or maybe out of mutual agreement we decide that is time for things to end,
 
-Which brings me to the title of this post., :ARCHIVE:. When this happens,  I archive the notes. They still exist, just as memories will always exist, but it is time to move on.  They won't be updated anymore, and they shouldn't be opened anymore.  In a certain way it is my own personal way of grieving, putting a period at the end of a story. Writing Fin, and putting that very last dot on the "i". The way that the story ends, not with a bang, but with the silence following the last click of a keyboard key,  C'est la vie.
+Which brings me to the title of this post., :ARCHIVE:. When this happens,  I archive the notes. They still exist, just as memories will always exist, but it is time to move on.  They won't be updated anymore, and they shouldn't be opened anymore.  In a certain way it is my own personal way of grieving, putting a period at the end of a story. Writing Fin, and putting that very last dot on the "i". The way that the story ends, not with a bang, but with the silence following the last click of a keyboard key,  C'est la vie. 
 * 10 things to smell per day :personal:
 :PROPERTIES:
 :CREATION-DATE: 2019-11-06
@@ -3775,4 +3821,102 @@ MIT :)
 - [[file:./doc/4-personality-revision-2.1.doc][4-personality-revision-2.1.doc]]
 - [[file:./doc/3-program-UROP-revision-2.doc][3-program-UROP-revision-2.doc]]
 * MAYBE Losing the sparkle :noexport:personal:
+* The first of many Brazilian-Science-Olympiads-guide websites     :personal:
+:PROPERTIES:
+:CREATION-DATE: 2019-11-24
+:MODIFICATION-DATE: 2019-11-27
+:HASH:     61dde135c5d54b830e56ffdaf3984f24
+:PREVIOUS-HASH: 61dde135c5d54b830e56ffdaf3984f24
+:END:
+Until 2010 there were no website in Brazil one could access to learn about what [[https://en.wikipedia.org/wiki/International_Science_Olympiad][science olympiads]] existed nor how to study for them. The only way to learn about the existence of the competitions was to randomly search the internet until you found one you didn't know about, or to study in a large school that prepared students for those competitions. However, even if you did find out about those competitions, there was no way for one to discover what books they should study or how to better prepare for the science olympiads. And for the small schools admins, it was hard for them to keep track of all the different dates where the competitions happened or when they should register for them!
 
+I was from a small town, and this had directly affected me, since I had to learn about the different competitions and prepare for them on my own. Because of this, once I moved to a larger city and started living away from family (when I was 15) to attend a larger school, I decided to start a blog and write about the main Brazilian Science Olympiads and how to study for them!
+*** [[https://itadeufa.wordpress.com/][Projeto Olímpico]]
+
+After writing it for about a month, there was enough interest from friends that we changed the hosting from wordpress to [[https://olimpiada.webnode.com.br/][webnode]], which allowed for a bit more customization.  
+*** Olimpiadas.webnode.com.br
+#+ATTR_ORG: :width 300
+#+CAPTION: 
+[[file:./img/15746376229424477.jpg][file:./img/15746376229424477.jpg]]
+
+
+#+ATTR_ORG: :width 300
+#+CAPTION: 
+[[file:./img/15746385825016527.jpg][file:./img/15746385825016527.jpg]]
+
+
+At this time, more people decided to join the project, and we became a team of 3 people.  We started receiving comments from students from all over Brazil, thanking us for the project. We started posting information about all the competitions as things happened. You could access our website to know what competitions had their registration open, which ones were releasing results and so on. We also improved our study guides and created pages for each science olympiad explaining what they were. We were even deciding on standards such as "when writing a post about a result, the post contains a single image at the top with the symbol of the competition, and we end the post with 'congratulations to all the winners!'".
+
+We also bough our own domain! Olimpiadascientificas.com
+
+About 10 months later, in late 2011, our website got popular enough that Augusto, a student from very far away decided to help us! He had experience with creating websites and blogs, so we moved it to our own VM running wordpress!
+*** [[http://web.archive.org/web/20160112231415/http://www.olimpiadascientificas.com/][Olimpiadascientificas.com]]
+#+ATTR_ORG: :width 300
+#+CAPTION: 
+[[./png/bonecooc.png]]
+The website kept growing and the team kept growing. In 2012, when I appeared on Tv, newspapers and magazines, I advertised the website and we were getting Approximately 500 visits per day!
+
+Our team was amazing, we had probably over 30 people. Most of them only contributed with a single post or so, while others contributes with dozens, and also many different pages or study materials.  I'd say that anyone in Brazil preparing for an International Science Olympiad was using our website.  There were people who lived near my small hometown who were preparing for the International Astronomy and Astrophysics Olympiad by using material we had shared, and they went to IOAA. 
+
+We kept doing things! We created the first [[https://www.facebook.com/groups/apoioolimpico/][Facebook group]] for people to share information about science olympiads, as well as the first [[https://www.facebook.com/OlimpiadasCientificas/][Facebook page]] to share the news! At some point we had a twiter, and we had a [[https://www.youtube.com/channel/UCUT87IB960L3foyy09gjmtw][Youtube]] channel where we were interviewing students and asking about their experiences!
+
+We kept the lists of the Brazilians who had gone to International Science Olympiads as well as a list of the awards received by Brazil. We were producing our own study material, and expanding our list of competitions to State competitions as well! We were also keeping track of pictures of all the Brazilian teams in the multiple international science olympiads and sharing them.
+
+We started another project, [[https://olimpiadascientificas.org/vida-de-olimpico/][Vida de olímpico]] where people taking part in science competitions were writing blogs about their experiences. When I was in a small town, taking part in these competitions was a very lonely endeavor; by having a blog with other people sharing their experiences, the intention was to create a sense of community and also encourage people to keep going and keep studying and trying! Another intention was to debunk the myth that people taking part in those competitions had some type of divine gift that allowed them to be better than the others, since on the blogs we showed the amount of study that we had to put on. 
+
+In my personal "vida de olímpico" blog, I was receiving around 50 visits per day and many comments and I truly believed things were a bit better because of all the information sharing we were promoting!
+
+Some of the people who started writing those blogs, started writing them when they were just starting, and after a while they were traveling the world to go to science camps on trips they had won, and to International Science Olympiads! It was fantastic seeing their development! 
+
+*** The competitors and the downfall
+But soon we started having people wanting to create their own websites about science olympiads, and then use their website to share their own facebook groups for people to study and discuss and so on. There was a split, and with most of the people in olimpiadascientificas graduating, we were not going to update the website as often and it was harder to find people to take over for us, since they went to other websites.  Then there were some problems with one of the people in the team deleting all the other people from our team and I not handling it very well. So our website kinda died.
+
+The final blows to the website were when we stopped maintaining our wordpress server and because of vulnerabilities the website stopped being able to load. And later on, when we forgot to renew the domain and lost it.
+
+
+Our main "[[https://noic.com.br/][competitor]]" is still going strong, and they copied multiple parts of our style to the dot! Which makes me happy, because even though our website mostly died, there are still others doing exactly what we wanted to do! And they have enough people in their team that they can focus on producing original content rather than just reporting news! More producing knowledge rather than just sharing how to access knowledge. I  just wish the menu on their website was easier to use, since I find it very hard to find the study page for any of their subjects, since it involves 3 clicks and accessing 3 different pages, and I also wish that they had a more searchable name, so that other people would more readily find them instead of us.
+
+
+Our second [[https://obmepeiros.com.br/][main competitor]] went through the same rabbit hole we went once, but they went much deeper. In order to make their website cooler, they started adding more and more plugins, and images and javascript and all. It has reached the point where their website is so slow that I find it very bad to use... It is sad, since otherwise they'd be helping a lot more people than they currently are.
+*** The memorial 
+#+ATTR_ORG: :width 500
+#+CAPTION: 
+[[file:///home/ivanaf/Downloads/temp/pageviews.png][pageviews.png]]
+
+
+After all the problems with wordpress and realizing that I wouldn't be able to maintain the website, I made a "memorial". I converted the website to a static generated website in jekyll, so it would be much faster. I deleted the news and posts and kept only the rest: information about the main science olympiads, how to study, and information about the teams. However, the saddest part was converting the "Vida de Olímpico" blogs to fixed pages, by using a webscrapper, since they were also could not be used anymore because of the un-maintained wordpress problems...
+
+We went from having 15k page views per day, on our most popular point, to now having only around 100 pageviews per day. I hope the students have been able to find the help they needed through other sources now.
+
+*** The post-mortem
+Recently I've added a web scrapper that inserts the news of all the main Brazilian Science Olympiad websites to our front page, in the hope of redirecting students to what are the best sources of information now.
+
+#+ATTR_ORG: :width 500
+#+CAPTION: 
+[[file:///home/ivanaf/Downloads/temp/ocfront.png][ocfront.png]]
+
+And in a few months I hope it will be possible for me to recover our original domain!
+
+All in all, we managed to help thousands of people throughout the years, and it makes me happy to see some people that we helped in very amazing colleges!
+
+
+
+
+* Thanks Ivan Guilhon :noexport:
+* It all accelerated by accident :noexport:
+Being chosen by ijso br through opf
+* Me and animals :personal:
+
+Pictures of me with animals! Usually in open spaces! Each of them with a story behind them! From recent to old.
+
+#+ATTR_ORG: :width 300
+#+CAPTION: 
+[[file:./img/15748346439516828.jpg][file:./img/15748346439516828.jpg]]
+
+#+ATTR_ORG: :width 300
+#+CAPTION: 
+[[file:./img/15748347656123629.jpg][file:./img/15748347656123629.jpg]]
+
+#+ATTR_ORG: :width 300
+#+CAPTION: 
+[[file:./img/15748349119110804.jpg][file:./img/15748349119110804.jpg]]

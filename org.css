@@ -1233,30 +1233,41 @@ menu a {
 @media (min-width: 500px) {
     #table-of-contents {
     background: white;
-	position: fixed;
-	right: 0em;
-	top: 0em;
-	text-align: right;
-	box-shadow: 0 0 1em #777777;
-	-webkit-box-shadow: 0 0 1em #777777;
-	-moz-box-shadow: 0 0 1em #777777;
+	box-shadow: 0 0 0.5em #777777;
+	-webkit-box-shadow: 0 0 0.5em #777777;
+	-moz-box-shadow: 0 0 0.5em #777777;
 	-webkit-border-bottom-left-radius: 5px;
 	-moz-border-radius-bottomleft: 5px;
 	/* ensure doesn't flow off the screen when expanded */
 	max-height: 80%;
-	overflow: auto; }
+	overflow: auto; 
+    margin-bottom: 1em; 
+
+    }
     #table-of-contents h2 {
 	padding-left: 0.5em;
 	padding-right: 0.5em;
-	padding-top: 0.05em;
-	padding-bottom: 0.05em; }
+	padding-top: 0.00em;
+	padding-bottom: 0.15em; 
+    }
     #table-of-contents #text-table-of-contents {
-	display: none;
-	text-align: left; }
+	visibility: hidden;
+    max-height: 0em;
+    height:auto;
+    display: block;
+    overflow: hidden;
+	text-align: left; 
+    transition: max-height 0.7s linear, visibility 0.65s ease;
+    margin-top: -1.5em;
+    padding: 0.5em;
+    }
     #table-of-contents:hover #text-table-of-contents {
-	display: block;
-	padding: 0.5em;
-	margin-top: -1.5em; }
+	visibility:  visible;
+    max-height: 1000em;
+    overflow: visible;
+    display: block;
+    transition:max-height 0.7s ease, visibility 0.65s ease;
+    }
 }
 
 @media (max-width: 500px) {
@@ -1295,3 +1306,4 @@ menu a {
 }
 
 /*p:nth-child(6)::first-letter { font-size: 2.2em; float: left; text-transform: uppercase; margin-top:-0.06em; margin-right:-0.013em; margin-left:-0.2em; }*/
+
