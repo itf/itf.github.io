@@ -436,7 +436,7 @@ hiding:
 walk:
   click:
     - subs:
-        8: ". They walk as fast as they can, running from themselves. [paragraph break] He sees his face on their face, and after a moment he understands. He walks down 8 floors of stairs and starts to run. $END$"
+        8: ". They walk as fast as they can, running from themselves. /pb/ He sees his face on their face, and after a moment he understands. He walks down 8 floors of stairs and starts to run. $END$"
         v: v8
 
 always:
@@ -757,7 +757,7 @@ cold:
 shivering:
   click:
     - subs:
-        11:	"/pb/Inside, he was freezing. The trip he did one month before was his hopes to have warm thought to help him during the darkest hours of the days, but no. [line break]No happy memory was made there.$END$"	
+        11:	"/pb/Inside, he was freezing. The trip he did one month before was his hopes to have warm thought to help him during the darkest hours of the days, but no. <br> No happy memory was made there.$END$"	
         1:	"Cold and tired. His eyes want to close. He feels lonely and confused. Some sad tears passing by his cheeks and dying in his hands./pb/" 
         v: v11
 
@@ -969,12 +969,12 @@ Peaceful:
   click:
     - subs:
         15:	"./pb/All the anger he had starts to fade away"	
-        2:	". He feels /grateful/ for every good moment they had, even that she left him"
+        2:	". He feels /grateful/ for every good moment they had, even though she /left/ him"
 
 grateful:
   click:
     - subs:
-        16:	".[paragraph break]She taught him the importance of music, literature and friendship, she was the best person that has ever entered into his life"	
+        16:	"./pb/She taught him the importance of music, literature and friendship, she was the best person that has ever entered into his life"	
         3:	". This /shining/ world gave him the best friend he had ever and he managed to destroy this friendship"
         v: v16
 
@@ -982,7 +982,7 @@ shining:
   click:
     - subs:
         17:	"./pb/The world was so good to him, but he managed to throw a /rock/ at it"	
-        5:	".[paragraph break]He /walks/ to the /window/ and realizes every /mistake/ he made"
+        5:	"./pb/He /walks/ to the /window/ and realizes every /mistake/ he made"
         v: v17
 
 mistake:
