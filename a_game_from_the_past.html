@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- 2019-12-05 Thu 23:30 -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>A game from the past</title>
+<meta name="generator" content="Org mode">
+<meta name="author" content="ivanaf">
+<link rel="stylesheet" type="text/css" href="css/org.css"/>
+<link rel="icon" href="ico/favicon.ico" type="image/x- icon">
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2019 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="content">
+<div class="head">
+<div class="title">
+<p>
+<a href="index.html">Ivanaf @ Home</a>
+</p>
+
+</div>
+
+<menu>
+<ul class="org-ul">
+<li><a href="index.html">Home</a></li>
+<li><a href="about.html">About</a></li>
+<li><a href="resume.html">Resume</a></li>
+<li><a href="portfolio.html">Portfolio</a></li>
+<li><a href="contact.html">Contact</a></li>
+</ul>
+</menu>
+
+</div>
+
+<p>
+ </p><h1>
+A game from the past
+ </h1><p>
+</p>
+
+<p>
+<span class=page-date> <small>
+2019-11-28, updated 2019-12-05 <a href="index.html">index</a> &#x2013; <a href="me_and_animals.html">Me and animals</a>
+</small> </span> 
+</p>
+<p>
+I've ported an old game I made in inform7 to javascript. It is filled with teenager angst, because I made the game in order to deal with some problems I was having back them.
+</p>
+
+<p>
+<b>Alone in the darkness</b>
+</p>
+
+<p>
+by Ivan Tadeu "This is a Interactive Narrative  by Ivan Tadeu Ferreira Antunes Filho. It talks about a night in the life of a sad boy. The changes that happens after writing one word may or may not depend upon the words that are already in the narrative."
+</p>
+
+
+
+<p>
+Click a word of significance from the text to revise the story. 
+</p>
+
+<hr>
+<p>
+ <br><br>
+ <style> 
+</p>
+ 
+</p>
+ 
+</p>
+ 
+@keyframes colorize {
+    0% {
+        -webkit-filter: grayscale(100%);
+        filter: grayscale(100%);
+    }
+    100% {
+        -webkit-filter: grayscale(0%);
+        filter: grayscale(0%);
+    }
+}
+.clickable-word {
+  cursor: default;
+   /*! border-bottom: 1px dotted; */
+   border-bottom: 0px dotted; 
+  transition: cursor 3s linear ;
+
+}
+
+.clickable-word:hover {
+  animation: delay-clickable-change 0.4s steps(10, end);
+  cursor: pointer;
+  border-bottom: 1px ridge; 
+    /*! color:brown; */
+    /*! border-bottom: 1px dotted; */
+}
+
+
+@keyframes delay-clickable-change {
+    0% {
+      cursor: default;
+      border-bottom: 0px dotted; 
+    }
+    50% {
+        cursor: : default;
+      border-bottom: 0px ridge; 
+    }
+    100% {
+        cursor: pointer;
+        border-bottom: 1px ridge; 
+    }
+}
+
+.story{
+  line-height: 1.7em;
+  overflow: hidden; /* Ensures the content is not revealed until the animation */
+  white-space: wrap; /* Keeps the content on a single line */
+  margin: 0 auto; /* Gives that scrolling effect as the typing happens */
+  letter-spacing: .03em; /* Adjust as needed */
+  vertical-align: text-bottom;
+    
+}
+.new-text {
+  display: inline;
+  overflow: hidden; /* Ensures the content is not revealed until the animation */
+  white-space: wrap; /* Keeps the content on a single line */
+  margin: 0 auto; /* Gives that scrolling effect as the typing happens */
+  vertical-align: bottom;
+  animation: 
+    typing 0.85s steps(50, end);
+}
+
+.substituted-text {
+  display: inline;
+  pointer-events: none;
+  overflow: hidden; /* Ensures the content is not revealed until the animation */
+  white-space: wrap; /* Keeps the content on a single line */
+  margin: 0 auto; /* Gives that scrolling effect as the typing happens */
+  vertical-align: bottom;
+  max-width: 0;
+  animation: 
+    deleting 0.5s steps(40, end)
+}
+
+.substituting-text {
+  display: inline;
+  overflow: hidden; /* Ensures the content is not revealed until the animation */
+  white-space: wrap; /* Keeps the content on a single line */
+  margin: 0 auto; /* Gives that scrolling effect as the typing happens */
+  vertical-align: bottom;
+  -webkit-animation-delay: 0.5s; /* Safari 4.0 - 8.0 */
+  animation-delay: 0.5s;
+  animation: 
+    typing 0.85s steps(50, end)
+}
+
+.old-text {
+  display: inline;
+  overflow: hidden; /* Ensures the content is not revealed until the animation */
+  white-space: wrap; /* Keeps the content on a single line */
+  margin: 0 auto; /* Gives that scrolling effect as the typing happens */
+  vertical-align: bottom;
+}
+
+
+
+/* The deleting effect */
+@keyframes deleting {
+  from { max-width: 100% }
+  to { max-width: 0% }
+}
+
+
+/* For editting */
+pre {
+    white-space: pre-wrap;       /* Since CSS 2.1 */
+    white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
+    white-space: -pre-wrap;      /* Opera 4-6 */
+    white-space: -o-pre-wrap;    /* Opera 7 */
+    word-wrap: break-word;       /* Internet Explorer 5.5+ */
+}
+
+.flash-dark {
+    animation: 
+       flashDark 1.0s steps(40, end)
+}
+
+@keyframes flashDark {
+  from { background: #000 }
+  to { background: ##fff }
+}
+
+.flash-red {
+	color: #ddcdcd;
+    animation: 
+       flashRed 1.0s steps(40, end);
+    background: #000;
+}
+
+.flash-blood {
+	color: #ddcdcd;
+    animation: 
+       flashRed 1.0s steps(40, end);
+    background: #000;
+      background-image: linear-gradient(182deg, rgb(000, 000, 000) 89%, rgb(90, 7, 20) 100%);
+}
+
+
+@keyframes flashRed {
+  from { background: #8A0707;
+  		 color: #555; }
+  to { background: #000;
+  	   color: #ddd;}
+}
+
+.get-dark {
+	color: #ddcdcd;
+    animation: 
+       getDark 1.0s steps(40, end);
+    background: #000;
+}
+
+@keyframes getDark {
+  from { background: #ffffff;
+  		 color: #555; }
+  to { background: #000;
+  	   color: #ddd;}
+}
+
+.hidden{
+    display: none;
+}
+
+.cycle3{
+	width: auto;
+
+}
+.cycle3>span{
+	-webkit-animation: topToBottom 7.5s linear infinite 0s;
+	opacity: 0;
+	overflow: hidden;
+		position: absolute;
+	vertical-align: bottom;
+}
+.cycle3>span:nth-child(2){
+	position: absolute;
+	-webkit-animation-delay: 2.5s;
+
+}
+.cycle3>span:nth-child(3){
+	position: static;
+	-webkit-animation-delay: 5s;
+}
+@-webkit-keyframes topToBottom{
+	0% { opacity: 0; }
+	0% { opacity: 0; -webkit-transform: translateY(-60%); }
+	5% { opacity: 1; -webkit-transform: translateY(0px); }
+	25% { opacity: 1; -webkit-transform: translateY(0px); }
+	33% { opacity: 0; -webkit-transform: translateY(60%); }
+	80% { opacity: 0; }
+	100% { opacity: 0; }
+}
+
+
+.dark_word {
+  -webkit-animation: dark_word 2s steps(10) alternate infinite;
+          animation: dark_word 2s steps(10) alternate infinite;
+   text-shadow: -1px 0px 0px transparent;
+}
+
+@-webkit-keyframes dark_word {
+  to {
+    text-shadow: 1px 0px 3px black;
+  }
+}
+
+.moving_word {
+	position:relative;
+  -webkit-animation: moving_word 2s steps(10) alternate infinite;
+          animation: moving_word 2s steps(10) alternate infinite;
+   left: -1px;
+}
+
+@-webkit-keyframes moving_word {
+  to {
+    left: 1px;;
+  }
+}
+#editor { 
+        position: relative;
+        height: 80vh;
+    }
+
+
+/* The typing effect */
+@keyframes typing {
+  from { -webkit-clip-path: polygon(0% 0%, 0% 100vh, 0% 100vh, 0% 0%);
+    clip-path:  polygon(0% 0%, 0% 100vh, 0% 100vh, 0% 0%); }
+  to { -webkit-clip-path: polygon(0% 0%, 0% 100vh, 100% 100vh, 100% 0%);
+    clip-path:  polygon(0% 0%, 0% 100vh, 100vw 100vh, 100vw 0%);}
+}
+
+@media (min-device-width: 1224px) {
+  	.story {
+  	max-width: 40vw;
+      margin-left: 0;
+      font-size: large;
+  }
+    /* The typing effect */
+@keyframes typing {
+  from { -webkit-clip-path: polygon(0% 0%, 0% 100vh, 0% 100vh, 0% 0%);
+    clip-path:  polygon(0% 0%, 0% 100vh, 0% 100vh, 0% 0%); }
+  to { -webkit-clip-path: polygon(0% 0%, 0% 100vh, 40vw 100vh, 40vw 0%);
+    clip-path:  polygon(0% 0%, 0% 100vh, 40vw 100vh, 40vw 0%);}
+}
+
+	#editing-1{
+		color: #444;
+		position:absolute;
+		right: 5%;
+		top: 1%;
+		padding-left: 1%;
+		width: 20%;
+		background :white;
+	}
+
+	#editing-2{
+		color: #444;
+		position:absolute;
+		left: 5%;
+		top: 5%;
+		padding-left: 1%;
+		width: 20%;
+		background :white;
+	}
+  }
+
+<p>
+
+<p>
+
+<p>
+
+<p>
+
+<p>
+ </style>
+ <script src="./js/js-yaml.js"></script>  
+ <script src="./js/ace.js" type="text/javascript" charset="utf-8"></script>  
+ <script src="./js/interactivenarrative.js"></script>  
+ <script> run_from_yaml_file("./yaml/alone.yaml",  {"v": "$1$", "1":"/Sad/ and /lonely/", "END": "END"}); </script>
+</p>
+
+ <div id = "text-background">
+        <p class = "story" id="story"></p>
+        <br>
+        <p class = "story" id="timed_words"></p>
+        <div  id = "editing" class="hidden">
+        <br><br>
+            <div  id = "editing-1" >
+            <p class = "story" id="subs"></p>
+                    <br><br>
+            <p class = "story" id="subs2"></p>
+                <br><br>
+            </div>
+
+                    
+            <div  id = "editing-2" >
+            <p class = "story" id="flags"></p>
+                    <br><br>
+            </div>
+
+            <button id="reload_yaml1">RELOAD YAML editor</button>
+            <button id="reload_yaml2">RELOAD YAML area</button>
+
+            <button id="restart">RESTART</button>
+            <button id="undo_button">UNDO</button>
+            <div id="editor"></div>
+            <pre > <textarea id="story_yaml" style = "width:100%; height:50vh;"></textarea></pre>
+
+        </div>
+        <br><br>
+        <button id="toggle_editing" class="hidden">Toggle editing</button>
+</div>
+
+</div></div>
+<br>
+<div class="comments">
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+/* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'ivanaf'; // Required - Replace '<example>' with your forum shortname
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    var showComments = function() {
+    var button = document.getElementById('comment-button')
+        button.style.display = 'none'
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        };
+    </script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<button id="comment-button" onclick="showComments()">Show comments</button>
+</div>
+<div><div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: Ivan Tadeu Ferreira Antunes Filho</p>
+<p class="date">Date: 2019-12-05 Thu 23:30</p>
+<p class="author">Github:  <a href="https://github.com/itf/">github.com/itf</a></p>
+<p class="creator">Made with <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.50 (<a href="https://orgmode.org">Org</a> mode 9.1.9) and <a href="https://github.com/itf/org-export-head">Org export head</a> </p>
+</div>
+</body>
+</html>
