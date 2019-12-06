@@ -102,6 +102,14 @@ Sad:
         1: /Sad/, /depressed/, /helpless/, and /lonely/
         v: v1
 
+sad:
+  click:
+    - subs: 
+        1: /Sad/, feeling /helpless/, and /lonely/
+        v: v1
+    - subs: 
+        1: /Sad/, /depressed/, /helpless/, and /lonely/
+        v: v1
 
 depressed:
   click:
@@ -222,7 +230,7 @@ pb :
 room:
   click:
     - subs:
-        5: 	"./pb/He /walks/ to the /window/ and /looks/ /down/, lost in his thoughts"  
+        5: 	"./pb/He /walks/ to the /window/ and looks /down/, lost in his thoughts"  
         v: v5
 
 window:
@@ -241,6 +249,14 @@ down:
         4:	", in his /room/; the lights of the street dance on the ceiling"
         v: v6
 
+Down:
+  click:
+    - subs:
+        6:  	". Down there the /cars/ go /fast/. So many /people/..."	
+        4:	", in his /room/; the lights of the street dance on the ceiling"
+        v: v6
+
+
 walks:
   click:
     - subs:
@@ -250,7 +266,7 @@ walks:
 understand:
   click:
     - subs:
-        4:  	". He can't /understand/ so many /things/ ! Why /everything/ has to be so difficult?"
+        4:  	". He can't /understand/ so many /things/! Why /everything/ has to be so difficult?"
         v: v4
 
 happened:
@@ -376,7 +392,7 @@ looks:
 things:
   click:
     - subs:
-        4: 	". He can't /understand/... Why /everything/ has to be so difficult?"
+        4: 	". He can't /understand/... Why /everything/ has to be so difficult? <br>"
         v: v4
 bedroom:
   click:
@@ -387,7 +403,7 @@ bedroom:
 everything:
   click:
     - subs:
-        5:	"/pb//Life/, /death/ , /love/ and /hate/"
+        5:	"/pb//Life/, /death/, /love/ and /hate/"
         v: v5
 
 cars:
@@ -400,7 +416,7 @@ cars:
 people:
   click:
     - subs:
-        6:	". /pb//Down/ there /people/ /walk/ in a /hurry/"
+        6:	". /pb//Down/ there /people/ walk in a /hurry/"
         v: v6
 
 wood:
@@ -494,13 +510,13 @@ days:
 changed:
   click:
     - subs:
-        6:		"./pb/Everything always changes. In a /moment/ they were /together/"
+        6:		"./pb/Everything always changes. A /moment/ they were /together/"
         v: v6
 
 together:
   click:
     - subs:
-        7: ";/pb/in the next, she was /walking/ far /away/ from him"
+        7: ";/pb/ the next, she was /walking/ far /away/ from him"
         v: v7
 
 away:
@@ -521,13 +537,13 @@ away:
 moment:
   click:
     - subs:
-        7:	"./pb/But time passes, he already knew that."
+        7:	"./pb/But /time/ passes, he already knew that."
         v: v7
 
 time:
   click:
     - subs:
-        8:	"/pb/Time flies."
+        8:	"/pb/Time /flies/."
         v: v8
 
 flies:
@@ -541,10 +557,10 @@ walking:
     - subs:
         8:	"/pb/Walked by him and didn't seem to notice. Took a plane and flew away.$END$"
         v: v8
-life:
+Life:
   click:
     - subs:
-        5:	" Difficult as life... Always playing tricks on him"	
+        5:	" Difficult as life... Always playing /tricks/ on him"	
         6:	""
         v: v5
 
@@ -583,7 +599,7 @@ true:
 hate:
   click:
     - subs:
-        5:		"Difficult as hate... So /hard/ to bear..."	
+        5:		"Difficult as hate... So /hard/ to /bear/..."	
         6:	""
         v: v6
 bear:
@@ -595,7 +611,7 @@ bear:
 hard:
   click:
     - subs:
-	    	6:		" Hard as his heart, turned into a stone."
+        6: "/pb/Hard as his heart, turned into /stone/."
 	    	v: v6
 
 stone:
@@ -696,7 +712,7 @@ science:
 floor:
   click:
     - subs:
-        8: "./pb/A wooden floor. He sits there, feeling lost. He is confused and sad. He tries to understand what happened, but his memory doesn't help him. In a moment, they were talking with each other almost every day, for more than one year. In the next, they were set apart. Why this all happened just after they meet for the second time?$END$"
+        8: "./pb/A wooden floor. He sits there, feeling lost. He is confused and sad. He tries to understand what happened, but his memory doesn't help him. A moment, they were talking with each other almost every day, for more than one year. In the next, they were set apart. Why this all happened just after they meet for the second time?$END$"
         v: v8
 
 table:
@@ -750,8 +766,8 @@ screen:
 cold:
   click:
     - subs:
-        9: "This /shivering/ /light/ was helping him a bit"	
-        5: "./pb/He /walks/ to the /window/ and /looks/ /down/, lost in his thoughts. The cold breeze of the late winter greeting him"
+        9: ". This /shivering/ /light/ was helping him a bit"	
+        5: "./pb/He /walks/ to the /window/ and looks /down/, lost in his thoughts. The cold breeze of the late winter greeting him"
         v: v9
 
 shivering:
@@ -964,6 +980,7 @@ remembers:
     - subs:
         15:	"./pb/He lays down in his bed, remembering every good moment they had. Remembering when she showed many musics to him, sent him books and talked with him. Remembering when he helped her when she was sad, making her days a little brighter. /pb/With this in mind he starts to dream.$END$"	
         2:	". She left him, but the memories will never fade away"
+        v: v15
 
 Peaceful:
   click:
