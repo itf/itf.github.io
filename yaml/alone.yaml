@@ -295,6 +295,9 @@ reflection:
     - subs:
         6:  	". He /looks/ at /himself/ and then /through/ the /window/"
         v: v6
+    - subs:
+        6:	". He /looks/ to the /reflection/, and sees /himself/ in his /bedroom/"
+        v: v6
 
 through:
   click:
