@@ -239,6 +239,9 @@ window:
         5:  	"./pb/He /walks/ to the /window/ and sees his own /reflection/"	
         4:	", in his /shadowy/ /room/"
         v: v5
+    - subs:
+        5: 	"./pb/He /walks/ to the /window/ and looks /down/, lost in his thoughts"  
+        v: v5
 
 shadowy:
 
