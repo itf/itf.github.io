@@ -38,9 +38,9 @@ You can also use ###INDEX-WITH-DATES###  or ###TAG-WITH-DATES###, or simply ###I
 * Code   :tech:  
 :PROPERTIES:
 :CREATION-DATE: 2019-05-24
-:MODIFICATION-DATE: 2019-11-24
-:HASH:     ca37fb9f9a44b4c93ed496fae3328243
-:PREVIOUS-HASH: ca37fb9f9a44b4c93ed496fae3328243
+:MODIFICATION-DATE: 2020-06-21
+:HASH:     1be7027811265308e55ea224621248c7
+:PREVIOUS-HASH: e7ff074e1c43b890b25e1c07515e5a08
 :END:
 This is the code that runs this blog! I might as well have it here as well!
 #+BEGIN_SRC emacs-lisp   
@@ -83,6 +83,8 @@ Reexports all headings if reexport is non-nil"
   (interactive)
   (org-export-head directory-name backend t))
 
+
+;;TODO this function should return a list of hashes to update the original buffer
 (defun org-export-head--modify-buffer-ast (directory-path backend reexport)
   "Export all subtrees that are *not* tagged with :noexport: to
 separate files.
@@ -90,6 +92,7 @@ separate files.
 Subtrees that do not have the :EXPORT_FILE_NAME: property set
 are exported to a filename derived from the headline text."
   (org-export-head--update-hashes)
+  (org-export-expand-include-keyword)
 
   ;; Create summaries before deleting the posts
   (org-export-head--create-summaries)
@@ -229,12 +232,22 @@ are exported to a filename derived from the headline text."
 
 (defun org-export-head--get-content-subtree-at-point()
   (interactive)
-  "Gets the content of the subtree at point"
+  "Gets the content of the subtree at point, performing the necessary includes
+to check if the hash "
   (save-excursion
     (deactivate-mark t)
-    (let ((start (org-export-head--goto-header t))
-          (end (org-end-of-subtree t))) 
-      (buffer-substring start end))))
+    (let* ((start (org-export-head--goto-header t))
+          (end (org-end-of-subtree t))
+          (buffer (current-buffer))
+          (content (buffer-substring start end))
+          (include-re "^[ \t]*#\\+INCLUDE:"))
+      (if (string-match include-re content)
+          (with-temp-buffer
+            (insert-buffer buffer)
+            (org-mode)
+            (org-export-expand-include-keyword)
+            (buffer-string))
+      content))))
 
 
 (defun org-export-head--get-summary-at-point(&optional n-paragraphs n-chars)
@@ -319,7 +332,7 @@ Shouldn't rally affect the time to export unless your file contains over 100 tho
 (defun org-export-head--erase-content-subtree()
   (save-excursion
     (let ((start (org-export-head--goto-header t))
-          (end (org-end-of-subtree))) 
+          (end (org-end-of-subtree)))
       (delete-region start end))))
 
 
@@ -728,7 +741,7 @@ padding-left: 1em;
   :CREATION-DATE: 2018-09-09
   :MODIFICATION-DATE: 2020-06-21
   :HASH:     6a81679a100b9fd52e9d1d08b99221be
-  :PREVIOUS-HASH: c85195d4525ec0a3bbf18331bb3ecd4b
+  :PREVIOUS-HASH: 6a81679a100b9fd52e9d1d08b99221be
   :END:
 
 #+BEGIN_CENTER
@@ -916,7 +929,7 @@ document.getElementById("iframeDisplay").innerHTML = "<iframe src=\"https://cale
   :CREATION-DATE: 2018-09-09
   :MODIFICATION-DATE: 2020-06-21
   :HASH:     c1f695a853de48cff5d0b1e5270a97da
-  :PREVIOUS-HASH: dd982b15c9e643de1d88c071fef220e2
+  :PREVIOUS-HASH: c1f695a853de48cff5d0b1e5270a97da
   :END:
 
 In construction.
@@ -1196,7 +1209,7 @@ Welcome!
   :CREATION-DATE: 2015-12-13
   :MODIFICATION-DATE: 2020-06-21
   :HASH:     424e723f9a0b9303521843cf33bd46e3
-  :PREVIOUS-HASH: 3558ba78d9b6f8fff83072aedbd9cbe5
+  :PREVIOUS-HASH: 424e723f9a0b9303521843cf33bd46e3
   :END:
 
 ** Summary: 
@@ -1457,7 +1470,7 @@ across different images.
   :CREATION-DATE: 2016-03-16
   :MODIFICATION-DATE: 2020-06-21
   :HASH:     f90fda3cc8e887ef5c43b1a4f1a03b1e
-  :PREVIOUS-HASH: ce394bb36147f317502b8509db27f78d
+  :PREVIOUS-HASH: f90fda3cc8e887ef5c43b1a4f1a03b1e
   :END:
 
 
@@ -2089,7 +2102,7 @@ I wanted the tool to have a gui. QT is one that is cross-platform.
   :CREATION-DATE: 2018-02-08
   :MODIFICATION-DATE: 2020-06-21
   :HASH:     ae12456198e3fd89347d198d2f8d8419
-  :PREVIOUS-HASH: dc911bb3da4ac92837055a89dc8df0c6
+  :PREVIOUS-HASH: ae12456198e3fd89347d198d2f8d8419
   :END:
 Backup of 
 [[file:./html/Groebner_Basis.html]] 
@@ -2907,9 +2920,9 @@ This allows me to quickly generate a folder that contains all the files I wanna 
 * Scan notes with laptop webcam :tech:
   :PROPERTIES:
   :CREATION-DATE: 2018-09-16
-  :MODIFICATION-DATE: 2019-02-28
-  :HASH:     4bba7b50f856a93b4c01a85637d76172
-  :PREVIOUS-HASH: 4bba7b50f856a93b4c01a85637d76172
+  :MODIFICATION-DATE: 2020-06-21
+  :HASH:     cc4b04228c3ba79558621123324cb955
+  :PREVIOUS-HASH: 752bca4ba0955f3797f3c9d25518f8ab
   :END:
   
 
