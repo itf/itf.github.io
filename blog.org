@@ -6,11 +6,11 @@
 * Export command :noexport: 
 [[elisp:(org-export-head "../publish/")]]
   [[elisp:(org-export-head-reexport "../publish/")]]
-  [[shell:cd publish  && git add . && git commit -m "new post!" && git push]]
-[[shell:cd publish && git add . && git add -u && git commit -m "update posts" && git push]]
-[[shell:cd publish && git add . && git add -u && git commit -m "drop letter css" && git push]]
+  [[shell:cd ../publish  && git add . && git commit -m "new post!" && git push]]
+[[shell:cd ../publish && git add . && git add -u && git commit -m "update posts" && git push]]
+[[shell:cd ../publish && git add . && git add -u && git commit -m "drop letter css" && git push]]
 
-[[shell:cd publish && git add . && git add -u &&  git commit -m "update css" && git push]]
+[[shell:cd ../publish && git add . && git add -u &&  git commit -m "update css" && git push]]
   [[shell: git add -u && git commit -m "new post!" && git push]]
 
   [[shell: git add -u && git commit -m "update post!" && git push]]
@@ -614,6 +614,7 @@ alphanumeric characters only."
 Creates a hard link to org.css in the export directory.
 [[file:./org.css]]
 file:./favicon.ico
+ files for game: - [[file:./js/interactivenarrative.js][interactivenarrative.js]] - [[file:./css/textclickgame.css][textclickgame.css]] - [[file:./js/js-yaml.js][js-yaml.js]] - [[file:./yaml/alone.yaml][alone.yaml]] - [[file:./js/ace.js][ace.js]] - [[file:./js/ext-searchbox.js][ext-searchbox.js]]
 
 * Menu :noexport:header:
 
@@ -636,7 +637,7 @@ file:./favicon.ico
 @@html: </h1><p>@@
 
 @@html:<span class=page-date> <small>@@
-###CREATION-DATE###, updated ###MODIFICATION-DATE### [[###NEXT###][next]] - [[###PREVIOUS###][previous]]
+###CREATION-DATE###, updated ###MODIFICATION-DATE### [[###NEXT###][###NEXT###]] -- [[###PREVIOUS###][###PREVIOUS###]]
 @@html:</small> </span> @@
 #+TOC: headlines 2
 * Footer :noexport:footer:
@@ -725,17 +726,19 @@ padding-left: 1em;
 * About
   :PROPERTIES:
   :CREATION-DATE: 2018-09-09
-  :MODIFICATION-DATE: 2019-05-18
-  :HASH:     15739384645998b90a0324b902f3da56
-  :PREVIOUS-HASH: 15739384645998b90a0324b902f3da56
+  :MODIFICATION-DATE: 2020-06-21
+  :HASH:     6a81679a100b9fd52e9d1d08b99221be
+  :PREVIOUS-HASH: c85195d4525ec0a3bbf18331bb3ecd4b
   :END:
 
 #+BEGIN_CENTER
 #+ATTR_ORG: :width 300
 #+CAPTION: 
-[[file:///home/ivanaf/org/blog/source/img/ivan.jpg]]
+[[./img/ivan.jpg]]
 #+END_CENTER
-I am Ivan Tadeu Ferreira Antunes Filho, currently a Master of Engineering in Computer Science student at MIT.  I'm really excited about science, technology and photography.
+I am Ivan Tadeu Ferreira Antunes Filho. Master of Engineering in Computer Science student from MIT.   I'm really excited about science, technology and photography. 
+
+I currently work as a software engineer at Radix Labs.
 ** New stuff
    You can see some of the recent things I've worked on on my [[Portfolio][portfolio]] or on my [[Resume][resume]] page, depending if you are interested in my side projects or more on academics and internships. 
 ** Old stuff
@@ -857,12 +860,12 @@ TV.
 * Resume 
   :PROPERTIES:
   :CREATION-DATE: 2018-09-09
-  :MODIFICATION-DATE: 2018-09-17
-  :HASH:     3705c5784926fda4e2517462ec46a7c9
-  :PREVIOUS-HASH: 3705c5784926fda4e2517462ec46a7c9
+  :MODIFICATION-DATE: 2020-03-01
+  :HASH:     03ced9a493c581f41809db532e86f858
+  :PREVIOUS-HASH: 03ced9a493c581f41809db532e86f858
   :END:
 
-
+This resume is a bit out out-of-date.
 
 #+BEGIN_EXPORT html
 <object id='pdf' data='pdf/IvanFilho-ResumeFall2018.pdf' type='application/pdf' class='pdf-viewer'>
@@ -911,9 +914,9 @@ document.getElementById("iframeDisplay").innerHTML = "<iframe src=\"https://cale
 * Portfolio
   :PROPERTIES:
   :CREATION-DATE: 2018-09-09
-  :MODIFICATION-DATE: 2019-11-27
-  :HASH:     4f35b2a9489b9a3aa8fd91c734edc841
-  :PREVIOUS-HASH: 4f35b2a9489b9a3aa8fd91c734edc841
+  :MODIFICATION-DATE: 2020-06-21
+  :HASH:     c1f695a853de48cff5d0b1e5270a97da
+  :PREVIOUS-HASH: dd982b15c9e643de1d88c071fef220e2
   :END:
 
 In construction.
@@ -934,7 +937,7 @@ Different projects I worked on over the years. Some very tiny,  some large ones.
     :END:
 
 #+ATTR_ORG: :width 300
-[[file:///home/ivanaf/org/blog/source/img/projects/sage0.png]]
+[[./img/projects/sage0.png]]
 
 2018-  Proof of concept that it is possible, in a reasonable time, to test the
  solvability of linear networks by calculating the Groebner basis of the
@@ -953,7 +956,7 @@ Different projects I worked on over the years. Some very tiny,  some large ones.
 
 #+ATTR_ORG: :width 300
 
-[[file:///home/ivanaf/org/blog/source/img/projects/yaoi-on-fire.jpg]]
+[[./img/projects/yaoi-on-fire.jpg]]
 
 2017-  One of the photographers for the Yaoi on Fire performance of the MIT
  spinning arts club.
@@ -965,7 +968,7 @@ Different projects I worked on over the years. Some very tiny,  some large ones.
     :END:
 #+ATTR_ORG: :width 300
 #+CAPTION: 
-[[file:///home/ivanaf/org/blog/source/img/projects/skate.png]]
+[[./img/projects/skate.png]]
 
 2017- For the class Intro to Making at MIT, my friends and I built an Electric
 Skateboard.
@@ -994,7 +997,7 @@ the moment.
     :END:
 #+ATTR_ORG: :width 300
 #+CAPTION: 
-[[file:///home/ivanaf/org/blog/source/img/projects/lazuli.jpg]]
+[[./img/projects/lazuli.jpg]]
 
 2017- Created ad campaigns for the Lazuli Motel website I previously created
 with a tight budget. For about $1 a day for 3 months, it brought
@@ -1015,7 +1018,7 @@ fairly successful.
     :END:
 #+ATTR_ORG: :width 300
 #+CAPTION: 
-[[file:///home/ivanaf/org/blog/source/img/projects/lazuli.jpg]]
+[[./img/projects/lazuli.jpg]]
 
 
 2017- I took HDR pictures from the rooms of Lazuli Motel in Botuca, SP,
@@ -1049,7 +1052,7 @@ too small.
 
 #+ATTR_ORG: :width 300
 #+CAPTION: 
-[[file:///home/ivanaf/org/blog/source/img/projects/cloudsRainbow.png]]
+[[./img/projects/cloudsRainbow.png]]
 
 2016- My friends and I built a 30x60 pixels led panel, using Ws2812b strips. I
 programmed the led panel graphics using Python, in a way that makes it
@@ -1064,7 +1067,7 @@ easy to combine patterns and functions into new patterns.
 
 #+ATTR_ORG: :width 300
 #+CAPTION: 
-[[file:///home/ivanaf/org/blog/source/img/projects/janky.jpg]]
+[[./img/projects/janky.jpg]]
 
 2015- We built Cocoabot, a robot capable of finding cubes on a field and
 stacking them by color. Cocoabot had around 10.000 lines of C++11 code,
@@ -1085,7 +1088,7 @@ on tinyurl.com/cocoabot.
 
 #+ATTR_ORG: :width 300
 #+CAPTION: 
-[[file:///home/ivanaf/org/blog/source/img/projects/loft.jpg]]
+[[./img/projects/loft.jpg]]
 
 2013- Designed and built an L-shaped wooden loft for me and my roommate during
 my first month at MIT. The loft was very stable and at one moment had
@@ -1102,7 +1105,7 @@ over 6 people on top of it jumping and moving to confirm its stability.
     :END:
 #+ATTR_ORG: :width 300
 #+CAPTION: 
-[[file:///home/ivanaf/org/blog/source/img/projects/iol.png]]
+[[./img/projects/iol.png]]
 
 
 2012- Study guide for the International Linguistics Olympiad, in pt-br. I
@@ -1119,7 +1122,7 @@ order the following Brazilian teams to prepare for IOL.
 
 #+ATTR_ORG: :width 300
 #+CAPTION: 
-[[file:///home/ivanaf/org/blog/source/img/projects/ipho.png]]
+[[./img/projects/ipho.png]]
 
 2012- Translation of the 2012 IPhO formula sheet from English to Portuguese,
 with minor edits to examples to make some concepts easier to understand.
@@ -1138,6 +1141,7 @@ inform 7.
 The user interacts with the text, and the text is written and rewritten
 based on the interaction with the user.
 
+2019- The game was ported to javascript and now supports click instead of writing [[A game from the past]]
 *** [[http://olimpiadascientificas.org/][Olimpíadas Científicas]]
     :PROPERTIES:
     :CUSTOM_ID: olimpíadas-científicas
@@ -1146,7 +1150,7 @@ based on the interaction with the user.
 
 #+ATTR_ORG: :width 300
 #+CAPTION: 
-[[file:///home/ivanaf/org/blog/source/img/projects/bonecooc.png]]
+[[./img/projects/bonecooc.png]]
 
 2009- now. First Brazilian website to help high school students and teachers to
 participate in Science Olympiads.\\
@@ -1190,8 +1194,8 @@ Welcome!
 * Linear Panorama                                      :projects:photography:tech:
   :PROPERTIES:
   :CREATION-DATE: 2015-12-13
-  :MODIFICATION-DATE: 2018-09-09
-  :HASH:     3558ba78d9b6f8fff83072aedbd9cbe5
+  :MODIFICATION-DATE: 2020-06-21
+  :HASH:     424e723f9a0b9303521843cf33bd46e3
   :PREVIOUS-HASH: 3558ba78d9b6f8fff83072aedbd9cbe5
   :END:
 
@@ -1294,7 +1298,7 @@ shoot on shooting preferences of Magic Lantern, if you use a canon dlsr.
 
 #+ATTR_ORG: :width 300
 #+CAPTION: 
-[[file:///home/ivanaf/org/blog/source/img/mural_3.jpg]]
+[[./img/mural_3.jpg]]
 
   
 *** Fusing the images
@@ -1316,7 +1320,7 @@ when fusing the images.
 #+CAPTION: Mural enfused
 #+ATTR_ORG: :width 300
 #+CAPTION: 
-[[file:///home/ivanaf/org/blog/source/img/mural_enfused.jpg]]
+[[./img/mural_enfused.jpg]]
 
 
 *** Straightening the images.
@@ -1329,7 +1333,7 @@ Open the image in Hugin, and load the lens configuration for your lens.
 Choose a rectilinear projection in Hugin's fast preview window.
 #+ATTR_ORG: :width 300
 #+CAPTION: 
-[[file:///home/ivanaf/org/blog/source/img/hugin_options.png]]
+[[./img/hugin_options.png]]
 
 This should have straightened up the image. But there should still be
 perspective problems. Set the horizon and vertical lines in the control
@@ -1345,7 +1349,7 @@ image.
 #+CAPTION: Mural final
 #+ATTR_ORG: :width 300
 #+CAPTION: 
-[[file:///home/ivanaf/org/blog/source/img/mural_final.jpg]]
+[[./img/mural_final.jpg]]
 
 *** Taking the other pictures
     :PROPERTIES:
@@ -1370,7 +1374,7 @@ images.
 #+CAPTION: Second Mural
 #+ATTR_ORG: :width 300
 #+CAPTION: 
-[[file:///home/ivanaf/org/blog/source/img/mural2_final.jpg]]
+[[./img/mural2_final.jpg]]
 
 Load both of the images in Hugin, choosing the type of lens to be
 rectilinear and choose some small value for the focal length, such as
@@ -1383,7 +1387,7 @@ probably set them by hand.
 #+CAPTION: Hugin Rectilinear
 #+ATTR_ORG: :width 300
 #+CAPTION: 
-[[file:///home/ivanaf/org/blog/source/img/hugin_options2.png]]
+[[./img/hugin_options2.png]]
 
 All but one picture parameters should be constant, because we are always
 adding one image at a time. For the picture that you are optimizing, you
@@ -1434,7 +1438,7 @@ size if you simply want the largest resolution possible, and stitch!
 
 #+ATTR_ORG: :width 300
 #+CAPTION: 
-[[file:///home/ivanaf/org/blog/source/img/mural_stitched.jpg]]
+[[./img/mural_stitched.jpg]]
 @@html:<small>@@
 Mural stitched using only 2 control points@@html:</small>@@
 
@@ -1451,8 +1455,8 @@ across different images.
 * Led Panel                                                        :projects:tech:
   :PROPERTIES:
   :CREATION-DATE: 2016-03-16
-  :MODIFICATION-DATE: 2018-09-14
-  :HASH:     ce394bb36147f317502b8509db27f78d
+  :MODIFICATION-DATE: 2020-06-21
+  :HASH:     f90fda3cc8e887ef5c43b1a4f1a03b1e
   :PREVIOUS-HASH: ce394bb36147f317502b8509db27f78d
   :END:
 
@@ -1482,7 +1486,7 @@ hardware.
    :END:
 #+ATTR_ORG: :width 300
 #+CAPTION: 
-[[file:///home/ivanaf/org/blog/source/img/ledbuilding.png]]
+[[./img/ledbuilding.png]]
 
 The construction was simple, but took around 40 man hours.
 
@@ -1515,7 +1519,7 @@ to go, as long as you calculate the voltage drop before building it.
 
 #+CAPTION: Panel
 #+ATTR_ORG: :width 300
-[[file:///home/ivanaf/org/blog/source/img/panel.jpg]]
+[[./img/panel.jpg]]
 
 The software of this project was pretty fun to code and it is pretty fun
 to use in my opinion.
@@ -2083,8 +2087,8 @@ I wanted the tool to have a gui. QT is one that is cross-platform.
 * Groebner Basis for Linear Network Coding in Sage :tech:
   :PROPERTIES:
   :CREATION-DATE: 2018-02-08
-  :MODIFICATION-DATE: 2018-09-09
-  :HASH:     dc911bb3da4ac92837055a89dc8df0c6
+  :MODIFICATION-DATE: 2020-06-21
+  :HASH:     ae12456198e3fd89347d198d2f8d8419
   :PREVIOUS-HASH: dc911bb3da4ac92837055a89dc8df0c6
   :END:
 Backup of 
@@ -2100,30 +2104,30 @@ Here is the pdf with better formatting: [[file:pdflib/GroebnerBasis--Sage.pdf][G
 ** Figures
 #+ATTR_ORG: :width 300
 #+CAPTION: 
-[[file:///home/ivanaf/org/blog/source/img/sage0.png]]
+[[./img/sage0.png]]
 #+ATTR_ORG: :width 300
 #+CAPTION: 
-[[file:///home/ivanaf/org/blog/source/img/sage0(1).png]]
+[[./img/sage0(1).png]]
 #+ATTR_ORG: :width 300
 #+CAPTION: 
-[[file:///home/ivanaf/org/blog/source/img/sage0(2).png]]
+[[./img/sage0(2).png]]
 #+ATTR_ORG: :width 300
 #+CAPTION: 
-[[file:///home/ivanaf/org/blog/source/img/sage0(3).png]]
+[[./img/sage0(3).png]]
 #+ATTR_ORG: :width 300
 #+CAPTION: 
-[[file:///home/ivanaf/org/blog/source/img/sage0(4).png]]
+[[./img/sage0(4).png]]
 #+ATTR_ORG: :width 300
 #+CAPTION: 
-[[file:///home/ivanaf/org/blog/source/img/sage0(5).png]]
+[[./img/sage0(5).png]]
 #+ATTR_ORG: :width 300
 #+CAPTION: 
-[[file:///home/ivanaf/org/blog/source/img/sage0(6).png]]
+[[./img/sage0(6).png]]
 #+ATTR_ORG: :width 300
 #+CAPTION: 
-[[file:///home/ivanaf/org/blog/source/img/sage0(7).png]]
+[[./img/sage0(7).png]]
 ** CSS
-[[file:///home/ivanaf/org/blog/source/html/sagemath.css]]
+[[./html/sagemath.css]]
 * Transfer Functions in python :tech:
   :PROPERTIES:
   :CREATION-DATE: 2018-02-27
@@ -3733,8 +3737,8 @@ When I was fourteen,  I was designated the responsibility of caring for a rescue
 I started getting tired of taking care of her because it required so much time, but I couldn't go out and leave her alone. She was my responsibility. However, after one month I got bored and started to spend my time reading or playing on the computer. To be honest, I didn't want to keep looking after her. My routine was monotonous: putting milk in her plate, petting her and cleaning up her mess.
 
 She grew stronger and I stopped being so cautious. One day, I forgot to check if her milk was still good in the afternoon. It had spoiled, and she died that same night. This happened because I wasn't doing the best I could. No one blamed me, but I knew I could’ve saved her. A little lapse of my attention cost Lita her life. I was sad, but learned an important lesson: the difference between success and failure lies in the details. Some times, it is not you that suffers by your errors, but the ones next to you, and this is what I won't ever allow to happen again. When I make other mistakes in the future, it won't be because of lack of effort. Since then, I have always and I will always try to do my best.
-* WANT Being a TA                                                  :noexport:
-Being a TA was 
+* Being a TA                                                       :noexport:
+Being a TA was one of the best experiences I had at MIT.
 * MAYBE Enfuse with macrofusion                                    :noexport:
 To use macrofusion, you should use the fork that has supported for the updated enfuse soft. You can find one such fork here: [[https://github.com/da-phil/macrofusion][macrofusion]].
 * Long name problems :personal:
@@ -3902,11 +3906,16 @@ All in all, we managed to help thousands of people throughout the years, and it 
 
 
 
-* Thanks Ivan Guilhon :noexport:
-* It all accelerated by accident :noexport:
+* MAYBE Thanks Ivan Guilhon                                        :noexport:
+* MAYBE It all accelerated by accident                             :noexport:
 Being chosen by ijso br through opf
 * Me and animals :personal:
-
+:PROPERTIES:
+:CREATION-DATE: 2019-11-27
+:MODIFICATION-DATE: 2019-12-05
+:HASH:     370a9241de2357c15aad2e5a04cec745
+:PREVIOUS-HASH: 370a9241de2357c15aad2e5a04cec745
+:END:
 Pictures of me with animals! Usually in open spaces! Each of them with a story behind them! From recent to old.
 
 #+ATTR_ORG: :width 300
@@ -3920,3 +3929,127 @@ Pictures of me with animals! Usually in open spaces! Each of them with a story b
 #+ATTR_ORG: :width 300
 #+CAPTION: 
 [[file:./img/15748349119110804.jpg][file:./img/15748349119110804.jpg]]
+
+#+ATTR_ORG: :width 300
+#+CAPTION: 
+[[./jpg/Imagem_758rot.jpg]]
+
+#+ATTR_ORG: :width 300
+#+CAPTION: 
+[[./jpg/Imagem_1922.jpg]]
+
+
+#+ATTR_ORG: :width 300
+#+CAPTION: 
+[[./jpg/Imagem_1939.jpg]]
+
+
+#+ATTR_ORG: :width 300
+#+CAPTION: 
+[[./jpg/Imagem_522.jpg]]
+
+#+ATTR_ORG: :width 300
+#+CAPTION: 
+[[./jpg/Imagem_496.jpg]]
+#+ATTR_ORG: :width 300
+#+CAPTION: 
+[[./jpg/Imagem_226.jpg]]
+#+ATTR_ORG: :width 300
+#+CAPTION: 
+[[./jpg/Imagem_131.jpg]]
+
+
+* A game from the past                                             :personal:
+:PROPERTIES:
+:CREATION-DATE: 2019-11-28
+:MODIFICATION-DATE: 2020-03-01
+:HASH:     4c89d6d79142b94278d9b0c5ad5f2286
+:PREVIOUS-HASH: 4c89d6d79142b94278d9b0c5ad5f2286
+:END:
+I've ported an old game I made in inform7 to javascript. It is filled with teenager angst, because I made the game in order to deal with some problems I was having back them.
+
+ *Alone in the darkness*
+
+   by Ivan Tadeu "This is a Interactive Narrative  by Ivan Tadeu Ferreira Antunes Filho. It talks about a night in the life of a sad boy. The changes that happens after writing one word may or may not depend upon the words that are already in the narrative."
+
+                                       
+
+Click a word of significance from the text to revise the story. 
+
+----------------------------
+@@html: <br><br>@@
+@@html: <style> @@
+#+BEGIN_SRC sh :exports results :results value html
+#!/bin/bash
+/bin/cat ./css/textclickgame.css
+#+END_SRC
+@@html: </style>@@
+@@html: <script src="./js/js-yaml.js"></script> @@ 
+@@html: <script src="./js/ace.js" type="text/javascript" charset="utf-8"></script> @@ 
+@@html: <script src="./js/interactivenarrative.js"></script> @@ 
+@@html: <script> run_from_yaml_file("./yaml/alone.yaml",  {"v": "$1$", "1":"/Sad/ and /lonely/", "END": "END"}); </script>@@
+
+#+BEGIN_EXPORT html
+ <div id = "text-background">
+        <p class = "story" id="story"></p>
+        <br>
+        <p class = "story" id="timed_words"></p>
+        <div  id = "editing" class="hidden">
+        <br><br>
+            <div  id = "editing-1" >
+            <p class = "story" id="subs"></p>
+                    <br><br>
+            <p class = "story" id="subs2"></p>
+                <br><br>
+            </div>
+
+                    
+            <div  id = "editing-2" >
+            <p class = "story" id="flags"></p>
+                    <br><br>
+            </div>
+
+            <button id="reload_yaml1">RELOAD YAML editor</button>
+            <button id="reload_yaml2">RELOAD YAML area</button>
+
+            <button id="restart">RESTART</button>
+            <button id="undo_button">UNDO</button>
+            <div id="editor"></div>
+            <pre > <textarea id="story_yaml" style = "width:100%; height:50vh;"></textarea></pre>
+
+        </div>
+        <br><br>
+        <button id="toggle_editing" class="hidden">Toggle editing</button>
+</div>
+#+END_EXPORT
+* Starting online journal -- March 1 2020                          :personal:
+:PROPERTIES:
+:CREATION-DATE: 2020-03-01
+:MODIFICATION-DATE: 2020-03-01
+:HASH:     a0ab8559ec6e0543788f998ef568ebcd
+:PREVIOUS-HASH: a0ab8559ec6e0543788f998ef568ebcd
+:END:
+
+Hello everyone!
+
+I will +force myself to+ start writing about mundane things here, because +then maybe my day to day life will become more exciting, since I'll feel like I'm performing+ it is a good opportunity to practice communication as well as keep memories for the future. I've tried keeping journals just for myself in the past, but I always +felt like it is a waste of time+ thought that allowing others to read what I write was a better use of time, because maybe someone could resonate with some of the ideas I write and help them.
+
+Right now life +fucking sucks, just like always+ is pretty alright. Some main things on my mind:
+
+I need to figure out how to get closer to people. I feel that everyone enjoys when I'm around, and even more, are usually fairly excited when I visit or talk to them. But it is extremely hard to get past this point of just being the fun acquaintance. Sometimes if it is caused by people thinking I'm hitting on them every time I'm just trying to get a closer friendship? Well, if someone has suggestions, I'm all ears.
+
+I have too much work to do, and not a lot of energy to do it.
+
+I want to learn how to tailor, and I'm thinking about getting a sewing machine to fix up clothes.
+
+I really want to cook dinner for someone, so I have an excuse to cook fancy food. It is annoying cooking food just for myself.
+
+I recently learned how to play Katyusha in the guitar. I'm thinking about pulling an all nighter to learn some songs in the piano. I'm thinking about getting a 30 button concertina and just learning how to play some folk songs.
+
+I'm  making a very interesting dating website as a side project. I will release it only inside MIT, and I think it has the potential to be a 1-week fad. 
+
+I have a tiny crush on a person, and I hope I'll get to spend more time with her; but life has been too busy. 
+
+Maybe I should start studying physics and math in my free time again; instead I'm listening to the Worm Audiobook. It is pretty great tbh.
+
+I'm staring at a list of unfinished posts that I should maybe finish some time. 

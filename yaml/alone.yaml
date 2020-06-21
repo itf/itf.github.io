@@ -1,0 +1,1031 @@
+#############
+# FOR DEVELOPERS ONLY
+# 
+# There are 2 types of structures: TEXT and WORDS
+# WORDS are clickable.
+# TEXT contain words.
+#
+# FLAGS:
+# When you click on a WORD, it might set a flag, that can be used for conditionals.
+# For convenience, the keyword of the text substitution is automatically added as a flag 
+# whose value increase by 1 for every turn the text is present. It is removes as soon as the text is not displayed any longer.
+#
+# TEXT-KEYWORDS:
+# You have access to the keywords of the texts that are being displayed, which can be used to modify the behavior of the WORDS.
+# 
+# OBS:
+# The code make use of the id of the words, in such a way that if there is more than one of the same word on the screen, only one of them will be accessed.
+#
+# Timed Events: have a time and an array "e", which has the same syntax as the actions.
+# ce is what checks if the timed event should keep existing after something happen 
+# ce = condition end
+###############
+
+begin:
+  text: $v$ $end$ $end2$ $options$
+
+v1:
+  text: $1$
+    
+v2:
+  text: $1$$2$
+    
+v3:
+  text: $1$$2$$3$
+    
+v4:
+  text: $1$$2$$3$$4$
+    
+v5:
+  text: $1$$2$$3$$4$$5$
+
+v6:
+  text: $1$$2$$3$$4$$5$$6$
+
+v7:
+  text: $1$$2$$3$$4$$5$$6$$7$
+
+v8:
+  text: $1$$2$$3$$4$$5$$6$$7$$8$
+
+v9:
+  text: $1$$2$$3$$4$$5$$6$$7$$8$$9$
+
+v10:
+  text: $1$$2$$3$$4$$5$$6$$7$$8$$9$$10$
+
+v11:
+  text: $1$$2$$3$$4$$5$$6$$7$$8$$9$$10$$11$
+
+v12:
+  text: $1$$2$$3$$4$$5$$6$$7$$8$$9$$10$$11$$12$
+
+v13:
+  text: $1$$2$$3$$4$$5$$6$$7$$8$$9$$10$$11$$12$$13$
+
+v14:
+  text: $1$$2$$3$$4$$5$$6$$7$$8$$9$$10$$11$$12$$13$$14$
+
+v15:
+  text: $1$$2$$3$$4$$5$$6$$7$$8$$9$$10$$11$$12$$13$$14$$15$
+
+v16:
+  text: $1$$2$$3$$4$$5$$6$$7$$8$$9$$10$$11$$12$$13$$14$$15$$16$
+
+v17:
+  text: $1$$2$$3$$4$$5$$6$$7$$8$$9$$10$$11$$12$$13$$14$$15$$16$$17$
+
+v18:
+  text: $1$$2$$3$$4$$5$$6$$7$$8$$9$$10$$11$$12$$13$$14$$15$$16$$17$$18$
+
+v19:
+  text: $1$$2$$3$$4$$5$$6$$7$$8$$9$$10$$11$$12$$13$$14$$15$$16$$17$$18$$19$
+
+alone:
+  click:
+    - subs: 
+        1: "/Sad/ and /lonely/"
+        v: v1
+        
+Alone:
+  click:
+    - subs: 
+        1: "/Sad/ and /lonely/"
+        v: v1
+        
+Sad:
+  click:
+    - subs: 
+        1: /Sad/, feeling /helpless/, and /lonely/
+        v: v1
+    - subs: 
+        1: /Sad/, /depressed/, /helpless/, and /lonely/
+        v: v1
+
+sad:
+  click:
+    - subs: 
+        1: /Sad/, feeling /helpless/, and /lonely/
+        v: v1
+    - subs: 
+        1: /Sad/, /depressed/, /helpless/, and /lonely/
+        v: v1
+
+depressed:
+  click:
+    - subs:
+        v: v2
+        2: <br> <br> He cries. $END$
+
+
+lonely:
+  click:
+    - subs: 
+        2: ", since /she/ /left/ him"
+        v: v2
+    - subs: 
+        1: /Sad/, /helpless/, and very /lonely/
+        v: v2
+
+Lonely:
+  click:
+    - subs: 
+        2: ", since /she/ /left/ him"
+        v: v2
+    - subs: 
+        1: /Sad/, /helpless/, and very /lonely/
+        v: v2
+        
+helpless:
+  click:
+    - subs:
+        3:  ". /Lost/ in the /darkness/"
+        v: v3
+    - subs: 
+        3:	". /Lost/, inside this deep /darkness/"
+        v: v3
+
+darkness:
+  click:
+    - subs:
+        4: ", in his ghostly /room/"	
+        v: v4
+      cond:
+        words: 
+          shadowy
+    - subs:
+        4: ", in his /dark/ /room/"
+        v: v4
+
+    
+dark:
+  click:
+    - subs:
+        3:	". /Lost/ in this bright world.."
+      cond:
+         words: fade 
+    - subs:
+        4: ", in the /darkness/ of his /heart/"
+        v: v4
+      cond:
+        notwords: fade
+
+Lost:
+  click:
+    - subs:
+        4: ", as he has /always/ been"
+        v: v4
+    - subs:
+        4: ", as /butterflies/ in an aquarium"
+        v: v4
+        
+butterflies:
+  click:
+    - subs:
+        5:	". <br> Drowning in their own dreams.$END$"
+        v: v5
+she:
+  click:
+    - subs:
+        2: ", since /she/, his /best/ /friend/, /left/ him"
+        v: v2
+    - subs:
+        2: ", since /she/ /left/ him"
+        v: v2
+
+left:
+  click:
+    - subs:
+        14:	".<br><br> Left him with better thoughts, remembering the good moments they had together. Moments he will never forget. <br><br>Moments that will never come back.$END$"
+        v: v14
+      cond:
+        words: shadow
+    - subs:
+        3:	".<br><br> Left him alone. <br><br> Left him alone in the dark. $END$"
+        v: v3
+
+        
+friend:
+  click:
+    - subs:
+        3:  ". He can't /understand/ what /happened/"	
+        1:	"/Sad/ and /alone/"
+        v: v3
+
+best:
+  click:
+    - subs:
+        2:  	", since his /old/ /friend/ /left/ him"
+        v: v2
+
+old:
+  click:
+    - subs:
+        2:  	", since his friend left him. $END$"
+        v: v2
+
+pb :
+  word: <br><br>
+  
+room:
+  click:
+    - subs:
+        5: 	"./pb/He /walks/ to the /window/ and looks /down/, lost in his thoughts"  
+        v: v5
+
+window:
+  click:
+    - subs:
+        5:  	"./pb/He /walks/ to the /window/ and sees his own /reflection/"	
+        4:	", in his /shadowy/ /room/"
+        v: v5
+    - subs:
+        5: 	"./pb/He /walks/ to the /window/ and looks /down/, lost in his thoughts"  
+        v: v5
+
+shadowy:
+
+down:
+  click:
+    - subs:
+        6:  	". Down there the /cars/ go /fast/. So many /people/..."	
+        4:	", in his /room/; the lights of the street dance on the ceiling"
+        v: v6
+
+Down:
+  click:
+    - subs:
+        6:  	". Down there the /cars/ go /fast/. So many /people/..."	
+        4:	", in his /room/; the lights of the street dance on the ceiling"
+        v: v6
+
+
+walks:
+  click:
+    - subs:
+        5:	". /pb/He /walks/ around. His /legs/ have /always/ been the only ones that walk with him"
+        v: v5
+
+understand:
+  click:
+    - subs:
+        4:  	". He can't /understand/ so many /things/! Why /everything/ has to be so difficult?"
+        v: v4
+
+happened:
+  click:
+    - subs:
+        4:  	". They /grew/ apart. It was already /time/"
+        v: v4
+    - subs:
+        4:	". They /grew/"
+        v: v4
+
+grew:
+  click:
+    - subs:
+        5:	". They /changed/, everything changed" 	
+        v: v5
+    - subs:
+        5:	". They /changed/, everything changed. They /grew/ older. They are not the children they once were"	
+        v: v5
+
+reflection:
+  click:
+    - subs:
+        6:  	". He /looks/ at /himself/ and then /through/ the /window/"
+        v: v6
+
+through:
+  click:
+    - subs:
+        7:  	". The window also looks at him /pb/ and he hears it /calling/. $END$"
+        v: v7
+      body_class: flash-red
+calling:
+    style:
+      s:
+        dark_word
+
+himself:
+  click:
+    - subs:
+        6: ". He /looks/ at /himself/, sees his strange /face/ and his /brown/ eyes"
+        v: v6
+
+face:
+  click:
+    - subs:
+        7:	". His /face/ that is not the face of a /boy/ anymore"
+        v: v7
+    - subs:
+        7:	". His serious /face/ that is not the face of a /boy/ anymore"
+        v: v7
+
+boy:
+  click:
+    - subs:
+        8:	", but he is not yet a /man/"
+        v: v8
+
+man:
+  click:
+    - subs:
+        9:	"./pb/Having /forgotten/ to /shave/ for the fourth day in a row, he looks as if he doesn't care about anything"
+        v: v9
+
+forgotten:
+  click:
+    - subs:
+        10:	". He always /forgets/ too many things."
+        v: v10
+    - subs:
+        10:	". /pb/He always /forgets/ so many things... So many things that he shouldn't forget."
+        v: v10
+
+forgets:
+  click:
+    - subs:
+        11:	"/pb/But this time he had forgotten to forget.$END$"
+        v: v11
+
+shave:
+  click:
+    - subs:
+        10: ". His /beard/ grows /quickly/"
+        v: v10
+
+quickly:
+  click:
+    - subs:
+        11:	"./pb/Not quicker than his regret.$END$"
+        v: v11
+
+beard:
+  click:
+    - subs:
+        11:	". It makes him feel /older/"
+        v: v11
+        
+
+older:
+  click:
+    - subs:
+        12:	"./pb/But it doesn't make him more mature.$END$"
+        v: v12
+
+brown:
+  click:
+    - subs:
+        7:	", /brown/ as /soft/ /wood/"
+        v: v7
+
+soft:
+  click:
+    - subs:
+        7:	", /brown/ as her /soft/ /brown/ /hair/"
+        v: v7
+
+looks:
+  click:
+    - subs:
+        6:	". He /looks/ to the /reflection/, and sees /himself/ in his /bedroom/"
+        v: v6
+
+things:
+  click:
+    - subs:
+        4: 	". He can't /understand/... Why /everything/ has to be so difficult? <br>"
+        v: v4
+bedroom:
+  click:
+    - subs:
+        7:	"./pb/Some /books/ on the /floor/, a /laptop/ on the /bed/."
+        v: v7
+
+everything:
+  click:
+    - subs:
+        5:	"/pb//Life/, /death/, /love/ and /hate/"
+        v: v5
+
+cars:
+  click:
+    - subs:
+        6:	". /Down/ there the /cars/ go /fast/."	
+        3:	". /Lost/ in the /darkness/, with the noise of the street in his ears"
+        v: v6
+
+people:
+  click:
+    - subs:
+        6:	". /pb//Down/ there /people/ walk in a /hurry/"
+        v: v6
+
+wood:
+  click:
+    - subs:
+        8:	"./pb/Wood that burns and then dies. $END$"
+        v: v8
+
+legs:
+  click:
+    - subs:
+        6:	". Legs made to /run/"
+        v: v6
+
+run:
+  click:
+    - subs:
+        7: "./pb/To run far away from here. $END$"
+        v: v7
+
+hurry:
+  click:
+    - subs:
+        7:	". They are like shadows /hiding/ in the night."
+        v: v7
+
+hiding:
+  click:
+    - subs:
+        8:	"./pb/They are like shadows hiding from the night. $END$"
+        v: v8
+
+walk:
+  click:
+    - subs:
+        8: ". They walk as fast as they can, running from themselves. /pb/ He sees his face on their face, and after a moment he understands. He walks down 8 floors of stairs and starts to run. $END$"
+        v: v8
+
+always:
+  click:
+    - subs:
+        6:	". /pb/Walking a lonely road, without knowing where to go. $END$"
+        v: v6
+heart:
+  click:
+    - subs:
+        5:	"./pb/He /smiles/. His /teenager/ /heart/ starting to understand the world, seeing that it is hard to get by just upon a /smile/"
+        v: v5
+
+smiles:
+  click:
+    - subs:
+        6:	"./pb/A smile that he now pretends to have.$END$"
+        v: v6
+
+smile:
+  click:
+    - subs:
+        6:	"./pb/A smile that he now pretends to have.$END$"
+        v: v6
+teenager:
+  click:
+    - subs:
+        6:	"... So many /changes/ happened to him in the last few /years/!"
+        v: v6
+
+changes:
+  click:
+    - subs:
+        7:	"/pb/Sadly it didn't make any difference. $END$"
+        v: v7
+
+years:
+  click:
+    - subs:
+        6: ". So many /changes/ happened to him in the last few /months/!"
+        v: v6
+
+months:
+  click:
+    - subs:
+        6: ". So many /changes/ happened to him in the last few /days/!"
+        v: v6
+
+days:
+  click:
+    - subs:
+        7: ". /pb/But everything changed faster. $END$"
+        v: v7
+
+changed:
+  click:
+    - subs:
+        6:		"./pb/Everything always changes. A /moment/ they were /together/"
+        v: v6
+
+together:
+  click:
+    - subs:
+        7: ";/pb/ the next, she was /walking/ far /away/ from him"
+        v: v7
+
+away:
+  click:
+    - subs:
+        11:	". Away from his mind, giving passage to his /memories/."
+        v: v11
+      cond: 
+        words: "fade"
+    - subs:
+        8:		"./pb/Further than he could endure. Further than he could go.$END$"
+        v: v8
+      cond:
+        notwords: "fade"
+        
+
+
+moment:
+  click:
+    - subs:
+        7:	"./pb/But /time/ passes, he already knew that."
+        v: v7
+
+time:
+  click:
+    - subs:
+        8:	"/pb/Time /flies/."
+        v: v8
+
+flies:
+  click:
+    - subs:
+        9: "/pb/Time flies too fast.$END$"
+        v: v9
+
+walking:
+  click:
+    - subs:
+        8:	"/pb/Walked by him and didn't seem to notice. Took a plane and flew away.$END$"
+        v: v8
+Life:
+  click:
+    - subs:
+        5:	" Difficult as life... Always playing /tricks/ on him"	
+        6:	""
+        v: v5
+
+tricks:
+  click:
+    - subs:
+        7:		"./pb/It lets him go higher just to see him falling.$END$"
+        v: v7
+death:
+  click:
+    - subs:
+        5:		"Difficult as death... So /hard/ to /accept/..."	
+        6:	""
+        v: v5
+        
+
+accept:
+  click:
+    - subs:
+        7: 	"/pb/Even harder to forget.$END$"
+        v: v7
+
+love:
+  click:
+    - subs:
+        5: 		"Difficult as /love/... So /hard/ to come /true/..."	
+        6:	""
+        v: v6
+
+true:
+  click:
+    - subs:
+        7:		"/pb/However, still better than living an illusion.$END$"
+        v: v7
+
+hate:
+  click:
+    - subs:
+        5:		"Difficult as hate... So /hard/ to /bear/..."	
+        6:	""
+        v: v6
+bear:
+  click:
+    - subs:
+        7:		"/pb/Breaking friendships, splitting a family in two. Putting people on streets.$END$"
+        v: v7
+
+hard:
+  click:
+    - subs:
+        6: "/pb/Hard as his heart, turned into /stone/."
+	    	v: v6
+
+stone:
+  click:
+    - subs:
+        7:		"/pb/A stone as strong as broken glass.$END$"
+        v: v7
+
+fast:
+  click:
+    - subs:
+        7:		"./pb/Fast as his heartbeats,  speeding up as he looks at the ground.$END$"
+        v: v7
+hair:
+  click:
+    - subs:
+        8:		"./pb/Her /beautiful/ /long/ /hair/"
+        v: v8
+
+long:
+  click:
+    - subs:
+        9:	", not as long as the distance between them.$END$"
+        v: v9
+
+beautiful:
+  click:
+    - subs:
+        9:	', /beautiful/ as her /foreigner/ /accent/, and her /lovely/ /voice/'
+        v: v9
+        
+accent:
+  click:
+    - subs:
+        9: ", /beautiful/ as her /foreigner/ /accent/, contrasting to his Brazilian /accent/"
+        v: v9
+        
+voice:
+  click:
+    - subs:
+        9: ', /beautiful/ as her /lovely/ sweet /voice/'
+        v: v9
+
+foreigner:
+  click:
+    - subs:
+        10: './pb/She, always serious, always strong, leaving him alone.$END$'
+        v: v10
+        
+Brazilian:
+  click:
+    - subs:
+        10: './pb/He, always making fun of everything, become more serious, by talking with his friend.$END$'
+        v: v10
+
+lovely:
+  click:
+    - subs:
+        1: '/Lonely/ and /missing/ his /friend/'
+        v: v1
+
+missing:
+  click:
+    - subs:
+        10:	'./pb/Missing their conversations, missing her light brown eyes.$END$'
+        v: v10
+
+books:
+  click:
+    - subs:
+        7: './pb/There are some /science/ /books/ on the /floor/ and on his /table/'
+        v: v7
+
+laptop:
+  click:
+    - subs:
+        7: ". /pb/He sees his /laptop/ still /turned/ on, on the /bed/. /pb/"
+        v: v7
+
+bed:
+  click:
+    - subs:
+        7: ". His /bed/ is a real /mess/. He /stares/ at it"
+        v: v7
+
+stares:
+  click:
+    - subs:
+        8: "./pb/And goes back to his dreamless sleep.$END$"
+        v: v8
+
+science:
+  click:
+    - subs:
+        8: "./pb/Some of his /passions/: /physics/, /chemistry/, /biology/ ..."
+        v: v8
+
+floor:
+  click:
+    - subs:
+        8: "./pb/A wooden floor. He sits there, feeling lost. He is confused and sad. He tries to understand what happened, but his memory doesn't help him. A moment, they were talking with each other almost every day, for more than one year. In the next, they were set apart. Why this all happened just after they meet for the second time?$END$"
+        v: v8
+
+table:
+  click:
+    - subs:
+        8: ". The /table/, so full of stuff. There lies his /harmonica/, /flashlight/ and /dreams/"	
+        1:	"/Alone/ in the /darkness/"
+        v: v8
+
+mess:
+  click:
+    - subs:
+        7: ". His /bed/ is a real /mess/. There are /blankets/ and a /laptop/ on it. /pb/"
+        v: v7
+
+turned:
+  click:
+    - subs:
+        8: "He had spent the whole day in front of the /bright/ /screen/ of his computer. Hadn't even eaten anything"	
+        1:	"/Sad/ and tired – his eyes wanting to close. He feels /lonely/" 
+        v: v8
+
+passions:
+  click:
+    - subs:
+        9:		". He doesn't have many.../pb/For now, just science can make him happy.$END$"	
+        6:	".Rational thinking didn't help him this time. <br> He looks to the reflection, and sees himself in his bedroom. His bedroom is a mess, as is his mind."
+        v: v9
+
+blankets:
+  click:
+    - subs:
+        8:	"The blankets made him feel warm. They reminded him of his childhood, when he hid under the blankets, so the monsters wouldn't catch him./pb/Wanting to feel safe one more time, he lays down on the bed and finally starts to sleep $END$"	
+        7:	". His bed is a real mess. The blankets are crushed. Moving from one side to the other, without being able to sleep caused this. /pb/"
+        v: v8
+
+bright:
+  click:
+    - subs:
+        9: "./pb/This /cold/ /light/ was helping him a bit"	
+        4: ". His room was glowing with a bluish color – the color of the /light/ coming from his computer."
+        v: v9
+
+screen:
+  click:
+    - subs:
+        10: ". He was sending and reading /emails/"
+        3: ". /Lost/ in this dim world"
+        v: v10
+
+cold:
+  click:
+    - subs:
+        9: ". This /shivering/ /light/ was helping him a bit"	
+        5: "./pb/He /walks/ to the /window/ and looks /down/, lost in his thoughts. The cold breeze of the late winter greeting him"
+        v: v9
+
+shivering:
+  click:
+    - subs:
+        11:	"/pb/Inside, he was freezing. The trip he did one month before was his hopes to have warm thought to help him during the darkest hours of the days, but no. <br> No happy memory was made there.$END$"	
+        1:	"Cold and tired. His eyes want to close. He feels lonely and confused. Some sad tears passing by his cheeks and dying in his hands./pb/" 
+        v: v11
+
+light:
+  click:
+    - subs:
+        10: ". Looking at the /light/ made his /dark/ world /fade/ /away/, even if just for a moment"
+        1: 	"/Lonely/ and tired - his eyes wanting to close"
+        v: v10
+
+fade:
+  click:
+    - subs:
+        12: ". That bad /shadow/ left him /alone/ for a /while/"
+        v: v12
+      cond:
+        words: memories
+    - subs:
+        12: "./pb/Fade away as his vision, just moments before sleeping.$END$"	
+        v: v12
+
+
+emails:
+  click:
+    - subs:
+        11: ". Reading the /emails/ he had /received/ and the /emails/ he had /sent/"
+        v: v11
+    - subs:
+        12: ". Emails so different from the /hundreds/ they exchanged /before/"
+        v: v12
+        
+hundreds:
+  click:
+    - subs:
+        13: "/pb/Maybe thousands? Who cares? It won't change the present$END$"
+        v: v13
+
+before:
+  click:
+    - subs:
+        13: "/pb/Before she ignored him, before she destroyed every dream and hope he had.$END$"
+        v: v13
+        
+
+received:
+  click:
+    - subs:
+        12:	"./pb/He was reading the last email he received from his friend. She said she was crying after she read his previous message.$END$"	
+        1:	"Sad and sad"
+        v : v12
+
+sent:
+  click:
+    - subs:
+        12:	"./pb/He read again and again the 3500 words email he sent her, saying everything that was left untold. /pb/He regreeted having sent it, but it was necessary$END$"	
+        5:	"./pb/He walks to the window and looks down, lost in his thoughts — thinking about every mistake he did in his life" 
+        v: v12
+
+physics:
+  click:
+    - subs:
+        9:	"/pb/How much /physics/ had he /studied/ because of her!"	
+        v: v9
+    - subs:
+        10:	"Studied just to be with her /again/"	
+        v: v10
+        
+studied:
+  click:
+    - subs:
+        10:	"Studied just to be with her /again/"	
+        v: v10
+  
+chemistry:
+  click:
+    - subs:
+        9: "./pb/But it didn't matter understanding the tiny things in the world if he couldn't understand himself.$END$"	
+        8:	". Chemistry books. Chemistry was one of his passions, helping him understand the atoms and molecules"
+        v: v9
+
+biology:
+  click:
+    - subs:
+        9:	"./pb/But it didn't matter understanding what was happening in his body if he couldn't understand what happened outside it.$END$"	
+        8:	". Biology books. Biology was one of his passions, helping him understand life, animals, and even himself" 
+        v: v9
+
+papers:
+  click:
+    - subs:
+        8:	". Some /papers/ he should be filling in"
+        v: v8
+    - subs:
+        9:	", documents to go to the /university/"
+        v: v9
+
+university:
+  click:
+    - subs:
+        10:	". He was already a /senior/, but he still hadn't decided where he would go"
+        v: v10
+        
+senior:
+  click:
+    - subs:
+        11: ". /Last/ year of school, but he still felt as if it shouldn't /end1/ so soon"
+        v: v11
+        
+Last:
+  click:
+    - subs:
+        12: "./pb/But nothing ever lasts forever.$END$"  
+        v: v12
+        
+end1:
+  word: end
+  click:
+    - subs:
+        12: "./pb/But nothing ever lasts forever.$END$"  
+        v: v12
+        
+harmonica:
+  click:
+    - subs:
+        9:	". On the /table/ lies his /golden/ /harmonica/, usually with him in the /sad/ times" 	
+        v: v9
+    - subs:
+        10:	"./pb/He opens its black case and starts to play ‘Yesterday’$END$" 	 
+        v: v10
+
+golden:
+  click:
+    - subs:
+        10: "./pb/Golden as the dreams he had"	
+        11:	". Golden as the memories of the future that he wanted.$END$"	
+        v: v11
+
+flashlight:
+  click:
+    - subs:
+        9:	". His small /flashlight/ reminds him that even the /smallest/ things can make the world better"	
+        3:	". He turns his /flashlight/ on and starts to see clearly. He starts to find his way"
+        v: v9
+
+smallest:
+  click:
+    - subs:
+        10:	". Things and actions, such as a hug or a smile"	
+        11:	". /pb/Actions that didn't happen.$END$"
+        v: v11
+
+dreams:
+  click:
+    - subs:
+        9:	"./pb/Dreams of the future, dreams of the past"	
+        10:	"./pb/Dreams of universities, research, people, love and life$END$"
+        v: v10
+
+future:
+  click:
+    - subs:
+        10:	". Where he will be in the /future/? He doesn't know"
+        v: v10
+    - subs:
+        11: ". /pb/He just knows he will be far away from her.$END$"
+        v: v11
+past:
+  click:
+    - subs:
+        10: ". The /past/ was great, but could have been better"	
+        v: v10
+    - subs:
+        11:	", but the past can't be changed. $END$"
+        v: v11
+        
+again:
+  click:
+    - subs:
+        11: ". One more time before dying. One more time before the end. Just one more time was what he needed.  He waited 2 years to see her again. She would at least smile, talk with him and be polite; wouldn't she?$END$"		
+        1:	"Lonely"
+        v: v11
+
+shadow:
+  click:
+    - subs:
+        14:	"./pb/Alone in the darkness./pb/ . /pb/ .$END$"
+        v: v14
+
+while:
+  click:
+    - subs:
+        14:	"./pb/And for a while, he is happy.$END$"
+        v: v14
+
+memories:
+  click:
+    - subs:
+        14:	"./pb/He /remembers/ the good times"	
+        1:	"/Peaceful/ and tired – his eyes wanting to close"
+        v: v14
+
+remembers:
+  click:
+    - subs:
+        15:	"./pb/He lays down in his bed, remembering every good moment they had. Remembering when she showed many musics to him, sent him books and talked with him. Remembering when he helped her when she was sad, making her days a little brighter. /pb/With this in mind he starts to dream.$END$"	
+        2:	". She left him, but the memories will never fade away"
+        v: v15
+
+Peaceful:
+  click:
+    - subs:
+        15:	"./pb/All the anger he had starts to fade away"	
+        2:	". He feels /grateful/ for every good moment they had, even though she /left/ him"
+
+grateful:
+  click:
+    - subs:
+        16:	"./pb/She taught him the importance of music, literature and friendship, she was the best person that has ever entered into his life"	
+        3:	". This /shining/ world gave him the best friend he had ever and he managed to destroy this friendship"
+        v: v16
+
+shining:
+  click:
+    - subs:
+        17:	"./pb/The world was so good to him, but he managed to throw a /rock/ at it"	
+        5:	"./pb/He /walks/ to the /window/ and realizes every /mistake/ he made"
+        v: v17
+
+mistake:
+  click:
+    - subs:
+        18:	"/pb/He sent an email saying that he would never want to talk to her again, and asking her to never talk with him again./pb/He wrote every single thing that was left untold in the last one and a half year, while he was full of sorrow. He made her cry, and showed to everyone that he didn't deserve her friendship.$END$"	
+        1:	"Regretful and tired, seeing that he was nothing more than a fool"
+        v: v18
+
+rock:
+  click:
+    - subs:
+        18:	". And the world threw a mountain at him.$END$"
+        v: v18
+
+
+END:
+    text: <br><br> ✴✴✴  ✴✴✴ <br> /undo/?
+    flags: END
+  
+undo:
+  word: Undo
+  click:
+    m: True
+    end: True
+    undo: True

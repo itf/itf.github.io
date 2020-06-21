@@ -1,0 +1,1693 @@
+
+        
+ <link type="text/css" rel="stylesheet" href="css/sagemath.css">
+        
+<!-- trying to work around JSmol collisions with jquery--->
+
+
+    <style type="text/css">.MathJax_Hover_Frame {border-radius: .25em; -webkit-border-radius: .25em; -moz-border-radius: .25em; -khtml-border-radius: .25em; box-shadow: 0px 0px 15px #83A; -webkit-box-shadow: 0px 0px 15px #83A; -moz-box-shadow: 0px 0px 15px #83A; -khtml-box-shadow: 0px 0px 15px #83A; border: 1px solid #A6D ! important; display: inline-block; position: absolute}
+.MathJax_Menu_Button .MathJax_Hover_Arrow {position: absolute; cursor: pointer; display: inline-block; border: 2px solid #AAA; border-radius: 4px; -webkit-border-radius: 4px; -moz-border-radius: 4px; -khtml-border-radius: 4px; font-family: 'Courier New',Courier; font-size: 9px; color: #F0F0F0}
+.MathJax_Menu_Button .MathJax_Hover_Arrow span {display: block; background-color: #AAA; border: 1px solid; border-radius: 3px; line-height: 0; padding: 4px}
+.MathJax_Hover_Arrow:hover {color: white!important; border: 2px solid #CCC!important}
+.MathJax_Hover_Arrow:hover span {background-color: #CCC!important}
+</style><style type="text/css">#MathJax_About {position: fixed; left: 50%; width: auto; text-align: center; border: 3px outset; padding: 1em 2em; background-color: #DDDDDD; color: black; cursor: default; font-family: message-box; font-size: 120%; font-style: normal; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; z-index: 201; border-radius: 15px; -webkit-border-radius: 15px; -moz-border-radius: 15px; -khtml-border-radius: 15px; box-shadow: 0px 10px 20px #808080; -webkit-box-shadow: 0px 10px 20px #808080; -moz-box-shadow: 0px 10px 20px #808080; -khtml-box-shadow: 0px 10px 20px #808080; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+#MathJax_About.MathJax_MousePost {outline: none}
+.MathJax_Menu {position: absolute; background-color: white; color: black; width: auto; padding: 5px 0px; border: 1px solid #CCCCCC; margin: 0; cursor: default; font: menu; text-align: left; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; z-index: 201; border-radius: 5px; -webkit-border-radius: 5px; -moz-border-radius: 5px; -khtml-border-radius: 5px; box-shadow: 0px 10px 20px #808080; -webkit-box-shadow: 0px 10px 20px #808080; -moz-box-shadow: 0px 10px 20px #808080; -khtml-box-shadow: 0px 10px 20px #808080; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+.MathJax_MenuItem {padding: 1px 2em; background: transparent}
+.MathJax_MenuArrow {position: absolute; right: .5em; padding-top: .25em; color: #666666; font-size: .75em}
+.MathJax_MenuActive .MathJax_MenuArrow {color: white}
+.MathJax_MenuArrow.RTL {left: .5em; right: auto}
+.MathJax_MenuCheck {position: absolute; left: .7em}
+.MathJax_MenuCheck.RTL {right: .7em; left: auto}
+.MathJax_MenuRadioCheck {position: absolute; left: .7em}
+.MathJax_MenuRadioCheck.RTL {right: .7em; left: auto}
+.MathJax_MenuLabel {padding: 1px 2em 3px 1.33em; font-style: italic}
+.MathJax_MenuRule {border-top: 1px solid #DDDDDD; margin: 4px 3px}
+.MathJax_MenuDisabled {color: GrayText}
+.MathJax_MenuActive {background-color: #606872; color: white}
+.MathJax_MenuDisabled:focus, .MathJax_MenuLabel:focus {background-color: #E8E8E8}
+.MathJax_ContextMenu:focus {outline: none}
+.MathJax_ContextMenu .MathJax_MenuItem:focus {outline: none}
+#MathJax_AboutClose {top: .2em; right: .2em}
+.MathJax_Menu .MathJax_MenuClose {top: -10px; left: -10px}
+.MathJax_MenuClose {position: absolute; cursor: pointer; display: inline-block; border: 2px solid #AAA; border-radius: 18px; -webkit-border-radius: 18px; -moz-border-radius: 18px; -khtml-border-radius: 18px; font-family: 'Courier New',Courier; font-size: 24px; color: #F0F0F0}
+.MathJax_MenuClose span {display: block; background-color: #AAA; border: 1.5px solid; border-radius: 18px; -webkit-border-radius: 18px; -moz-border-radius: 18px; -khtml-border-radius: 18px; line-height: 0; padding: 8px 0 6px}
+.MathJax_MenuClose:hover {color: white!important; border: 2px solid #CCC!important}
+.MathJax_MenuClose:hover span {background-color: #CCC!important}
+.MathJax_MenuClose:hover:focus {outline: none}
+</style><style type="text/css">.MathJax_Preview .MJXf-math {color: inherit!important}
+</style><style type="text/css">.MJX_Assistive_MathML {position: absolute!important; top: 0; left: 0; clip: rect(1px, 1px, 1px, 1px); padding: 1px 0 0 0!important; border: 0!important; height: 1px!important; width: 1px!important; overflow: hidden!important; display: block!important; -webkit-touch-callout: none; -webkit-user-select: none; -khtml-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none}
+.MJX_Assistive_MathML.MJX_Assistive_MathML_Block {width: 100%!important}
+</style><style type="text/css">#MathJax_Zoom {position: absolute; background-color: #F0F0F0; overflow: auto; display: block; z-index: 301; padding: .5em; border: 1px solid black; margin: 0; font-weight: normal; font-style: normal; text-align: left; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; -webkit-box-sizing: content-box; -moz-box-sizing: content-box; box-sizing: content-box; box-shadow: 5px 5px 15px #AAAAAA; -webkit-box-shadow: 5px 5px 15px #AAAAAA; -moz-box-shadow: 5px 5px 15px #AAAAAA; -khtml-box-shadow: 5px 5px 15px #AAAAAA; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+#MathJax_ZoomOverlay {position: absolute; left: 0; top: 0; z-index: 300; display: inline-block; width: 100%; height: 100%; border: 0; padding: 0; margin: 0; background-color: white; opacity: 0; filter: alpha(opacity=0)}
+#MathJax_ZoomFrame {position: relative; display: inline-block; height: 0; width: 0}
+#MathJax_ZoomEventTrap {position: absolute; left: 0; top: 0; z-index: 302; display: inline-block; border: 0; padding: 0; margin: 0; background-color: white; opacity: 0; filter: alpha(opacity=0)}
+</style><style type="text/css">.MathJax_Preview {color: #888}
+#MathJax_Message {position: fixed; left: 1em; bottom: 1.5em; background-color: #E6E6E6; border: 1px solid #959595; margin: 0px; padding: 2px 8px; z-index: 102; color: black; font-size: 80%; width: auto; white-space: nowrap}
+#MathJax_MSIE_Frame {position: absolute; top: 0; left: 0; width: 0px; z-index: 101; border: 0px; margin: 0px; padding: 0px}
+.MathJax_Error {color: #CC0000; font-style: italic}
+.MathJax .mo, .MathJax .mi {color: inherit ! important}
+</style><style type="text/css">.MJXp-script {font-size: .8em}
+.MJXp-right {-webkit-transform-origin: right; -moz-transform-origin: right; -ms-transform-origin: right; -o-transform-origin: right; transform-origin: right}
+.MJXp-bold {font-weight: bold}
+.MJXp-italic {font-style: italic}
+.MJXp-scr {font-family: MathJax_Script,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-frak {font-family: MathJax_Fraktur,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-sf {font-family: MathJax_SansSerif,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-cal {font-family: MathJax_Caligraphic,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-mono {font-family: MathJax_Typewriter,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-largeop {font-size: 150%}
+.MJXp-largeop.MJXp-int {vertical-align: -.2em}
+.MJXp-math {display: inline-block; line-height: 1.2; text-indent: 0; font-family: 'Times New Roman',Times,STIXGeneral,serif; white-space: nowrap; border-collapse: collapse}
+.MJXp-display {display: block; text-align: center; margin: 1em 0}
+.MJXp-math span {display: inline-block}
+.MJXp-box {display: block!important; text-align: center}
+.MJXp-box:after {content: " "}
+.MJXp-rule {display: block!important; margin-top: .1em}
+.MJXp-char {display: block!important}
+.MJXp-mo {margin: 0 .15em}
+.MJXp-mfrac {margin: 0 .125em; vertical-align: .25em}
+.MJXp-denom {display: inline-table!important; width: 100%}
+.MJXp-denom > * {display: table-row!important}
+.MJXp-surd {vertical-align: top}
+.MJXp-surd > * {display: block!important}
+.MJXp-script-box > *  {display: table!important; height: 50%}
+.MJXp-script-box > * > * {display: table-cell!important; vertical-align: top}
+.MJXp-script-box > *:last-child > * {vertical-align: bottom}
+.MJXp-script-box > * > * > * {display: block!important}
+.MJXp-mphantom {visibility: hidden}
+.MJXp-munderover {display: inline-table!important}
+.MJXp-over {display: inline-block!important; text-align: center}
+.MJXp-over > * {display: block!important}
+.MJXp-munderover > * {display: table-row!important}
+.MJXp-mtable {vertical-align: .25em; margin: 0 .125em}
+.MJXp-mtable > * {display: inline-table!important; vertical-align: middle}
+.MJXp-mtr {display: table-row!important}
+.MJXp-mtd {display: table-cell!important; text-align: center; padding: .5em 0 0 .5em}
+.MJXp-mtr > .MJXp-mtd:first-child {padding-left: 0}
+.MJXp-mtr:first-child > .MJXp-mtd {padding-top: 0}
+.MJXp-mlabeledtr {display: table-row!important}
+.MJXp-mlabeledtr > .MJXp-mtd:first-child {padding-left: 0}
+.MJXp-mlabeledtr:first-child > .MJXp-mtd {padding-top: 0}
+.MJXp-merror {background-color: #FFFF88; color: #CC0000; border: 1px solid #CC0000; padding: 1px 3px; font-style: normal; font-size: 90%}
+.MJXp-scale0 {-webkit-transform: scaleX(.0); -moz-transform: scaleX(.0); -ms-transform: scaleX(.0); -o-transform: scaleX(.0); transform: scaleX(.0)}
+.MJXp-scale1 {-webkit-transform: scaleX(.1); -moz-transform: scaleX(.1); -ms-transform: scaleX(.1); -o-transform: scaleX(.1); transform: scaleX(.1)}
+.MJXp-scale2 {-webkit-transform: scaleX(.2); -moz-transform: scaleX(.2); -ms-transform: scaleX(.2); -o-transform: scaleX(.2); transform: scaleX(.2)}
+.MJXp-scale3 {-webkit-transform: scaleX(.3); -moz-transform: scaleX(.3); -ms-transform: scaleX(.3); -o-transform: scaleX(.3); transform: scaleX(.3)}
+.MJXp-scale4 {-webkit-transform: scaleX(.4); -moz-transform: scaleX(.4); -ms-transform: scaleX(.4); -o-transform: scaleX(.4); transform: scaleX(.4)}
+.MJXp-scale5 {-webkit-transform: scaleX(.5); -moz-transform: scaleX(.5); -ms-transform: scaleX(.5); -o-transform: scaleX(.5); transform: scaleX(.5)}
+.MJXp-scale6 {-webkit-transform: scaleX(.6); -moz-transform: scaleX(.6); -ms-transform: scaleX(.6); -o-transform: scaleX(.6); transform: scaleX(.6)}
+.MJXp-scale7 {-webkit-transform: scaleX(.7); -moz-transform: scaleX(.7); -ms-transform: scaleX(.7); -o-transform: scaleX(.7); transform: scaleX(.7)}
+.MJXp-scale8 {-webkit-transform: scaleX(.8); -moz-transform: scaleX(.8); -ms-transform: scaleX(.8); -o-transform: scaleX(.8); transform: scaleX(.8)}
+.MJXp-scale9 {-webkit-transform: scaleX(.9); -moz-transform: scaleX(.9); -ms-transform: scaleX(.9); -o-transform: scaleX(.9); transform: scaleX(.9)}
+.MathJax_PHTML .noError {vertical-align: ; font-size: 90%; text-align: left; color: black; padding: 1px 3px; border: 1px solid}
+</style><style type="text/css">.MathJax_Display {text-align: center; margin: 1em 0em; position: relative; display: block!important; text-indent: 0; max-width: none; max-height: none; min-width: 0; min-height: 0; width: 100%}
+.MathJax .merror {background-color: #FFFF88; color: #CC0000; border: 1px solid #CC0000; padding: 1px 3px; font-style: normal; font-size: 90%}
+.MathJax .MJX-monospace {font-family: monospace}
+.MathJax .MJX-sans-serif {font-family: sans-serif}
+#MathJax_Tooltip {background-color: InfoBackground; color: InfoText; border: 1px solid black; box-shadow: 2px 2px 5px #AAAAAA; -webkit-box-shadow: 2px 2px 5px #AAAAAA; -moz-box-shadow: 2px 2px 5px #AAAAAA; -khtml-box-shadow: 2px 2px 5px #AAAAAA; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true'); padding: 3px 4px; z-index: 401; position: absolute; left: 0; top: 0; width: auto; height: auto; display: none}
+.MathJax {display: inline; font-style: normal; font-weight: normal; line-height: normal; font-size: 100%; font-size-adjust: none; text-indent: 0; text-align: left; text-transform: none; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; direction: ltr; max-width: none; max-height: none; min-width: 0; min-height: 0; border: 0; padding: 0; margin: 0}
+.MathJax:focus, body :focus .MathJax {display: inline-table}
+.MathJax img, .MathJax nobr, .MathJax a {border: 0; padding: 0; margin: 0; max-width: none; max-height: none; min-width: 0; min-height: 0; vertical-align: 0; line-height: normal; text-decoration: none}
+img.MathJax_strut {border: 0!important; padding: 0!important; margin: 0!important; vertical-align: 0!important}
+.MathJax span {display: inline; position: static; border: 0; padding: 0; margin: 0; vertical-align: 0; line-height: normal; text-decoration: none}
+.MathJax nobr {white-space: nowrap!important}
+.MathJax img {display: inline!important; float: none!important}
+.MathJax * {transition: none; -webkit-transition: none; -moz-transition: none; -ms-transition: none; -o-transition: none}
+.MathJax_Processing {visibility: hidden; position: fixed; width: 0; height: 0; overflow: hidden}
+.MathJax_Processed {display: none!important}
+.MathJax_ExBox {display: block!important; overflow: hidden; width: 1px; height: 60ex; min-height: 0; max-height: none}
+.MathJax .MathJax_EmBox {display: block!important; overflow: hidden; width: 1px; height: 60em; min-height: 0; max-height: none}
+.MathJax .MathJax_HitBox {cursor: text; background: white; opacity: 0; filter: alpha(opacity=0)}
+.MathJax .MathJax_HitBox * {filter: none; opacity: 1; background: transparent}
+#MathJax_Tooltip * {filter: none; opacity: 1; background: transparent}
+@font-face {font-family: MathJax_Blank; src: url('about:blank')}
+.MathJax .noError {vertical-align: ; font-size: 90%; text-align: left; color: black; padding: 1px 3px; border: 1px solid}
+</style></head>
+    <body-groebner id="print-page" class=""><div style="visibility: hidden; overflow: hidden; position: absolute; top: 0px; height: 1px; width: auto; padding: 0px; border: 0px; margin: 0px; text-align: left; text-indent: 0px; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal;"><div id="MathJax_Hidden"></div></div><div id="MathJax_Message" style="display: none;"></div>
+
+<div class="cell_input_active" id="cell_resizer"></div>
+<div class="worksheet_cell_list" id="worksheet_cell_list">
+  
+    
+<span id="cell_outer_15">
+    <div class="text_cell" id="cell_text_15">
+    <p>    Based on <a href='http://www.mit.edu/~medard/mpapers/aaatnetworkcoding.pdf'> An Algebraic Approach to Network Coding by Ralf Koetter, Member, IEEE, and Muriel Médard, Senior Member, IEEE. </a> </p>
+    <p> This tests the solvability of a linear network code by seeing if the linear network coding ideal is a non-trivial ideal, which implies that there is a solution to it. </p>
+      <h1><span style="font-size: medium;">Usage</span></h1>
+      <p> Install sage and libsingular. </p>
+<p><span style="font-size: medium;">get_groebner_basis(field, graph, sources, sinks)</span></p>
+<h1><span style="font-size: medium;">Limitations</span></h1>
+<p><span style="font-size: medium;">Does not support multi-edges</span></p>
+<h2><span style="font-size: medium;">Inputs</span></h2>
+<p><span style="font-size: medium;">Field is a type of field. Example:</span></p>
+<p><span style="font-size: medium;">GF(2)</span><br><span style="font-size: medium;">The type of graph is a labelled digraph. The nodes need to be given names in order for the sinks and sources to be mapped. Example:</span></p>
+<p><span style="font-size: medium;">DiGraph({'s': ['t','u'], 't': ['x','y'], 'u': ['x','z'], 'x': ['y','z']})</span><br><span style="font-size: medium;">The type of sources is a dictionary of lists, mapping a source node name to the list of processes inside it. Example:</span></p>
+<p><span style="font-size: medium;">sources = {'s': [0,1]}</span><br><span style="font-size: medium;">The type of sinks is a dictionary of dictionary of lists, mapping a sink node name to to its demands. The demands are a dictionary mapping the sources from which the sink demands, to the processes from that source that are demanded. Example:</span></p>
+<p><span style="font-size: medium;">sinks = {'y': {'s':[0,1]} , 'z': {'s':[0,1]}}</span></p>
+<h2><span style="font-size: medium;"> Returns</span></h2>
+<p><span style="font-size: medium;">It returns the groebner basis for that particular multicast network</span></p>
+<p><span style="font-size: medium;">-------------------------------------------------------------------------------------------</span></p>
+    </div>
+
+
+
+</span>
+  
+    
+<span id="cell_outer_4">
+    
+    <div class="text_cell" id="cell_text_4">
+      
+    </div>
+
+
+
+</span>
+  
+    
+<span id="cell_outer_3">
+    
+    <div class="text_cell" id="cell_text_3">
+      <p>Generates the sink matrix B to calculate the transfer matrix, defined as <span class="MathJax_Preview" style="color: inherit;"></span><span class="MathJax" id="MathJax-Element-1-Frame" tabindex="0" data-mathml="&lt;math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;&gt;&lt;mo stretchy=&quot;false&quot;&gt;(&lt;/mo&gt;&lt;mi&gt;A&lt;/mi&gt;&lt;mo stretchy=&quot;false&quot;&gt;(&lt;/mo&gt;&lt;mn&gt;1&lt;/mn&gt;&lt;mo&gt;&amp;#x2212;&lt;/mo&gt;&lt;mi&gt;F&lt;/mi&gt;&lt;msup&gt;&lt;mo stretchy=&quot;false&quot;&gt;)&lt;/mo&gt;&lt;mrow class=&quot;MJX-TeXAtom-ORD&quot;&gt;&lt;mo&gt;&amp;#x2212;&lt;/mo&gt;&lt;mn&gt;1&lt;/mn&gt;&lt;/mrow&gt;&lt;/msup&gt;&lt;msup&gt;&lt;mi&gt;B&lt;/mi&gt;&lt;mi&gt;T&lt;/mi&gt;&lt;/msup&gt;&lt;mo stretchy=&quot;false&quot;&gt;)&lt;/mo&gt;&lt;/math&gt;" role="presentation" style="position: relative;"><nobr aria-hidden="true"><span class="math" id="MathJax-Span-1" role="math" style="width: 8.192em; display: inline-block;"><span style="display: inline-block; position: relative; width: 7.061em; height: 0px; font-size: 116%;"><span style="position: absolute; clip: rect(1.188em 1006.95em 2.643em -999.997em); top: -2.206em; left: 0.003em;"><span class="mrow" id="MathJax-Span-2"><span class="mo" id="MathJax-Span-3" style="font-family: MathJax_Main;">(</span><span class="mi" id="MathJax-Span-4" style="font-family: MathJax_Math; font-style: italic;">A</span><span class="mo" id="MathJax-Span-5" style="font-family: MathJax_Main;">(</span><span class="mn" id="MathJax-Span-6" style="font-family: MathJax_Main;">1</span><span class="mo" id="MathJax-Span-7" style="font-family: MathJax_Main; padding-left: 0.218em;">−</span><span class="mi" id="MathJax-Span-8" style="font-family: MathJax_Math; font-style: italic; padding-left: 0.218em;">F<span style="display: inline-block; overflow: hidden; height: 1px; width: 0.11em;"></span></span><span class="msubsup" id="MathJax-Span-9"><span style="display: inline-block; position: relative; width: 1.35em; height: 0px;"><span style="position: absolute; clip: rect(3.074em 1000.27em 4.421em -999.997em); top: -3.984em; left: 0.003em;"><span class="mo" id="MathJax-Span-10" style="font-family: MathJax_Main;">)</span><span style="display: inline-block; width: 0px; height: 3.99em;"></span></span><span style="position: absolute; top: -4.362em; left: 0.38em;"><span class="texatom" id="MathJax-Span-11"><span class="mrow" id="MathJax-Span-12"><span class="mo" id="MathJax-Span-13" style="font-size: 70.7%; font-family: MathJax_Main;">−</span><span class="mn" id="MathJax-Span-14" style="font-size: 70.7%; font-family: MathJax_Main;">1</span></span></span><span style="display: inline-block; width: 0px; height: 3.99em;"></span></span></span></span><span class="msubsup" id="MathJax-Span-15"><span style="display: inline-block; position: relative; width: 1.35em; height: 0px;"><span style="position: absolute; clip: rect(3.128em 1000.76em 4.151em -999.997em); top: -3.984em; left: 0.003em;"><span class="mi" id="MathJax-Span-16" style="font-family: MathJax_Math; font-style: italic;">B</span><span style="display: inline-block; width: 0px; height: 3.99em;"></span></span><span style="position: absolute; top: -4.362em; left: 0.757em;"><span class="mi" id="MathJax-Span-17" style="font-size: 70.7%; font-family: MathJax_Math; font-style: italic;">T<span style="display: inline-block; overflow: hidden; height: 1px; width: 0.11em;"></span></span><span style="display: inline-block; width: 0px; height: 3.99em;"></span></span></span></span><span class="mo" id="MathJax-Span-18" style="font-family: MathJax_Main;">)</span></span><span style="display: inline-block; width: 0px; height: 2.212em;"></span></span></span><span style="display: inline-block; overflow: hidden; vertical-align: -0.372em; border-left: 0px solid; width: 0px; height: 1.378em;"></span></span></nobr><span class="MJX_Assistive_MathML" role="presentation"><math xmlns="http://www.w3.org/1998/Math/MathML"><mo stretchy="false">(</mo><mi>A</mi><mo stretchy="false">(</mo><mn>1</mn><mo>−</mo><mi>F</mi><msup><mo stretchy="false">)</mo><mrow class="MJX-TeXAtom-ORD"><mo>−</mo><mn>1</mn></mrow></msup><msup><mi>B</mi><mi>T</mi></msup><mo stretchy="false">)</mo></math></span></span><script type="math/tex" id="MathJax-Element-1">(A (1-F)^{-1} B^T)</script></p>
+    </div>
+
+
+
+</span>
+  
+    
+
+    
+    
+
+
+
+
+<div id="cell_outer_1" class="cell_visible">
+    <div id="cell_1" class="cell_evaluated">
+
+        
+        
+        
+            
+                
+            
+            
+                <div class="cell_input_print">def generate_matrix_sink(sinks, graph):
+    vertices = graph.vertices()
+    m = []
+    for s in sinks:
+        sources = sinks[s]
+        for source in sources:
+            sink_source_rows = sources[source]
+            for i in sink_source_rows:
+                row = []
+                for v in vertices:
+                    origin, destination, edge_name = v
+                    if destination == s:
+                        row.append(var('sink_'+str(origin)+str(destination)+str(source) + str(i)))
+                    else:
+                        row.append(0)
+                m.append(row)
+    return matrix(SR, m, sparse=True)&nbsp;</div>
+            
+            
+
+            <div id="introspect_div_1" class="introspection"></div>
+        
+
+        
+        
+        <div class="cell_output_div">
+            <table class="cell_output_box">
+                <tbody><tr>
+                    <td class="cell_number" id="cell_number_1">
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    </td>
+                    <td class="output_cell">
+                        <div class="cell_div_output_wrap" id="cell_div_output_1">
+                            <div class="cell_output_print_wrap" id="cell_output_1">
+                                
+                                    
+                                
+                            </div>
+                            
+                                <div class="cell_output_html_wrap" id="cell_output_html_1">
+                                    
+                                </div>
+                        </div>
+                    </td>
+                </tr>
+            </tbody></table>
+        </div>
+        
+
+
+    </div>
+</div>
+
+  
+    
+<span id="cell_outer_10">
+    
+    <div class="text_cell" id="cell_text_10">
+      <p>Generates the source matrix A to calculate the transfer matrix, defined as <span class="MathJax_Preview" style="color: inherit;"></span><span class="MathJax" id="MathJax-Element-2-Frame" tabindex="0" data-mathml="&lt;math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;&gt;&lt;mo stretchy=&quot;false&quot;&gt;(&lt;/mo&gt;&lt;mi&gt;A&lt;/mi&gt;&lt;mo stretchy=&quot;false&quot;&gt;(&lt;/mo&gt;&lt;mn&gt;1&lt;/mn&gt;&lt;mo&gt;&amp;#x2212;&lt;/mo&gt;&lt;mi&gt;F&lt;/mi&gt;&lt;msup&gt;&lt;mo stretchy=&quot;false&quot;&gt;)&lt;/mo&gt;&lt;mrow class=&quot;MJX-TeXAtom-ORD&quot;&gt;&lt;mo&gt;&amp;#x2212;&lt;/mo&gt;&lt;mn&gt;1&lt;/mn&gt;&lt;/mrow&gt;&lt;/msup&gt;&lt;msup&gt;&lt;mi&gt;B&lt;/mi&gt;&lt;mi&gt;T&lt;/mi&gt;&lt;/msup&gt;&lt;mo stretchy=&quot;false&quot;&gt;)&lt;/mo&gt;&lt;/math&gt;" role="presentation" style="position: relative;"><nobr aria-hidden="true"><span class="math" id="MathJax-Span-19" role="math" style="width: 8.192em; display: inline-block;"><span style="display: inline-block; position: relative; width: 7.061em; height: 0px; font-size: 116%;"><span style="position: absolute; clip: rect(1.188em 1006.95em 2.643em -999.997em); top: -2.206em; left: 0.003em;"><span class="mrow" id="MathJax-Span-20"><span class="mo" id="MathJax-Span-21" style="font-family: MathJax_Main;">(</span><span class="mi" id="MathJax-Span-22" style="font-family: MathJax_Math; font-style: italic;">A</span><span class="mo" id="MathJax-Span-23" style="font-family: MathJax_Main;">(</span><span class="mn" id="MathJax-Span-24" style="font-family: MathJax_Main;">1</span><span class="mo" id="MathJax-Span-25" style="font-family: MathJax_Main; padding-left: 0.218em;">−</span><span class="mi" id="MathJax-Span-26" style="font-family: MathJax_Math; font-style: italic; padding-left: 0.218em;">F<span style="display: inline-block; overflow: hidden; height: 1px; width: 0.11em;"></span></span><span class="msubsup" id="MathJax-Span-27"><span style="display: inline-block; position: relative; width: 1.35em; height: 0px;"><span style="position: absolute; clip: rect(3.074em 1000.27em 4.421em -999.997em); top: -3.984em; left: 0.003em;"><span class="mo" id="MathJax-Span-28" style="font-family: MathJax_Main;">)</span><span style="display: inline-block; width: 0px; height: 3.99em;"></span></span><span style="position: absolute; top: -4.362em; left: 0.38em;"><span class="texatom" id="MathJax-Span-29"><span class="mrow" id="MathJax-Span-30"><span class="mo" id="MathJax-Span-31" style="font-size: 70.7%; font-family: MathJax_Main;">−</span><span class="mn" id="MathJax-Span-32" style="font-size: 70.7%; font-family: MathJax_Main;">1</span></span></span><span style="display: inline-block; width: 0px; height: 3.99em;"></span></span></span></span><span class="msubsup" id="MathJax-Span-33"><span style="display: inline-block; position: relative; width: 1.35em; height: 0px;"><span style="position: absolute; clip: rect(3.128em 1000.76em 4.151em -999.997em); top: -3.984em; left: 0.003em;"><span class="mi" id="MathJax-Span-34" style="font-family: MathJax_Math; font-style: italic;">B</span><span style="display: inline-block; width: 0px; height: 3.99em;"></span></span><span style="position: absolute; top: -4.362em; left: 0.757em;"><span class="mi" id="MathJax-Span-35" style="font-size: 70.7%; font-family: MathJax_Math; font-style: italic;">T<span style="display: inline-block; overflow: hidden; height: 1px; width: 0.11em;"></span></span><span style="display: inline-block; width: 0px; height: 3.99em;"></span></span></span></span><span class="mo" id="MathJax-Span-36" style="font-family: MathJax_Main;">)</span></span><span style="display: inline-block; width: 0px; height: 2.212em;"></span></span></span><span style="display: inline-block; overflow: hidden; vertical-align: -0.372em; border-left: 0px solid; width: 0px; height: 1.378em;"></span></span></nobr><span class="MJX_Assistive_MathML" role="presentation"><math xmlns="http://www.w3.org/1998/Math/MathML"><mo stretchy="false">(</mo><mi>A</mi><mo stretchy="false">(</mo><mn>1</mn><mo>−</mo><mi>F</mi><msup><mo stretchy="false">)</mo><mrow class="MJX-TeXAtom-ORD"><mo>−</mo><mn>1</mn></mrow></msup><msup><mi>B</mi><mi>T</mi></msup><mo stretchy="false">)</mo></math></span></span><script type="math/tex" id="MathJax-Element-2">(A (1-F)^{-1} B^T)</script></p>
+    </div>
+
+
+
+</span>
+  
+    
+
+    
+    
+
+
+
+
+<div id="cell_outer_2" class="cell_visible">
+    <div id="cell_2" class="cell_evaluated">
+
+        
+        
+        
+            
+                
+            
+            
+                <div class="cell_input_print">def generate_matrix_source(sources, graph):
+    vertices = graph.vertices()
+    m = []
+    for s in sources:
+        source_rows = sources[s]
+        for i in source_rows:
+            row = []
+            for v in vertices:
+                origin, destination, edge_name = v
+                if origin == s:
+                    row.append(var('source_'+str(origin)+str(destination)+str(i)))
+                else:
+                    row.append(0)
+            m.append(row)
+    return matrix(SR, m, sparse=True)&nbsp;</div>
+            
+            
+
+            <div id="introspect_div_2" class="introspection"></div>
+        
+
+        
+        
+        <div class="cell_output_div">
+            <table class="cell_output_box">
+                <tbody><tr>
+                    <td class="cell_number" id="cell_number_2">
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    </td>
+                    <td class="output_cell">
+                        <div class="cell_div_output_wrap" id="cell_div_output_2">
+                            <div class="cell_output_print_wrap" id="cell_output_2">
+                                
+                                    
+                                
+                            </div>
+                            
+                                <div class="cell_output_html_wrap" id="cell_output_html_2">
+                                    
+                                </div>
+                        </div>
+                    </td>
+                </tr>
+            </tbody></table>
+        </div>
+        
+
+
+    </div>
+</div>
+
+  
+    
+<span id="cell_outer_12">
+    
+    <div class="text_cell" id="cell_text_12">
+      <p>Generates the source matrix F to calculate the transfer matrix, defined as <span class="MathJax_Preview" style="color: inherit;"></span><span class="MathJax" id="MathJax-Element-3-Frame" tabindex="0" data-mathml="&lt;math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;&gt;&lt;mo stretchy=&quot;false&quot;&gt;(&lt;/mo&gt;&lt;mi&gt;A&lt;/mi&gt;&lt;mo stretchy=&quot;false&quot;&gt;(&lt;/mo&gt;&lt;mn&gt;1&lt;/mn&gt;&lt;mo&gt;&amp;#x2212;&lt;/mo&gt;&lt;mi&gt;F&lt;/mi&gt;&lt;msup&gt;&lt;mo stretchy=&quot;false&quot;&gt;)&lt;/mo&gt;&lt;mrow class=&quot;MJX-TeXAtom-ORD&quot;&gt;&lt;mo&gt;&amp;#x2212;&lt;/mo&gt;&lt;mn&gt;1&lt;/mn&gt;&lt;/mrow&gt;&lt;/msup&gt;&lt;msup&gt;&lt;mi&gt;B&lt;/mi&gt;&lt;mi&gt;T&lt;/mi&gt;&lt;/msup&gt;&lt;mo stretchy=&quot;false&quot;&gt;)&lt;/mo&gt;&lt;/math&gt;" role="presentation" style="position: relative;"><nobr aria-hidden="true"><span class="math" id="MathJax-Span-37" role="math" style="width: 8.192em; display: inline-block;"><span style="display: inline-block; position: relative; width: 7.061em; height: 0px; font-size: 116%;"><span style="position: absolute; clip: rect(1.188em 1006.95em 2.643em -999.997em); top: -2.206em; left: 0.003em;"><span class="mrow" id="MathJax-Span-38"><span class="mo" id="MathJax-Span-39" style="font-family: MathJax_Main;">(</span><span class="mi" id="MathJax-Span-40" style="font-family: MathJax_Math; font-style: italic;">A</span><span class="mo" id="MathJax-Span-41" style="font-family: MathJax_Main;">(</span><span class="mn" id="MathJax-Span-42" style="font-family: MathJax_Main;">1</span><span class="mo" id="MathJax-Span-43" style="font-family: MathJax_Main; padding-left: 0.218em;">−</span><span class="mi" id="MathJax-Span-44" style="font-family: MathJax_Math; font-style: italic; padding-left: 0.218em;">F<span style="display: inline-block; overflow: hidden; height: 1px; width: 0.11em;"></span></span><span class="msubsup" id="MathJax-Span-45"><span style="display: inline-block; position: relative; width: 1.35em; height: 0px;"><span style="position: absolute; clip: rect(3.074em 1000.27em 4.421em -999.997em); top: -3.984em; left: 0.003em;"><span class="mo" id="MathJax-Span-46" style="font-family: MathJax_Main;">)</span><span style="display: inline-block; width: 0px; height: 3.99em;"></span></span><span style="position: absolute; top: -4.362em; left: 0.38em;"><span class="texatom" id="MathJax-Span-47"><span class="mrow" id="MathJax-Span-48"><span class="mo" id="MathJax-Span-49" style="font-size: 70.7%; font-family: MathJax_Main;">−</span><span class="mn" id="MathJax-Span-50" style="font-size: 70.7%; font-family: MathJax_Main;">1</span></span></span><span style="display: inline-block; width: 0px; height: 3.99em;"></span></span></span></span><span class="msubsup" id="MathJax-Span-51"><span style="display: inline-block; position: relative; width: 1.35em; height: 0px;"><span style="position: absolute; clip: rect(3.128em 1000.76em 4.151em -999.997em); top: -3.984em; left: 0.003em;"><span class="mi" id="MathJax-Span-52" style="font-family: MathJax_Math; font-style: italic;">B</span><span style="display: inline-block; width: 0px; height: 3.99em;"></span></span><span style="position: absolute; top: -4.362em; left: 0.757em;"><span class="mi" id="MathJax-Span-53" style="font-size: 70.7%; font-family: MathJax_Math; font-style: italic;">T<span style="display: inline-block; overflow: hidden; height: 1px; width: 0.11em;"></span></span><span style="display: inline-block; width: 0px; height: 3.99em;"></span></span></span></span><span class="mo" id="MathJax-Span-54" style="font-family: MathJax_Main;">)</span></span><span style="display: inline-block; width: 0px; height: 2.212em;"></span></span></span><span style="display: inline-block; overflow: hidden; vertical-align: -0.372em; border-left: 0px solid; width: 0px; height: 1.378em;"></span></span></nobr><span class="MJX_Assistive_MathML" role="presentation"><math xmlns="http://www.w3.org/1998/Math/MathML"><mo stretchy="false">(</mo><mi>A</mi><mo stretchy="false">(</mo><mn>1</mn><mo>−</mo><mi>F</mi><msup><mo stretchy="false">)</mo><mrow class="MJX-TeXAtom-ORD"><mo>−</mo><mn>1</mn></mrow></msup><msup><mi>B</mi><mi>T</mi></msup><mo stretchy="false">)</mo></math></span></span><script type="math/tex" id="MathJax-Element-3">(A (1-F)^{-1} B^T)</script></p>
+    </div>
+
+
+
+</span>
+  
+    
+
+    
+    
+
+
+
+
+<div id="cell_outer_11" class="cell_visible">
+    <div id="cell_11" class="cell_evaluated">
+
+        
+        
+        
+            
+                
+            
+            
+                <div class="cell_input_print">def generate_labeled_line_graph_matrix(graph):
+    line_graph = graph.line_graph()
+    vertices = line_graph.vertices()        
+    adj_matrix = line_graph.adjacency_matrix()
+    n_rows = adj_matrix.nrows()
+    n_cols = adj_matrix.ncols()
+    m = [[y for y in x] for x in adj_matrix]
+    for i in range(n_rows):
+        for j in range(n_cols):
+             origin_1, destination_1, edge_name_1 = vertices[i]
+             origin_2, destination_2, edge_name_2 = vertices[j]
+             m[i][j] = m[i][j] * var('e_'+str(origin_1)+str(destination_1)+'_'
+                       +str(origin_2)+str(destination_2))
+        
+    return matrix(SR, m, sparse=True)&nbsp;</div>
+            
+            
+
+            <div id="introspect_div_11" class="introspection"></div>
+        
+
+        
+        
+        <div class="cell_output_div">
+            <table class="cell_output_box">
+                <tbody><tr>
+                    <td class="cell_number" id="cell_number_11">
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    </td>
+                    <td class="output_cell">
+                        <div class="cell_div_output_wrap" id="cell_div_output_11">
+                            <div class="cell_output_print_wrap" id="cell_output_11">
+                                
+                                    
+                                
+                            </div>
+                            
+                                <div class="cell_output_html_wrap" id="cell_output_html_11">
+                                    
+                                </div>
+                        </div>
+                    </td>
+                </tr>
+            </tbody></table>
+        </div>
+        
+
+
+    </div>
+</div>
+
+  
+    
+<span id="cell_outer_14">
+    
+    <div class="text_cell" id="cell_text_14">
+      <p>Genenerates the transfer matrix&nbsp;<span class="MathJax_Preview" style="color: inherit;"></span><span class="MathJax" id="MathJax-Element-4-Frame" tabindex="0" data-mathml="&lt;math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;&gt;&lt;mo stretchy=&quot;false&quot;&gt;(&lt;/mo&gt;&lt;mi&gt;A&lt;/mi&gt;&lt;mo stretchy=&quot;false&quot;&gt;(&lt;/mo&gt;&lt;mn&gt;1&lt;/mn&gt;&lt;mo&gt;&amp;#x2212;&lt;/mo&gt;&lt;mi&gt;F&lt;/mi&gt;&lt;msup&gt;&lt;mo stretchy=&quot;false&quot;&gt;)&lt;/mo&gt;&lt;mrow class=&quot;MJX-TeXAtom-ORD&quot;&gt;&lt;mo&gt;&amp;#x2212;&lt;/mo&gt;&lt;mn&gt;1&lt;/mn&gt;&lt;/mrow&gt;&lt;/msup&gt;&lt;msup&gt;&lt;mi&gt;B&lt;/mi&gt;&lt;mi&gt;T&lt;/mi&gt;&lt;/msup&gt;&lt;mo stretchy=&quot;false&quot;&gt;)&lt;/mo&gt;&lt;/math&gt;" role="presentation" style="position: relative;"><nobr aria-hidden="true"><span class="math" id="MathJax-Span-55" role="math" style="width: 8.192em; display: inline-block;"><span style="display: inline-block; position: relative; width: 7.061em; height: 0px; font-size: 116%;"><span style="position: absolute; clip: rect(1.188em 1006.95em 2.643em -999.997em); top: -2.206em; left: 0.003em;"><span class="mrow" id="MathJax-Span-56"><span class="mo" id="MathJax-Span-57" style="font-family: MathJax_Main;">(</span><span class="mi" id="MathJax-Span-58" style="font-family: MathJax_Math; font-style: italic;">A</span><span class="mo" id="MathJax-Span-59" style="font-family: MathJax_Main;">(</span><span class="mn" id="MathJax-Span-60" style="font-family: MathJax_Main;">1</span><span class="mo" id="MathJax-Span-61" style="font-family: MathJax_Main; padding-left: 0.218em;">−</span><span class="mi" id="MathJax-Span-62" style="font-family: MathJax_Math; font-style: italic; padding-left: 0.218em;">F<span style="display: inline-block; overflow: hidden; height: 1px; width: 0.11em;"></span></span><span class="msubsup" id="MathJax-Span-63"><span style="display: inline-block; position: relative; width: 1.35em; height: 0px;"><span style="position: absolute; clip: rect(3.074em 1000.27em 4.421em -999.997em); top: -3.984em; left: 0.003em;"><span class="mo" id="MathJax-Span-64" style="font-family: MathJax_Main;">)</span><span style="display: inline-block; width: 0px; height: 3.99em;"></span></span><span style="position: absolute; top: -4.362em; left: 0.38em;"><span class="texatom" id="MathJax-Span-65"><span class="mrow" id="MathJax-Span-66"><span class="mo" id="MathJax-Span-67" style="font-size: 70.7%; font-family: MathJax_Main;">−</span><span class="mn" id="MathJax-Span-68" style="font-size: 70.7%; font-family: MathJax_Main;">1</span></span></span><span style="display: inline-block; width: 0px; height: 3.99em;"></span></span></span></span><span class="msubsup" id="MathJax-Span-69"><span style="display: inline-block; position: relative; width: 1.35em; height: 0px;"><span style="position: absolute; clip: rect(3.128em 1000.76em 4.151em -999.997em); top: -3.984em; left: 0.003em;"><span class="mi" id="MathJax-Span-70" style="font-family: MathJax_Math; font-style: italic;">B</span><span style="display: inline-block; width: 0px; height: 3.99em;"></span></span><span style="position: absolute; top: -4.362em; left: 0.757em;"><span class="mi" id="MathJax-Span-71" style="font-size: 70.7%; font-family: MathJax_Math; font-style: italic;">T<span style="display: inline-block; overflow: hidden; height: 1px; width: 0.11em;"></span></span><span style="display: inline-block; width: 0px; height: 3.99em;"></span></span></span></span><span class="mo" id="MathJax-Span-72" style="font-family: MathJax_Main;">)</span></span><span style="display: inline-block; width: 0px; height: 2.212em;"></span></span></span><span style="display: inline-block; overflow: hidden; vertical-align: -0.372em; border-left: 0px solid; width: 0px; height: 1.378em;"></span></span></nobr><span class="MJX_Assistive_MathML" role="presentation"><math xmlns="http://www.w3.org/1998/Math/MathML"><mo stretchy="false">(</mo><mi>A</mi><mo stretchy="false">(</mo><mn>1</mn><mo>−</mo><mi>F</mi><msup><mo stretchy="false">)</mo><mrow class="MJX-TeXAtom-ORD"><mo>−</mo><mn>1</mn></mrow></msup><msup><mi>B</mi><mi>T</mi></msup><mo stretchy="false">)</mo></math></span></span><script type="math/tex" id="MathJax-Element-4">(A (1-F)^{-1} B^T)</script>, that maps inputs to outputs</p>
+    </div>
+
+
+
+</span>
+  
+    
+
+    
+    
+
+
+
+
+<div id="cell_outer_13" class="cell_visible">
+    <div id="cell_13" class="cell_evaluated">
+
+        
+        
+        
+            
+                
+            
+            
+                <div class="cell_input_print">def generate_transfer_matrix(graph, sources, sinks):
+    line_graph = graph.line_graph()
+    F = generate_labeled_line_graph_matrix(graph)
+    I = matrix.identity(F.nrows())
+    A = generate_matrix_source(sources, line_graph)
+    B = generate_matrix_sink(sinks, line_graph)
+    return A*~(I-F)*B.T&nbsp;</div>
+            
+            
+
+            <div id="introspect_div_13" class="introspection"></div>
+        
+
+        
+        
+        <div class="cell_output_div">
+            <table class="cell_output_box">
+                <tbody><tr>
+                    <td class="cell_number" id="cell_number_13">
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    </td>
+                    <td class="output_cell">
+                        <div class="cell_div_output_wrap" id="cell_div_output_13">
+                            <div class="cell_output_print_wrap" id="cell_output_13">
+                                
+                                    
+                                
+                            </div>
+                            
+                                <div class="cell_output_html_wrap" id="cell_output_html_13">
+                                    
+                                </div>
+                        </div>
+                    </td>
+                </tr>
+            </tbody></table>
+        </div>
+        
+
+
+    </div>
+</div>
+
+  
+    
+<span id="cell_outer_17">
+    
+    <div class="text_cell" id="cell_text_17">
+      <p>Helper functions to find which rows in A and B are assigned to which source process or to which sink.</p>
+    </div>
+
+
+
+</span>
+  
+    
+
+    
+    
+
+
+
+
+<div id="cell_outer_22" class="cell_visible">
+    <div id="cell_22" class="cell_evaluated">
+
+        
+        
+        
+            
+                
+            
+            
+                <div class="cell_input_print">def get_source_process_rows(source_process_list, sources):
+    source_rows ={}
+    i=0
+    for s in sources:
+        source_rows[s] = {}
+        dic = source_rows[s]
+        for process in sources[s]:
+            dic[process] = i
+            i+=1
+    rows = [source_rows[source][process]  for source in source_process_list for process in source_process_list[source]]
+    return rows
+
+def get_sink_rows(sink_name, sinks):
+    sink_rows ={}
+    i=0
+    for s in sinks:
+        sink = sinks[s]
+        len_sink = sum([len(sink[source]) for source in sink])
+        sink_rows[s] = []
+        for j in range(len_sink):
+            sink_rows[s].append(i)
+            i+=1
+    rows = sink_rows[sink_name]
+    return rows&nbsp;</div>
+            
+            
+
+            <div id="introspect_div_22" class="introspection"></div>
+        
+
+        
+        
+        <div class="cell_output_div">
+            <table class="cell_output_box">
+                <tbody><tr>
+                    <td class="cell_number" id="cell_number_22">
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    </td>
+                    <td class="output_cell">
+                        <div class="cell_div_output_wrap" id="cell_div_output_22">
+                            <div class="cell_output_print_wrap" id="cell_output_22">
+                                
+                                    
+                                
+                            </div>
+                            
+                                <div class="cell_output_html_wrap" id="cell_output_html_22">
+                                    
+                                </div>
+                        </div>
+                    </td>
+                </tr>
+            </tbody></table>
+        </div>
+        
+
+
+    </div>
+</div>
+
+  
+    
+<span id="cell_outer_21">
+    
+    <div class="text_cell" id="cell_text_21">
+      <p>Given the sink demands and the sources, these helper functions find which submatrices of the transfer function need to have determinant different from 0 and which entries need to be equal to 0.</p>
+    </div>
+
+
+
+</span>
+  
+    
+
+    
+    
+
+
+
+
+<div id="cell_outer_18" class="cell_visible">
+    <div id="cell_18" class="cell_evaluated">
+
+        
+        
+        
+            
+                
+            
+            
+                <div class="cell_input_print">def generate_nonnull_matrices(sources, sinks):
+    nonnull_matrices = []
+    for si in sinks:
+        rows = get_source_process_rows(sinks[si], sources)
+        columns = get_sink_rows(si, sinks)
+        nonnull_matrices.append((rows, columns))
+    return nonnull_matrices
+        
+def generate_null_elements(sources, sinks):
+    n_processes = sum([len(sources[s]) for s in sources])
+    n_demands = sum([len(sinks[sink][source]) for sink in sinks for source in sinks[sink]])
+    m = [[1 for i in range(n_demands)] for j in range(n_processes)]
+    nonnull_matrices = generate_nonnull_matrices(sources, sinks)
+    for rows,columns in nonnull_matrices:
+        for r in rows:
+            for c in columns:
+                m[r][c] = 0
+    return m&nbsp;</div>
+            
+            
+
+            <div id="introspect_div_18" class="introspection"></div>
+        
+
+        
+        
+        <div class="cell_output_div">
+            <table class="cell_output_box">
+                <tbody><tr>
+                    <td class="cell_number" id="cell_number_18">
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    </td>
+                    <td class="output_cell">
+                        <div class="cell_div_output_wrap" id="cell_div_output_18">
+                            <div class="cell_output_print_wrap" id="cell_output_18">
+                                
+                                    
+                                
+                            </div>
+                            
+                                <div class="cell_output_html_wrap" id="cell_output_html_18">
+                                    
+                                </div>
+                        </div>
+                    </td>
+                </tr>
+            </tbody></table>
+        </div>
+        
+
+
+    </div>
+</div>
+
+  
+    
+<span id="cell_outer_23">
+    
+    <div class="text_cell" id="cell_text_23">
+      <p>Calculates the&nbsp;ideal of the linear network problem, as stated on&nbsp;<a href="http://www.mit.edu/~medard/mpapers/aaatnetworkcoding.pdf,">http://www.mit.edu/~medard/mpapers/aaatnetworkcoding.pdf</a>.&nbsp;</p>
+<p>It is the ideal of all values that should be equal to 0.</p>
+    </div>
+
+
+
+</span>
+  
+    
+
+    
+    
+
+
+
+
+<div id="cell_outer_19" class="cell_visible">
+    <div id="cell_19" class="cell_evaluated">
+
+        
+        
+        
+            
+                
+            
+            
+                <div class="cell_input_print">def get_ideal(graph, sources, sinks):
+    transfer_matrix = generate_transfer_matrix(graph, sources, sinks)
+    nonnull_matrices = generate_nonnull_matrices(sources, sinks)
+    null_elements_indexes = generate_null_elements(sources, sinks)
+    null_elements = [transfer_matrix[i][j] for i in range(len(null_elements_indexes)) for j in range(len(null_elements_indexes[0])) if null_elements_indexes[i][j]==1]
+    nonnull_prod = reduce((lambda x,y: x*y), (transfer_matrix.matrix_from_rows_and_columns(*row_column).det() for row_column in nonnull_matrices))
+    null_ideal = [1- var('normalizer')*nonnull_prod] + null_elements
+    return null_ideal&nbsp;</div>
+            
+            
+
+            <div id="introspect_div_19" class="introspection"></div>
+        
+
+        
+        
+        <div class="cell_output_div">
+            <table class="cell_output_box">
+                <tbody><tr>
+                    <td class="cell_number" id="cell_number_19">
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    </td>
+                    <td class="output_cell">
+                        <div class="cell_div_output_wrap" id="cell_div_output_19">
+                            <div class="cell_output_print_wrap" id="cell_output_19">
+                                
+                                    
+                                
+                            </div>
+                            
+                                <div class="cell_output_html_wrap" id="cell_output_html_19">
+                                    
+                                </div>
+                        </div>
+                    </td>
+                </tr>
+            </tbody></table>
+        </div>
+        
+
+
+    </div>
+</div>
+
+  
+    
+<span id="cell_outer_25">
+    
+    <div class="text_cell" id="cell_text_25">
+      <p>Calculates the groebner basis of the ideal of the linear network problem.</p>
+    </div>
+
+
+
+</span>
+  
+    
+
+    
+    
+
+
+
+
+<div id="cell_outer_26" class="cell_visible">
+    <div id="cell_26" class="cell_evaluated">
+
+        
+        
+        
+            
+                
+            
+            
+                <div class="cell_input_print">def get_groebner_basis(field, graph, sources, sinks):
+    ideal = get_ideal(graph, sources, sinks)
+    variables = [v for x in ideal for v in x.variables()]
+    R = PolynomialRing(field, [x for x in set(variables)])
+    I = R*ideal
+    basis = I.groebner_basis()
+    return basis&nbsp;</div>
+            
+            
+
+            <div id="introspect_div_26" class="introspection"></div>
+        
+
+        
+        
+        <div class="cell_output_div">
+            <table class="cell_output_box">
+                <tbody><tr>
+                    <td class="cell_number" id="cell_number_26">
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    </td>
+                    <td class="output_cell">
+                        <div class="cell_div_output_wrap" id="cell_div_output_26">
+                            <div class="cell_output_print_wrap" id="cell_output_26">
+                                
+                                    
+                                
+                            </div>
+                            
+                                <div class="cell_output_html_wrap" id="cell_output_html_26">
+                                    
+                                </div>
+                        </div>
+                    </td>
+                </tr>
+            </tbody></table>
+        </div>
+        
+
+
+    </div>
+</div>
+
+  
+    
+
+    
+    
+
+
+
+
+<div id="cell_outer_30" class="cell_visible">
+    <div id="cell_30" class="cell_evaluated">
+
+        
+        
+        
+            
+                
+            
+            
+                <div class="cell_input_print">&nbsp;</div>
+            
+            
+
+            <div id="introspect_div_30" class="introspection"></div>
+        
+
+        
+        
+        <div class="cell_output_div">
+            <table class="cell_output_box">
+                <tbody><tr>
+                    <td class="cell_number" id="cell_number_30">
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    </td>
+                    <td class="output_cell">
+                        <div class="cell_div_output_wrap" id="cell_div_output_30">
+                            <div class="cell_output_print_wrap" id="cell_output_30">
+                                
+                                    
+                                
+                            </div>
+                            
+                                <div class="cell_output_html_wrap" id="cell_output_html_30">
+                                    
+                                </div>
+                        </div>
+                    </td>
+                </tr>
+            </tbody></table>
+        </div>
+        
+
+
+    </div>
+</div>
+
+  
+    
+<span id="cell_outer_27">
+    
+    <div class="text_cell" id="cell_text_27">
+      <h1>Example</h1>
+    </div>
+
+
+
+</span>
+  
+    
+
+    
+    
+
+
+
+
+<div id="cell_outer_20" class="cell_visible">
+    <div id="cell_20" class="cell_evaluated">
+
+        
+        
+        
+            
+                
+            
+            
+                <div class="cell_input_print">%time
+butterflyGraph =  DiGraph({'s': ['t','u'], 't': ['x','y'], 'u': ['x','z'], 'x': ['y','z']})
+
+butterflyGraph.plot().show()
+
+butterflysources = {'s': [0,1]}
+butterflysinks = {'y': {'s':[0,1]} , 'z': {'s':[0,1]}}
+g = get_groebner_basis(GF(2), butterflyGraph, butterflysources, butterflysinks)
+g2 = get_groebner_basis(GF(3), butterflyGraph, butterflysources, butterflysinks)
+
+print "has solution in GF2 =&gt; " + str(g != [1]) + "\n groebner_basis = " + str(g)
+print ""
+print "has solution in GF3 =&gt; " + str(g2 != [1]) + "\n groebner_basis = " + str(g2)
+
+print "6 nodes, 8 edges, 1 sources, 2 sinks"&nbsp;</div>
+            
+            
+
+            <div id="introspect_div_20" class="introspection"></div>
+        
+
+        
+        
+        <div class="cell_output_div">
+            <table class="cell_output_box">
+                <tbody><tr>
+                    <td class="cell_number" id="cell_number_20">
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    </td>
+                    <td class="output_cell">
+                        <div class="cell_div_output_wrap" id="cell_div_output_20">
+                            <div class="cell_output_print_wrap" id="cell_output_20">
+                                
+                                    <pre class="shrunk">has solution in GF2 =&gt; True
+ groebner_basis =
+[e_ux_xy*e_tx_xz*source_su0^2*e_st_tx*sink_uzs0*source_st1^2*sink_ty\
+s0*e_su_uz*e_st_ty*sink_xzs1*sink_xys1*normalizer*e_su_ux +
+e_ux_xy*e_tx_xz*e_st_tx*source_su1^2*sink_uzs0*sink_tys0*e_su_uz*sou\
+rce_st0^2*e_st_ty*sink_xzs1*sink_xys1*normalizer*e_su_ux +
+e_ux_xy*e_tx_xz*source_su0^2*e_st_tx*source_st1^2*sink_tys0*e_su_uz*\
+e_st_ty*sink_xys1*normalizer*sink_xzs0*sink_uzs1*e_su_ux +
+e_ux_xy*e_tx_xz*e_st_tx*source_su1^2*sink_tys0*e_su_uz*source_st0^2*\
+e_st_ty*sink_xys1*normalizer*sink_xzs0*sink_uzs1*e_su_ux +
+e_ux_xy*e_tx_xz*source_su0^2*e_st_tx*sink_tys1*sink_uzs0*source_st1^\
+2*e_su_uz*e_st_ty*sink_xzs1*normalizer*e_su_ux*sink_xys0 +
+e_ux_xy*e_tx_xz*e_st_tx*source_su1^2*sink_tys1*sink_uzs0*e_su_uz*sou\
+rce_st0^2*e_st_ty*sink_xzs1*normalizer*e_su_ux*sink_xys0 +
+e_ux_xy*e_tx_xz*source_su0^2*e_st_tx*sink_tys1*source_st1^2*e_su_uz*\
+e_st_ty*normalizer*sink_xzs0*sink_uzs1*e_su_ux*sink_xys0 +
+e_ux_xy*e_tx_xz*e_st_tx*source_su1^2*sink_tys1*e_su_uz*source_st0^2*\
+e_st_ty*normalizer*sink_xzs0*sink_uzs1*e_su_ux*sink_xys0 + 1]
+
+has solution in GF3 =&gt; True
+ groebner_basis =
+[e_ux_xy*e_tx_xz*source_su0^2*e_st_tx*sink_uzs0*source_st1^2*sink_ty\
+s0*e_su_uz*e_st_ty*sink_xzs1*sink_xys1*normalizer*e_su_ux +
+e_ux_xy*e_tx_xz*source_su0*e_st_tx*source_su1*sink_uzs0*source_st1*s\
+ink_tys0*e_su_uz*source_st0*e_st_ty*sink_xzs1*sink_xys1*normalizer*e\
+_su_ux +
+e_ux_xy*e_tx_xz*e_st_tx*source_su1^2*sink_uzs0*sink_tys0*e_su_uz*sou\
+rce_st0^2*e_st_ty*sink_xzs1*sink_xys1*normalizer*e_su_ux -
+e_ux_xy*e_tx_xz*source_su0^2*e_st_tx*source_st1^2*sink_tys0*e_su_uz*\
+e_st_ty*sink_xys1*normalizer*sink_xzs0*sink_uzs1*e_su_ux -
+e_ux_xy*e_tx_xz*source_su0*e_st_tx*source_su1*source_st1*sink_tys0*e\
+_su_uz*source_st0*e_st_ty*sink_xys1*normalizer*sink_xzs0*sink_uzs1*e\
+_su_ux -
+e_ux_xy*e_tx_xz*e_st_tx*source_su1^2*sink_tys0*e_su_uz*source_st0^2*\
+e_st_ty*sink_xys1*normalizer*sink_xzs0*sink_uzs1*e_su_ux -
+e_ux_xy*e_tx_xz*source_su0^2*e_st_tx*sink_tys1*sink_uzs0*source_st1^\
+2*e_su_uz*e_st_ty*sink_xzs1*normalizer*e_su_ux*sink_xys0 -
+e_ux_xy*e_tx_xz*source_su0*e_st_tx*source_su1*sink_tys1*sink_uzs0*so\
+urce_st1*e_su_uz*source_st0*e_st_ty*sink_xzs1*normalizer*e_su_ux*sin\
+k_xys0 -
+e_ux_xy*e_tx_xz*e_st_tx*source_su1^2*sink_tys1*sink_uzs0*e_su_uz*sou\
+rce_st0^2*e_st_ty*sink_xzs1*normalizer*e_su_ux*sink_xys0 +
+e_ux_xy*e_tx_xz*source_su0^2*e_st_tx*sink_tys1*source_st1^2*e_su_uz*\
+e_st_ty*normalizer*sink_xzs0*sink_uzs1*e_su_ux*sink_xys0 +
+e_ux_xy*e_tx_xz*source_su0*e_st_tx*source_su1*sink_tys1*source_st1*e\
+_su_uz*source_st0*e_st_ty*normalizer*sink_xzs0*sink_uzs1*e_su_ux*sin\
+k_xys0 +
+e_ux_xy*e_tx_xz*e_st_tx*source_su1^2*sink_tys1*e_su_uz*source_st0^2*\
+e_st_ty*normalizer*sink_xzs0*sink_uzs1*e_su_ux*sink_xys0 + 1]
+6 nodes, 8 edges, 1 sources, 2 sinks
+CPU time: 0.23 s,  Wall time: 0.23 s</pre>
+                                
+                            </div>
+                            
+                                <div class="cell_output_html_wrap" id="cell_output_html_20">
+                                    <img src="png/sage0.png">
+                                </div>
+                        </div>
+                    </td>
+                </tr>
+            </tbody></table>
+        </div>
+        
+
+
+    </div>
+</div>
+
+  
+    
+<span id="cell_outer_55">
+    
+    <div class="text_cell" id="cell_text_55">
+      <p>M network, from&nbsp;</p>
+<div>On Coding for Non-Multicast Networks, by&nbsp;Medard, Muriel and Effros, Michelle and Karger, David and Ho</div>
+<div>&nbsp;</div>
+<div>This network has no scalar solution</div>
+    </div>
+
+
+
+</span>
+  
+    
+
+    
+    
+
+
+
+
+<div id="cell_outer_28" class="cell_visible">
+    <div id="cell_28" class="cell_evaluated">
+
+        
+        
+        
+            
+                
+            
+            
+                <div class="cell_input_print">%time
+mnetworkGraph = DiGraph({1: [3,4], 2: [4,5], 3: [6,7,8,9], 4: [6,7,8,9], 5: [6,7,8,9]})
+mnetworkGraph.plot().show()
+mnetworksources = {1: ['a','A'], 2:['b','B']}
+mnetworksinks = {6: {1:['a'], 2:['b']}, 7: {1:['a'], 2:['B']}, 8: {1:['A'], 2:['b']}, 9: {1:['A'], 2:['B']}}
+g = get_groebner_basis(GF(2), mnetworkGraph, mnetworksources, mnetworksinks)
+g2 = get_groebner_basis(GF(3), mnetworkGraph, mnetworksources, mnetworksinks)
+
+
+print "has solution in GF2 =&gt; " + str(g != [1]) + "\n groebner_basis = " + str(g)
+print ""
+print "has solution in GF3 =&gt; " + str(g2 != [1]) + "\n groebner_basis = " + str(g2)
+
+print "9 nodes, 16 edges, 2 sources, 4 sinks"&nbsp;</div>
+            
+            
+
+            <div id="introspect_div_28" class="introspection"></div>
+        
+
+        
+        
+        <div class="cell_output_div">
+            <table class="cell_output_box">
+                <tbody><tr>
+                    <td class="cell_number" id="cell_number_28">
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    </td>
+                    <td class="output_cell">
+                        <div class="cell_div_output_wrap" id="cell_div_output_28">
+                            <div class="cell_output_print_wrap" id="cell_output_28">
+                                
+                                    <pre class="shrunk">has solution in GF2 =&gt; False
+ groebner_basis = [1]
+
+has solution in GF3 =&gt; False
+ groebner_basis = [1]
+9 nodes, 16 edges, 2 sources, 4 sinks
+CPU time: 0.56 s,  Wall time: 0.56 s</pre>
+                                
+                            </div>
+                            
+                                <div class="cell_output_html_wrap" id="cell_output_html_28">
+                                    <img src="png/sage0(1).png">
+                                </div>
+                        </div>
+                    </td>
+                </tr>
+            </tbody></table>
+        </div>
+        
+
+
+    </div>
+</div>
+
+  
+    
+<span id="cell_outer_46">
+    
+    <div class="text_cell" id="cell_text_46">
+      <p>Network N1 from&nbsp;<a href="http://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&amp;arnumber=1468297">http://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&amp;arnumber=1468297</a>&nbsp;</p>
+<p>It has solution over even fields but no solution over odd fields.</p>
+    </div>
+
+
+
+</span>
+  
+    
+
+    
+    
+
+
+
+
+<div id="cell_outer_31" class="cell_visible">
+    <div id="cell_31" class="cell_evaluated">
+
+        
+        
+        
+            
+                
+            
+            
+                <div class="cell_input_print">%time
+network1Graph = DiGraph({4: [13,37], 5: [13,14], 6: [14,22], 13: [17], 14: [18], 17: [21, 22], 18: [21, 39], 21: [29], 22: [30], 29: [37, 38], 30: [38, 39]})
+network1Graph.plot().show()
+network1sources = {4: ['a'], 5:['b'], 6:['c']}
+network1sinks = {39: {4:['a']}, 38: {5:['b']}, 37: {6:['c']}}
+g = get_groebner_basis(GF(2), network1Graph, network1sources, network1sinks)
+g2 = get_groebner_basis(GF(3), network1Graph, network1sources, network1sinks)
+
+print "has solution in GF2 =&gt; " + str(g != [1]) + "\n groebner_basis = " + str(g)
+print ""
+print "has solution in GF3 =&gt; " + str(g2 != [1]) + "\n groebner_basis = " + str(g2)
+
+print "14 nodes, 18 edges, 3 sources, 3 sinks"&nbsp;</div>
+            
+            
+
+            <div id="introspect_div_31" class="introspection"></div>
+        
+
+        
+        
+        <div class="cell_output_div">
+            <table class="cell_output_box">
+                <tbody><tr>
+                    <td class="cell_number" id="cell_number_31">
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    </td>
+                    <td class="output_cell">
+                        <div class="cell_div_output_wrap" id="cell_div_output_31">
+                            <div class="cell_output_print_wrap" id="cell_output_31">
+                                
+                                    <pre class="shrunk">has solution in GF2 =&gt; True
+ groebner_basis = Polynomial Sequence with 25 Polynomials in 29
+Variables
+
+has solution in GF3 =&gt; False
+ groebner_basis = [1]
+14 nodes, 18 edges, 3 sources, 3 sinks
+CPU time: 0.53 s,  Wall time: 0.53 s</pre>
+                                
+                            </div>
+                            
+                                <div class="cell_output_html_wrap" id="cell_output_html_31">
+                                    <img src="png/sage0(2).png">
+                                </div>
+                        </div>
+                    </td>
+                </tr>
+            </tbody></table>
+        </div>
+        
+
+
+    </div>
+</div>
+
+  
+    
+<span id="cell_outer_49">
+    
+    <div class="text_cell" id="cell_text_49">
+      
+    </div>
+
+
+
+</span>
+  
+    
+<span id="cell_outer_48">
+    
+    <div class="text_cell" id="cell_text_48">
+      <p>Network N2 from http://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&amp;arnumber=1468297</p>
+<p>It has a scalar linear solution over any ring where is a unit, but has no linear solution for any vector dimension over a finite field with characteristic two. Also, the coding capacity of is .</p>
+    </div>
+
+
+
+</span>
+  
+    
+
+    
+    
+
+
+
+
+<div id="cell_outer_47" class="cell_visible">
+    <div id="cell_47" class="cell_evaluated">
+
+        
+        
+        
+            
+                
+            
+            
+                <div class="cell_input_print">%time
+network2Graph = DiGraph({3: [9,10], 7: [23,15,24], 8: [23,15,25], 9: [15, 24, 25], 10: [26, 16, 27], 11: [26, 16, 28], 12: [16, 27, 28], 15: [19], 16: [20], 19: [40, 41, 42], 20: [44, 45, 46], 23: [31], 24: [32], 25: [33], 26: [34], 27: [35], 28: [36], 31: [40,43], 32: [41,43], 33: [42,43], 34: [44,43], 35: [45,43], 36: [46,43]})
+network2Graph.plot().show()
+network2sources = {3: ['c'], 7:['a'], 8:['b'], 11:['d'], 12:['e']}
+network2sinks = {40: {3:['c']}, 41: {8:['b']}, 42: {7:['a']}, 43: {3:['c']}, 44: {12:['e']}, 45: {11:['d']}, 46: {3:['c']}}
+g = get_groebner_basis(GF(2), network2Graph, network2sources, network2sinks)
+g2 = get_groebner_basis(GF(3), network2Graph, network2sources, network2sinks)
+
+print "has solution in GF2 =&gt; " + str(g != [1]) + "\n groebner_basis = " + str(g)
+print ""
+print "has solution in GF3 =&gt; " + str(g2 != [1]) + "\n groebner_basis = " + str(g2)
+
+print "30 nodes, 46 edges, 5 sources, 7 sinks"&nbsp;</div>
+            
+            
+
+            <div id="introspect_div_47" class="introspection"></div>
+        
+
+        
+        
+        <div class="cell_output_div">
+            <table class="cell_output_box">
+                <tbody><tr>
+                    <td class="cell_number" id="cell_number_47">
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    </td>
+                    <td class="output_cell">
+                        <div class="cell_div_output_wrap" id="cell_div_output_47">
+                            <div class="cell_output_print_wrap" id="cell_output_47">
+                                
+                                    <pre class="shrunk">has solution in GF3 =&gt; True
+ groebner_basis = Polynomial Sequence with 2025 Polynomials in 75
+Variables
+30 nodes, 46 edges, 5 sources, 7 sinks
+CPU time: 4.58 s,  Wall time: 4.60 s</pre>
+                                
+                            </div>
+                            
+                                <div class="cell_output_html_wrap" id="cell_output_html_47">
+                                    <img src="png/sage0(3).png">
+                                </div>
+                        </div>
+                    </td>
+                </tr>
+            </tbody></table>
+        </div>
+        
+
+
+    </div>
+</div>
+
+  
+    
+<span id="cell_outer_51">
+    
+    <div class="text_cell" id="cell_text_51">
+      <p>Network N3 from http://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&amp;arnumber=1468297</p>
+<p>It has no scalar nor vector solutions.</p>
+    </div>
+
+
+
+</span>
+  
+    
+
+    
+    
+
+
+
+
+<div id="cell_outer_50" class="cell_visible">
+    <div id="cell_50" class="cell_evaluated">
+
+        
+        
+        
+            
+                
+            
+            
+                <div class="cell_input_print">%time
+network3Graph = DiGraph({4: [13,37], 5: [13,14], 6: [14,22], 13: [17], 14: [18], 17: [21, 22], 18: [21, 39], 21: [29], 22: [30], 29: [37, 38], 30: [38, 39], 3: [6,9,10], 7: [23,15,24], 8: [23,15,25], 9: [15, 24, 25], 10: [26, 16, 27], 11: [26, 16, 28], 12: [16, 27, 28], 15: [19], 16: [20], 19: [40, 41, 42], 20: [44, 45, 46], 23: [31], 24: [32], 25: [33], 26: [34], 27: [35], 28: [36], 31: [40,43], 32: [41,43], 33: [42,43], 34: [44,43], 35: [45,43], 36: [46,43], 1: [4,7], 2: [5,8]})
+
+network3Graph.plot().show()
+
+
+network3sources = {1: ['a'], 2:['b'], 3: ['c'], 11:['d'], 12:['e']}
+network3sinks = {40: {3:['c']}, 41: {2:['b']}, 42: {1:['a']}, 43: {3:['c']}, 44: {12:['e']}, 45: {11:['d']}, 46: {3:['c']}, 39: {1:['a']}, 38: {2:['b']}, 37: {3:['c']}}
+
+g = get_groebner_basis(GF(2), network3Graph, network3sources, network3sinks)
+g2 = get_groebner_basis(GF(3), network3Graph, network3sources, network3sinks)
+
+print "has solution in GF2 =&gt; " + str(g != [1]) + "\n groebner_basis = " + str(g)
+print ""
+print "has solution in GF3 =&gt; " + str(g2 != [1]) + "\n groebner_basis = " + str(g2)
+
+print "46 nodes, 69 edges, 5 sources, 10 sinks"&nbsp;</div>
+            
+            
+
+            <div id="introspect_div_50" class="introspection"></div>
+        
+
+        
+        
+        <div class="cell_output_div">
+            <table class="cell_output_box">
+                <tbody><tr>
+                    <td class="cell_number" id="cell_number_50">
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    </td>
+                    <td class="output_cell">
+                        <div class="cell_div_output_wrap" id="cell_div_output_50">
+                            <div class="cell_output_print_wrap" id="cell_output_50">
+                                
+                                    <pre class="shrunk">has solution in GF2 =&gt; False
+ groebner_basis = [1]
+
+has solution in GF3 =&gt; False
+ groebner_basis = [1]
+46 nodes, 69 edges, 5 sources, 10 sinks
+CPU time: 2.52 s,  Wall time: 2.52 s</pre>
+                                
+                            </div>
+                            
+                                <div class="cell_output_html_wrap" id="cell_output_html_50">
+                                    <img src="png/sage0(4).png">
+                                </div>
+                        </div>
+                    </td>
+                </tr>
+            </tbody></table>
+        </div>
+        
+
+
+    </div>
+</div>
+
+  
+    
+<span id="cell_outer_54">
+    
+    <div class="text_cell" id="cell_text_54">
+      <p>Network N1 From:&nbsp;</p>
+<p>Unachievability of Network Coding Capacity<br>Randall Dougherty, Chris Freiling, and Kenneth Zeger, Fellow, IEEE</p>
+<p>Only has solution over alphabets that have property P, as defined in the paper</p>
+    </div>
+
+
+
+</span>
+  
+    
+
+    
+    
+
+
+
+
+<div id="cell_outer_53" class="cell_visible">
+    <div id="cell_53" class="cell_evaluated">
+
+        
+        
+        
+            
+                
+            
+            
+                <div class="cell_input_print">%time
+networkN1Graph = DiGraph({1: [4,6,7], 2: [6,4,8], 3: [4,7,8], 4: [5], 5: [12,13,14], 6: [9], 7: [10], 8: [11], 9: [12], 10: [13], 11: [14]})
+networkN1Graph.plot().show()
+networkN1Sources = {1: ['a'], 2:['b'], 3:['c']}
+networkN1Sinks = {12: {3:['c']}, 13: {2:['b']}, 14: {1:['a']}}
+g = get_groebner_basis(GF(2), networkN1Graph, networkN1Sources, networkN1Sinks)
+g2 = get_groebner_basis(GF(3), networkN1Graph, networkN1Sources, networkN1Sinks)
+
+
+print "has solution in GF2 =&gt; " + str(g != [1]) + "\n groebner_basis = " + str(g)
+print ""
+print "has solution in GF3 =&gt; " + str(g2 != [1]) + "\n groebner_basis = " + str(g2)
+
+print str(networkN1Graph.order()) + " nodes, " + str(networkN1Graph.size()) +" edges, 3 sources, 3 sinks"&nbsp;</div>
+            
+            
+
+            <div id="introspect_div_53" class="introspection"></div>
+        
+
+        
+        
+        <div class="cell_output_div">
+            <table class="cell_output_box">
+                <tbody><tr>
+                    <td class="cell_number" id="cell_number_53">
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    </td>
+                    <td class="output_cell">
+                        <div class="cell_div_output_wrap" id="cell_div_output_53">
+                            <div class="cell_output_print_wrap" id="cell_output_53">
+                                
+                                    <pre class="shrunk">has solution in GF2 =&gt; True
+ groebner_basis = Polynomial Sequence with 22 Polynomials in 31
+Variables
+
+has solution in GF3 =&gt; True
+ groebner_basis = Polynomial Sequence with 22 Polynomials in 31
+Variables
+14 nodes, 19 edges, 3 sources, 4 sinks
+CPU time: 0.38 s,  Wall time: 0.39 s</pre>
+                                
+                            </div>
+                            
+                                <div class="cell_output_html_wrap" id="cell_output_html_53">
+                                    <img src="png/sage0(5).png">
+                                </div>
+                        </div>
+                    </td>
+                </tr>
+            </tbody></table>
+        </div>
+        
+
+
+    </div>
+</div>
+
+  
+    
+<span id="cell_outer_57">
+    
+    <div class="text_cell" id="cell_text_57">
+      <p>Network N2 From:&nbsp;</p>
+<p>Unachievability of Network Coding Capacity<br>Randall Dougherty, Chris Freiling, and Kenneth Zeger, Fellow, IEEE</p>
+<p>Only has solution over alphabets that have property P, as defined in the paper, and no elements of order 2.</p>
+    </div>
+
+
+
+</span>
+  
+    
+
+    
+    
+
+
+
+
+<div id="cell_outer_56" class="cell_visible">
+    <div id="cell_56" class="cell_evaluated">
+
+        
+        
+        
+            
+                
+            
+            
+                <div class="cell_input_print">%time
+networkN2Graph = DiGraph({1: [4,6,7], 2: [6,4,8], 3: [4,7,8], 4: [5], 5: [12,13,14], 6: [9], 7: [10], 8: [11], 9: [12, 15], 10: [13, 15], 11: [14, 15]})
+networkN2Graph.plot().show()
+networkN2Sources = {1: ['a'], 2:['b'], 3:['c']}
+networkN2Sinks = {12: {3:['c']}, 13: {2:['b']}, 14: {1:['a']}, 15: {3:['c']}}
+g = get_groebner_basis(GF(2), networkN2Graph, networkN2Sources, networkN2Sinks)
+g2 = get_groebner_basis(GF(3), networkN2Graph, networkN2Sources, networkN2Sinks)
+
+
+print "has solution in GF2 =&gt; " + str(g != [1]) + "\n groebner_basis = " + str(g)
+print ""
+print "has solution in GF3 =&gt; " + str(g2 != [1]) + "\n groebner_basis = " + str(g2)
+
+print str(networkN2Graph.order()) + " nodes, " + str(networkN2Graph.size()) +" edges, 3 sources, 4 sinks"&nbsp;</div>
+            
+            
+
+            <div id="introspect_div_56" class="introspection"></div>
+        
+
+        
+        
+        <div class="cell_output_div">
+            <table class="cell_output_box">
+                <tbody><tr>
+                    <td class="cell_number" id="cell_number_56">
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    </td>
+                    <td class="output_cell">
+                        <div class="cell_div_output_wrap" id="cell_div_output_56">
+                            <div class="cell_output_print_wrap" id="cell_output_56">
+                                
+                                    <pre class="shrunk">has solution in GF2 =&gt; False
+ groebner_basis = [1]
+
+has solution in GF3 =&gt; True
+ groebner_basis = Polynomial Sequence with 57 Polynomials in 37
+Variables
+15 nodes, 22 edges, 3 sources, 4 sinks
+CPU time: 0.47 s,  Wall time: 0.47 s</pre>
+                                
+                            </div>
+                            
+                                <div class="cell_output_html_wrap" id="cell_output_html_56">
+                                    <img src="png/sage0(6).png">
+                                </div>
+                        </div>
+                    </td>
+                </tr>
+            </tbody></table>
+        </div>
+        
+
+
+    </div>
+</div>
+
+  
+    
+<span id="cell_outer_59">
+    
+    <div class="text_cell" id="cell_text_59">
+      <p>Network N3 From:&nbsp;</p>
+<p>Unachievability of Network Coding Capacity<br>Randall Dougherty, Chris Freiling, and Kenneth Zeger, Fellow, IEEE</p>
+<p>Only has solution over alphabets that have property P, as defined in the paper, and all non zero elements have order 2.</p>
+    </div>
+
+
+
+</span>
+  
+    
+
+    
+    
+
+
+
+
+<div id="cell_outer_58" class="cell_visible">
+    <div id="cell_58" class="cell_evaluated">
+
+        
+        
+        
+            
+                
+            
+            
+                <div class="cell_input_print">%time
+networkN3Graph = DiGraph({16: [19, 27], 17: [19, 20], 18: [20, 24], 19: [21], 20: [22], 21: [23, 24], 22: [23, 29], 23: [25], 24: [26], 25: [27, 28], 26: [28, 29]})
+networkN3Graph.plot().show()
+networkN3Sources = {16: ['a'], 17:['b'], 18:['c']}
+networkN3Sinks = {27: {18:['c']}, 28: {17:['b']}, 29: {16:['a']} }
+g = get_groebner_basis(GF(2), networkN3Graph, networkN3Sources, networkN3Sinks)
+g2 = get_groebner_basis(GF(3), networkN3Graph, networkN3Sources, networkN3Sinks)
+g3 = get_groebner_basis(GF(4), networkN3Graph, networkN3Sources, networkN3Sinks)
+
+
+print "has solution in GF2 =&gt; " + str(g != [1]) + "\n groebner_basis = " + str(g)
+print ""
+print "has solution in GF3 =&gt; " + str(g2 != [1]) + "\n groebner_basis = " + str(g2)
+print ""
+print "has solution in GF4 =&gt; " + str(g3 != [1]) + "\n groebner_basis = " + str(g3)
+
+print str(networkN3Graph.order()) + " nodes, " + str(networkN3Graph.size()) +" edges, 3 sources, 3 sinks"&nbsp;</div>
+            
+            
+
+            <div id="introspect_div_58" class="introspection"></div>
+        
+
+        
+        
+        <div class="cell_output_div">
+            <table class="cell_output_box">
+                <tbody><tr>
+                    <td class="cell_number" id="cell_number_58">
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    </td>
+                    <td class="output_cell">
+                        <div class="cell_div_output_wrap" id="cell_div_output_58">
+                            <div class="cell_output_print_wrap" id="cell_output_58">
+                                
+                                    <pre class="shrunk">has solution in GF2 =&gt; True
+ groebner_basis = Polynomial Sequence with 25 Polynomials in 29
+Variables
+
+has solution in GF3 =&gt; False
+ groebner_basis = [1]
+
+has solution in GF4 =&gt; True
+ groebner_basis = Polynomial Sequence with 25 Polynomials in 29
+Variables
+14 nodes, 18 edges, 3 sources, 3 sinks
+CPU time: 0.57 s,  Wall time: 0.60 s</pre>
+                                
+                            </div>
+                            
+                                <div class="cell_output_html_wrap" id="cell_output_html_58">
+                                    <img src="png/sage0(7).png">
+                                </div>
+                        </div>
+                    </td>
+                </tr>
+            </tbody></table>
+        </div>
+        
+
+
+    </div>
+</div>
+
+  
+    
+
+    
+    
+
+
+
+
+<div id="cell_outer_60" class="cell_visible">
+    <div id="cell_60" class="cell_evaluated">
+
+        
+        
+        
+            
+                
+            
+            
+                <div class="cell_input_print">&nbsp;</div>
+            
+            
+
+            <div id="introspect_div_60" class="introspection"></div>
+        
+
+        
+        
+        <div class="cell_output_div">
+            <table class="cell_output_box">
+                <tbody><tr>
+                    <td class="cell_number" id="cell_number_60">
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    </td>
+                    <td class="output_cell">
+                        <div class="cell_div_output_wrap" id="cell_div_output_60">
+                            <div class="cell_output_print_wrap" id="cell_output_60">
+                                
+                                    
+                                
+                            </div>
+                            
+                                <div class="cell_output_html_wrap" id="cell_output_html_60">
+                                    
+                                </div>
+                        </div>
+                    </td>
+                </tr>
+            </tbody></table>
+        </div>
+        
+
+
+    </div>
+</div>
+
+  
+</div>
+<!--    <script>
+        MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
+    </script>-->
+
+    
+<div style="position: absolute; width: 0px; height: 0px; overflow: hidden; padding: 0px; border: 0px; margin: 0px;"><div id="MathJax_Font_Test" style="position: absolute; visibility: hidden; top: 0px; left: 0px; width: auto; padding: 0px; border: 0px; margin: 0px; white-space: nowrap; text-align: left; text-indent: 0px; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; font-size: 40px; font-weight: normal; font-style: normal; font-family: MathJax_Size4, sans-serif;"></div></div></body-groebner>
