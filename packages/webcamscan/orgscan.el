@@ -1,0 +1,37 @@
+(defun ivanaf/org-scan(&optional landscape)
+  (interactive)
+  (let* ((python-cam-command "~/org/packages/webcamscan/webcam.py")
+         (python-crop-command "~/org/packages/webcamscan/crop.py")
+         (text-command "~/org/packages/webcamscan/textcleaner")
+         (directory "./scan/")
+         (file-name (replace-regexp-in-string "\\." "" (format "%s" (float-time))))
+         (file-name (concat directory file-name ".jpg"))
+         (file-name (expand-file-name file-name))
+         (text-args
+          (if landscape
+              "-l l -r cw -e normalize -s 1 -f 15 -o 5 -p 5 -u -T"
+            "  -r cw -e normalize -s 1 -f 15 -o 5 -p 5 -u -T"))
+         (display-brightness-hw "/sys/class/backlight/intel_backlight/brightness")
+         (max-brightness "1500")
+         (cmd-file-name (shell-quote-argument file-name))
+         (brightness (shell-command-to-string (concat "cat " display-brightness-hw)))
+         (brightness (replace-regexp-in-string "\n" "" brightness)))
+    (make-directory directory t)
+    (shell-command (format "echo %s > %s" max-brightness display-brightness-hw))
+    (shell-command (format "python3 %s %s" python-cam-command cmd-file-name))
+    (shell-command (format "echo %s > %s" brightness display-brightness-hw))
+    (shell-command (format "python3 %s %s" python-crop-command cmd-file-name))
+    (shell-command (format "%s %s %s %s" text-command text-args cmd-file-name cmd-file-name))
+    (insert "\n#+ATTR_ORG: :width 600\n")
+    (insert "#+attr_latex: :float nil\n")
+    (insert (concat  "#+CAPTION: "  "\n"))
+    (insert (concat "[[file:" file-name "][file:" file-name "]]"))
+    (org-display-inline-images)))
+
+
+(defun ivanaf/org-scan-l()
+  (interactive)
+  (ivanaf/org-scan t))
+
+(define-key org-mode-map (kbd "C-<print> ") 'ivanaf/org-scan)
+(define-key org-mode-map (kbd "M-<print> ") 'ivanaf/org-scan-l)

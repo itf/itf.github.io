@@ -2948,20 +2948,20 @@ echo brightness /sys/class/backlight/intel_backlight/brightness
 #+END_SRC
 ** Taking the picture
    I use pygame to take the picture.
-   #+include: "../../packages/webcamscan/webcam.py"  src python 
+   #+include: "packages/webcamscan/webcam.py"  src python 
 ** Cropping the picture
 Again, I use pygame, using the code from these online answers: 
 https://coderwall.com/p/hmp8uw/image-cropping-using-pygame
 https://stackoverflow.com/questions/6136588/image-cropping-using-python/8696558 
 
- #+include: "../../packages/webcamscan/crop.py"  src python 
+ #+include: "packages/webcamscan/crop.py"  src python 
 ** Cleaning the image
 To clean the image, I was trying to remove the background by blurring the image, and dividing the original image by the blurred one.
 
 This method is very effective. However, I found something even better, [[http://www.fmwconcepts.com/imagemagick/textcleaner/index.php][Fred's ImageMagick Scripts for text cleaning]].
 
 ** Putting it all together
- #+include: "../../packages/webcamscan/orgscan.el"  src elisp 
+ #+include: "packages/webcamscan/orgscan.el"  src elisp 
 ** Results:
 
 Here is a "scan" of the back of the mit career fair book from last year, taken in my dark room.
