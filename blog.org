@@ -38,9 +38,9 @@ You can also use ###INDEX-WITH-DATES###  or ###TAG-WITH-DATES###, or simply ###I
 * Code   :tech:  
 :PROPERTIES:
 :CREATION-DATE: 2019-05-24
-:MODIFICATION-DATE: 2020-06-21
-:HASH:     1be7027811265308e55ea224621248c7
-:PREVIOUS-HASH: e7ff074e1c43b890b25e1c07515e5a08
+:MODIFICATION-DATE: 2020-06-28
+:HASH:     cf8e0b799cf4343a4cf1d45f88676eb7
+:PREVIOUS-HASH: cf8e0b799cf4343a4cf1d45f88676eb7
 :END:
 This is the code that runs this blog! I might as well have it here as well!
 #+BEGIN_SRC emacs-lisp   
@@ -243,7 +243,7 @@ to check if the hash "
           (include-re "^[ \t]*#\\+INCLUDE:"))
       (if (string-match include-re content)
           (with-temp-buffer
-            (insert-buffer buffer)
+            (insert content)
             (org-mode)
             (org-export-expand-include-keyword)
             (buffer-string))
@@ -614,7 +614,7 @@ alphanumeric characters only."
                  (new-name (format "%s%s" name (if (< 0 number) (format "%s%s" "." number) ""))))
             (puthash name number reverse-cache)
             (puthash datum new-name cache)
-            new-name)))))
+            new-name))))
 #+END_SRC
 
 #+RESULTS:
@@ -2920,9 +2920,9 @@ This allows me to quickly generate a folder that contains all the files I wanna 
 * Scan notes with laptop webcam :tech:
   :PROPERTIES:
   :CREATION-DATE: 2018-09-16
-  :MODIFICATION-DATE: 2020-06-21
-  :HASH:     cc4b04228c3ba79558621123324cb955
-  :PREVIOUS-HASH: 752bca4ba0955f3797f3c9d25518f8ab
+  :MODIFICATION-DATE: 2020-06-28
+  :HASH:     27e7c746b336adb182ddadfe1a117414
+  :PREVIOUS-HASH: 27e7c746b336adb182ddadfe1a117414
   :END:
   
 
@@ -4035,7 +4035,7 @@ Click a word of significance from the text to revise the story.
         <button id="toggle_editing" class="hidden">Toggle editing</button>
 </div>
 #+END_EXPORT
-* Starting online journal -- March 1 2020                          :personal:
+* Starting online journal -- March 1 2020                          :personal:noexport:
 :PROPERTIES:
 :CREATION-DATE: 2020-03-01
 :MODIFICATION-DATE: 2020-03-01
@@ -4066,3 +4066,11 @@ I have a tiny crush on a person, and I hope I'll get to spend more time with her
 Maybe I should start studying physics and math in my free time again; instead I'm listening to the Worm Audiobook. It is pretty great tbh.
 
 I'm staring at a list of unfinished posts that I should maybe finish some time. 
+* I created an Instagram!
+:PROPERTIES:
+:CREATION-DATE: 2020-06-28
+:MODIFICATION-DATE: 2020-06-28
+:HASH:     7b2c819e2619072094de2c69901ce984
+:PREVIOUS-HASH: 7b2c819e2619072094de2c69901ce984
+:END:
+For anyone looking for more live updates, you can check my instagram
