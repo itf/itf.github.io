@@ -4071,7 +4071,7 @@ I'm staring at a list of unfinished posts that I should maybe finish some time.
 :CREATION-DATE: 2020-06-28
 :MODIFICATION-DATE: 2020-06-29
 :HASH:     b48a4ef93e2687ea282cba31e067d3ed
-:PREVIOUS-HASH: 9e5698b5347b152234e8e7c7dfb698db
+:PREVIOUS-HASH: b48a4ef93e2687ea282cba31e067d3ed
 :END:
 For anyone looking for more live updates, you can check my instagram
 
@@ -4084,6 +4084,6 @@ For anyone looking for more live updates, you can check my instagram
   :CREATION-DATE: 2020-06-29
   :MODIFICATION-DATE: 2020-06-29
   :HASH:     1425c3aee4942646cf5ce1a1b1a28b34
-  :PREVIOUS-HASH: d61538b016bdd4deeca5065929fb34a8
+  :PREVIOUS-HASH: 1425c3aee4942646cf5ce1a1b1a28b34
   :END:
 #+include: "./Trying_mobile_static_blog_generator.org"
