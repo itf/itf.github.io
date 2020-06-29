@@ -7,4 +7,3 @@ with some pictures of bunnies for testing
 [[./img-phone/20200627_202718.jpg]]
 
 using tasker, termux and emacs I tried to implement an easy way to write blog posts on the go
-%text_written

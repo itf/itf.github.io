@@ -3933,6 +3933,13 @@ Pictures of me with animals! Usually in open spaces! Each of them with a story b
 
 #+ATTR_ORG: :width 300
 #+CAPTION: 
+[[file:./img/15934142632760541.jpg][file:./img/15934142632760541.jpg]]
+
+#+ATTR_ORG: :width 300
+#+CAPTION: 
+[[file:./img/15934142988490329.jpg][file:./img/15934142988490329.jpg]]
+#+ATTR_ORG: :width 300
+#+CAPTION: 
 [[file:./img/15748346439516828.jpg][file:./img/15748346439516828.jpg]]
 
 #+ATTR_ORG: :width 300
@@ -3961,6 +3968,12 @@ Pictures of me with animals! Usually in open spaces! Each of them with a story b
 #+CAPTION: 
 [[./jpg/Imagem_522.jpg]]
 
+#+ATTR_ORG: :width 300
+#+CAPTION: 
+[[file:./img/15934143606084917.jpg][file:./img/15934143606084917.jpg]]
+#+ATTR_ORG: :width 300
+#+CAPTION: 
+[[file:./img/15934143438411355.jpg][file:./img/15934143438411355.jpg]]
 #+ATTR_ORG: :width 300
 #+CAPTION: 
 [[./jpg/Imagem_496.jpg]]
@@ -4070,8 +4083,8 @@ I'm staring at a list of unfinished posts that I should maybe finish some time.
 :PROPERTIES:
 :CREATION-DATE: 2020-06-28
 :MODIFICATION-DATE: 2020-06-29
-:HASH:     b48a4ef93e2687ea282cba31e067d3ed
-:PREVIOUS-HASH: b48a4ef93e2687ea282cba31e067d3ed
+:HASH:     0ea92a73989b952a65cd4a74fdba9348
+:PREVIOUS-HASH: 0ea92a73989b952a65cd4a74fdba9348
 :END:
 For anyone looking for more live updates, you can check my instagram
 
@@ -4080,7 +4093,7 @@ For anyone looking for more live updates, you can check my instagram
   :PROPERTIES:
   :CREATION-DATE: 2020-06-29
   :MODIFICATION-DATE: 2020-06-29
-  :HASH:     1425c3aee4942646cf5ce1a1b1a28b34
+  :HASH:     5386caa02157c8a1b451473031d55346
   :PREVIOUS-HASH: 1425c3aee4942646cf5ce1a1b1a28b34
   :END:
 #+include: "./Trying_mobile_static_blog_generator.org"
