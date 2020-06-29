@@ -4069,8 +4069,11 @@ I'm staring at a list of unfinished posts that I should maybe finish some time.
 * I created an Instagram!
 :PROPERTIES:
 :CREATION-DATE: 2020-06-28
-:MODIFICATION-DATE: 2020-06-28
-:HASH:     7b2c819e2619072094de2c69901ce984
+:MODIFICATION-DATE: 2020-06-29
+:HASH:     b054e5394a602e8d35a47db7916bbcb1
 :PREVIOUS-HASH: 7b2c819e2619072094de2c69901ce984
 :END:
 For anyone looking for more live updates, you can check my instagram
+
+
+#+include: "./Trying_mobile_static_blog_generator.org"

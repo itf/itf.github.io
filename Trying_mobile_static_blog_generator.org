@@ -1,0 +1,9 @@
+Testing if my blog generator can run from my phone
+
+[[./pic-phone/20200627_194256.jpg]]
+
+with some pictures of bunnies for testing
+
+[[./pic-phone/20200627_202718.jpg]]
+
+using tasker, termux and emacs I tried to implement an easy way to write blog posts on the go
