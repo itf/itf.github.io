@@ -582,11 +582,12 @@ alphanumeric characters only."
 
 (defun org-export-head-other-file (file directory-name &optional reexport)
   "Main function of this script"
+  (find-file file)
   (make-directory "../.emacs-saves" t)
   (setq backup-directory-alist `(("." .  "../.emacs-saves/")))
 (setq auto-save-file-name-transforms
   `((".*" "../.emacs-saves/" t)))
-  (find-file file)
+
   (require 'ox)
   (require 'cl)
   (require 'subr-x)
