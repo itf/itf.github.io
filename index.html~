@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2020-03-01 Sun 16:49 -->
+<!-- 2020-06-29 Mon 01:20 -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>index</title>
 <meta name="generator" content="Org mode">
-<meta name="author" content="ivanaf">
+<meta name="author" content="unknown">
 <link rel="stylesheet" type="text/css" href="css/org.css"/>
 <link rel="icon" href="ico/favicon.ico" type="image/x- icon">
 <script type="text/javascript">
@@ -120,18 +120,18 @@ index
 <br>In the same way that I can scan my notes when in emacs using the Webcam of my laptop, I want my students to do the same.  So I decided to port my note scanner to javascript.</li>
 <li><b><a href="solving_a_problem_set_with_orgmode.html">Solving a problem set with orgmode</a></b><span class="page-date"> (2018-09-17, updated 2019-02-28)</span>
 <br>After I wrote my last two tiny projects, <a href="scan_notes_with_laptop_webcam.html">Scan with webcam</a>, and <a href="export_subtree_with_files.html">Export Subtree with files</a> I was ready to do one of my psets in org mo</li>
-<li><b><a href="scan_notes_with_laptop_webcam.html">Scan notes with laptop webcam</a></b><span class="page-date"> (2018-09-16, updated 2019-02-28)</span></li>
+<li><b><a href="scan_notes_with_laptop_webcam.html">Scan notes with laptop webcam</a></b><span class="page-date"> (2018-09-16, updated 2020-06-28)</span></li>
 <li><b><a href="export_subtree_with_files.html">Export subtree with files</a></b><span class="page-date"> (2018-09-13, updated 2019-05-23)</span></li>
 <li><b><a href="simple_proof_weak_master_theorem.html">Simple proof weak master theorem</a></b><span class="page-date"> (2018-09-12, updated 2018-09-12)</span></li>
 <li><b><a href="emacs_drag-drop_pdfs_paste_html_custom_templates.html">Emacs drag-drop pdfs, paste html, custom templates</a></b><span class="page-date"> (2018-08-19, updated 2019-05-23)</span></li>
 <li><b><a href="transfer_functions_in_python.html">Transfer Functions in python</a></b><span class="page-date"> (2018-02-27, updated 2019-08-05)</span></li>
-<li><b><a href="groebner_basis_for_linear_network_coding_in_sage.html">Groebner Basis for Linear Network Coding in Sage</a></b><span class="page-date"> (2018-02-08, updated 2018-09-09)</span>
+<li><b><a href="groebner_basis_for_linear_network_coding_in_sage.html">Groebner Basis for Linear Network Coding in Sage</a></b><span class="page-date"> (2018-02-08, updated 2020-06-21)</span>
 <br>Backup of  <a href="./html/Groebner_Basis.html">./html/Groebner_Basis.html</a>  Here is the pdf with better formatting: <a href="./pdf/GroebnerBasis--Sage.pdf">GroebnerBasis&#x2013;Sage</a></li>
 <li><b><a href="multi-audio_in_development.html">Multi-audio (In development)</a></b><span class="page-date"> (2018-01-21, updated 2018-09-09)</span></li>
 <li><b><a href="mit_entrepreneurship_resources.html">MIT entrepreneurship resources</a></b><span class="page-date"> (2018-01-21, updated 2018-09-09)</span></li>
-<li><b><a href="led_panel.html">Led Panel</a></b><span class="page-date"> (2016-03-16, updated 2018-09-14)</span></li>
-<li><b><a href="linear_panorama.html">Linear Panorama</a></b><span class="page-date"> (2015-12-13, updated 2018-09-09)</span></li>
-<li><b><a href="code.html">Code</a></b><span class="page-date"> (2019-05-24, updated 2019-11-24)</span>
+<li><b><a href="led_panel.html">Led Panel</a></b><span class="page-date"> (2016-03-16, updated 2020-06-21)</span></li>
+<li><b><a href="linear_panorama.html">Linear Panorama</a></b><span class="page-date"> (2015-12-13, updated 2020-06-21)</span></li>
+<li><b><a href="code.html">Code</a></b><span class="page-date"> (2019-05-24, updated 2020-06-28)</span>
 <br>This is the code that runs this blog! I might as well have it here as well!</li>
 </ul>
 </div>
@@ -141,7 +141,6 @@ index
 <h2 id="personal_posts"><span class="section-number-2">2</span> Personal posts</h2>
 <div class="outline-text-2" id="text-2">
 <ul class="org-ul">
-<li><b><a href="starting_online_journal_--_march_1_2020.html">Starting online journal &#x2013; March 1 2020</a></b><span class="page-date"> (2020-03-01, updated 2020-03-01)</span></li>
 <li><b><a href="a_game_from_the_past.html">A game from the past</a></b><span class="page-date"> (2019-11-28, updated 2020-03-01)</span>
 <br>I've ported an old game I made in inform7 to javascript. It is filled with teenager angst, because I made the game in order to deal with some problems I was having back them.</li>
 <li><b><a href="me_and_animals.html">Me and animals</a></b><span class="page-date"> (2019-11-27, updated 2019-12-05)</span>
@@ -236,9 +235,9 @@ padding-left: 1em;
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Ivan Tadeu Ferreira Antunes Filho</p>
-<p class="date">Date: 2020-03-01 Sun 16:49</p>
+<p class="date">Date: 2020-06-29 Mon 01:20</p>
 <p class="author">Github:  <a href="https://github.com/itf/">github.com/itf</a></p>
-<p class="creator">Made with <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.50 (<a href="https://orgmode.org">Org</a> mode 9.1.9) and <a href="https://github.com/itf/org-export-head">Org export head</a> </p>
+<p class="creator">Made with <a href="https://www.gnu.org/software/emacs/">Emacs</a> 26.3 (<a href="https://orgmode.org">Org</a> mode 9.1.9) and <a href="https://github.com/itf/org-export-head">Org export head</a> </p>
 </div>
 </body>
 </html>
