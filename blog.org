@@ -4076,9 +4076,6 @@ I'm staring at a list of unfinished posts that I should maybe finish some time.
 For anyone looking for more live updates, you can check my instagram
 
 
-#+include: "./Trying_mobile_static_blog_generator.org"
-
-
 * Trying mobile static blog generator  :personal:
   :PROPERTIES:
   :CREATION-DATE: 2020-06-29
