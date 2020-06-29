@@ -4070,7 +4070,7 @@ I'm staring at a list of unfinished posts that I should maybe finish some time.
 :PROPERTIES:
 :CREATION-DATE: 2020-06-28
 :MODIFICATION-DATE: 2020-06-29
-:HASH:     b48a4ef93e2687ea282cba31e067d3ed
+:HASH:     0ea92a73989b952a65cd4a74fdba9348
 :PREVIOUS-HASH: b48a4ef93e2687ea282cba31e067d3ed
 :END:
 For anyone looking for more live updates, you can check my instagram
