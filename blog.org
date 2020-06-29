@@ -4070,10 +4070,19 @@ I'm staring at a list of unfinished posts that I should maybe finish some time.
 :PROPERTIES:
 :CREATION-DATE: 2020-06-28
 :MODIFICATION-DATE: 2020-06-29
-:HASH:     b054e5394a602e8d35a47db7916bbcb1
+:HASH:     9e5698b5347b152234e8e7c7dfb698db
 :PREVIOUS-HASH: b054e5394a602e8d35a47db7916bbcb1
 :END:
 For anyone looking for more live updates, you can check my instagram
 
 
+#+include: "./Trying_mobile_static_blog_generator.org"
+
+
+* Trying mobile static blog generator  :personal:
+  :PROPERTIES:
+  :CREATION-DATE: 2020-06-29
+  :MODIFICATION-DATE: 2020-06-29
+  :HASH:     d61538b016bdd4deeca5065929fb34a8
+  :END:
 #+include: "./Trying_mobile_static_blog_generator.org"
