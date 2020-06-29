@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2019-11-27 Wed 01:29 -->
+<!-- 2020-06-28 Sun 06:07 -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Code</title>
@@ -86,7 +86,7 @@ Code
 
 <p>
 <span class=page-date> <small>
-2019-05-24, updated 2019-11-24 <a href="index.html">index</a> &#x2013; <a href="index.html">index</a>
+2019-05-24, updated 2020-06-28 <a href="index.html">index</a> &#x2013; <a href="index.html">index</a>
 </small> </span> 
 </p>
 <p>
@@ -132,6 +132,8 @@ This is the code that runs this blog! I might as well have it here as well!
   (<span style="color: #a626a4;">interactive</span>)
   (org-export-head directory-name backend t))
 
+
+<span style="color: #a0a1a7; font-weight: bold;">;;</span><span style="color: #a0a1a7;">TODO this function should return a list of hashes to update the original buffer</span>
 (<span style="color: #a626a4;">defun</span> <span style="color: #0184bc;">org-export-head--modify-buffer-ast</span> (directory-path backend reexport)
   <span style="color: #50a14f; font-style: italic;">"Export all subtrees that are *not* tagged with :noexport: to</span>
 <span style="color: #50a14f; font-style: italic;">separate files.</span>
@@ -139,6 +141,7 @@ This is the code that runs this blog! I might as well have it here as well!
 <span style="color: #50a14f; font-style: italic;">Subtrees that do not have the :EXPORT_FILE_NAME: property set</span>
 <span style="color: #50a14f; font-style: italic;">are exported to a filename derived from the headline text."</span>
   (org-export-head--update-hashes)
+  (org-export-expand-include-keyword)
 
   <span style="color: #a0a1a7; font-weight: bold;">;; </span><span style="color: #a0a1a7;">Create summaries before deleting the posts</span>
   (org-export-head--create-summaries)
@@ -278,12 +281,22 @@ This is the code that runs this blog! I might as well have it here as well!
 
 (<span style="color: #a626a4;">defun</span> <span style="color: #0184bc;">org-export-head--get-content-subtree-at-point</span>()
   (<span style="color: #a626a4;">interactive</span>)
-  <span style="color: #50a14f;">"Gets the content of the subtree at point"</span>
+  <span style="color: #50a14f;">"Gets the content of the subtree at point, performing the necessary includes</span>
+<span style="color: #50a14f;">to check if the hash "</span>
   (<span style="color: #a626a4;">save-excursion</span>
     (deactivate-mark t)
-    (<span style="color: #a626a4;">let</span> ((start (org-export-head--goto-header t))
-          (end (org-end-of-subtree t))) 
-      (buffer-substring start end))))
+    (<span style="color: #a626a4;">let*</span> ((start (org-export-head--goto-header t))
+          (end (org-end-of-subtree t))
+          (buffer (current-buffer))
+          (content (buffer-substring start end))
+          (include-re <span style="color: #50a14f;">"^[ \t]*#\\+INCLUDE:"</span>))
+      (<span style="color: #a626a4;">if</span> (string-match include-re content)
+          (<span style="color: #a626a4;">with-temp-buffer</span>
+            (insert content)
+            (org-mode)
+            (org-export-expand-include-keyword)
+            (buffer-string))
+      content))))
 
 
 (<span style="color: #a626a4;">defun</span> <span style="color: #0184bc;">org-export-head--get-summary-at-point</span>(<span style="color: #c18401;">&amp;optional</span> n-paragraphs n-chars)
@@ -368,7 +381,7 @@ This is the code that runs this blog! I might as well have it here as well!
 (<span style="color: #a626a4;">defun</span> <span style="color: #0184bc;">org-export-head--erase-content-subtree</span>()
   (<span style="color: #a626a4;">save-excursion</span>
     (<span style="color: #a626a4;">let</span> ((start (org-export-head--goto-header t))
-          (end (org-end-of-subtree))) 
+          (end (org-end-of-subtree)))
       (delete-region start end))))
 
 
@@ -650,7 +663,7 @@ This is the code that runs this blog! I might as well have it here as well!
                  (new-name (format <span style="color: #50a14f;">"%s%s"</span> name (<span style="color: #a626a4;">if</span> (&lt; 0 number) (format <span style="color: #50a14f;">"%s%s"</span> <span style="color: #50a14f;">"."</span> number) <span style="color: #50a14f;">""</span>))))
             (puthash name number reverse-cache)
             (puthash datum new-name cache)
-            new-name)))))
+            new-name))))
 </pre>
 </div>
 
@@ -679,7 +692,7 @@ This is the code that runs this blog! I might as well have it here as well!
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Ivan Tadeu Ferreira Antunes Filho</p>
-<p class="date">Date: 2019-11-27 Wed 01:29</p>
+<p class="date">Date: 2020-06-28 Sun 06:07</p>
 <p class="author">Github:  <a href="https://github.com/itf/">github.com/itf</a></p>
 <p class="creator">Made with <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.50 (<a href="https://orgmode.org">Org</a> mode 9.1.9) and <a href="https://github.com/itf/org-export-head">Org export head</a> </p>
 </div>
