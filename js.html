@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2020-07-23 Thu 21:26 -->
+<!-- 2020-07-23 Thu 19:28 -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Animating gifs in orgmode</title>
+<title>JS</title>
 <meta name="generator" content="Org mode">
 <meta name="author" content="ivanaf">
 <link rel="stylesheet" type="text/css" href="css/org.css"/>
@@ -61,7 +61,7 @@ for the JavaScript code in this tag.
 <div class="head">
 <div class="title">
 <p>
-<a href="index.html">Ivanaf</a>
+<a href="index.html">Ivanaf @ Home</a>
 </p>
 
 </div>
@@ -73,7 +73,6 @@ for the JavaScript code in this tag.
 <li><a href="resume.html">Resume</a></li>
 <li><a href="portfolio.html">Portfolio</a></li>
 <li><a href="contact.html">Contact</a></li>
-<li><a href="projects_ideas.html">Messy Ideas</a></li>
 </ul>
 </menu>
 
@@ -81,55 +80,18 @@ for the JavaScript code in this tag.
 
 <p>
  </p><h1>
-Animating gifs in orgmode
+JS
  </h1><p>
 </p>
 
 <p>
 <span class=page-date> <small>
-2019-05-25, updated 2019-05-25 <a href="automatic_latex_fragment_toggling_in_org-mode.html">Automatic Latex Fragment Toggling in org-mode</a> &#x2013; <a href="i3wm_screencasting_gifs.html">i3wm screencasting gifs</a>
+2020-07-23, updated 2020-07-23 <a href="index.html">index</a> &#x2013; <a href="projects_ideas.html">Projects ideas</a>
 </small> </span> 
 </p>
-<p>
-Makes gif animated in orgmode.
-</p>
-
-<p>
-From the <a href="https://github.com/Fuco1/org-inline-image/blob/master/org-inline-image.el">org-inline-image package</a>, with minimal modification ( the only change is testing if the figure is an image by checking the 'org-image-overlay, instead of the custom created oerlay). This requires the package dash.
-</p>
-
-<p>
-It will automatically play the gif after you've left the (point) on the image. Sadly play gifs seem to be computationally intensive on emacs.
-</p>
 <div class="org-src-container">
-<pre class="src src-emacs-lisp"><span style="color: #a0a1a7; font-weight: bold;">;; </span><span style="color: #a0a1a7;">Copyright (C) 2014 Matus Goljer <a href="mailto:matus.goljer%40gmail.com">&lt;matus.goljer@gmail.com&gt;</a></span>
-<span style="color: #a0a1a7; font-weight: bold;">;; </span><span style="color: #a0a1a7;">Package-requires: ((dash "2.5.0"))</span>
-(<span style="color: #a626a4;">defun</span> <span style="color: #0184bc;">org-inline-image--get-current-image</span> ()
-  <span style="color: #50a14f; font-style: italic;">"Return the overlay associated with the image under point."</span>
-  (car (<span style="color: #a626a4;">--select</span> (eq (overlay-get it 'org-image-overlay) t) (overlays-at (point)))))
-
-(<span style="color: #a626a4;">defun</span> <span style="color: #0184bc;">org-inline-image--get</span> (prop)
-  <span style="color: #50a14f; font-style: italic;">"Return the value of property PROP for image under point."</span>
-  (<span style="color: #a626a4;">let</span> ((image (org-inline-image--get-current-image)))
-    (<span style="color: #a626a4;">when</span> image
-      (overlay-get image prop))))
-
-(<span style="color: #a626a4;">defun</span> <span style="color: #0184bc;">org-inline-image-animate</span> ()
-  <span style="color: #50a14f; font-style: italic;">"Animate the image if it's possible."</span>
-  (<span style="color: #a626a4;">interactive</span>)
-  (<span style="color: #a626a4;">let</span> ((image-props (org-inline-image--get 'display)))
-    (<span style="color: #a626a4;">when</span> (image-animated-p image-props)
-      (image-animate image-props))))
-
-(<span style="color: #a626a4;">defun</span> <span style="color: #0184bc;">org-inline-image-animate-auto</span> ()
-  (<span style="color: #a626a4;">interactive</span>)
-  (<span style="color: #a626a4;">when</span> (eq 'org-mode major-mode)
-    (<span style="color: #a626a4;">while-no-input</span> 
-      (run-with-idle-timer 0.3 nil 'org-inline-image-animate))))
-
-(<span style="color: #a626a4;">setq</span> org-inline-image--get-current-image (byte-compile 'org-inline-image--get-current-image))
-(<span style="color: #a626a4;">setq</span> org-inline-image-animate  (byte-compile 'org-inline-image-animate ))
-(add-hook 'post-command-hook 'org-inline-image-animate-auto)
+<pre class="src src-js"><span style="color: #a626a4;">var</span> <span style="color: #8b4513;">util</span> = require(<span style="color: #50a14f;">"util"</span>);
+console.log(123)
 </pre>
 </div>
 </div></div>
@@ -155,7 +117,7 @@ It will automatically play the gif after you've left the (point) on the image. S
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Ivan Tadeu Ferreira Antunes Filho</p>
-<p class="date">Date: 2020-07-23 Thu 21:26</p>
+<p class="date">Date: 2020-07-23 Thu 19:28</p>
 <p class="author">Github:  <a href="https://github.com/itf/">github.com/itf</a></p>
 <p class="creator">Made with <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.50 (<a href="https://orgmode.org">Org</a> mode 9.1.9) and <a href="https://github.com/itf/org-export-head">Org export head</a> </p>
 </div>
