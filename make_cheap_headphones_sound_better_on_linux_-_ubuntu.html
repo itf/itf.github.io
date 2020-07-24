@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- 2020-07-23 Thu 22:09 -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Make cheap headphones sound better on linux / ubuntu</title>
+<meta name="generator" content="Org mode">
+<meta name="author" content="ivanaf">
+<link rel="stylesheet" type="text/css" href="css/org.css"/>
+<link rel="icon" href="ico/favicon.ico" type="image/x- icon">
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2019 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="content">
+<div class="head">
+<div class="title">
+<p>
+<a href="index.html">Ivanaf</a>
+</p>
+
+</div>
+
+<menu>
+<ul class="org-ul">
+<li><a href="index.html">Home</a></li>
+<li><a href="about.html">About</a></li>
+<li><a href="resume.html">Resume</a></li>
+<li><a href="portfolio.html">Portfolio</a></li>
+<li><a href="contact.html">Contact</a></li>
+<li><a href="projects_ideas.html">Messy Ideas</a></li>
+</ul>
+</menu>
+
+</div>
+
+<p>
+ </p><h1>
+Make cheap headphones sound better on linux / ubuntu
+ </h1><p>
+</p>
+
+<p>
+<span class=page-date> <small>
+2020-07-23, updated 2020-07-23 <a href="index.html">index</a> &#x2013; <a href="projects_ideas.html">Projects ideas</a>
+</small> </span> 
+</p>
+<p>
+Cheap headphones sound bad because their frequency response is all messed up. You can considerably improve this by using an equalizer.
+</p>
+
+<p>
+Assuming you are using pulseaudio.
+</p>
+
+<p>
+First, install pulseeffects  and  Linux Studio Plugins 
+</p>
+<div class="org-src-container">
+<pre class="src src-sh">sudo apt install pulseeffects
+sudo apt install lsp-plugins
+</pre>
+</div>
+
+<p>
+Now open pulseeffects, create a new profile
+</p>
+
+<figure>
+<img src="./jpg/15955565703361306.jpg" alt="15955565703361306.jpg">
+
+</figure>
+
+
+<p>
+and then click in the equalizer
+</p>
+
+
+
+<figure>
+<img src="./jpg/15955562122876432.jpg" alt="15955562122876432.jpg">
+
+</figure>
+
+<p>
+You have 2 options.
+</p>
+
+<ul class="org-ul">
+<li>Simply listen to some song while moving the things up and down. By doing 3 or 4 passes throughout the frequencies while adjusting them, you can considerably improve them.</li>
+<li>Use some tool to play sounds that will help you callibrate the headphone,</li>
+</ul>
+
+<p>
+If you are doing option 2, I particularly like this website: <a href="https://mynoise.net/calibration.php">https://mynoise.net/calibration.php</a> . You try to adjust the noises until all frequencies sound the same. Once you've done so, you save the numbers, and insert them in the callibration in pulseeffects.
+</p>
+
+
+<figure>
+<img src="./jpg/15955564723380344.jpg" alt="15955564723380344.jpg">
+
+</figure>
+
+<p>
+Change the number of bands to match the number of bands used by your noise generator. If using the above website, this number is 10.
+</p>
+
+
+<p>
+Don't forget to save your profile so you can load it later.
+</p>
+</div></div>
+<br>
+<div class="comments">
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+/* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'ivanaf'; // Required - Replace '<example>' with your forum shortname
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    var showComments = function() {
+    var button = document.getElementById('comment-button')
+        button.style.display = 'none'
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        };
+    </script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<button id="comment-button" onclick="showComments()">Show comments</button>
+</div>
+<div><div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: Ivan Tadeu Ferreira Antunes Filho</p>
+<p class="date">Date: 2020-07-23 Thu 22:09</p>
+<p class="author">Github:  <a href="https://github.com/itf/">github.com/itf</a></p>
+<p class="creator">Made with <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.50 (<a href="https://orgmode.org">Org</a> mode 9.1.9) and <a href="https://github.com/itf/org-export-head">Org export head</a> </p>
+</div>
+</body>
+</html>
