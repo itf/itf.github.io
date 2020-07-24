@@ -681,8 +681,8 @@ alphanumeric characters only."
 * index                           :reexport:
   :PROPERTIES:
   :CREATION-DATE: 2018-09-09
-  :MODIFICATION-DATE: 2019-09-02
-  :HASH:     075192631ac188e324f78d6c0f698d16
+  :MODIFICATION-DATE: 2020-07-23
+  :HASH:     8ee106a71f1805782c6660af609e35b8
   :PREVIOUS-HASH: 075192631ac188e324f78d6c0f698d16
   :END:
 
@@ -739,6 +739,11 @@ padding-left: 1em;
 </style>
 #+END_EXPORT
 * Blog
+:PROPERTIES:
+:CREATION-DATE: 2020-07-23
+:MODIFICATION-DATE: 2020-07-23
+:HASH:     8baccdde89c745ebf3c0f23e723cc7cb
+:END:
 ###INDEX-WITH-SUMMARIES###
 * About
   :PROPERTIES:
@@ -931,10 +936,18 @@ document.getElementById("iframeDisplay").innerHTML = "<iframe src=\"https://cale
 * Portfolio :tech:
   :PROPERTIES:
   :CREATION-DATE: 2018-09-09
-  :MODIFICATION-DATE: 2020-06-21
-  :HASH:     c1f695a853de48cff5d0b1e5270a97da
+  :MODIFICATION-DATE: 2020-07-23
+  :HASH:     0a8e9cddb8f10131b6fb7b6032dba503
   :PREVIOUS-HASH: c1f695a853de48cff5d0b1e5270a97da
   :END:
+#+BEGIN_EXPORT html
+<style>
+#table-of-contents {
+display: none;
+}
+</style>
+#+END_EXPORT
+
 
 In construction.
 Different projects I worked on over the years. Some very tiny,  some large ones.
@@ -3804,7 +3817,7 @@ Which brings me to the title of this post., :ARCHIVE:. When this happens,  I arc
 :CREATION-DATE: 2019-11-06
 :MODIFICATION-DATE: 2020-07-23
 :HASH:     2892a6bafc43c56be0c0d720629a1aac
-:PREVIOUS-HASH: 11b6db2c1c99e0e2846d45311189b88c
+:PREVIOUS-HASH: 2892a6bafc43c56be0c0d720629a1aac
 :END:
 Talking to a friend in San Francisco who is very attuned with her sense of smell made me realize that I mostly just ignore my sense of smell, to the point that I feel like I'm almost losing it. So I'll try to keep a list of at least 10 things I've smelled and try to make a conscious effort into remembering it. 
 
@@ -4132,7 +4145,8 @@ For anyone looking for more live updates, you can check my instagram, [[https://
 :PROPERTIES:
 :CREATION-DATE: 2020-07-23
 :MODIFICATION-DATE: 2020-07-23
-:HASH:     842a3b47c431ebff9ae5674baf3c84e3
+:HASH:     b3085da40eb080acf2478008f47d16f2
+:PREVIOUS-HASH: 842a3b47c431ebff9ae5674baf3c84e3
 :END:
 A very disorganized list of projects I want to work on, together with notes about them.
 
