@@ -934,11 +934,11 @@ document.getElementById("iframeDisplay").innerHTML = "<iframe src=\"https://cale
 
 
 #+END_EXPORT
-* Portfolio :tech:
+* Portfolio 
   :PROPERTIES:
   :CREATION-DATE: 2018-09-09
   :MODIFICATION-DATE: 2020-07-23
-  :HASH:     b5c8292061439fd3700b25a310548b3f
+  :HASH:     94f13fe18802840fb96a9e130bafd3bc
   :PREVIOUS-HASH: b5c8292061439fd3700b25a310548b3f
   :END:
 #+BEGIN_EXPORT html
@@ -955,7 +955,7 @@ Different projects I worked on over the years. Some very tiny,  some large ones.
 
 
 @@html:<div class="responsive-table">@@
-*** [[https://github.com/itf/org-export-head][Master's of Engineering Thesis]]
+*** [[http://erikdemaine.org/theses/ifilho.pdf][Master's of Engineering Thesis]]
     :PROPERTIES:
     :HTML_CONTAINER_CLASS: portfolio-project
     :END:
@@ -4355,6 +4355,7 @@ console.log(123)
 :CREATION-DATE: 2020-07-23
 :MODIFICATION-DATE: 2020-07-23
 :HASH:     401ccaceca97d97118ff1198d06f514e
+:PREVIOUS-HASH: 401ccaceca97d97118ff1198d06f514e
 :END:
 Cheap headphones sound bad because their frequency response is all messed up. You can considerably improve this by using an equalizer.
 
