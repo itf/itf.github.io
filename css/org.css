@@ -1215,6 +1215,7 @@ menu a {
     padding-left:3%;
     padding-right:3%;
     padding-top:5px;
+    padding-bottom: 10px;
     display:inline-flex;
     flex-flow: column;
 }
