@@ -683,7 +683,7 @@ alphanumeric characters only."
   :CREATION-DATE: 2018-09-09
   :MODIFICATION-DATE: 2020-07-23
   :HASH:     8ee106a71f1805782c6660af609e35b8
-  :PREVIOUS-HASH: 075192631ac188e324f78d6c0f698d16
+  :PREVIOUS-HASH: 8ee106a71f1805782c6660af609e35b8
   :END:
 
 ** Technical posts
@@ -743,6 +743,7 @@ padding-left: 1em;
 :CREATION-DATE: 2020-07-23
 :MODIFICATION-DATE: 2020-07-23
 :HASH:     8baccdde89c745ebf3c0f23e723cc7cb
+:PREVIOUS-HASH: 8baccdde89c745ebf3c0f23e723cc7cb
 :END:
 ###INDEX-WITH-SUMMARIES###
 * About
@@ -937,8 +938,8 @@ document.getElementById("iframeDisplay").innerHTML = "<iframe src=\"https://cale
   :PROPERTIES:
   :CREATION-DATE: 2018-09-09
   :MODIFICATION-DATE: 2020-07-23
-  :HASH:     0a8e9cddb8f10131b6fb7b6032dba503
-  :PREVIOUS-HASH: c1f695a853de48cff5d0b1e5270a97da
+  :HASH:     b5c8292061439fd3700b25a310548b3f
+  :PREVIOUS-HASH: b5c8292061439fd3700b25a310548b3f
   :END:
 #+BEGIN_EXPORT html
 <style>
@@ -4146,7 +4147,7 @@ For anyone looking for more live updates, you can check my instagram, [[https://
 :CREATION-DATE: 2020-07-23
 :MODIFICATION-DATE: 2020-07-23
 :HASH:     b3085da40eb080acf2478008f47d16f2
-:PREVIOUS-HASH: 842a3b47c431ebff9ae5674baf3c84e3
+:PREVIOUS-HASH: b3085da40eb080acf2478008f47d16f2
 :END:
 A very disorganized list of projects I want to work on, together with notes about them.
 
@@ -4349,3 +4350,47 @@ console.log(123)
 
 #+RESULTS:
 : 123
+* Make cheap headphones sound better on linux / ubuntu                 :tech:
+:PROPERTIES:
+:CREATION-DATE: 2020-07-23
+:MODIFICATION-DATE: 2020-07-23
+:HASH:     401ccaceca97d97118ff1198d06f514e
+:END:
+Cheap headphones sound bad because their frequency response is all messed up. You can considerably improve this by using an equalizer.
+
+Assuming you are using pulseaudio.
+
+First, install pulseeffects  and  Linux Studio Plugins 
+#+BEGIN_SRC sh
+sudo apt install pulseeffects
+sudo apt install lsp-plugins
+#+END_SRC
+
+Now open pulseeffects, create a new profile
+#+ATTR_ORG: :width 300
+#+CAPTION: 
+[[file:./img/15955565703361306.jpg][file:./img/15955565703361306.jpg]]
+
+
+ and then click in the equalizer
+
+
+#+ATTR_ORG: :width 300
+#+CAPTION: 
+[[file:./img/15955562122876432.jpg][file:./img/15955562122876432.jpg]]
+
+You have 2 options.
+
+- Simply listen to some song while moving the things up and down. By doing 3 or 4 passes throughout the frequencies while adjusting them, you can considerably improve them.
+- Use some tool to play sounds that will help you callibrate the headphone, 
+
+If you are doing option 2, I particularly like this website: https://mynoise.net/calibration.php . You try to adjust the noises until all frequencies sound the same. Once you've done so, you save the numbers, and insert them in the callibration in pulseeffects.
+
+#+ATTR_ORG: :width 300
+#+CAPTION: 
+[[file:./img/15955564723380344.jpg][file:./img/15955564723380344.jpg]]
+
+Change the number of bands to match the number of bands used by your noise generator. If using the above website, this number is 10.
+
+
+Don't forget to save your profile so you can load it later.
