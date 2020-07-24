@@ -17,6 +17,9 @@
 
   [[shell: git add -u && git commit -m "update html" && git push]]
 
+
+  [[shell:cd  git add -u && git commit -m "update html" && git push && ../publish  && git add . && git commit -m "update" && git push]]
+
 * Includes :noexport:
 Creates a hard link to org.css in the export directory.
 [[file:./org.css]]
@@ -745,6 +748,7 @@ padding-left: 1em;
 :HASH:     8baccdde89c745ebf3c0f23e723cc7cb
 :PREVIOUS-HASH: 8baccdde89c745ebf3c0f23e723cc7cb
 :END:
+
 ###INDEX-WITH-SUMMARIES###
 * About
   :PROPERTIES:
@@ -762,8 +766,9 @@ padding-left: 1em;
 I am Ivan Tadeu Ferreira Antunes Filho. Master of Engineering in Computer Science student from MIT.   I'm really excited about science, technology and photography. 
 
 I currently work as a software engineer at Radix Labs.
-** New stuff
+** Recent stuff
    You can see some of the recent things I've worked on on my [[Portfolio][portfolio]] or on my [[Resume][resume]] page, depending if you are interested in my side projects or more on academics and internships. 
+
 ** Old stuff
    :PROPERTIES:
    :CUSTOM_ID: old-stuff
@@ -968,6 +973,12 @@ My master's of engineering thesis in Boolean Satisfiability, supervised by Erik 
     2019 - 
 
 A tool to scrape Brazilian Science Olympiad Websites for their news.
+*** [[https://github.com/itf/6s092][6.S092 Introduction to Algorithms ]]
+    :PROPERTIES:
+    :HTML_CONTAINER_CLASS: portfolio-project
+    :END:
+I organized the class 6.S092 twice while at MIT. It was an IAP class (1 month long in January), using CATSOOP to teach people the basics of algorithms. 
+
 *** [[https://github.com/itf/org-export-head][Org export head]]
     :PROPERTIES:
     :HTML_CONTAINER_CLASS: portfolio-project
@@ -1219,9 +1230,9 @@ tinyurl.com/ocientificas.
   :END:
 
 I've always felt that I am more productive when I share my work or study
-with others. This caused me to have many blogs 3 main blogs/websites in
+with others. This caused me to have 3 main blogs/websites in
 the past. 
-- 1 was focused in national and international science olympiads informing people about the multiple competitions that there exists, and explaining how to study for them www.olimpiadascientificas.com. 
+- 1 was focused in national and international science olympiads informing people about the multiple competitions that there exists, and explaining how to study for them [[https://www.olimpiadascientificas.org][www.olimpiadascientificas.com]]
 - Another explained my own methods of study, motivations and stories related to those same science competitions.
 - And later I made a third blog focused on the activities I took part on, such as biking, running or exploring.
 
@@ -4331,7 +4342,11 @@ https://patdavid.net/2013/08/an-open-source-headshot-ronni_21.html
 Pagination for this org mode blog
 ** RSS for this blog
 ** Better theme for this blog, make it not ugly
-* TODO Pão de queijo recipe                                        :noexport:
+** Use seam carving to split a image into puzzle pieces for cutting
+https://www.youtube.com/watch?v=6NcIJXTlugc
+* TODO Pão de queijo recipe (brazilian cheese bread)               :noexport:
+
+
 700g
 2 cups 
 half a cup
