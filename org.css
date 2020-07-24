@@ -862,7 +862,7 @@ p.verse{
 }
 .org-src-container{
     border:1px solid #ccc;
-    box-shadow:3px 3px 3px #eee;
+    box-shadow:0px 0px 1px #eee;
     font-family:Lucida Console,monospace;
     font-size:80%;
     margin:1em auto;
@@ -1233,9 +1233,9 @@ menu a {
 @media (min-width: 500px) {
     #table-of-contents {
     background: white;
-	box-shadow: 0 0 0.5em #777777;
-	-webkit-box-shadow: 0 0 0.5em #777777;
-	-moz-box-shadow: 0 0 0.5em #777777;
+	box-shadow: 0 0 1px #777777;
+	-webkit-box-shadow: 0 0 1px #777777;
+	-moz-box-shadow: 0 0 1px #777777;
 	-webkit-border-bottom-left-radius: 5px;
 	-moz-border-radius-bottomleft: 5px;
 	/* ensure doesn't flow off the screen when expanded */
@@ -1251,8 +1251,8 @@ menu a {
 	padding-bottom: 0.15em; 
     }
     #table-of-contents #text-table-of-contents {
-	visibility: hidden;
-    max-height: 0em;
+	/*visibility: hidden;
+    max-height: 0em;*/
     height:auto;
     display: block;
     overflow: hidden;
@@ -1262,8 +1262,8 @@ menu a {
     padding: 0.5em;
     }
     #table-of-contents:hover #text-table-of-contents {
-	visibility:  visible;
-    max-height: 1000em;
+	/*visibility:  visible;
+    max-height: 1000em;*/
     overflow: visible;
     display: block;
     transition:max-height 0.7s ease, visibility 0.65s ease;

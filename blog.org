@@ -17,6 +17,12 @@
 
   [[shell: git add -u && git commit -m "update html" && git push]]
 
+* Includes :noexport:
+Creates a hard link to org.css in the export directory.
+[[file:./org.css]]
+file:./favicon.ico
+ files for game: - [[file:./js/interactivenarrative.js][interactivenarrative.js]] - [[file:./css/textclickgame.css][textclickgame.css]] - [[file:./js/js-yaml.js][js-yaml.js]] - [[file:./yaml/alone.yaml][alone.yaml]] - [[file:./js/ace.js][ace.js]] - [[file:./js/ext-searchbox.js][ext-searchbox.js]]
+
 * README                                                           :noexport:
 Run the code inside the code block.
 
@@ -623,17 +629,11 @@ alphanumeric characters only."
 
 
 
-* Includes :noexport:
-Creates a hard link to org.css in the export directory.
-[[file:./org.css]]
-file:./favicon.ico
- files for game: - [[file:./js/interactivenarrative.js][interactivenarrative.js]] - [[file:./css/textclickgame.css][textclickgame.css]] - [[file:./js/js-yaml.js][js-yaml.js]] - [[file:./yaml/alone.yaml][alone.yaml]] - [[file:./js/ace.js][ace.js]] - [[file:./js/ext-searchbox.js][ext-searchbox.js]]
-
 * Menu :noexport:header:
 
 #+begin_head
 #+begin_title
-[[index][Ivanaf @ Home]]
+[[index][Ivanaf]]
 #+end_title
 
 #+begin_menu
@@ -642,6 +642,7 @@ file:./favicon.ico
 - [[Resume][Resume]]
 - [[Portfolio][Portfolio]]
 - [[Contact][Contact]]
+- [[Projects ideas][Messy Ideas]]
 #+end_menu
 #+end_head
 
@@ -684,6 +685,7 @@ file:./favicon.ico
   :HASH:     075192631ac188e324f78d6c0f698d16
   :PREVIOUS-HASH: 075192631ac188e324f78d6c0f698d16
   :END:
+
 ** Technical posts
 ###TECH-WITH-SUMMARIES###
 ** Personal posts
@@ -718,7 +720,7 @@ padding-left: 1em;
  font-weight:bold
 }
 .outline-2 {
- box-shadow:0px 2px 10px rgba(0,0,0,0.5);
+ box-shadow:0px 0px 1px rgba(0,0,0,0.5);
  padding:10px;
  margin-top:20px
 }
@@ -736,6 +738,8 @@ padding-left: 1em;
 }
 </style>
 #+END_EXPORT
+* Blog
+###INDEX-WITH-SUMMARIES###
 * About
   :PROPERTIES:
   :CREATION-DATE: 2018-09-09
@@ -924,7 +928,7 @@ document.getElementById("iframeDisplay").innerHTML = "<iframe src=\"https://cale
 
 
 #+END_EXPORT
-* Portfolio
+* Portfolio :tech:
   :PROPERTIES:
   :CREATION-DATE: 2018-09-09
   :MODIFICATION-DATE: 2020-06-21
@@ -937,6 +941,19 @@ Different projects I worked on over the years. Some very tiny,  some large ones.
 
 
 @@html:<div class="responsive-table">@@
+*** [[https://github.com/itf/org-export-head][Master's of Engineering Thesis]]
+    :PROPERTIES:
+    :HTML_CONTAINER_CLASS: portfolio-project
+    :END:
+    2019 - 
+My master's of engineering thesis in Boolean Satisfiability, supervised by Erik Demaine.
+*** [[https://github.com/OlimpiadasCientificas/olimpiadascientificas.github.io/blob/master/_includes/olimpiadascraper.py][Autoscraper for Brazilian Science Olympiads]]
+ :PROPERTIES:
+    :HTML_CONTAINER_CLASS: portfolio-project
+    :END:
+    2019 - 
+
+A tool to scrape Brazilian Science Olympiad Websites for their news.
 *** [[https://github.com/itf/org-export-head][Org export head]]
     :PROPERTIES:
     :HTML_CONTAINER_CLASS: portfolio-project
@@ -3750,7 +3767,7 @@ When I was fourteen,  I was designated the responsibility of caring for a rescue
 I started getting tired of taking care of her because it required so much time, but I couldn't go out and leave her alone. She was my responsibility. However, after one month I got bored and started to spend my time reading or playing on the computer. To be honest, I didn't want to keep looking after her. My routine was monotonous: putting milk in her plate, petting her and cleaning up her mess.
 
 She grew stronger and I stopped being so cautious. One day, I forgot to check if her milk was still good in the afternoon. It had spoiled, and she died that same night. This happened because I wasn't doing the best I could. No one blamed me, but I knew I could’ve saved her. A little lapse of my attention cost Lita her life. I was sad, but learned an important lesson: the difference between success and failure lies in the details. Some times, it is not you that suffers by your errors, but the ones next to you, and this is what I won't ever allow to happen again. When I make other mistakes in the future, it won't be because of lack of effort. Since then, I have always and I will always try to do my best.
-* Being a TA                                                       :noexport:
+* WANT Being a TA                                                  :noexport:
 Being a TA was one of the best experiences I had at MIT.
 * MAYBE Enfuse with macrofusion                                    :noexport:
 To use macrofusion, you should use the fork that has supported for the updated enfuse soft. You can find one such fork here: [[https://github.com/da-phil/macrofusion][macrofusion]].
@@ -3785,8 +3802,8 @@ Which brings me to the title of this post., :ARCHIVE:. When this happens,  I arc
 * 10 things to smell per day :personal:
 :PROPERTIES:
 :CREATION-DATE: 2019-11-06
-:MODIFICATION-DATE: 2019-11-06
-:HASH:     11b6db2c1c99e0e2846d45311189b88c
+:MODIFICATION-DATE: 2020-07-23
+:HASH:     2892a6bafc43c56be0c0d720629a1aac
 :PREVIOUS-HASH: 11b6db2c1c99e0e2846d45311189b88c
 :END:
 Talking to a friend in San Francisco who is very attuned with her sense of smell made me realize that I mostly just ignore my sense of smell, to the point that I feel like I'm almost losing it. So I'll try to keep a list of at least 10 things I've smelled and try to make a conscious effort into remembering it. 
@@ -3805,6 +3822,8 @@ I wonder if I generally ignore my sense of smell because I had to learn to tune 
 10. The sudden change of smell after putting sugar on the green tea.
 
 Update [2019-11-06] I feel like I'm a lot more in tune with my sense of smell now! It is not as great as it used to be, but it is getting better!
+
+Update [2020-07-09] I never really updated this, but yeah, just paying attention on smells has made me recover it; I can now tell exactly in which spot on the floor a dog has laid 
 * MAYBE Don't expect different results doing the same thing        :noexport:
 * College essays reblog                                            :personal:
 :PROPERTIES:
@@ -3920,6 +3939,7 @@ All in all, we managed to help thousands of people throughout the years, and it 
 
 
 * MAYBE Thanks Ivan Guilhon                                        :noexport:
+Story about studying for the IPhO on my own.
 * MAYBE It all accelerated by accident                             :noexport:
 Being chosen by ijso br through opf
 * Me and animals :personal:
@@ -3927,7 +3947,7 @@ Being chosen by ijso br through opf
 :CREATION-DATE: 2019-11-27
 :MODIFICATION-DATE: 2020-06-29
 :HASH:     af0d6f2a6b13d4796822e32d62f69540
-:PREVIOUS-HASH: 370a9241de2357c15aad2e5a04cec745
+:PREVIOUS-HASH: af0d6f2a6b13d4796822e32d62f69540
 :END:
 Pictures of me with animals! Usually in open spaces! Each of them with a story behind them! From recent to old.
 
@@ -4079,14 +4099,14 @@ I have a tiny crush on a person, and I hope I'll get to spend more time with her
 Maybe I should start studying physics and math in my free time again; instead I'm listening to the Worm Audiobook. It is pretty great tbh.
 
 I'm staring at a list of unfinished posts that I should maybe finish some time. 
-* I created an Instagram!
+* I created an Instagram! :personal:noexport:
 :PROPERTIES:
 :CREATION-DATE: 2020-06-28
 :MODIFICATION-DATE: 2020-06-29
 :HASH:     0ea92a73989b952a65cd4a74fdba9348
 :PREVIOUS-HASH: 0ea92a73989b952a65cd4a74fdba9348
 :END:
-For anyone looking for more live updates, you can check my instagram
+For anyone looking for more live updates, you can check my instagram, [[https://www.instagram.com/ivan_af_/]]
 
 
 * Trying mobile static blog generator  :personal:
@@ -4097,3 +4117,221 @@ For anyone looking for more live updates, you can check my instagram
   :PREVIOUS-HASH: 5386caa02157c8a1b451473031d55346
   :END:
 #+include: "./Trying_mobile_static_blog_generator.org"
+* WANT Implementing rss feed                                       :noexport:
+#+BEGIN_SRC emacs-lisp 
+(load-file 
+  (expand-file-name "ox-rss.el"
+                    (file-name-directory (buffer-file-name))))
+(outline-hide-sublevels 1)
+;must set PUBDATE
+;must set  RSS_PERMALINK
+(org-rss-export-as-rss nil nil t)
+#+END_SRC
+* WANT Static website generator on Android with Tasker, Termux, Git and Emacs :noexport:tech:
+* Projects ideas
+:PROPERTIES:
+:CREATION-DATE: 2020-07-23
+:MODIFICATION-DATE: 2020-07-23
+:HASH:     842a3b47c431ebff9ae5674baf3c84e3
+:END:
+A very disorganized list of projects I want to work on, together with notes about them.
+
+** Cutting vegetables with blood
+Pictures of knives cutting vegetable while drenched in fake blood. No real purpose for this, except that I think it would be cool
+
+** Tep as a pirateshipe navigating through places:
+Tep has a helm in a room that looks like a pirateship. It would be really cool if it was connected to something online, such that it seemed that tEp was a real pirate ship.
+
+The idea would be to have a website using open street map together with open layers 
+
+https://news.ycombinator.com/item?id=23722133
+maybe use open layers on toip of open street map
+** Cli picture tools with gui
+There are lots of really cool picture effects that only have a terminal interface.  It would be exciting to have a program that could be used for automatically generating previews for those tools by running it with smaller image sizes.
+
+** Primitive images:
+This project is really cool, but I don't like the loss function used by it, so instead use a laplacian pyramid loss for the gradient descent.
+https://github.com/fogleman/primitive
+
+So the same project, but instead of using this loss function, use one based on laplacian pyramids contrast as done by macrofusion.
+
+Maybe make it available online,
+https://github.com/silvia-odwyer/photon
+
+seems like a good option! Specially if combined with:
+https://github.com/silvia-odwyer/gld
+
+Probably use laplacian pyramid loss for the descent. There are some articles about it online.
+
+this one does 
+** Music lyrics video for danger line
+
+The lyrics are displayed while moving around a "red line" . The "danger line" is the body outline of someone who died (red), but you only discover it is the outline of the body at the end of the song.
+
+Throughout the song the lyrics go around the outline
+
+Until the very end, they are generally outside the outline, but certain words can be on the boundary (the inside of the boundary represents death). Some words might be in the other side of the boundary.
+
+The effect of bullet Hole, is zooming inside O of hole and inside it there is another hole, to give the impression of going through.
+
+Maybe some effect of heartbeats ecg during the solos.
+
+Once you are inside the outline, things get a lot redder, like red border.
+
+Daugther brings you further from the line
+** 3d online game of walking around east campus with the murals
+Maybe allow people to upload pictures?
+
+I'd really enjoy to have a 3d representation of the inside of EastCampus, with all the murals and all.
+https://learn.display.land/capturing-reality
+
+display.land would be ideal, but it was discontinued on July 10 2020.
+
+(Display.land is an interesting 3D scanning and modeling app built around Google’s ARCore augmented reality processing. The app allows you to scan objects in 3D and then edit, export, or share your scans, all for free!)
+https://developers.google.com/ar/develop/java/quickstart
+
+https://3dscanexpert.com/scann3d-android-photogrammetry-app-review/
+
+https://3dscanexpert.com/free-3d-scanning-video-smartphone/
+** Route panorama on android
+I want to implement an app that performs route panoramas on android.
+
+Here are some link ideas.
+https://en.wikipedia.org/wiki/Route_panorama
+https://www.cs.iupui.edu/~jzheng/RP/
+
+
+And maybe strip/slip photography:
+https://en.wikipedia.org/wiki/Strip_photography
+
+https://github.com/duanhong169/Camera
+
+https://github.com/CameraKit/camerakit-android
+** Dating website where you ship your friends
+** Super resolution photo app by upsampling alignning and enfusing or merging, for astrophotography
+https://petapixel.com/2015/02/21/a-practical-guide-to-creating-superresolution-photos-with-photoshop/
+https://groups.google.com/g/hugin-ptx/c/ijOCcBX7me8
+http://www.astrosurf.com/cidadao/super.htm
+** selfie with longer focal distance by combining multiple close shots
+By scanning your face (similarly to a route panorama), fake your lens to have a longer focal distance, while improving blurring the background
+
+idea: use gyroscope to put a dot on the screen that force the video to stay in the same plane. Use maybe motion tracking:
+https://source.android.com/devices/camera/motion-tracking
+** Photogrammetry of street art tutorial
+start:
+https://medium.com/realities-io/getting-started-with-photogrammetry-d0a6ee40cb72
+video for the above:
+https://www.youtube.com/watch?v=doiimSnLOBM
+also http://azadux.com/everydayascan
+
+
+Also this guy did a lot of it, but left no instructions:
+https://www.youtube.com/watch?v=IrgyUFkeJOY
+
+sketchfab seems to be the correct place to share it.
+
+https://news.ycombinator.com/item?id=19685891
+
+
+https://ww.reddit.com/r/3Dprinting/comments/87tk4j/3d_scanning_with_just_a_phonecamera/
+
+with colmap
+also https://www.youtube.com/watch?v=bDHJM6nAKtc
+** cindyjs
+https://cindyjs.org/docs/
+https://montaga.github.io/spherical/
+Just play with some spherical droste effects with pictures from mit
+https://arxiv.org/pdf/1605.01396.pdf
+
+Also map picture into sphere by using reflections/tiling? 
+Idea: convert rectangle to circle conformally, followed by identifying it with one of the hemispheres of a stereographic transformation
+https://arxiv.org/pdf/1509.06344.pdf
+
+Or maybe assume it is peirce quincucial
+https://arxiv.org/pdf/1605.01396.pdf
+
+https://mipav.cit.nih.gov/pubwiki/index.php/Transform:_Conformal_Mapping_Algorithms#Transformation:_Circle_to_Rectangle
+
+https://www.osti.gov/servlets/purl/4800477
+https://www.osti.gov/biblio/4800477-conformal-mapping-circle-onto-rectangle 
+** Plausible analytics for MIT/sipb
+https://plausible.io/blog/self-hosted-web-analytics-beta
+** Make pictures boring
+Detects what is relevant in a picture and removes it.
+https://www.immersivelimit.com/tutorials/yolact-with-google-colab
+https://kharshit.github.io/blog/2019/08/23/quick-intro-to-instance-segmentation
+
+use instance segmentation to detect what is interesting
+
+The use this to fill it up:
+https://github.com/zavolokas/Inpainting
+https://github.com/YuanTingHsieh/Image_Completion
+** Quaternions exploration
+Have a simple 3d scene. Apply quaternion functions to the positions of the points. Find an equivalent to droste effect but in 3d space
+
+Similar to this demo https://montaga.github.io/spherical/
+So more like this: https://eater.net/quaternions/video/intro
+
+But with a more complex 3d scene and allowing more things than rotations, i.e. allowing complex functions in terms of the quaternion that defines the position.
+
+Using a ray marcher https://github.com/HackerPoet/PySpace might be worth it to have some visualizations that use fractals,
+
+Or maybe just use https://cindyjs.org/docs/cindygltutorial/rendering3d.html.
+
+We will effectively be using conformal transformations
+https://mathoverflow.net/questions/52209/3d-conformal-mappings
+
+It seems that the only types are inversion, translation, rotation and dilation. 
+
+maybe use this for the visualization: https://www.youtube.com/watch?v=ztsi0CLxmjw, same thing used for exploring hyperbolic space.
+
+Also, I want everything to happen on the surface of a 4d sphere.
+
+Just more information about quarenions https://marctenbosch.com/quaternions/ < maybe quaternions are trash
+*** Exploring surface of 4d objects.
+You yourself is like a cube, so you see infinite copies of you on the distance
+
+maybe use a non euclidean ray tracer
+https://www.youtube.com/watch?v=YvU-srHhQxw
+
+https://github.com/Limeth/euclider
+
+https://www.youtube.com/watch?v=tl40xidKF-4
+
+but I kinda wnat it to be in javascript
+
+or maybe like: https://arxiv.org/abs/2002.09533  ->> sounds really really promising / seems to be already doing it. https://www.youtube.com/user/ZenoTheRogue
+https://ww.reddit.com/r/rust/comments/88b6ix/euclider_noneuclidean_raytracing_prototype/
+https://twitter.com/zenorogue/status/1245367263936512001  
+** Just add some posts playing with js here
+https://ew.reddit.com/r/orgmode/comments/5bi6ku/tip_for_exporting_javascript_source_block_to/
+** Make music using this imo problem solution
+https://www.youtube.com/watch?v=M64HUIJFTZM
+** toilet measure weight
+You sit on the toilet. It shows you your weight.
+** Practice retouching face images
+https://patdavid.net/2011/12/getting-around-in-gimp-skin-retouching.html
+https://patdavid.net/2013/08/an-open-source-headshot-ronni_21.html
+** Pagination for my blog
+Pagination for this org mode blog
+** RSS for this blog
+** Better theme for this blog, make it not ugly
+* TODO Pão de queijo recipe                                        :noexport:
+700g
+2 cups 
+half a cup
+tablespoon
+2 big handfuls of cheese
+* JS :noexport:
+:PROPERTIES:
+:CREATION-DATE: 2020-07-23
+:MODIFICATION-DATE: 2020-07-23
+:HASH:     72143a77a9244e9b00eccf733f7a68b2
+:END:
+#+BEGIN_SRC js
+var util = require("util");
+console.log(123)
+#+END_SRC
+
+#+RESULTS:
+: 123
