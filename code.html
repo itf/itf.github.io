@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2020-07-23 Thu 21:26 -->
+<!-- 2020-07-26 Sun 12:29 -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Code</title>
@@ -73,6 +73,7 @@ for the JavaScript code in this tag.
 <li><a href="resume.html">Resume</a></li>
 <li><a href="portfolio.html">Portfolio</a></li>
 <li><a href="contact.html">Contact</a></li>
+<li><a href="tags.html">Tags</a></li>
 <li><a href="projects_ideas.html">Messy Ideas</a></li>
 </ul>
 </menu>
@@ -87,14 +88,23 @@ Code
 
 <p>
 <span class=page-date> <small>
-2019-05-24, updated 2020-06-28 <a href="index.html">index</a> &#x2013; <a href="index.html">index</a>
+2019-05-24, updated 2020-07-26 <a href="index.html">index</a> &#x2013; <a href="index.html">index</a>
 </small> </span> 
 </p>
 <p>
 This is the code that runs this blog! I might as well have it here as well!
 </p>
+
+
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">
+<pre class="src src-elisp">#! /bin/sh
+<span style="color: #50a14f;">":"</span><span style="color: #a0a1a7; font-weight: bold;">; </span><span style="color: #a0a1a7;">exec emacs --no-site-file --script "$0" "$@" # -*-emacs-lisp-*- </span>
+<span style="color: #a0a1a7; font-weight: bold;">;; </span><span style="color: #a0a1a7;">The above line is bash trickery  https://stackoverflow.com/questions/6238331/emacs-shell-scripts-how-to-put-initial-options-into-the-script#6259330</span>
+
+
+
+
+
 <span style="color: #a0a1a7; font-weight: bold;">;; </span><span style="color: #a0a1a7;">based on http://pragmaticemacs.com/emacs/export-org-mode-headlines-to-separate-files/</span>
 <span style="color: #a0a1a7; font-weight: bold;">;; </span><span style="color: #a0a1a7;">export headlines to separate files</span>
 <span style="color: #a0a1a7; font-weight: bold;">;; </span><span style="color: #a0a1a7;">http://emacs.stackexchange.com/questions/2259/how-to-export-top-level-headings-of-org-mode-buffer-to-separate-files</span>
@@ -154,7 +164,6 @@ This is the code that runs this blog! I might as well have it here as well!
   (<span style="color: #a626a4;">let*</span> ((headlines-hash-list (org-export-head--get-headlines))
          (headlines-hash (car headlines-hash-list))
          (headlines-list (cdr headlines-hash-list))
-
          <span style="color: #a0a1a7; font-weight: bold;">;;</span><span style="color: #a0a1a7;">Insert extra things in the headlines-hash to be used for fixing the macros</span>
          <span style="color: #a0a1a7; font-weight: bold;">;;</span><span style="color: #a0a1a7;">To define new headline-level macros, add extra functions here</span>
          (headlines-hash (org-export-head--insert-next-previous-headline headlines-hash headlines-list))
@@ -169,7 +178,6 @@ This is the code that runs this blog! I might as well have it here as well!
          (footer (org-export-head--get-content-subtree-match <span style="color: #50a14f;">"footer"</span>)))
 
 
-      
     <span style="color: #a0a1a7; font-weight: bold;">;;</span><span style="color: #a0a1a7;">For each not noexport/noreexport headline apply the template, i.e. copy contents</span>
     (org-export-head--run-on-each-heading 
      #'(lambda ()
@@ -206,6 +214,7 @@ This is the code that runs this blog! I might as well have it here as well!
       (outline-show-all)
       
       <span style="color: #a0a1a7; font-weight: bold;">;;</span><span style="color: #a0a1a7;">Finally export all the headers</span>
+      
       (org-export-head-export-headers directory-path backend))))
   
 
@@ -390,6 +399,7 @@ This is the code that runs this blog! I might as well have it here as well!
 (<span style="color: #a626a4;">defun</span> <span style="color: #0184bc;">org-export-head--get-headlines</span> ()
   <span style="color: #50a14f; font-style: italic;">"Returns a tuple that contains a hashtable of headline name to Alist of headline properties</span>
 <span style="color: #50a14f; font-style: italic;">As well as a list of the headline names"</span>
+  (message <span style="color: #50a14f;">"1"</span>)
   (<span style="color: #a626a4;">flet</span> ((make-hash ()
                    (make-hash-table <span style="color: #e44649;">:test</span> 'equal))
          (add-to-hash (hashtable)
@@ -398,6 +408,7 @@ This is the code that runs this blog! I might as well have it here as well!
           (headlines-list ()))
       (org-export-head--run-on-each-heading 
        #'(lambda()
+           
            (add-to-hash headlines-hash)
            (<span style="color: #a626a4;">setq</span> headlines-list (cons (org-export-head--headline) headlines-list)))
        <span style="color: #50a14f;">"-noexport"</span>)
@@ -413,7 +424,7 @@ This is the code that runs this blog! I might as well have it here as well!
 
 
 (<span style="color: #a626a4;">defun</span> <span style="color: #0184bc;">org-export-head--replace-headline-macros</span>(macro-alist)
-  <span style="color: #50a14f; font-style: italic;">"Replace macros of the type ###TEXT### They can contain information such as date</span>
+  <span style="color: #50a14f; font-style: italic;">"Replace macros of the type  They can contain information such as date</span>
 <span style="color: #50a14f; font-style: italic;">or previous and next post.</span>
 <span style="color: #50a14f; font-style: italic;">Any headline property can be used as a macro of this type."</span>
   (<span style="color: #a626a4;">save-excursion</span>
@@ -460,6 +471,10 @@ This is the code that runs this blog! I might as well have it here as well!
         (reverse-index <span style="color: #50a14f;">""</span>)
         (index-with-dates <span style="color: #50a14f;">""</span>)
         (index-with-summaries <span style="color: #50a14f;">""</span>)
+        (all-tags <span style="color: #50a14f;">"\n"</span>)
+        (all-tags-reverse <span style="color: #50a14f;">"\n"</span>)
+        (all-tags-with-dates <span style="color: #50a14f;">"\n"</span>)
+        (all-tags-with-summaries <span style="color: #50a14f;">"\n"</span>)
         (tags ())
         (tags-indexes ()))
     (<span style="color: #a626a4;">dolist</span> (headline-name headlines-list)
@@ -511,10 +526,27 @@ This is the code that runs this blog! I might as well have it here as well!
             (<span style="color: #a626a4;">setf</span> (cdr tag-assoc-reverse) (concat index-entry tag-index-reverse ))
             (<span style="color: #a626a4;">setf</span> (cdr tag-assoc-with-dates) (concat tag-index-with-dates index-entry-with-date))
             (<span style="color: #a626a4;">setf</span> (cdr tag-assoc-with-summaries) (concat tag-index-with-summaries index-entry-with-summary))))))
-
     
+    <span style="color: #a0a1a7; font-weight: bold;">;; </span><span style="color: #a0a1a7;">Now we create an index for all tags, to be able to have tag pages</span>
+    (sort tags (<span style="color: #a626a4;">lambda</span> (a b) (string&lt;  a  b))) <span style="color: #a0a1a7; font-weight: bold;">; </span><span style="color: #a0a1a7;">Sort the tags for the index of all tags</span>
+    (<span style="color: #a626a4;">dolist</span> (tag tags)
+      (<span style="color: #a626a4;">unless</span> (<span style="color: #a626a4;">or</span> (string= tag <span style="color: #50a14f;">"reexport"</span>) (string= tag <span style="color: #50a14f;">"noexport"</span>) (string= tag <span style="color: #50a14f;">"noreexport"</span>))
+      (<span style="color: #a626a4;">let*</span> ((tag-reverse (upcase (concat tag <span style="color: #50a14f;">"-reverse"</span>)))
+            (tag-with-dates (upcase (concat tag <span style="color: #50a14f;">"-with-dates"</span>)))
+            (tag-with-summaries (upcase (concat tag <span style="color: #50a14f;">"-with-summaries"</span>)))
+            (tag-with-summaries-list (cdr (assoc tag-with-summaries tags-indexes)))
+            (tag-list (cdr (assoc tag tags-indexes)))
+            (tag-reverse-list (cdr (assoc tag-reverse tags-indexes)))
+            (tag-with-dates-list (cdr (assoc tag-with-dates tags-indexes))))
+        (<span style="color: #a626a4;">setq</span> all-tags (concat all-tags <span style="color: #50a14f;">"** "</span> tag <span style="color: #50a14f;">"\n"</span> tag-list))
+        (<span style="color: #a626a4;">setq</span> all-tags-reverse (concat all-tags-reverse <span style="color: #50a14f;">"** "</span> tag <span style="color: #50a14f;">"\n"</span> tag-reverse-list))
+        (<span style="color: #a626a4;">setq</span> all-tags-with-dates (concat all-tags-with-dates <span style="color: #50a14f;">"** "</span> tag <span style="color: #50a14f;">"\n"</span> tag-with-dates-list))
+        (<span style="color: #a626a4;">setq</span> all-tags-with-summaries (concat all-tags-with-summaries <span style="color: #50a14f;">"** "</span> tag <span style="color: #50a14f;">"\n"</span> tag-with-summaries-list)))))
+            
+
     (append 
-     (list (cons <span style="color: #50a14f;">"INDEX"</span> index) (cons <span style="color: #50a14f;">"INDEX-REVERSE"</span> reverse-index)  (cons <span style="color: #50a14f;">"INDEX-WITH-DATES"</span> index-with-dates) (cons <span style="color: #50a14f;">"INDEX-WITH-SUMMARIES"</span> index-with-summaries))
+     (list (cons <span style="color: #50a14f;">"INDEX"</span> index) (cons <span style="color: #50a14f;">"INDEX-REVERSE"</span> reverse-index)  (cons <span style="color: #50a14f;">"INDEX-WITH-DATES"</span> index-with-dates) (cons <span style="color: #50a14f;">"INDEX-WITH-SUMMARIES"</span> index-with-summaries) 
+           (cons <span style="color: #50a14f;">"ALL-TAGS"</span> all-tags) (cons <span style="color: #50a14f;">"ALL-TAGS-REVERSE"</span> all-tags-reverse)  (cons <span style="color: #50a14f;">"ALL-TAGS-WITH-DATES"</span> all-tags-with-dates) (cons <span style="color: #50a14f;">"ALL-TAGS-WITH-SUMMARIES"</span> all-tags-with-summaries))
      tags-indexes)))
 
 <span style="color: #a0a1a7; font-weight: bold;">;;</span><span style="color: #a0a1a7;">END OF NON AST (non org-element) SESSION</span>
@@ -580,10 +612,10 @@ This is the code that runs this blog! I might as well have it here as well!
 (<span style="color: #a626a4;">defun</span> <span style="color: #0184bc;">org-export-head--insert-next-previous-headline</span>(headlines-hash headlines-list)
   <span style="color: #50a14f; font-style: italic;">"Decides what is the next and the previous post and create macro"</span>
   (<span style="color: #a626a4;">let*</span> ((temp-list (cons nil headlines-list))
-        (len (length headlines-list)))
+         (len (length headlines-list)))
     (<span style="color: #a626a4;">dotimes</span> (i len)
       (<span style="color: #a626a4;">let*</span> ((previous (nth 0 temp-list))
-            (headline-name (nth 1 temp-list))
+             (headline-name (nth 1 temp-list))
             (next (nth 2 temp-list))
             (headline (gethash headline-name headlines-hash nil))
             (new-properties 
@@ -618,7 +650,7 @@ This is the code that runs this blog! I might as well have it here as well!
   (<span style="color: #a626a4;">when</span> text
     (<span style="color: #a626a4;">let*</span> ((text (replace-regexp-in-string <span style="color: #50a14f;">" "</span> <span style="color: #50a14f;">"_"</span> text))
            (text (replace-regexp-in-string <span style="color: #50a14f;">"/"</span> <span style="color: #50a14f;">"-"</span> text))
-           (text  (replace-regexp-in-string <span style="color: #50a14f;">"[</span><span style="color: #50a14f; font-weight: bold;">^</span><span style="color: #50a14f;">[:alnum:]-_]"</span> <span style="color: #50a14f;">""</span> (s-downcase text))))
+           (text  (replace-regexp-in-string <span style="color: #50a14f;">"[</span><span style="color: #50a14f; font-weight: bold;">^</span><span style="color: #50a14f;">[:alnum:]-_]"</span> <span style="color: #50a14f;">""</span> (downcase text))))
       text)))
 
 
@@ -641,9 +673,9 @@ This is the code that runs this blog! I might as well have it here as well!
                 (<span style="color: #a626a4;">incf</span> (gethash type cache 0)))))))
 
 
-(<span style="color: #a626a4;">use-package</span> <span style="color: #008b8b;">ox</span>)
-  <span style="color: #e44649;">:defer</span> t
-  <span style="color: #e44649;">:config</span>
+<span style="color: #a0a1a7; font-weight: bold;">;</span><span style="color: #a0a1a7;">(use-package ox)</span>
+<span style="color: #a0a1a7; font-weight: bold;">;  </span><span style="color: #a0a1a7;">:defer t</span>
+<span style="color: #a0a1a7; font-weight: bold;">;  </span><span style="color: #a0a1a7;">:config</span>
   (<span style="color: #a626a4;">defun</span> <span style="color: #0184bc;">org-export-get-reference-custom</span> (datum info)
     <span style="color: #50a14f; font-style: italic;">"Return a unique reference for DATUM, as a string.</span>
 <span style="color: #50a14f; font-style: italic;">DATUM is either an element or an object.  INFO is the current</span>
@@ -665,9 +697,35 @@ This is the code that runs this blog! I might as well have it here as well!
             (puthash name number reverse-cache)
             (puthash datum new-name cache)
             new-name))))
+
+
+
+(<span style="color: #a626a4;">defun</span> <span style="color: #0184bc;">org-export-head-other-file</span> (file directory-name <span style="color: #c18401;">&amp;optional</span> reexport)
+  <span style="color: #50a14f; font-style: italic;">"Main function of this script"</span>
+  (find-file file)
+  (make-directory <span style="color: #50a14f;">"../.emacs-saves"</span> t)
+  (<span style="color: #a626a4;">setq</span> backup-directory-alist `((<span style="color: #50a14f;">"."</span> .  <span style="color: #50a14f;">"../.emacs-saves/"</span>)))
+(<span style="color: #a626a4;">setq</span> auto-save-file-name-transforms
+  `((<span style="color: #50a14f;">".*"</span> <span style="color: #50a14f;">"../.emacs-saves/"</span> t)))
+
+  (<span style="color: #a626a4;">require</span> '<span style="color: #008b8b;">ox</span>)
+  (<span style="color: #a626a4;">require</span> '<span style="color: #008b8b;">cl</span>)
+  (<span style="color: #a626a4;">require</span> '<span style="color: #008b8b;">subr-x</span>)
+  (org-mode)
+  (transient-mark-mode) <span style="color: #a0a1a7; font-weight: bold;">;</span><span style="color: #a0a1a7;">necessary for using org-map-entries</span>
+  (outline-show-all) 
+  (org-export-head (concat directory-name <span style="color: #50a14f;">"/"</span>) nil reexport)
+  (save-buffer))
+
+(<span style="color: #a626a4;">let</span> ((file  (elt argv 0))
+      (dir  (elt argv 1))
+      (reexport  (elt argv 2)))
+  (<span style="color: #a626a4;">if</span> (<span style="color: #a626a4;">or</span> (not file) (not dir))
+      (message <span style="color: #50a14f;">"usage  FILE DIR [export]"</span>)
+    (message <span style="color: #50a14f;">"Exportinf %s to %s"</span> file dir)
+    (org-export-head-other-file file dir reexport)))
 </pre>
 </div>
-
 
 
 </div></div>
@@ -693,7 +751,7 @@ This is the code that runs this blog! I might as well have it here as well!
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Ivan Tadeu Ferreira Antunes Filho</p>
-<p class="date">Date: 2020-07-23 Thu 21:26</p>
+<p class="date">Date: 2020-07-26 Sun 12:29</p>
 <p class="author">Github:  <a href="https://github.com/itf/">github.com/itf</a></p>
 <p class="creator">Made with <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.50 (<a href="https://orgmode.org">Org</a> mode 9.1.9) and <a href="https://github.com/itf/org-export-head">Org export head</a> </p>
 </div>
