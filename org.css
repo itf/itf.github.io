@@ -890,6 +890,9 @@ p.verse{
 .org-src-container>pre.src-bash:before{
     content:"bash"
 }
+.org-src-container>pre.src-elisp:before{
+    content:"Emacs Lisp"
+}
 .org-src-container>pre.src-emacs-lisp:before{
     content:"Emacs Lisp"
 }

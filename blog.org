@@ -3,6 +3,9 @@
 #+HTML_DOCTYPE: html5
 #+HTML_HEAD: <link rel="stylesheet" type="text/css" href="css/org.css"/>
 #+HTML_HEAD: <link rel="icon" href="ico/favicon.ico" type="image/x- icon">
+# -*- eval: (load (concat (file-name-directory buffer-file-name) "exporter.el")); -*-
+
+
 * Export command :noexport: 
 [[elisp:(org-export-head "../publish/")]]
   [[elisp:(org-export-head-reexport "../publish/")]]
@@ -18,7 +21,7 @@
   [[shell: git add -u && git commit -m "update html" && git push]]
 
 
-  [[shell:cd  git add -u && git commit -m "update html" && git push && ../publish  && git add . && git commit -m "update" && git push]]
+  [[shell: git add -u && git commit -m "update html" && git push && cd ../publish  && git add . && git commit -m "update" && git push]]
 
 * Includes :noexport:
 Creates a hard link to org.css in the export directory.
@@ -44,15 +47,27 @@ You can also use ###INDEX-WITH-DATES###  or ###TAG-WITH-DATES###, or simply ###I
 
 
 
-* Code   :tech:  
+* Code   :tech:code:
 :PROPERTIES:
 :CREATION-DATE: 2019-05-24
-:MODIFICATION-DATE: 2020-06-28
-:HASH:     cf8e0b799cf4343a4cf1d45f88676eb7
-:PREVIOUS-HASH: cf8e0b799cf4343a4cf1d45f88676eb7
+:MODIFICATION-DATE: 2020-07-26
+:HASH:     0c60667b390c38d5efdbb40b8ef5c039
+:PREVIOUS-HASH: 0c60667b390c38d5efdbb40b8ef5c039
 :END:
 This is the code that runs this blog! I might as well have it here as well!
-#+BEGIN_SRC emacs-lisp   
+
+
+#+include: "./exporter.el" src elisp
+
+
+#+BEGIN_SRC emacs-lisp :exports none
+#! /bin/sh
+":"; exec emacs --no-site-file --script "$0" "$@" # -*-emacs-lisp-*- 
+;; The above line is bash trickery  https://stackoverflow.com/questions/6238331/emacs-shell-scripts-how-to-put-initial-options-into-the-script#6259330
+
+
+
+
 
 ;; based on http://pragmaticemacs.com/emacs/export-org-mode-headlines-to-separate-files/
 ;; export headlines to separate files
@@ -113,7 +128,6 @@ are exported to a filename derived from the headline text."
   (let* ((headlines-hash-list (org-export-head--get-headlines))
          (headlines-hash (car headlines-hash-list))
          (headlines-list (cdr headlines-hash-list))
-
          ;;Insert extra things in the headlines-hash to be used for fixing the macros
          ;;To define new headline-level macros, add extra functions here
          (headlines-hash (org-export-head--insert-next-previous-headline headlines-hash headlines-list))
@@ -128,7 +142,6 @@ are exported to a filename derived from the headline text."
          (footer (org-export-head--get-content-subtree-match "footer")))
 
 
-      
     ;;For each not noexport/noreexport headline apply the template, i.e. copy contents
     (org-export-head--run-on-each-heading 
      #'(lambda ()
@@ -165,6 +178,7 @@ are exported to a filename derived from the headline text."
       (outline-show-all)
       
       ;;Finally export all the headers
+      
       (org-export-head-export-headers directory-path backend))))
   
 
@@ -349,6 +363,7 @@ Shouldn't rally affect the time to export unless your file contains over 100 tho
 (defun org-export-head--get-headlines ()
   "Returns a tuple that contains a hashtable of headline name to Alist of headline properties
 As well as a list of the headline names"
+  (message "1")
   (flet ((make-hash ()
                    (make-hash-table :test 'equal))
          (add-to-hash (hashtable)
@@ -357,6 +372,7 @@ As well as a list of the headline names"
           (headlines-list ()))
       (org-export-head--run-on-each-heading 
        #'(lambda()
+           
            (add-to-hash headlines-hash)
            (setq headlines-list (cons (org-export-head--headline) headlines-list)))
        "-noexport")
@@ -419,6 +435,10 @@ Where match is a tag or -tag or combination of them."
         (reverse-index "")
         (index-with-dates "")
         (index-with-summaries "")
+        (all-tags "\n")
+        (all-tags-reverse "\n")
+        (all-tags-with-dates "\n")
+        (all-tags-with-summaries "\n")
         (tags ())
         (tags-indexes ()))
     (dolist (headline-name headlines-list)
@@ -470,10 +490,27 @@ Where match is a tag or -tag or combination of them."
             (setf (cdr tag-assoc-reverse) (concat index-entry tag-index-reverse ))
             (setf (cdr tag-assoc-with-dates) (concat tag-index-with-dates index-entry-with-date))
             (setf (cdr tag-assoc-with-summaries) (concat tag-index-with-summaries index-entry-with-summary))))))
-
     
+    ;; Now we create an index for all tags, to be able to have tag pages
+    (sort tags (lambda (a b) (string<  a  b))) ; Sort the tags for the index of all tags
+    (dolist (tag tags)
+      (unless (or (string= tag "reexport") (string= tag "noexport") (string= tag "noreexport"))
+      (let* ((tag-reverse (upcase (concat tag "-reverse")))
+            (tag-with-dates (upcase (concat tag "-with-dates")))
+            (tag-with-summaries (upcase (concat tag "-with-summaries")))
+            (tag-with-summaries-list (cdr (assoc tag-with-summaries tags-indexes)))
+            (tag-list (cdr (assoc tag tags-indexes)))
+            (tag-reverse-list (cdr (assoc tag-reverse tags-indexes)))
+            (tag-with-dates-list (cdr (assoc tag-with-dates tags-indexes))))
+        (setq all-tags (concat all-tags "** " tag "\n" tag-list))
+        (setq all-tags-reverse (concat all-tags-reverse "** " tag "\n" tag-reverse-list))
+        (setq all-tags-with-dates (concat all-tags-with-dates "** " tag "\n" tag-with-dates-list))
+        (setq all-tags-with-summaries (concat all-tags-with-summaries "** " tag "\n" tag-with-summaries-list)))))
+            
+
     (append 
-     (list (cons "INDEX" index) (cons "INDEX-REVERSE" reverse-index)  (cons "INDEX-WITH-DATES" index-with-dates) (cons "INDEX-WITH-SUMMARIES" index-with-summaries))
+     (list (cons "INDEX" index) (cons "INDEX-REVERSE" reverse-index)  (cons "INDEX-WITH-DATES" index-with-dates) (cons "INDEX-WITH-SUMMARIES" index-with-summaries) 
+           (cons "ALL-TAGS" all-tags) (cons "ALL-TAGS-REVERSE" all-tags-reverse)  (cons "ALL-TAGS-WITH-DATES" all-tags-with-dates) (cons "ALL-TAGS-WITH-SUMMARIES" all-tags-with-summaries))
      tags-indexes)))
 
 ;;END OF NON AST (non org-element) SESSION
@@ -539,10 +576,10 @@ Where match is a tag or -tag or combination of them."
 (defun org-export-head--insert-next-previous-headline(headlines-hash headlines-list)
   "Decides what is the next and the previous post and create macro"
   (let* ((temp-list (cons nil headlines-list))
-        (len (length headlines-list)))
+         (len (length headlines-list)))
     (dotimes (i len)
       (let* ((previous (nth 0 temp-list))
-            (headline-name (nth 1 temp-list))
+             (headline-name (nth 1 temp-list))
             (next (nth 2 temp-list))
             (headline (gethash headline-name headlines-hash nil))
             (new-properties 
@@ -577,7 +614,7 @@ Where match is a tag or -tag or combination of them."
   (when text
     (let* ((text (replace-regexp-in-string " " "_" text))
            (text (replace-regexp-in-string "/" "-" text))
-           (text  (replace-regexp-in-string "[^[:alnum:]-_]" "" (s-downcase text))))
+           (text  (replace-regexp-in-string "[^[:alnum:]-_]" "" (downcase text))))
       text)))
 
 
@@ -600,9 +637,9 @@ Where match is a tag or -tag or combination of them."
                 (incf (gethash type cache 0)))))))
 
 
-(use-package ox)
-  :defer t
-  :config
+;(use-package ox)
+;  :defer t
+;  :config
   (defun org-export-get-reference-custom (datum info)
     "Return a unique reference for DATUM, as a string.
 DATUM is either an element or an object.  INFO is the current
@@ -624,12 +661,39 @@ alphanumeric characters only."
             (puthash name number reverse-cache)
             (puthash datum new-name cache)
             new-name))))
+
+
+
+(defun org-export-head-other-file (file directory-name &optional reexport)
+  "Main function of this script"
+  (find-file file)
+  (make-directory "../.emacs-saves" t)
+  (setq backup-directory-alist `(("." .  "../.emacs-saves/")))
+(setq auto-save-file-name-transforms
+  `((".*" "../.emacs-saves/" t)))
+
+  (require 'ox)
+  (require 'cl)
+  (require 'subr-x)
+  (org-mode)
+  (transient-mark-mode) ;necessary for using org-map-entries
+  (outline-show-all) 
+  (org-export-head (concat directory-name "/") nil reexport)
+  (save-buffer))
+
+(let ((file  (elt argv 0))
+      (dir  (elt argv 1))
+      (reexport  (elt argv 2)))
+  (if (or (not file) (not dir))
+      (message "usage  FILE DIR [export]")
+    (message "Exportinf %s to %s" file dir)
+    (org-export-head-other-file file dir reexport)))
+
+
 #+END_SRC
 
 #+RESULTS:
-: org-export-get-reference-custom
-
-
+: usage  FILE DIR [export]
 
 
 * Menu :noexport:header:
@@ -645,6 +709,7 @@ alphanumeric characters only."
 - [[Resume][Resume]]
 - [[Portfolio][Portfolio]]
 - [[Contact][Contact]]
+- [[Tags][Tags]]
 - [[Projects ideas][Messy Ideas]]
 #+end_menu
 #+end_head
@@ -684,7 +749,7 @@ alphanumeric characters only."
 * index                           :reexport:
   :PROPERTIES:
   :CREATION-DATE: 2018-09-09
-  :MODIFICATION-DATE: 2020-07-23
+  :MODIFICATION-DATE: 2020-07-26
   :HASH:     8ee106a71f1805782c6660af609e35b8
   :PREVIOUS-HASH: 8ee106a71f1805782c6660af609e35b8
   :END:
@@ -744,18 +809,19 @@ padding-left: 1em;
 * Blog
 :PROPERTIES:
 :CREATION-DATE: 2020-07-23
-:MODIFICATION-DATE: 2020-07-23
-:HASH:     8baccdde89c745ebf3c0f23e723cc7cb
-:PREVIOUS-HASH: 8baccdde89c745ebf3c0f23e723cc7cb
+:MODIFICATION-DATE: 2020-07-26
+:HASH:     eec6ff9d272cda100f8d611c30352d2c
+:PREVIOUS-HASH: eec6ff9d272cda100f8d611c30352d2c
 :END:
+
 
 ###INDEX-WITH-SUMMARIES###
 * About
   :PROPERTIES:
   :CREATION-DATE: 2018-09-09
-  :MODIFICATION-DATE: 2020-06-21
-  :HASH:     6a81679a100b9fd52e9d1d08b99221be
-  :PREVIOUS-HASH: 6a81679a100b9fd52e9d1d08b99221be
+  :MODIFICATION-DATE: 2020-07-26
+  :HASH:     30d646d5b9392d3e442f64829c81e320
+  :PREVIOUS-HASH: 30d646d5b9392d3e442f64829c81e320
   :END:
 
 #+BEGIN_CENTER
@@ -888,7 +954,7 @@ TV.
 * Resume 
   :PROPERTIES:
   :CREATION-DATE: 2018-09-09
-  :MODIFICATION-DATE: 2020-03-01
+  :MODIFICATION-DATE: 2020-07-26
   :HASH:     03ced9a493c581f41809db532e86f858
   :PREVIOUS-HASH: 03ced9a493c581f41809db532e86f858
   :END:
@@ -914,7 +980,7 @@ Please download the PDF version [[file:pdflib/IvanFilho-ResumeFall2018.pdf][here
 * Contact
   :PROPERTIES:
   :CREATION-DATE: 2018-09-09
-  :MODIFICATION-DATE: 2019-05-23
+  :MODIFICATION-DATE: 2020-07-26
   :HASH:     49e13ac662b842b40a9b54bb04dd68d7
   :PREVIOUS-HASH: 49e13ac662b842b40a9b54bb04dd68d7
   :END:
@@ -942,9 +1008,9 @@ document.getElementById("iframeDisplay").innerHTML = "<iframe src=\"https://cale
 * Portfolio 
   :PROPERTIES:
   :CREATION-DATE: 2018-09-09
-  :MODIFICATION-DATE: 2020-07-23
-  :HASH:     94f13fe18802840fb96a9e130bafd3bc
-  :PREVIOUS-HASH: b5c8292061439fd3700b25a310548b3f
+  :MODIFICATION-DATE: 2020-07-24
+  :HASH:     d0e60573e403d06e55b19f70c344f5e7
+  :PREVIOUS-HASH: d0e60573e403d06e55b19f70c344f5e7
   :END:
 #+BEGIN_EXPORT html
 <style>
@@ -1220,13 +1286,22 @@ tinyurl.com/ocientificas.
 @@html:</div>@@
 
 @@html: @@
+* Tags :reexport:
+:PROPERTIES:
+:CREATION-DATE: 2020-07-26
+:MODIFICATION-DATE: 2020-07-26
+:HASH:     62d5bc6f737d790d177149521a4f22a0
+:PREVIOUS-HASH: 62d5bc6f737d790d177149521a4f22a0
+:END:
+
+###ALL-TAGS-WITH-SUMMARIES###
 
 * Hello world! :personal:
   :PROPERTIES:
   :CREATION-DATE: 2018-09-09
-  :MODIFICATION-DATE: 2019-11-24
-  :HASH:     53a45ecab603c06a3c9fb2db381f62dc
-  :PREVIOUS-HASH: 53a45ecab603c06a3c9fb2db381f62dc
+  :MODIFICATION-DATE: 2020-07-26
+  :HASH:     94c1218b3cee74d264f227118df4aa2f
+  :PREVIOUS-HASH: 94c1218b3cee74d264f227118df4aa2f
   :END:
 
 I've always felt that I am more productive when I share my work or study
@@ -1249,7 +1324,7 @@ Welcome!
 * Linear Panorama                                      :projects:photography:tech:
   :PROPERTIES:
   :CREATION-DATE: 2015-12-13
-  :MODIFICATION-DATE: 2020-06-21
+  :MODIFICATION-DATE: 2020-07-26
   :HASH:     424e723f9a0b9303521843cf33bd46e3
   :PREVIOUS-HASH: 424e723f9a0b9303521843cf33bd46e3
   :END:
@@ -1510,7 +1585,7 @@ across different images.
 * Led Panel                                                        :projects:tech:
   :PROPERTIES:
   :CREATION-DATE: 2016-03-16
-  :MODIFICATION-DATE: 2020-06-21
+  :MODIFICATION-DATE: 2020-07-26
   :HASH:     f90fda3cc8e887ef5c43b1a4f1a03b1e
   :PREVIOUS-HASH: f90fda3cc8e887ef5c43b1a4f1a03b1e
   :END:
@@ -1801,7 +1876,7 @@ In order to run it at fast speeds, you need to use pypy.
 * MIT entrepreneurship resources :tech:
   :PROPERTIES:
   :CREATION-DATE: 2018-01-21
-  :MODIFICATION-DATE: 2018-09-09
+  :MODIFICATION-DATE: 2020-07-26
   :HASH:     b0cd808d059296a90a858006ad5e355f
   :PREVIOUS-HASH: b0cd808d059296a90a858006ad5e355f
   :END:
@@ -2034,7 +2109,7 @@ events per month. Cic.com. Blog , podcast and newsletter.
 * Multi-audio (In development) :tech:
   :PROPERTIES:
   :CREATION-DATE: 2018-01-21
-  :MODIFICATION-DATE: 2018-09-09
+  :MODIFICATION-DATE: 2020-07-26
   :HASH:     8af351d5713395cb9f49c5d8113f5cde
   :PREVIOUS-HASH: 8af351d5713395cb9f49c5d8113f5cde
   :END:
@@ -2186,7 +2261,7 @@ Here is the pdf with better formatting: [[file:pdflib/GroebnerBasis--Sage.pdf][G
 * Transfer Functions in python :tech:
   :PROPERTIES:
   :CREATION-DATE: 2018-02-27
-  :MODIFICATION-DATE: 2019-08-05
+  :MODIFICATION-DATE: 2020-07-26
   :HASH:     632b50e6a0a4781d0dcc74ae9a10be90
   :PREVIOUS-HASH: 632b50e6a0a4781d0dcc74ae9a10be90
   :END:
@@ -2519,7 +2594,7 @@ This also shows an example of how to use it, by solving a problem from a
 * Emacs drag-drop pdfs, paste html, custom templates               :projects:emacs:tech:
   :PROPERTIES:
   :CREATION-DATE: 2018-08-19
-  :MODIFICATION-DATE: 2019-05-23
+  :MODIFICATION-DATE: 2020-07-26
   :HASH:     890661c6074bd9e94e7ad15c1cb52487
   :PREVIOUS-HASH: 890661c6074bd9e94e7ad15c1cb52487
   :END:
@@ -2732,7 +2807,7 @@ A slightly better example of making something with elisp is on my package clipbo
 * Simple proof weak master theorem :tech:
   :PROPERTIES:
   :CREATION-DATE: 2018-09-12
-  :MODIFICATION-DATE: 2018-09-12
+  :MODIFICATION-DATE: 2020-07-26
   :HASH:     ce3f5fa79fa6f23e0bb4e887dbd5f744
   :PREVIOUS-HASH: ce3f5fa79fa6f23e0bb4e887dbd5f744
   :END:
@@ -2858,7 +2933,7 @@ $$\theta ( n^{\log_ba})$$
 * Export subtree with files :projects:emacs:tech:
   :PROPERTIES:
   :CREATION-DATE: 2018-09-13
-  :MODIFICATION-DATE: 2019-05-23
+  :MODIFICATION-DATE: 2020-07-26
   :HASH:     473a8b4668da4dd99727b6c7a2616249
   :PREVIOUS-HASH: 473a8b4668da4dd99727b6c7a2616249
   :END:
@@ -2962,7 +3037,7 @@ This allows me to quickly generate a folder that contains all the files I wanna 
 * Scan notes with laptop webcam :tech:
   :PROPERTIES:
   :CREATION-DATE: 2018-09-16
-  :MODIFICATION-DATE: 2020-06-28
+  :MODIFICATION-DATE: 2020-07-26
   :HASH:     27e7c746b336adb182ddadfe1a117414
   :PREVIOUS-HASH: 27e7c746b336adb182ddadfe1a117414
   :END:
@@ -3799,7 +3874,7 @@ To use macrofusion, you should use the fork that has supported for the updated e
 * Long name problems :personal:
 :PROPERTIES:
 :CREATION-DATE: 2019-09-02
-:MODIFICATION-DATE: 2019-09-06
+:MODIFICATION-DATE: 2020-07-26
 :HASH:     5ffe554a569bd9dad371e3f5515a91b7
 :PREVIOUS-HASH: 5ffe554a569bd9dad371e3f5515a91b7
 :END:
@@ -3815,7 +3890,7 @@ My name in my passport fairly long. (10 characters first name, 22 letters second
 * -ARCHIVE-                                                        :personal:
 :PROPERTIES:
 :CREATION-DATE: 2019-09-06
-:MODIFICATION-DATE: 2019-11-24
+:MODIFICATION-DATE: 2020-07-26
 :HASH:     dd171e9baf6630917abc48da80911829
 :PREVIOUS-HASH: dd171e9baf6630917abc48da80911829
 :END:
@@ -4156,11 +4231,11 @@ For anyone looking for more live updates, you can check my instagram, [[https://
 * Projects ideas
 :PROPERTIES:
 :CREATION-DATE: 2020-07-23
-:MODIFICATION-DATE: 2020-07-23
-:HASH:     b3085da40eb080acf2478008f47d16f2
-:PREVIOUS-HASH: b3085da40eb080acf2478008f47d16f2
+:MODIFICATION-DATE: 2020-07-26
+:HASH:     38138af370e8c9794c85a3668c627ce5
+:PREVIOUS-HASH: 38138af370e8c9794c85a3668c627ce5
 :END:
-A very disorganized list of projects I want to work on, together with notes about them.
+A very disorganized list of projects I want to work on, together with notes about them
 
 ** Cutting vegetables with blood
 Pictures of knives cutting vegetable while drenched in fake blood. No real purpose for this, except that I think it would be cool
@@ -4344,14 +4419,58 @@ Pagination for this org mode blog
 ** Better theme for this blog, make it not ugly
 ** Use seam carving to split a image into puzzle pieces for cutting
 https://www.youtube.com/watch?v=6NcIJXTlugc
-* TODO Pão de queijo recipe (brazilian cheese bread)               :noexport:
+** Add my emacs packages to melpa
+https://github.com/melpa/melpa
+** Random notes
+*** AR core for android
+https://www.youtube.com/watch?v=Mzr3MVzSjSM
+https://github.com/lvonasek/tango/wiki/3D-Scanner-for-ARcore
+
+https://github.com/googlesamples/arcore-depth-lab
+https://www.youtube.com/watch?v=Mzr3MVzSjSM
+* Pão de queijo recipe (brazilian cheese bread)                    
+:PROPERTIES:
+:CREATION-DATE: 2020-07-26
+:MODIFICATION-DATE: 2020-07-26
+:HASH:     00cda554441c4763b31962bc3117ca82
+:PREVIOUS-HASH: 00cda554441c4763b31962bc3117ca82
+:END:
+
+Brazilian cheese bread is a super forgiving recipe: as long as you use tapioca flour and you don't underbake it, you can change the ingredients to your hearts content.
+** Lazy recipe
+- about 900g of tapioca flour/starch (if you have the option get "polvilho azedo", i.e. fermented tapioca starch, since it hydrates better). You can buy this at any Brazilian market
+- 2 cups of milk (hydration. Can be substituted by water)
+- half a cup of oil (affects the texture. can be substituted by eggs, or anything)
+- 2 to 4 eggs (binding. Can be substituted by mashed cassava, mashed potatoes, etc)
+- 2 big handfuls of cheese (it is only for flavor, so amount is not that important. Can be substituted by anything)
+- Some salt for flavor. Around 1 tablespoon is reasonable (depends on the cheese)
+
+Mix everything but the cheese and the tapioca flour.
+
+Add tapioca flour until you can roll the dough into balls.
+
+Add the cheese (it doesn't change the texture, so it is easier to add it last, to better tell the texture of the dough).
+
+Roll into balls (they can be tiny, or medium sized). Freeze them for later use, or bake them.
+
+Bake them until the surface has hardened (it gets a bit brownish), between 350 and 375F. Small ones take 20 minutes, very large ones can take up to 40 minutes.
+
+If baking a frozen one, add 2 minutes to the time that it took to bake the unfrozen one.
+** Slightly better recipe 
+(all substitutions above are still valid)
+- 700g of tapioca starch / polvilho azedo
+- 2 cups of milk
+- half a cup of oil
+- \tilde{} some salt (1 tablespoon of salt)
+- 2 big handfuls of cheese
+- 4 eggs
 
 
-700g
-2 cups 
-half a cup
-tablespoon
-2 big handfuls of cheese
+Mix milk, oil and salt and bring it to a boil. Mix 600g of the tapioca, to really hydrate the flower. It will absorb all the milk and will have a nice consistency. Mix cheese. Wait for it to cooldown a bit. Mix the eggs. Roll into balls and freeze or bake  between 350 and 375F, until the surface has hardened.
+
+If you are making a vegan recipe, I really recommend mixing the tapioca starch onto boiling water, since you won't be using eggs as a binding agent.
+
+
 * JS :noexport:
 :PROPERTIES:
 :CREATION-DATE: 2020-07-23

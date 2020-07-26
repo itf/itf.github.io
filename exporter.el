@@ -372,6 +372,10 @@ Where match is a tag or -tag or combination of them."
         (reverse-index "")
         (index-with-dates "")
         (index-with-summaries "")
+        (all-tags "\n")
+        (all-tags-reverse "\n")
+        (all-tags-with-dates "\n")
+        (all-tags-with-summaries "\n")
         (tags ())
         (tags-indexes ()))
     (dolist (headline-name headlines-list)
@@ -423,10 +427,27 @@ Where match is a tag or -tag or combination of them."
             (setf (cdr tag-assoc-reverse) (concat index-entry tag-index-reverse ))
             (setf (cdr tag-assoc-with-dates) (concat tag-index-with-dates index-entry-with-date))
             (setf (cdr tag-assoc-with-summaries) (concat tag-index-with-summaries index-entry-with-summary))))))
-
     
+    ;; Now we create an index for all tags, to be able to have tag pages
+    (sort tags (lambda (a b) (string<  a  b))) ; Sort the tags for the index of all tags
+    (dolist (tag tags)
+      (unless (or (string= tag "reexport") (string= tag "noexport") (string= tag "noreexport"))
+      (let* ((tag-reverse (upcase (concat tag "-reverse")))
+            (tag-with-dates (upcase (concat tag "-with-dates")))
+            (tag-with-summaries (upcase (concat tag "-with-summaries")))
+            (tag-with-summaries-list (cdr (assoc tag-with-summaries tags-indexes)))
+            (tag-list (cdr (assoc tag tags-indexes)))
+            (tag-reverse-list (cdr (assoc tag-reverse tags-indexes)))
+            (tag-with-dates-list (cdr (assoc tag-with-dates tags-indexes))))
+        (setq all-tags (concat all-tags "** " tag "\n" tag-list))
+        (setq all-tags-reverse (concat all-tags-reverse "** " tag "\n" tag-reverse-list))
+        (setq all-tags-with-dates (concat all-tags-with-dates "** " tag "\n" tag-with-dates-list))
+        (setq all-tags-with-summaries (concat all-tags-with-summaries "** " tag "\n" tag-with-summaries-list)))))
+            
+
     (append 
-     (list (cons "INDEX" index) (cons "INDEX-REVERSE" reverse-index)  (cons "INDEX-WITH-DATES" index-with-dates) (cons "INDEX-WITH-SUMMARIES" index-with-summaries))
+     (list (cons "INDEX" index) (cons "INDEX-REVERSE" reverse-index)  (cons "INDEX-WITH-DATES" index-with-dates) (cons "INDEX-WITH-SUMMARIES" index-with-summaries) 
+           (cons "ALL-TAGS" all-tags) (cons "ALL-TAGS-REVERSE" all-tags-reverse)  (cons "ALL-TAGS-WITH-DATES" all-tags-with-dates) (cons "ALL-TAGS-WITH-SUMMARIES" all-tags-with-summaries))
      tags-indexes)))
 
 ;;END OF NON AST (non org-element) SESSION
@@ -604,4 +625,3 @@ alphanumeric characters only."
       (message "usage  FILE DIR [export]")
     (message "Exportinf %s to %s" file dir)
     (org-export-head-other-file file dir reexport)))
-
