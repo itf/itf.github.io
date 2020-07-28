@@ -52,7 +52,7 @@ You can use ###ALL-TAGS### to create a page that displays all tags.
 :CREATION-DATE: 2019-05-24
 :MODIFICATION-DATE: 2020-07-27
 :HASH:     6f4ecff497e0bc393b9bc876258acd0f
-:PREVIOUS-HASH: 5498282fde8cd5b264409195b90586f4
+:PREVIOUS-HASH: 6f4ecff497e0bc393b9bc876258acd0f
 :END:
 This is the code that runs this blog! I might as well have it here as well!
 
@@ -724,11 +724,12 @@ alphanumeric characters only."
 
 #+begin_head
 #+begin_title
-[[index][Ivanaf]]
+[[Blog][Ivanaf]]
 #+end_title
 
 #+begin_menu
 - [[index][Home]]
+- [[Blog][Blog]]
 - [[About][About]]
 - [[Resume][Resume]]
 - [[Portfolio][Portfolio]]
@@ -773,15 +774,31 @@ alphanumeric characters only."
 * index                           :reexport:
   :PROPERTIES:
   :CREATION-DATE: 2018-09-09
-  :MODIFICATION-DATE: 2020-07-26
-  :HASH:     8ee106a71f1805782c6660af609e35b8
-  :PREVIOUS-HASH: 8ee106a71f1805782c6660af609e35b8
+  :MODIFICATION-DATE: 2020-07-28
+  :HASH:     ea73214f1d22beed722038498ab13550
+  :PREVIOUS-HASH: ea73214f1d22beed722038498ab13550
+  :export_options: num:nil
   :END:
+#+BEGIN_EXPORT html 
+<style>
+#table-of-contents {
+display: none;
+}
+</style>
+#+END_EXPORT
 
+#+ATTR_ORG: :width 300
+#+CAPTION: 
+[[./img/ivan.jpg]]
+
+Hi, I'm Ivan! \\
+This is my personal website, written in [[https://orgmode.org/][org-mode]] using a [[https://github.com/itf/org-export-head][static website generator]] I've built.\\
+ In this website you can check my [[Blog][Blog]], with posts with no overarching theme besides what I wanted to write at the moment; my [[Portfolio][Portfolio]], with information about my projects; or my self explanatory [[About][About]], and [[Contact][Contact]] pages! \\
+Here is a taste of my most recent Tech posts and story posts!
 ** Technical posts
 ###TECH-WITH-SUMMARIES###
-** Personal posts
-###PERSONAL-WITH-SUMMARIES###
+** Personal stories
+###STORY-WITH-SUMMARIES###
 
 #+BEGIN_EXPORT html
 <style>
@@ -830,22 +847,70 @@ padding-left: 1em;
 }
 </style>
 #+END_EXPORT
-* Blog
+* Blog :reexport:
 :PROPERTIES:
 :CREATION-DATE: 2020-07-23
-:MODIFICATION-DATE: 2020-07-26
-:HASH:     eec6ff9d272cda100f8d611c30352d2c
-:PREVIOUS-HASH: eec6ff9d272cda100f8d611c30352d2c
+:MODIFICATION-DATE: 2020-07-28
+:HASH:     c95cad9fe81295fd0ed7dd08fde4093a
+:PREVIOUS-HASH: c95cad9fe81295fd0ed7dd08fde4093a
 :END:
 
-
+#+BEGIN_EXPORT html
+<style>
+.index h2{
+ font-size:1.6em;
+ margin-top:0.67em;
+ margin-bottom:0.67em;
+ margin-left:0;
+ margin-right:0;
+ font-weight:bold
+}
+.index ul li {
+ border-top:dotted 2px rgba(160,160,160,0.3);
+ margin:1.5em 0 0 0
+}
+.index ul {
+ margin-left:0px;
+ list-style:none;
+padding-left: 1em;
+}
+.index ul li b a {
+ text-align:left;
+ display:block;
+ font-size:1.3em;
+ margin-top:0.83em;
+ margin-left:0;
+ margin-right:0;
+ font-weight:bold
+}
+.index {
+ box-shadow:0px 0px 1px rgba(0,0,0,0.5);
+ padding:10px;
+ margin-top:20px
+}
+.rss-item-auth {
+ text-align:left;
+ font-size:14px;
+ color:#828282
+}
+.rss-date {
+ text-align:left;
+ display:block;
+ font-size:14px;
+ font-weight:800;
+ color:#828282
+}
+</style>
+#+END_EXPORT
+#+Begin_index
 ###INDEX-WITH-SUMMARIES###
+#+End_index
 * About
   :PROPERTIES:
   :CREATION-DATE: 2018-09-09
-  :MODIFICATION-DATE: 2020-07-26
-  :HASH:     30d646d5b9392d3e442f64829c81e320
-  :PREVIOUS-HASH: 30d646d5b9392d3e442f64829c81e320
+  :MODIFICATION-DATE: 2020-07-28
+  :HASH:     89c0e664f2ffc3a2e11d83e2e148abff
+  :PREVIOUS-HASH: 89c0e664f2ffc3a2e11d83e2e148abff
   :END:
 
 #+BEGIN_CENTER
@@ -974,7 +1039,18 @@ TV.
 - [[http://g1.globo.com/educacao/noticia/2011/07/brasileiros-ganham-medalhas-em-olimpiada-internacional-de-fisica.html][Brasileiros ganham medalhas em olimpíada internacional de física]]
 - [[http://g1.globo.com/educacao/noticia/2013/03/referencia-em-tecnologia-mit-admite-quatro-brasileiros-para-graduacao.html][Referência em tecnologia, MIT admite quatro brasileiros para graduação]]
 - [[http://www.terra.com.br/noticias/educacao/infograficos/olimpiadas-escolares/][Olimpíadas Escolares -- Terra Educação]]
+- [[http://www.myscience.fi/index.php?id=358][MY Camper Ivan Tadeu Ferreira Antunes Filho: Discovering the incredible world through science]]
+- [[Revista Contigo][Menino de Ouro - Revista Contigo]]
 
+#+ATTR_ORG: :width 300
+#+CAPTION: Picture taken with [[https://en.wikipedia.org/wiki/Mar%C3%ADlia_Gabriela][Marília Gabriela]], one of the most famous interviewers in Brazil, during a break in her interview show.
+[[file:./img/15959135050940754.jpg][file:./img/15959135050940754.jpg]]
+
+#+ATTR_ORG: :width 300
+#+CAPTION: Picture for the magazine Contigo!, one of the main Celebrities' magazine in 2012.
+[[./jpg/Imagem_002.jpg]]
+*** Other
+I've helped taking care of far too many injured wild animals while I lived in Brazil. It is hard to describe the experience, but you can see some [[Me and animals][pictures here]].
 * Resume 
   :PROPERTIES:
   :CREATION-DATE: 2018-09-09
@@ -1032,11 +1108,12 @@ document.getElementById("iframeDisplay").innerHTML = "<iframe src=\"https://cale
 * Portfolio 
   :PROPERTIES:
   :CREATION-DATE: 2018-09-09
-  :MODIFICATION-DATE: 2020-07-24
-  :HASH:     d0e60573e403d06e55b19f70c344f5e7
-  :PREVIOUS-HASH: d0e60573e403d06e55b19f70c344f5e7
+  :MODIFICATION-DATE: 2020-07-28
+  :HASH:     15b4ebd7cf1fc468dbe0b358b6429ac2
+  :PREVIOUS-HASH: 15b4ebd7cf1fc468dbe0b358b6429ac2
+  :export_options: num:nil
   :END:
-#+BEGIN_EXPORT html
+#+BEGIN_EXPORT html 
 <style>
 #table-of-contents {
 display: none;
@@ -1050,10 +1127,24 @@ Different projects I worked on over the years. Some very tiny,  some large ones.
 
 
 @@html:<div class="responsive-table">@@
+***  [[https://arxiv.org/pdf/2002.03887.pdf][Edge Matching with Inequalities, Triangles,Unknown Shape, and Two Players]]
+    :PROPERTIES:
+    :HTML_CONTAINER_CLASS: portfolio-project
+    :END:
+
+#+ATTR_ORG: :width 300
+#+CAPTION: 
+[[./png/edgematch.png]]
+
+    2020
+I was one of the author's for the paper Edge Matching with Inequalities, Triangles,Unknown Shape, and Two Players, in computational complexity.
 *** [[http://erikdemaine.org/theses/ifilho.pdf][Master's of Engineering Thesis]]
     :PROPERTIES:
     :HTML_CONTAINER_CLASS: portfolio-project
     :END:
+#+ATTR_ORG: :width 300
+#+CAPTION: 
+[[./png/thesis.png]]
     2019 - 
 My master's of engineering thesis in Boolean Satisfiability, supervised by Erik Demaine.
 *** [[https://github.com/OlimpiadasCientificas/olimpiadascientificas.github.io/blob/master/_includes/olimpiadascraper.py][Autoscraper for Brazilian Science Olympiads]]
@@ -1076,7 +1167,7 @@ I organized the class 6.S092 twice while at MIT. It was an IAP class (1 month lo
     2018- Org mode to blog exporter. Converts each header to a different file. This blog was written using it!
 
 
-*** [[https://itf.github.io/2018/02/08/Groebner-Basis/][Groebner Basis for Linear Network Coding in Sage]]
+*** [[Groebner Basis for Linear Network Coding in Sage][Groebner Basis for Linear Network Coding in Sage]]
     :PROPERTIES:
     :HTML_CONTAINER_CLASS: portfolio-project
     :END:
@@ -1241,7 +1332,15 @@ over 6 people on top of it jumping and moving to confirm its stability.
 
 
 
+*** [[https://www.academia.edu/10724943/Seeing_around_corners_with_a_mobile_phone_Synthetic_aperture_audio_imaging][Seeing around corners with a mobile phone? Synthetic aperture audio imaging]]
+    :PROPERTIES:
+    :HTML_CONTAINER_CLASS: portfolio-project
+    :END:
+#+ATTR_ORG: :width 300
+#+CAPTION: 
+[[file:./img/15959124860287838.jpg][file:./img/15959124860287838.jpg]]
 
+2013- Undergraduate Researcher contribution to the paper "Seeing around corners with a mobile phone? Synthetic aperture audio imaging", in the Camera Culture group in the Media Lab.
 
 *** [[http://olimpiadascientificas.org/static/pdf/Linguistica0.8.pdf][IOL study guide (unfinished) (pt-br)]]
     :PROPERTIES:
@@ -1259,7 +1358,7 @@ order the following Brazilian teams to prepare for IOL.
 
 
 
-*** [[http://olimpiadascientificas.com/static/pdf/formulasheet-pt_br1.0.pdf][Translation of IPhO formula sheet.]]
+*** [[http://olimpiadascientificas.org/static/pdf/formulasheet-pt_br1.0.pdf][Translation of IPhO formula sheet.]]
     :PROPERTIES:
     :CUSTOM_ID: translation-of-ipho-formula-sheet.
     :HTML_CONTAINER_CLASS: portfolio-project
@@ -1287,6 +1386,44 @@ The user interacts with the text, and the text is written and rewritten
 based on the interaction with the user.
 
 2019- The game was ported to javascript and now supports click instead of writing [[A game from the past]]
+
+*** [[https://www.youtube.com/channel/UCUT87IB960L3foyy09gjmtw][Olimpíadas Cientificas (Youtube Channel)]]
+    :PROPERTIES:
+    :CUSTOM_ID: youtube
+    :HTML_CONTAINER_CLASS: portfolio-project
+    :END:
+
+#+ATTR_ORG: :width 300
+#+CAPTION: 
+[[./img/projects/bonecooc.png]]
+
+2012-2015. Youtube channel to spread information about Brazilian Science Olympiads. We interviewed participants of science competitions.
+
+*** [[https://olimpiadascientificas.org/vida-de-olimpico/ivan.olimpiadascientificas.com/index.html][Vida de Olímpico (backup)]]
+    :PROPERTIES:
+    :CUSTOM_ID: vida-de-olímpico-2
+    :HTML_CONTAINER_CLASS: portfolio-project
+    :END:
+
+#+ATTR_ORG: :width 300
+#+CAPTION: 
+[[./img/projects/bonecooc.png]]
+
+2012-2015 Besides organizing my own personal website about science competitions, I helped other 10 students create and spread their blogs about their science competition experiences. I dare say it was a huge success and many students commented on our blogs saying we provided inspirations to them to take part in science competitions.
+*** [[https://olimpiadascientificas.org/vida-de-olimpico/ivan.olimpiadascientificas.com/index.html][Ivan - Vida de Olímpico (backup)]]
+    :PROPERTIES:
+    :CUSTOM_ID: vida-de-olímpico
+    :HTML_CONTAINER_CLASS: portfolio-project
+    :END:
+
+#+ATTR_ORG: :width 300
+#+CAPTION: 
+[[./img/projects/bonecooc.png]]
+
+2012- 2013. Personal blog with stories about the time when I took part in Science Olympiads. At its peak, it received 50 unique visitors per day and top posts had a few dozen comments. It was created as a way to debunk myths about science olympiads as well as their competitors, as well as a way to stimulate people to take part in science olympiads, specially those from smaller towns around Brazil. \\
+I was originally from a small town and I didn't know how other people prepared for science competitions, since no one was taking part on them in my hometown. Through my blog I tried to provide a way to help people in similar situations. \\
+Some of the readers of the blog were later selected to represent Brazil on IBO, IPhO and IOAA, which was awesome.\\
+There was a problem with the wordpress database and the website went offline after a few years without being maintained; now we have a snapshot of how it was so others can still access it.
 *** [[http://olimpiadascientificas.org/][Olimpíadas Científicas]]
     :PROPERTIES:
     :CUSTOM_ID: olimpíadas-científicas
@@ -1315,7 +1452,7 @@ tinyurl.com/ocientificas.
 :CREATION-DATE: 2020-07-26
 :MODIFICATION-DATE: 2020-07-27
 :HASH:     14bfd13e634865af09883825a8070718
-:PREVIOUS-HASH: 62d5bc6f737d790d177149521a4f22a0
+:PREVIOUS-HASH: 14bfd13e634865af09883825a8070718
 :END:
 
 #+BEGIN_EXPORT html
@@ -4028,7 +4165,7 @@ MIT :)
 - [[file:./doc/4-personality-revision-2.1.doc][4-personality-revision-2.1.doc]]
 - [[file:./doc/3-program-UROP-revision-2.doc][3-program-UROP-revision-2.doc]]
 * MAYBE Losing the sparkle :noexport:personal:
-* The first of many Brazilian-Science-Olympiads-guide websites     :personal:
+* The first of many Brazilian-Science-Olympiads-guide websites     :personal:story:
 :PROPERTIES:
 :CREATION-DATE: 2019-11-24
 :MODIFICATION-DATE: 2019-11-27
@@ -4302,11 +4439,11 @@ For anyone looking for more live updates, you can check my instagram, [[https://
 * Projects ideas
 :PROPERTIES:
 :CREATION-DATE: 2020-07-23
-:MODIFICATION-DATE: 2020-07-26
-:HASH:     38138af370e8c9794c85a3668c627ce5
-:PREVIOUS-HASH: 38138af370e8c9794c85a3668c627ce5
+:MODIFICATION-DATE: 2020-07-28
+:HASH:     3aeda3579aa81c61791b3300647c23d9
+:PREVIOUS-HASH: 1699561a40240e2868b60c1bfba6cce5
 :END:
-A very disorganized list of projects I want to work on, together with notes about them
+A very disorganized list of projects I want to work on, together with notes about them (mostly links with related info)
 
 ** Cutting vegetables with blood
 Pictures of knives cutting vegetable while drenched in fake blood. No real purpose for this, except that I think it would be cool
@@ -4499,6 +4636,12 @@ https://github.com/lvonasek/tango/wiki/3D-Scanner-for-ARcore
 
 https://github.com/googlesamples/arcore-depth-lab
 https://www.youtube.com/watch?v=Mzr3MVzSjSM
+** Play with some pre trained CNN
+https://www.analyticsvidhya.com/blog/2018/07/top-10-pretrained-models-get-started-deep-learning-part-1-computer-vision/
+** Click to expand table of contents
+https://codepen.io/peternguyen/pen/hICga
+** Better TOC for tags page
+https://www.lycarter.com/tags/ 
 * Pão de queijo recipe (brazilian cheese bread)                    
 :PROPERTIES:
 :CREATION-DATE: 2020-07-26
@@ -4600,3 +4743,29 @@ Change the number of bands to match the number of bands used by your noise gener
 
 
 Don't forget to save your profile so you can load it later.
+* Revista Contigo :personal:portuguese:
+:PROPERTIES:
+:CREATION-DATE: 2020-07-28
+:MODIFICATION-DATE: 2020-07-28
+:HASH:     dfe84a1fa51842fd1d4f9b2502ac6943
+:PREVIOUS-HASH: dfe84a1fa51842fd1d4f9b2502ac6943
+:END:
+In Portuguese, 2012 article in a celebrity magazine about me. 
+
+Em 2012 eu apareci na [[https://pt.wikipedia.org/wiki/Contigo!][Revista Contigo!]] Que era uma das principais revistas de fofoca e celebridades da época
+
+#+ATTR_ORG: :width 300
+#+CAPTION: 
+[[./jpg/Imagem_001.jpg]]
+
+#+ATTR_ORG: :width 300
+#+CAPTION: 
+[[./jpg/Imagem_002.jpg]]
+
+#+ATTR_ORG: :width 300
+#+CAPTION: 
+[[./jpg/Imagem_003.jpg]]
+
+#+ATTR_ORG: :width 300
+#+CAPTION: 
+[[./jpg/Imagem_004.jpg]]
