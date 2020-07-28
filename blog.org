@@ -51,7 +51,7 @@ You can use ###ALL-TAGS### to create a page that displays all tags.
 :PROPERTIES:
 :CREATION-DATE: 2019-05-24
 :MODIFICATION-DATE: 2020-07-27
-:HASH:     5498282fde8cd5b264409195b90586f4
+:HASH:     6f4ecff497e0bc393b9bc876258acd0f
 :PREVIOUS-HASH: 5498282fde8cd5b264409195b90586f4
 :END:
 This is the code that runs this blog! I might as well have it here as well!
@@ -1313,11 +1313,58 @@ tinyurl.com/ocientificas.
 * Tags :reexport:
 :PROPERTIES:
 :CREATION-DATE: 2020-07-26
-:MODIFICATION-DATE: 2020-07-26
-:HASH:     62d5bc6f737d790d177149521a4f22a0
+:MODIFICATION-DATE: 2020-07-27
+:HASH:     14bfd13e634865af09883825a8070718
 :PREVIOUS-HASH: 62d5bc6f737d790d177149521a4f22a0
 :END:
 
+#+BEGIN_EXPORT html
+<style>
+.outline-2 h2{
+ font-size:1.6em;
+ margin-top:0.67em;
+ margin-bottom:0.67em;
+ margin-left:0;
+ margin-right:0;
+ font-weight:bold
+}
+.outline-text-2 ul li {
+ border-top:dotted 2px rgba(160,160,160,0.3);
+ margin:1.5em 0 0 0
+}
+.outline-text-2 ul {
+ margin-left:0px;
+ list-style:none;
+padding-left: 1em;
+}
+.outline-text-2 ul li b a {
+ text-align:left;
+ display:block;
+ font-size:1.3em;
+ margin-top:0.83em;
+ margin-left:0;
+ margin-right:0;
+ font-weight:bold
+}
+.outline-2 {
+ box-shadow:0px 0px 1px rgba(0,0,0,0.5);
+ padding:10px;
+ margin-top:20px
+}
+.rss-item-auth {
+ text-align:left;
+ font-size:14px;
+ color:#828282
+}
+.rss-date {
+ text-align:left;
+ display:block;
+ font-size:14px;
+ font-weight:800;
+ color:#828282
+}
+</style>
+#+END_EXPORT
 ###ALL-TAGS-WITH-SUMMARIES###
 
 * Hello world! :personal:
