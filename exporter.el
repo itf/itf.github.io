@@ -10,12 +10,16 @@
 ;; export headlines to separate files
 ;; http://emacs.stackexchange.com/questions/2259/how-to-export-top-level-headings-of-org-mode-buffer-to-separate-files
 
+;;; Begin config
 (setq org-export-head--html-postamble 
 "<p class=\"author\">Author: Ivan Tadeu Ferreira Antunes Filho</p>
 <p class=\"date\">Date: %T</p>
 <p class=\"author\">Github:  <a href=\"https://github.com/itf/\">github.com/itf</a></p>
 <p class=\"creator\">Made with %c and <a href=\"https://github.com/itf/org-export-head\">Org export head</a> </p>")
 
+(setq org-export-head-tags-page "/tags.html") ; used for the tags to link to a page
+
+;;End config
 
 (defun org-export-head--run-on-temp-copy-buffer (function-to-run &rest args)
   "Runs function on a temp buffer with the contents of the original buffer"
@@ -57,9 +61,12 @@ are exported to a filename derived from the headline text."
 
   ;; Create summaries before deleting the posts
   (org-export-head--create-summaries)
+  (org-export-head--create-entry-tags) ;; creates tag lists
   ;; Delete content that has already been exported and set it to noreexport
   (if (not reexport)
       (org-export-head--delete-noreexport))
+
+  
 
   ;;Get headlines, and generate macros (previous post, etc)
   (let* ((headlines-hash-list (org-export-head--get-headlines))
@@ -193,7 +200,7 @@ are exported to a filename derived from the headline text."
 (defun org-export-head--get-content-subtree-at-point()
   (interactive)
   "Gets the content of the subtree at point, performing the necessary includes
-to check if the hash "
+to check if the hash has changed"
   (save-excursion
     (deactivate-mark t)
     (let* ((start (org-export-head--goto-header t))
@@ -238,6 +245,24 @@ to check if the hash "
          (if summary
              (org-set-property "SUMMARY" summary))))
    "-noexport"))
+
+(defun org-export-head--create-entry-tags()
+  "Creates list of tags with lin"
+  (org-export-head--run-on-each-heading 
+   #'(lambda()
+       (let* ((entry-tags (assoc "ALLTAGS" (org-entry-properties)))
+             (entry-tags (when entry-tags (delete "" (split-string (cdr entry-tags) ":"))))
+             (url org-export-head-tags-page)
+             (tags-text-url "")
+             (tags-text ""))
+         (dolist (tag entry-tags)
+           (unless (or (string= tag "reexport") (string= tag "noexport") (string= tag "noreexport"))
+             (setq  tags-text-url (concat tags-text-url "[[" url "#" tag "][#"tag"]] "))  
+             (setq  tags-text (concat tags-text tag " "))))
+         (org-set-property "TAGSURL" tags-text-url)
+         (org-set-property "TAGSTEXT" tags-text)))
+   "-noexport"))
+
 
 
 ;;; HASH code
@@ -480,8 +505,9 @@ Where match is a tag or -tag or combination of them."
 
 
 (defun org-export-head--fix-file-external-link-ast (directory-path link)
-  "Creates hard links to the external files in the output directory"
-  (when (string= (org-element-property :type link) "file")
+  "Creates hard links to the external files in the output directory
+Only modifies links if file exists"
+  (when (and (string= (org-element-property :type link) "file")  (file-exists-p (org-element-property :path link)))
     (let* ((path (org-element-property :path link))
            (link-copy (org-element-copy link))
            (extension (file-name-extension path))
@@ -605,10 +631,9 @@ alphanumeric characters only."
   "Main function of this script"
   (find-file file)
   (make-directory "../.emacs-saves" t)
-  (setq backup-directory-alist `(("." .  "../.emacs-saves/")))
-(setq auto-save-file-name-transforms
-  `((".*" "../.emacs-saves/" t)))
-
+  (let ((backup-directory-alist `(("." .  "../.emacs-saves/")))
+        (auto-save-file-name-transforms `((".*" "../.emacs-saves/" t))))
+    
   (require 'ox)
   (require 'cl)
   (require 'subr-x)
@@ -616,7 +641,7 @@ alphanumeric characters only."
   (transient-mark-mode) ;necessary for using org-map-entries
   (outline-show-all) 
   (org-export-head (concat directory-name "/") nil reexport)
-  (save-buffer))
+  (save-buffer)))
 
 (let ((file  (elt argv 0))
       (dir  (elt argv 1))
@@ -625,3 +650,4 @@ alphanumeric characters only."
       (message "usage  FILE DIR [export]")
     (message "Exportinf %s to %s" file dir)
     (org-export-head-other-file file dir reexport)))
+
