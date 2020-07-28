@@ -17,7 +17,7 @@
 <p class=\"author\">Github:  <a href=\"https://github.com/itf/\">github.com/itf</a></p>
 <p class=\"creator\">Made with %c and <a href=\"https://github.com/itf/org-export-head\">Org export head</a> </p>")
 
-(setq org-export-head-tags-page "/tags.html") ; used for the tags to link to a page
+(setq org-export-head-tags-page "./tags.html") ; used for the tags to link to a page
 
 ;;End config
 

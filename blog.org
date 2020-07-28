@@ -51,8 +51,8 @@ You can use ###ALL-TAGS### to create a page that displays all tags.
 :PROPERTIES:
 :CREATION-DATE: 2019-05-24
 :MODIFICATION-DATE: 2020-07-27
-:HASH:     200590bf837181fd05cf39fb1a6fc103
-:PREVIOUS-HASH: 0d69347db08d2dbe0182495d2185f1b3
+:HASH:     5498282fde8cd5b264409195b90586f4
+:PREVIOUS-HASH: 5498282fde8cd5b264409195b90586f4
 :END:
 This is the code that runs this blog! I might as well have it here as well!
 
@@ -79,7 +79,7 @@ This is the code that runs this blog! I might as well have it here as well!
 <p class=\"author\">Github:  <a href=\"https://github.com/itf/\">github.com/itf</a></p>
 <p class=\"creator\">Made with %c and <a href=\"https://github.com/itf/org-export-head\">Org export head</a> </p>")
 
-(setq org-export-head-tags-page "/tags.html") ; used for the tags to link to a page
+(setq org-export-head-tags-page "./tags.html") ; used for the tags to link to a page
 
 ;;End config
 
