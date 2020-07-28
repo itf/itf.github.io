@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2020-07-27 Mon 20:49 -->
+<!-- 2020-07-27 Mon 20:59 -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Code</title>
@@ -88,7 +88,7 @@ Code
 
 <p>
 <span class=page-date> <small>
-2019-05-24, updated 2020-07-27 &#x2014; <a href="file:///tags.html#tech">#tech</a> <a href="file:///tags.html#code">#code</a>  &nbsp  <a href="index.html">⇦index</a> &#x2013; <a href="index.html">index⇨</a> 
+2019-05-24, updated 2020-07-27 &#x2014; <a href="./tags.html#tech">#tech</a> <a href="./tags.html#code">#code</a>  &nbsp  <a href="index.html">⇦index</a> &#x2013; <a href="index.html">index⇨</a> 
 </small> </span> 
 </p>
 <p>
@@ -108,12 +108,16 @@ This is the code that runs this blog! I might as well have it here as well!
 <span style="color: #a0a1a7; font-weight: bold;">;; </span><span style="color: #a0a1a7;">export headlines to separate files</span>
 <span style="color: #a0a1a7; font-weight: bold;">;; </span><span style="color: #a0a1a7;">http://emacs.stackexchange.com/questions/2259/how-to-export-top-level-headings-of-org-mode-buffer-to-separate-files</span>
 
+<span style="color: #a0a1a7; font-weight: bold;">;;; </span><span style="color: #a0a1a7;">Begin config</span>
 (<span style="color: #a626a4;">setq</span> org-export-head--html-postamble 
 <span style="color: #50a14f;">"&lt;p class=\"author\"&gt;Author: Ivan Tadeu Ferreira Antunes Filho&lt;/p&gt;</span>
 <span style="color: #50a14f;">&lt;p class=\"date\"&gt;Date: %T&lt;/p&gt;</span>
 <span style="color: #50a14f;">&lt;p class=\"author\"&gt;Github:  &lt;a href=\"https://github.com/itf/\"&gt;github.com/itf&lt;/a&gt;&lt;/p&gt;</span>
 <span style="color: #50a14f;">&lt;p class=\"creator\"&gt;Made with %c and &lt;a href=\"https://github.com/itf/org-export-head\"&gt;Org export head&lt;/a&gt; &lt;/p&gt;"</span>)
 
+(<span style="color: #a626a4;">setq</span> org-export-head-tags-page <span style="color: #50a14f;">"/tags.html"</span>) <span style="color: #a0a1a7; font-weight: bold;">; </span><span style="color: #a0a1a7;">used for the tags to link to a page</span>
+
+<span style="color: #a0a1a7; font-weight: bold;">;;</span><span style="color: #a0a1a7;">End config</span>
 
 (<span style="color: #a626a4;">defun</span> <span style="color: #0184bc;">org-export-head--run-on-temp-copy-buffer</span> (function-to-run <span style="color: #c18401;">&amp;rest</span> args)
   <span style="color: #50a14f; font-style: italic;">"Runs function on a temp buffer with the contents of the original buffer"</span>
@@ -155,9 +159,12 @@ This is the code that runs this blog! I might as well have it here as well!
 
   <span style="color: #a0a1a7; font-weight: bold;">;; </span><span style="color: #a0a1a7;">Create summaries before deleting the posts</span>
   (org-export-head--create-summaries)
+  (org-export-head--create-entry-tags) <span style="color: #a0a1a7; font-weight: bold;">;; </span><span style="color: #a0a1a7;">creates tag lists</span>
   <span style="color: #a0a1a7; font-weight: bold;">;; </span><span style="color: #a0a1a7;">Delete content that has already been exported and set it to noreexport</span>
   (<span style="color: #a626a4;">if</span> (not reexport)
       (org-export-head--delete-noreexport))
+
+  
 
   <span style="color: #a0a1a7; font-weight: bold;">;;</span><span style="color: #a0a1a7;">Get headlines, and generate macros (previous post, etc)</span>
   (<span style="color: #a626a4;">let*</span> ((headlines-hash-list (org-export-head--get-headlines))
@@ -291,7 +298,7 @@ This is the code that runs this blog! I might as well have it here as well!
 (<span style="color: #a626a4;">defun</span> <span style="color: #0184bc;">org-export-head--get-content-subtree-at-point</span>()
   (<span style="color: #a626a4;">interactive</span>)
   <span style="color: #50a14f;">"Gets the content of the subtree at point, performing the necessary includes</span>
-<span style="color: #50a14f;">to check if the hash "</span>
+<span style="color: #50a14f;">to check if the hash has changed"</span>
   (<span style="color: #a626a4;">save-excursion</span>
     (deactivate-mark t)
     (<span style="color: #a626a4;">let*</span> ((start (org-export-head--goto-header t))
@@ -336,6 +343,24 @@ This is the code that runs this blog! I might as well have it here as well!
          (<span style="color: #a626a4;">if</span> summary
              (org-set-property <span style="color: #50a14f;">"SUMMARY"</span> summary))))
    <span style="color: #50a14f;">"-noexport"</span>))
+
+(<span style="color: #a626a4;">defun</span> <span style="color: #0184bc;">org-export-head--create-entry-tags</span>()
+  <span style="color: #50a14f; font-style: italic;">"Creates list of tags with lin"</span>
+  (org-export-head--run-on-each-heading 
+   #'(lambda()
+       (<span style="color: #a626a4;">let*</span> ((entry-tags (assoc <span style="color: #50a14f;">"ALLTAGS"</span> (org-entry-properties)))
+             (entry-tags (<span style="color: #a626a4;">when</span> entry-tags (delete <span style="color: #50a14f;">""</span> (split-string (cdr entry-tags) <span style="color: #50a14f;">":"</span>))))
+             (url org-export-head-tags-page)
+             (tags-text-url <span style="color: #50a14f;">""</span>)
+             (tags-text <span style="color: #50a14f;">""</span>))
+         (<span style="color: #a626a4;">dolist</span> (tag entry-tags)
+           (<span style="color: #a626a4;">unless</span> (<span style="color: #a626a4;">or</span> (string= tag <span style="color: #50a14f;">"reexport"</span>) (string= tag <span style="color: #50a14f;">"noexport"</span>) (string= tag <span style="color: #50a14f;">"noreexport"</span>))
+             (<span style="color: #a626a4;">setq</span>  tags-text-url (concat tags-text-url <span style="color: #50a14f;">"[["</span> url <span style="color: #50a14f;">"#"</span> tag <span style="color: #50a14f;">"][#"</span>tag<span style="color: #50a14f;">"]] "</span>))  
+             (<span style="color: #a626a4;">setq</span>  tags-text (concat tags-text tag <span style="color: #50a14f;">" "</span>))))
+         (org-set-property <span style="color: #50a14f;">"TAGSURL"</span> tags-text-url)
+         (org-set-property <span style="color: #50a14f;">"TAGSTEXT"</span> tags-text)))
+   <span style="color: #50a14f;">"-noexport"</span>))
+
 
 
 <span style="color: #a0a1a7; font-weight: bold;">;;; </span><span style="color: #a0a1a7;">HASH code</span>
@@ -578,8 +603,9 @@ This is the code that runs this blog! I might as well have it here as well!
 
 
 (<span style="color: #a626a4;">defun</span> <span style="color: #0184bc;">org-export-head--fix-file-external-link-ast</span> (directory-path link)
-  <span style="color: #50a14f; font-style: italic;">"Creates hard links to the external files in the output directory"</span>
-  (<span style="color: #a626a4;">when</span> (string= (org-element-property <span style="color: #e44649;">:type</span> link) <span style="color: #50a14f;">"file"</span>)
+  <span style="color: #50a14f; font-style: italic;">"Creates hard links to the external files in the output directory</span>
+<span style="color: #50a14f; font-style: italic;">Only modifies links if file exists"</span>
+  (<span style="color: #a626a4;">when</span> (<span style="color: #a626a4;">and</span> (string= (org-element-property <span style="color: #e44649;">:type</span> link) <span style="color: #50a14f;">"file"</span>)  (file-exists-p (org-element-property <span style="color: #e44649;">:path</span> link)))
     (<span style="color: #a626a4;">let*</span> ((path (org-element-property <span style="color: #e44649;">:path</span> link))
            (link-copy (org-element-copy link))
            (extension (file-name-extension path))
@@ -703,10 +729,9 @@ This is the code that runs this blog! I might as well have it here as well!
   <span style="color: #50a14f; font-style: italic;">"Main function of this script"</span>
   (find-file file)
   (make-directory <span style="color: #50a14f;">"../.emacs-saves"</span> t)
-  (<span style="color: #a626a4;">setq</span> backup-directory-alist `((<span style="color: #50a14f;">"."</span> .  <span style="color: #50a14f;">"../.emacs-saves/"</span>)))
-(<span style="color: #a626a4;">setq</span> auto-save-file-name-transforms
-  `((<span style="color: #50a14f;">".*"</span> <span style="color: #50a14f;">"../.emacs-saves/"</span> t)))
-
+  (<span style="color: #a626a4;">let</span> ((backup-directory-alist `((<span style="color: #50a14f;">"."</span> .  <span style="color: #50a14f;">"../.emacs-saves/"</span>)))
+        (auto-save-file-name-transforms `((<span style="color: #50a14f;">".*"</span> <span style="color: #50a14f;">"../.emacs-saves/"</span> t))))
+    
   (<span style="color: #a626a4;">require</span> '<span style="color: #008b8b;">ox</span>)
   (<span style="color: #a626a4;">require</span> '<span style="color: #008b8b;">cl</span>)
   (<span style="color: #a626a4;">require</span> '<span style="color: #008b8b;">subr-x</span>)
@@ -714,7 +739,7 @@ This is the code that runs this blog! I might as well have it here as well!
   (transient-mark-mode) <span style="color: #a0a1a7; font-weight: bold;">;</span><span style="color: #a0a1a7;">necessary for using org-map-entries</span>
   (outline-show-all) 
   (org-export-head (concat directory-name <span style="color: #50a14f;">"/"</span>) nil reexport)
-  (save-buffer))
+  (save-buffer)))
 
 (<span style="color: #a626a4;">let</span> ((file  (elt argv 0))
       (dir  (elt argv 1))
@@ -750,7 +775,7 @@ This is the code that runs this blog! I might as well have it here as well!
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Ivan Tadeu Ferreira Antunes Filho</p>
-<p class="date">Date: 2020-07-27 Mon 20:49</p>
+<p class="date">Date: 2020-07-27 Mon 20:59</p>
 <p class="author">Github:  <a href="https://github.com/itf/">github.com/itf</a></p>
 <p class="creator">Made with <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.50 (<a href="https://orgmode.org">Org</a> mode 9.1.9) and <a href="https://github.com/itf/org-export-head">Org export head</a> </p>
 </div>
