@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2020-07-28 Tue 19:52 -->
+<!-- 2020-07-29 Wed 02:01 -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Code</title>
@@ -89,7 +89,7 @@ Code
 
 <p>
 <span class=page-date> <small>
-2019-05-24, updated 2020-07-28 &#x2014; <a href="tags.html#tech">#tech</a> <a href="tags.html#code">#code</a>  &nbsp  <a href="index.html">⇦index</a> &#x2013; <a href="index.html">index⇨</a> 
+2019-05-24, updated 2020-07-29 &#x2014; <a href="tags.html#tech">#tech</a> <a href="tags.html#code">#code</a>  &nbsp  <a href="index.html">⇦index</a> &#x2013; <a href="index.html">index⇨</a> 
 </small> </span> 
 </p>
 <p>
@@ -119,7 +119,12 @@ This is the code that runs this blog! I might as well have it here as well!
 <span style="color: #50a14f;">&lt;p class=\"author\"&gt;Github:  &lt;a href=\"https://github.com/itf/\"&gt;github.com/itf&lt;/a&gt;&lt;/p&gt;</span>
 <span style="color: #50a14f;">&lt;p class=\"creator\"&gt;Made with %c and &lt;a href=\"https://github.com/itf/org-export-head\"&gt;Org export head&lt;/a&gt; &lt;/p&gt;"</span>)
 
-(<span style="color: #a626a4;">setq</span> org-export-head-tags-page <span style="color: #50a14f;">"./tags.html"</span>) <span style="color: #a0a1a7; font-weight: bold;">; </span><span style="color: #a0a1a7;">used for the tags to link to a page</span>
+(<span style="color: #a626a4;">setq</span> org-export-head-tags-page <span style="color: #50a14f;">"Tags"</span>) <span style="color: #a0a1a7; font-weight: bold;">; </span><span style="color: #a0a1a7;">used for the tags to link to a page</span>
+
+(<span style="color: #a626a4;">setq</span> org-export-head-link-files-to-export (list <span style="color: #50a14f;">"file"</span> <span style="color: #50a14f;">"video"</span>)) <span style="color: #a0a1a7; font-weight: bold;">;;</span><span style="color: #a0a1a7;">Link types whose paths are gonna be copied with hard links</span>
+<span style="color: #a0a1a7; font-weight: bold;">;</span><span style="color: #a0a1a7;">useful if using custom links</span>
+
+(<span style="color: #a626a4;">setq</span> org-export-head-using-video-links t) <span style="color: #a0a1a7; font-weight: bold;">;</span><span style="color: #a0a1a7;">support for [[video:file]] links</span>
 
 <span style="color: #a0a1a7; font-weight: bold;">;;</span><span style="color: #a0a1a7;">End config</span>
 
@@ -359,7 +364,7 @@ This is the code that runs this blog! I might as well have it here as well!
              (tags-text <span style="color: #50a14f;">""</span>))
          (<span style="color: #a626a4;">dolist</span> (tag entry-tags)
            (<span style="color: #a626a4;">unless</span> (<span style="color: #a626a4;">or</span> (string= tag <span style="color: #50a14f;">"reexport"</span>) (string= tag <span style="color: #50a14f;">"noexport"</span>) (string= tag <span style="color: #50a14f;">"noreexport"</span>))
-             (<span style="color: #a626a4;">setq</span>  tags-text-url (concat tags-text-url <span style="color: #50a14f;">"[["</span> url <span style="color: #50a14f;">"#"</span> tag <span style="color: #50a14f;">"][#"</span>tag<span style="color: #50a14f;">"]] "</span>))  
+             (<span style="color: #a626a4;">setq</span>  tags-text-url (concat tags-text-url <span style="color: #50a14f;">"[[file:"</span> (org-export-head--escape url) <span style="color: #50a14f;">".org::#"</span> tag <span style="color: #50a14f;">"][#"</span>tag<span style="color: #50a14f;">"]] "</span>))  
              (<span style="color: #a626a4;">setq</span>  tags-text (concat tags-text tag <span style="color: #50a14f;">" "</span>))))
          (org-set-property <span style="color: #50a14f;">"TAGSURL"</span> tags-text-url)
          (org-set-property <span style="color: #50a14f;">"TAGSTEXT"</span> tags-text)))
@@ -609,7 +614,7 @@ This is the code that runs this blog! I might as well have it here as well!
 (<span style="color: #a626a4;">defun</span> <span style="color: #0184bc;">org-export-head--fix-file-external-link-ast</span> (directory-path link)
   <span style="color: #50a14f; font-style: italic;">"Creates hard links to the external files in the output directory</span>
 <span style="color: #50a14f; font-style: italic;">Only modifies links if file exists"</span>
-  (<span style="color: #a626a4;">when</span> (<span style="color: #a626a4;">and</span> (string= (org-element-property <span style="color: #e44649;">:type</span> link) <span style="color: #50a14f;">"file"</span>)  (file-exists-p (org-element-property <span style="color: #e44649;">:path</span> link)))
+  (<span style="color: #a626a4;">when</span> (<span style="color: #a626a4;">and</span> (member (org-element-property <span style="color: #e44649;">:type</span> link) org-export-head-link-files-to-export)  (file-exists-p (org-element-property <span style="color: #e44649;">:path</span> link)))
     (<span style="color: #a626a4;">let*</span> ((path (org-element-property <span style="color: #e44649;">:path</span> link))
            (link-copy (org-element-copy link))
            (extension (file-name-extension path))
@@ -745,6 +750,21 @@ This is the code that runs this blog! I might as well have it here as well!
   (org-export-head (concat directory-name <span style="color: #50a14f;">"/"</span>) nil reexport)
   (save-buffer)))
 
+
+<span style="color: #a0a1a7; font-weight: bold;">;;</span><span style="color: #a0a1a7;">Add video links</span>
+(<span style="color: #a626a4;">if</span> org-export-head-using-video-links 
+    (<span style="color: #a626a4;">progn</span>
+      (<span style="color: #a626a4;">defun</span> <span style="color: #0184bc;">org-export-head-export-video</span> (path desc format)
+        <span style="color: #50a14f; font-style: italic;">"Format video links for export."</span>
+        (<span style="color: #a626a4;">cl-case</span> format
+          (html (concat <span style="color: #50a14f;">"&lt;video controls&gt;</span>
+<span style="color: #50a14f;">    &lt;source src=\""</span>path<span style="color: #50a14f;">"\"&gt;</span>
+<span style="color: #50a14f;">    Sorry, your browser doesn't support embedded videos.</span>
+<span style="color: #50a14f;">&lt;/video&gt;"</span> ))
+          (latex (format <span style="color: #50a14f;">"\\href{%s}{%s}"</span> path (<span style="color: #a626a4;">or</span> desc path)))
+          (otherwise path)))
+      (org-link-set-parameters <span style="color: #50a14f;">"video"</span> <span style="color: #e44649;">:export</span> 'org-export-head-export-video)))
+
 (<span style="color: #a626a4;">let</span> ((file  (elt argv 0))
       (dir  (elt argv 1))
       (reexport  (elt argv 2)))
@@ -779,7 +799,7 @@ This is the code that runs this blog! I might as well have it here as well!
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Ivan Tadeu Ferreira Antunes Filho</p>
-<p class="date">Date: 2020-07-28 Tue 19:52</p>
+<p class="date">Date: 2020-07-29 Wed 02:01</p>
 <p class="author">Github:  <a href="https://github.com/itf/">github.com/itf</a></p>
 <p class="creator">Made with <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.50 (<a href="https://orgmode.org">Org</a> mode 9.1.9) and <a href="https://github.com/itf/org-export-head">Org export head</a> </p>
 </div>
