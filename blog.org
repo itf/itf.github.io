@@ -50,12 +50,13 @@ You can use ###ALL-TAGS### to create a page that displays all tags.
 * Code   :tech:code:
 :PROPERTIES:
 :CREATION-DATE: 2019-05-24
-:MODIFICATION-DATE: 2020-07-27
-:HASH:     6f4ecff497e0bc393b9bc876258acd0f
-:PREVIOUS-HASH: 6f4ecff497e0bc393b9bc876258acd0f
+:MODIFICATION-DATE: 2020-07-28
+:HASH:     63d6f6790d66253b4274537a685edd92
+:PREVIOUS-HASH: be9a616bdbb3e2f6a445ff4f7247783f
 :END:
 This is the code that runs this blog! I might as well have it here as well!
 
+[[file:tags.org::#tech]]
 #+include: "./exporter.el" src elisp
 
 
@@ -79,7 +80,12 @@ This is the code that runs this blog! I might as well have it here as well!
 <p class=\"author\">Github:  <a href=\"https://github.com/itf/\">github.com/itf</a></p>
 <p class=\"creator\">Made with %c and <a href=\"https://github.com/itf/org-export-head\">Org export head</a> </p>")
 
-(setq org-export-head-tags-page "./tags.html") ; used for the tags to link to a page
+(setq org-export-head-tags-page "Tags") ; used for the tags to link to a page
+
+(setq org-export-head-link-files-to-export (list "file" "video")) ;;Link types whose paths are gonna be copied with hard links
+;useful if using custom links
+
+(setq org-export-head-using-video-links t)
 
 ;;End config
 
@@ -319,7 +325,7 @@ to check if the hash has changed"
              (tags-text ""))
          (dolist (tag entry-tags)
            (unless (or (string= tag "reexport") (string= tag "noexport") (string= tag "noreexport"))
-             (setq  tags-text-url (concat tags-text-url "[[" url "#" tag "][#"tag"]] "))  
+             (setq  tags-text-url (concat tags-text-url "[[file:" (org-export-head--escape url) ".org::#" tag "][#"tag"]] "))  
              (setq  tags-text (concat tags-text tag " "))))
          (org-set-property "TAGSURL" tags-text-url)
          (org-set-property "TAGSTEXT" tags-text)))
@@ -569,7 +575,7 @@ Where match is a tag or -tag or combination of them."
 (defun org-export-head--fix-file-external-link-ast (directory-path link)
   "Creates hard links to the external files in the output directory
 Only modifies links if file exists"
-  (when (and (string= (org-element-property :type link) "file")  (file-exists-p (org-element-property :path link)))
+  (when (and (member (org-element-property :type link) org-export-head-link-files-to-export)  (file-exists-p (org-element-property :path link)))
     (let* ((path (org-element-property :path link))
            (link-copy (org-element-copy link))
            (extension (file-name-extension path))
@@ -705,6 +711,21 @@ alphanumeric characters only."
   (org-export-head (concat directory-name "/") nil reexport)
   (save-buffer)))
 
+
+;;Add video links
+(if org-export-head-using-video-links 
+    (progn
+      (defun org-export-head-export-video (path desc format)
+        "Format video links for export."
+        (cl-case format
+          (html (concat "<video controls>
+    <source src=\""path"\">
+    Sorry, your browser doesn't support embedded videos.
+</video>" ))
+          (latex (format "\\href{%s}{%s}" path (or desc path)))
+          (otherwise path)))
+      (org-link-set-parameters "video" :export 'org-export-head-export-video)))
+
 (let ((file  (elt argv 0))
       (dir  (elt argv 1))
       (reexport  (elt argv 2)))
@@ -746,7 +767,7 @@ alphanumeric characters only."
 @@html:<span class=page-date> <small>@@
 ###CREATION-DATE###, updated ###MODIFICATION-DATE### --- ###TAGSURL### @@html: &nbsp@@  [[###NEXT###][⇦###NEXT###]] -- [[###PREVIOUS###][###PREVIOUS###⇨]] 
 @@html:</small> </span> @@
-#+TOC: headlines 1
+#+TOC: headlines 2
 * Footer :noexport:footer:
 #+BEGIN_EXPORT html
 </div></div>
@@ -909,8 +930,8 @@ padding-left: 1em;
   :PROPERTIES:
   :CREATION-DATE: 2018-09-09
   :MODIFICATION-DATE: 2020-07-28
-  :HASH:     89c0e664f2ffc3a2e11d83e2e148abff
-  :PREVIOUS-HASH: 89c0e664f2ffc3a2e11d83e2e148abff
+  :HASH:     6eb0fc1055249caf79fd340e76558aa0
+  :PREVIOUS-HASH: 6eb0fc1055249caf79fd340e76558aa0
   :END:
 
 #+BEGIN_CENTER
@@ -1051,6 +1072,10 @@ TV.
 [[./jpg/Imagem_002.jpg]]
 *** Other
 I've helped taking care of far too many injured wild animals while I lived in Brazil. It is hard to describe the experience, but you can see some [[Me and animals][pictures here]].
+
+I've also had previous blogs:
+- [[https://olimpiadascientificas.org/vida-de-olimpico/ivan.olimpiadascientificas.com/index.html][Ivan - Science Olympiads ]] In portuguese
+
 * Resume 
   :PROPERTIES:
   :CREATION-DATE: 2018-09-09
@@ -1080,12 +1105,13 @@ Please download the PDF version [[file:pdflib/IvanFilho-ResumeFall2018.pdf][here
 * Contact
   :PROPERTIES:
   :CREATION-DATE: 2018-09-09
-  :MODIFICATION-DATE: 2020-07-26
-  :HASH:     49e13ac662b842b40a9b54bb04dd68d7
-  :PREVIOUS-HASH: 49e13ac662b842b40a9b54bb04dd68d7
+  :MODIFICATION-DATE: 2020-07-28
+  :HASH:     21420b4c979a1da54175a51349c0e4a1
+  :PREVIOUS-HASH: 21420b4c979a1da54175a51349c0e4a1
   :END:
 
-Contact me through email (ivan af @ mit). If you need to meet with me, below is my schedule.
+Contact me through email (ivan af @ mit). If you need to meet with me, below is my schedule. \\
+[[https://www.instagram.com/ivan_af_/][Instagram]] [[https://www.facebook.com/itadeufa][FB]]
 
 
 
@@ -3529,9 +3555,9 @@ complaining that their pset grades are late, it will be my fault.
 * Baby white-woodpeckers are dumb :story:personal:
   :PROPERTIES:
   :CREATION-DATE: 2019-04-21
-  :MODIFICATION-DATE: 2019-04-21
-  :HASH:     2e21149a8fcaf913c909926dfd01cfc9
-  :PREVIOUS-HASH: 2e21149a8fcaf913c909926dfd01cfc9
+  :MODIFICATION-DATE: 2020-07-28
+  :HASH:     90b7fb88fa4a0d0641856580b0d0b069
+  :PREVIOUS-HASH: 684ad22e0f0329f8a0b96728886809f4
   :END:
 So during my life I have helped take care of multiple birds (bem-te-vis, parrots, toucans, large hawks, tiny hawks, vultures, sparrows, doves, humming birds, canaries, woodpeckers, etc), usually baby ones who had their family killed by teenagers/hunters/superstitious people/fire, or old ones who were injured by electric fences/teenagers/people cutting their wings to sell, etc.  It is a long story...
 
@@ -3560,6 +3586,9 @@ We released them after 2 weeks, and after a few days of acclimatizing to the pla
 The attacker sibling survived, the one being attacked disappeared after 2 days.
 
 I hope that the one who survived has found nice places to hide its head every time it gets scared.
+
+[[video:./mp4/video-1545707561.mp4]]
+    
 * Tikz snippet preview in orgmode :emacs:tech:
   :PROPERTIES:
   :CREATION-DATE: 2019-05-09
@@ -4440,8 +4469,8 @@ For anyone looking for more live updates, you can check my instagram, [[https://
 :PROPERTIES:
 :CREATION-DATE: 2020-07-23
 :MODIFICATION-DATE: 2020-07-28
-:HASH:     3aeda3579aa81c61791b3300647c23d9
-:PREVIOUS-HASH: 1699561a40240e2868b60c1bfba6cce5
+:HASH:     a8f5e90071f37f35df84a17ed400c81c
+:PREVIOUS-HASH: a8f5e90071f37f35df84a17ed400c81c
 :END:
 A very disorganized list of projects I want to work on, together with notes about them (mostly links with related info)
 
@@ -4640,8 +4669,35 @@ https://www.youtube.com/watch?v=Mzr3MVzSjSM
 https://www.analyticsvidhya.com/blog/2018/07/top-10-pretrained-models-get-started-deep-learning-part-1-computer-vision/
 ** Click to expand table of contents
 https://codepen.io/peternguyen/pen/hICga
+
+From: https://codepen.io/peternguyen/pen/hICga
+
+#+BEGIN_SRC html
+ <input id="toggle" style="display: none; visibility: hidden;" type="checkbox" checked>
+  <label for="toggle">Table of contents</label>
+  <div id="expand">
+ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas porta non turpis faucibus lobortis. Curabitur non eros rutrum, gravida felis non, luctus velit. Ut commodo congue velit feugiat lobortis. Etiam nec dolor quis nulla bibendum blandit vitae nec enim. Maecenas id dignissim erat. Aenean ac mi nec ante venenatis interdum quis vel lacus.
+ </div>
+#expand {
+  height: auto;
+  visibility: hidden;
+  display: block;
+  height: 0em;
+  overflow: hidden;
+  transition: max-height 0.3s linear, visibility 0.65s ease;
+}
+#toggle:checked ~ #expand {
+  height: auto;
+  display: block;
+	overflow: auto; 
+  visibility:  visible;
+  transition: max-height 0.3s linear, visibility 0.65s ease;
+}
+#+END_SRC
 ** Better TOC for tags page
 https://www.lycarter.com/tags/ 
+** Keep state about displaying comments
+https://developer.mozilla.org/en-US/docs/Web/API/Web_Storage_API
 * Pão de queijo recipe (brazilian cheese bread)                    
 :PROPERTIES:
 :CREATION-DATE: 2020-07-26

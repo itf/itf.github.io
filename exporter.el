@@ -17,7 +17,12 @@
 <p class=\"author\">Github:  <a href=\"https://github.com/itf/\">github.com/itf</a></p>
 <p class=\"creator\">Made with %c and <a href=\"https://github.com/itf/org-export-head\">Org export head</a> </p>")
 
-(setq org-export-head-tags-page "./tags.html") ; used for the tags to link to a page
+(setq org-export-head-tags-page "Tags") ; used for the tags to link to a page
+
+(setq org-export-head-link-files-to-export (list "file" "video")) ;;Link types whose paths are gonna be copied with hard links
+;useful if using custom links
+
+(setq org-export-head-using-video-links t)
 
 ;;End config
 
@@ -257,7 +262,7 @@ to check if the hash has changed"
              (tags-text ""))
          (dolist (tag entry-tags)
            (unless (or (string= tag "reexport") (string= tag "noexport") (string= tag "noreexport"))
-             (setq  tags-text-url (concat tags-text-url "[[" url "#" tag "][#"tag"]] "))  
+             (setq  tags-text-url (concat tags-text-url "[[file:" (org-export-head--escape url) ".org::#" tag "][#"tag"]] "))  
              (setq  tags-text (concat tags-text tag " "))))
          (org-set-property "TAGSURL" tags-text-url)
          (org-set-property "TAGSTEXT" tags-text)))
@@ -507,7 +512,7 @@ Where match is a tag or -tag or combination of them."
 (defun org-export-head--fix-file-external-link-ast (directory-path link)
   "Creates hard links to the external files in the output directory
 Only modifies links if file exists"
-  (when (and (string= (org-element-property :type link) "file")  (file-exists-p (org-element-property :path link)))
+  (when (and (member (org-element-property :type link) org-export-head-link-files-to-export)  (file-exists-p (org-element-property :path link)))
     (let* ((path (org-element-property :path link))
            (link-copy (org-element-copy link))
            (extension (file-name-extension path))
@@ -643,6 +648,21 @@ alphanumeric characters only."
   (org-export-head (concat directory-name "/") nil reexport)
   (save-buffer)))
 
+
+;;Add video links
+(if org-export-head-using-video-links 
+    (progn
+      (defun org-export-head-export-video (path desc format)
+        "Format video links for export."
+        (cl-case format
+          (html (concat "<video controls>
+    <source src=\""path"\">
+    Sorry, your browser doesn't support embedded videos.
+</video>" ))
+          (latex (format "\\href{%s}{%s}" path (or desc path)))
+          (otherwise path)))
+      (org-link-set-parameters "video" :export 'org-export-head-export-video)))
+
 (let ((file  (elt argv 0))
       (dir  (elt argv 1))
       (reexport  (elt argv 2)))
@@ -650,4 +670,3 @@ alphanumeric characters only."
       (message "usage  FILE DIR [export]")
     (message "Exportinf %s to %s" file dir)
     (org-export-head-other-file file dir reexport)))
-

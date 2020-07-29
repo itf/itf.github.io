@@ -1309,5 +1309,11 @@ menu a {
      z-index: 1000; 
 }
 
+video {
+    max-width: 100%; 
+    max-height:100%; 
+    display: block; 
+    margin: auto;
+}
 /*p:nth-child(6)::first-letter { font-size: 2.2em; float: left; text-transform: uppercase; margin-top:-0.06em; margin-right:-0.013em; margin-left:-0.2em; }*/
 
