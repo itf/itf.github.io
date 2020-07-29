@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2020-07-28 Tue 02:28 -->
+<!-- 2020-07-28 Tue 18:53 -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Projects ideas</title>
@@ -110,7 +110,11 @@ Projects ideas
 <li><a href="#cindyjs">12. cindyjs</a></li>
 <li><a href="#plausible_analytics_for_mit-sipb">13. Plausible analytics for MIT/sipb</a></li>
 <li><a href="#make_pictures_boring">14. Make pictures boring</a></li>
-<li><a href="#quaternions_exploration">15. Quaternions exploration</a></li>
+<li><a href="#quaternions_exploration">15. Quaternions exploration</a>
+<ul>
+<li><a href="#exploring_surface_of_4d_objects">15.1. Exploring surface of 4d objects.</a></li>
+</ul>
+</li>
 <li><a href="#just_add_some_posts_playing_with_js_here">16. Just add some posts playing with js here</a></li>
 <li><a href="#make_music_using_this_imo_problem_solution">17. Make music using this imo problem solution</a></li>
 <li><a href="#toilet_measure_weight">18. toilet measure weight</a></li>
@@ -120,10 +124,15 @@ Projects ideas
 <li><a href="#better_theme_for_this_blog_make_it_not_ugly">22. Better theme for this blog, make it not ugly</a></li>
 <li><a href="#use_seam_carving_to_split_a_image_into_puzzle_pieces_for_cutting">23. Use seam carving to split a image into puzzle pieces for cutting</a></li>
 <li><a href="#add_my_emacs_packages_to_melpa">24. Add my emacs packages to melpa</a></li>
-<li><a href="#random_notes">25. Random notes</a></li>
+<li><a href="#random_notes">25. Random notes</a>
+<ul>
+<li><a href="#ar_core_for_android">25.1. AR core for android</a></li>
+</ul>
+</li>
 <li><a href="#play_with_some_pre_trained_cnn">26. Play with some pre trained CNN</a></li>
 <li><a href="#click_to_expand_table_of_contents">27. Click to expand table of contents</a></li>
 <li><a href="#better_toc_for_tags_page">28. Better TOC for tags page</a></li>
+<li><a href="#keep_state_about_displaying_comments">29. Keep state about displaying comments</a></li>
 </ul>
 </div>
 </nav>
@@ -581,6 +590,34 @@ Pagination for this org mode blog
 <p>
 <a href="https://codepen.io/peternguyen/pen/hICga">https://codepen.io/peternguyen/pen/hICga</a>
 </p>
+
+<p>
+From: <a href="https://codepen.io/peternguyen/pen/hICga">https://codepen.io/peternguyen/pen/hICga</a>
+</p>
+
+<div class="org-src-container">
+<pre class="src src-html"> &lt;<span style="color: #0184bc;">input</span> <span style="color: #8b4513;">id</span>=<span style="color: #50a14f;">"toggle"</span> <span style="color: #8b4513;">style</span>=<span style="color: #50a14f;">"display: none; visibility: hidden;"</span> <span style="color: #8b4513;">type</span>=<span style="color: #50a14f;">"checkbox"</span> checked&gt;
+  &lt;<span style="color: #0184bc;">label</span> <span style="color: #8b4513;">for</span>=<span style="color: #50a14f;">"toggle"</span>&gt;Table of contents&lt;/<span style="color: #0184bc;">label</span>&gt;
+  &lt;<span style="color: #0184bc;">div</span> <span style="color: #8b4513;">id</span>=<span style="color: #50a14f;">"expand"</span>&gt;
+ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas porta non turpis faucibus lobortis. Curabitur non eros rutrum, gravida felis non, luctus velit. Ut commodo congue velit feugiat lobortis. Etiam nec dolor quis nulla bibendum blandit vitae nec enim. Maecenas id dignissim erat. Aenean ac mi nec ante venenatis interdum quis vel lacus.
+ &lt;/<span style="color: #0184bc;">div</span>&gt;
+#expand {
+  height: auto;
+  visibility: hidden;
+  display: block;
+  height: 0em;
+  overflow: hidden;
+  transition: max-height 0.3s linear, visibility 0.65s ease;
+}
+#toggle:checked ~ #expand {
+  height: auto;
+  display: block;
+        overflow: auto; 
+  visibility:  visible;
+  transition: max-height 0.3s linear, visibility 0.65s ease;
+}
+</pre>
+</div>
 </div>
 </div>
 <div id="outline-container-better_toc_for_tags_page" class="outline-2">
@@ -588,6 +625,14 @@ Pagination for this org mode blog
 <div class="outline-text-2" id="text-28">
 <p>
 <a href="https://www.lycarter.com/tags/">https://www.lycarter.com/tags/</a> 
+</p>
+</div>
+</div>
+<div id="outline-container-keep_state_about_displaying_comments" class="outline-2">
+<h2 id="keep_state_about_displaying_comments"><span class="section-number-2">29</span> Keep state about displaying comments</h2>
+<div class="outline-text-2" id="text-29">
+<p>
+<a href="https://developer.mozilla.org/en-US/docs/Web/API/Web_Storage_API">https://developer.mozilla.org/en-US/docs/Web/API/Web_Storage_API</a>
 </p>
 </div></div>
 <br>
@@ -614,7 +659,7 @@ Pagination for this org mode blog
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Ivan Tadeu Ferreira Antunes Filho</p>
-<p class="date">Date: 2020-07-28 Tue 02:28</p>
+<p class="date">Date: 2020-07-28 Tue 18:53</p>
 <p class="author">Github:  <a href="https://github.com/itf/">github.com/itf</a></p>
 <p class="creator">Made with <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.50 (<a href="https://orgmode.org">Org</a> mode 9.1.9) and <a href="https://github.com/itf/org-export-head">Org export head</a> </p>
 </div>
