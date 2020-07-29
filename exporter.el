@@ -22,7 +22,7 @@
 (setq org-export-head-link-files-to-export (list "file" "video")) ;;Link types whose paths are gonna be copied with hard links
 ;useful if using custom links
 
-(setq org-export-head-using-video-links t)
+(setq org-export-head-using-video-links t) ;support for [[video:file]] links
 
 ;;End config
 

@@ -50,9 +50,9 @@ You can use ###ALL-TAGS### to create a page that displays all tags.
 * Code   :tech:code:
 :PROPERTIES:
 :CREATION-DATE: 2019-05-24
-:MODIFICATION-DATE: 2020-07-28
-:HASH:     63d6f6790d66253b4274537a685edd92
-:PREVIOUS-HASH: be9a616bdbb3e2f6a445ff4f7247783f
+:MODIFICATION-DATE: 2020-07-29
+:HASH:     fd0405852ae3327cb334c1e7706e7d15
+:PREVIOUS-HASH: fd0405852ae3327cb334c1e7706e7d15
 :END:
 This is the code that runs this blog! I might as well have it here as well!
 
@@ -1134,9 +1134,9 @@ document.getElementById("iframeDisplay").innerHTML = "<iframe src=\"https://cale
 * Portfolio 
   :PROPERTIES:
   :CREATION-DATE: 2018-09-09
-  :MODIFICATION-DATE: 2020-07-28
-  :HASH:     15b4ebd7cf1fc468dbe0b358b6429ac2
-  :PREVIOUS-HASH: 15b4ebd7cf1fc468dbe0b358b6429ac2
+  :MODIFICATION-DATE: 2020-07-29
+  :HASH:     e5dbe70f2ae63bbc2c7f32d2e000cd52
+  :PREVIOUS-HASH: 2e60d3a4b616f7893dada66a5a662e57
   :export_options: num:nil
   :END:
 #+BEGIN_EXPORT html 
@@ -1184,13 +1184,18 @@ A tool to scrape Brazilian Science Olympiad Websites for their news.
     :PROPERTIES:
     :HTML_CONTAINER_CLASS: portfolio-project
     :END:
-I organized the class 6.S092 twice while at MIT. It was an IAP class (1 month long in January), using CATSOOP to teach people the basics of algorithms. 
+2018-2019 I organized the class 6.S092 twice while at MIT. It was an IAP class (1 month long in January), using CATSOOP to teach people the basics of algorithms. 
 
 *** [[https://github.com/itf/org-export-head][Org export head]]
     :PROPERTIES:
     :HTML_CONTAINER_CLASS: portfolio-project
     :END:
     2018- Org mode to blog exporter. Converts each header to a different file. This blog was written using it!
+*** [[https://github.com/itf/clipboard2org][Clipboard to Org Mode]]
+    :PROPERTIES:
+    :HTML_CONTAINER_CLASS: portfolio-project
+    :END:
+    2018- Copy and paste HTML, Images or file lists into orgmode.
 
 
 *** [[Groebner Basis for Linear Network Coding in Sage][Groebner Basis for Linear Network Coding in Sage]]
@@ -1242,7 +1247,9 @@ Skateboard.
     :CUSTOM_ID: the-awakening-unfinished.-text-based-game
     :HTML_CONTAINER_CLASS: portfolio-project
     :END:
-
+#+ATTR_ORG: :width 300
+#+CAPTION: 
+[[file:./img/1596002418308854.jpg][file:./img/1596002418308854.jpg]]
 2017- An experimental text based game inspired by “the space under the
 window”, and by “A Dark Room”.
 
@@ -1405,6 +1412,9 @@ with minor edits to examples to make some concepts easier to understand.
     :HTML_CONTAINER_CLASS: portfolio-project
     :END:
 
+#+ATTR_ORG: :width 300
+#+CAPTION: 
+[[file:./img/15960021873952305.jpg][file:./img/15960021873952305.jpg]]
 2012- A text based game inspired by “the space under the window”, written in
 inform 7.
 
@@ -3557,7 +3567,7 @@ complaining that their pset grades are late, it will be my fault.
   :CREATION-DATE: 2019-04-21
   :MODIFICATION-DATE: 2020-07-28
   :HASH:     90b7fb88fa4a0d0641856580b0d0b069
-  :PREVIOUS-HASH: 684ad22e0f0329f8a0b96728886809f4
+  :PREVIOUS-HASH: 90b7fb88fa4a0d0641856580b0d0b069
   :END:
 So during my life I have helped take care of multiple birds (bem-te-vis, parrots, toucans, large hawks, tiny hawks, vultures, sparrows, doves, humming birds, canaries, woodpeckers, etc), usually baby ones who had their family killed by teenagers/hunters/superstitious people/fire, or old ones who were injured by electric fences/teenagers/people cutting their wings to sell, etc.  It is a long story...
 
