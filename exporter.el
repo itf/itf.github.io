@@ -22,7 +22,9 @@
 (setq org-export-head-link-files-to-export (list "file" "video")) ;;Link types whose paths are gonna be copied with hard links
 ;useful if using custom links
 
-(setq org-export-head-using-video-links t) ;support for [[video:file]] links
+(setq org-export-head-using-video-links t)
+
+(setq org-export-head-click-toc-h2 t) ;; Make the header of TOC clickable, so you can write CSS for click to display
 
 ;;End config
 
@@ -165,7 +167,9 @@ are exported to a filename derived from the headline text."
            (deactivate-mark)
            (let ((org-html-postamble org-export-head--html-postamble))
                 (cl-letf (((symbol-function 'org-export-get-reference) (symbol-function 'org-export-get-reference-custom)))
-                  (org-html-export-to-html nil t)))
+                  (if org-export-head-click-toc-h2
+                      (cl-letf (((symbol-function 'org-html-toc) (symbol-function 'org-export-head--custom-toc)))
+                        (org-html-export-to-html nil t)))))
            (set-buffer-modified-p t)) "-noexport-noreexport"))
   (if (equal backend "pdf")
       (org-export-head--run-on-each-heading 
@@ -649,6 +653,7 @@ alphanumeric characters only."
   (save-buffer)))
 
 
+;;; START utils
 ;;Add video links
 (if org-export-head-using-video-links 
     (progn
@@ -670,3 +675,23 @@ alphanumeric characters only."
       (message "usage  FILE DIR [export]")
     (message "Exportinf %s to %s" file dir)
     (org-export-head-other-file file dir reexport)))
+
+;;Inpired by https://emacs.stackexchange.com/questions/51251/org-mode-html-export-table-of-contents-without-h2
+;;from ox-html.el
+(defun org-export-head--custom-toc(depth info &optional scope)
+  (let ((toc-entries
+	 (mapcar (lambda (headline)
+		   (cons (org-html--format-toc-headline headline info)
+			 (org-export-get-relative-level headline info)))
+		 (org-export-collect-headlines info depth scope))))
+    (when toc-entries
+      (let ((toc (concat "<nav id=\"table-of-contents\">\n" 
+                  "<input id=\"toggle-toc\" style=\"display: none; visibility: hidden;\" type=\"checkbox\">\n"
+                  "<label for=\"toggle-toc\">\n <h2> <b> Table of Contents </b> </h2>\n </label>\n"
+                  "<div id=\"text-table-of-contents\">"
+			 (org-html--toc-text toc-entries)
+			 "</div>\n"
+                         "</nav> \n")))
+        toc))))
+
+

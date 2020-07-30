@@ -27,10 +27,8 @@ progress{
 }
 a{
     background-color:transparent;
-    -webkit-text-decoration-skip:objects
 }
 a:active,a:hover{
-    outline-width:0
 }
 abbr[title]{
     border-bottom:none;
@@ -1250,8 +1248,8 @@ menu a {
     }
     #table-of-contents h2 {
 	padding-left: 0.5em;
-	padding-right: 0.5em;
 	padding-top: 0.00em;
+        padding-right: auto;
 	padding-bottom: 0.15em; 
     }
     #table-of-contents #text-table-of-contents {
@@ -1317,3 +1315,24 @@ video {
 }
 /*p:nth-child(6)::first-letter { font-size: 2.2em; float: left; text-transform: uppercase; margin-top:-0.06em; margin-right:-0.013em; margin-left:-0.2em; }*/
 
+#table-of-contents #text-table-of-contents{
+  visibility: hidden;
+  display: block;
+  height: 0em;
+  overflow: hidden;
+}
+
+#table-of-contents #toggle-toc:checked ~ #text-table-of-contents {
+  height: auto;
+  display: block;
+        overflow: auto; 
+  visibility:  visible;
+}
+
+#table-of-contents h2 b{
+    cursor: pointer;
+    border-bottom:1px dotted;
+}
+#table-of-contents h2{
+    cursor: pointer;
+}
