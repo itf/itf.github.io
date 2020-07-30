@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2020-07-28 Tue 18:53 -->
+<!-- 2020-07-29 Wed 20:53 -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Projects ideas</title>
@@ -89,11 +89,14 @@ Projects ideas
 
 <p>
 <span class=page-date> <small>
-2020-07-23, updated 2020-07-28 &#x2014;   &nbsp  <a href="pão_de_queijo_recipe_brazilian_cheese_bread.html">⇦Pão de queijo recipe (brazilian cheese bread)</a> &#x2013; <a href="trying_mobile_static_blog_generator.html">Trying mobile static blog generator⇨</a> 
+2020-07-23, updated 2020-07-29 &#x2014;   &nbsp  <a href="pão_de_queijo_recipe_brazilian_cheese_bread.html">⇦Pão de queijo recipe (brazilian cheese bread)</a> &#x2013; <a href="trying_mobile_static_blog_generator.html">Trying mobile static blog generator⇨</a> 
 </small> </span> 
 </p>
 <nav id="table-of-contents">
-<h2>Table of Contents</h2>
+<input id="toggle-toc" style="display: none; visibility: hidden;" type="checkbox">
+<label for="toggle-toc">
+ <h2> Table of Contents </h2>
+ </label>
 <div id="text-table-of-contents">
 <ul>
 <li><a href="#cutting_vegetables_with_blood">1. Cutting vegetables with blood</a></li>
@@ -135,7 +138,7 @@ Projects ideas
 <li><a href="#keep_state_about_displaying_comments">29. Keep state about displaying comments</a></li>
 </ul>
 </div>
-</nav>
+</nav> 
 <p>
 A very disorganized list of projects I want to work on, together with notes about them (mostly links with related info)
 </p>
@@ -618,6 +621,78 @@ From: <a href="https://codepen.io/peternguyen/pen/hICga">https://codepen.io/pete
 }
 </pre>
 </div>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(<span style="color: #a626a4;">defun</span> <span style="color: #0184bc;">org-export-head--custom-toc-input</span>(depth info <span style="color: #c18401;">&amp;optional</span> scope)
+  (<span style="color: #a626a4;">let</span> ((toc-entries
+         (mapcar (<span style="color: #a626a4;">lambda</span> (headline)
+                   (cons (org-html--format-toc-headline headline info)
+                         (org-export-get-relative-level headline info)))
+                 (org-export-collect-headlines info depth scope))))
+    (<span style="color: #a626a4;">when</span> toc-entries
+      (<span style="color: #a626a4;">let</span> ((toc (concat <span style="color: #50a14f;">"&lt;nav id=\"table-of-contents\"&gt;\n"</span> 
+                  <span style="color: #50a14f;">"&lt;input id=\"toggle-toc\" style=\"display: none; visibility: hidden;\" type=\"checkbox\"&gt;\n"</span>
+                  <span style="color: #50a14f;">"&lt;label for=\"toggle-toc\"&gt;\n &lt;h2&gt; &lt;a&gt; Table of Contents &lt;/a&gt; &lt;/h2&gt;\n &lt;/label&gt;\n"</span>
+                  <span style="color: #50a14f;">"&lt;div id=\"text-table-of-contents\"&gt;"</span>
+                         (org-html--toc-text toc-entries)
+                         <span style="color: #50a14f;">"&lt;/div&gt;\n"</span>
+                         <span style="color: #50a14f;">"&lt;/nav&gt; \n"</span>)))
+        toc))))
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-html">#table-of-contents #text-table-of-contents{
+  visibility: hidden;
+  display: block;
+  height: 0em;
+  overflow: hidden;
+}
+
+#table-of-contents #toggle-toc:checked ~ #text-table-of-contents {
+  height: auto;
+  display: block;
+        overflow: auto; 
+  visibility:  visible;
+}
+
+#table-of-contents h2 b{
+    cursor: pointer;
+    border-bottom:1px dotted;
+}
+#table-of-contents h2{
+    cursor: pointer;
+}
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(<span style="color: #a626a4;">defun</span> <span style="color: #0184bc;">org-export-head--custom-toc</span>(depth info <span style="color: #c18401;">&amp;optional</span> scope)
+  (<span style="color: #a626a4;">let</span> ((toc-entries
+         (mapcar (<span style="color: #a626a4;">lambda</span> (headline)
+                   (cons (org-html--format-toc-headline headline info)
+                         (org-export-get-relative-level headline info)))
+                 (org-export-collect-headlines info depth scope))))
+    (<span style="color: #a626a4;">when</span> toc-entries
+      (<span style="color: #a626a4;">let</span> ((toc (concat <span style="color: #50a14f;">"&lt;nav id=\"table-of-contents\"&gt;\n"</span>
+                         <span style="color: #50a14f;">"&lt;a href=\"#text-table-of-contents\"&gt;\n &lt;h2&gt; &lt;b&gt;Table of Contents &lt;/b&gt; &lt;/h2&gt;\n &lt;/a&gt;\n"</span>
+                         <span style="color: #50a14f;">"&lt;div id=\"text-table-of-contents\"&gt;"</span>
+                         (org-html--toc-text toc-entries)
+                         <span style="color: #50a14f;">"&lt;/div&gt;\n"</span>
+                         <span style="color: #50a14f;">"&lt;/nav&gt; \n"</span>)))
+        toc))))
+</pre>
+</div>
+<div class="org-src-container">
+<pre class="src src-html">#something {
+  display: none;
+}
+
+#something:target {
+  display: block;
+}
+</pre>
+</div>
 </div>
 </div>
 <div id="outline-container-better_toc_for_tags_page" class="outline-2">
@@ -659,7 +734,7 @@ From: <a href="https://codepen.io/peternguyen/pen/hICga">https://codepen.io/pete
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Ivan Tadeu Ferreira Antunes Filho</p>
-<p class="date">Date: 2020-07-28 Tue 18:53</p>
+<p class="date">Date: 2020-07-29 Wed 20:53</p>
 <p class="author">Github:  <a href="https://github.com/itf/">github.com/itf</a></p>
 <p class="creator">Made with <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.50 (<a href="https://orgmode.org">Org</a> mode 9.1.9) and <a href="https://github.com/itf/org-export-head">Org export head</a> </p>
 </div>
