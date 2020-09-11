@@ -1336,3 +1336,26 @@ video {
 #table-of-contents h2{
     cursor: pointer;
 }
+
+.tagbutton{
+        padding: 4px 8px;
+    border-style: solid;
+    border-width: 1px;
+    border-color: #efefef;
+    border-radius: 1px;
+    font-family: "Open Sans";
+    font-variant: all-small-caps;
+    font-size: 13px;
+    font-style: normal;
+    letter-spacing: 2px;
+    background-image: none;
+    line-height: 8px;
+    white-space: nowrap;
+    margin-right: 5px;
+    line-height: 3em;
+}
+
+.tagindex.active{
+    background-color: #334055;
+    color: white;
+}
