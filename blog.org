@@ -61,13 +61,11 @@ Auto resize images when inserting (optional) maybe?
 * Code   :tech:code:blog:
 :PROPERTIES:
 :CREATION-DATE: 2019-05-24
-:MODIFICATION-DATE: 2020-09-10
-:HASH:     6b5f545f114d4c087858ce7613b3dfb3
+:MODIFICATION-DATE: 2020-09-18
+:HASH:     3f72174e0cfdc73bc83fc431619aac80
 :PREVIOUS-HASH: 6b5f545f114d4c087858ce7613b3dfb3
 :END:
 This is the code that runs this blog! I might as well have it here as well!
-
-[[file:tags.org::#tech]]
 #+include: "./exporter.el" src elisp
 
 
@@ -951,8 +949,8 @@ alphanumeric characters only."
 * index                           :reexport:
   :PROPERTIES:
   :CREATION-DATE: 2018-09-09
-  :MODIFICATION-DATE: 2020-09-10
-  :HASH:     12ac5daab0272e5bbeb4960cac8765e8
+  :MODIFICATION-DATE: 2020-09-18
+  :HASH:     f63fd321f08a5ff5209fbb76b3f27602
   :PREVIOUS-HASH: 12ac5daab0272e5bbeb4960cac8765e8
   :export_options: num:nil
   :END:
@@ -963,10 +961,6 @@ display: none;
 }
 </style>
 #+END_EXPORT
-
-#+ATTR_ORG: :width 300
-#+CAPTION: 
-[[./img/ivan.jpg]]
 
 Hi, I'm Ivan! \\
 This is my personal website, written in [[https://orgmode.org/][org-mode]] using a [[https://github.com/itf/org-export-head][static website generator]] I've built.\\
@@ -4460,7 +4454,7 @@ Gets name based on server-force-delete."
     (if (server-already-running-p) (server-shunt) (server-start))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 #+END_SRC
-* Blogging, past and not blogging rant                    :personal:blog:
+* Blogging, past and not blogging rant                    :personal:
 :PROPERTIES:
 :CREATION-DATE: 2019-08-02
 :MODIFICATION-DATE: 2019-09-02
@@ -5198,11 +5192,11 @@ From: https://codepen.io/peternguyen/pen/hICga
 https://www.lycarter.com/tags/ 
 ** Keep state about displaying comments
 https://developer.mozilla.org/en-US/docs/Web/API/Web_Storage_API
-* Pão de queijo recipe (brazilian cheese bread)                    
+* Pão de queijo recipe (brazilian cheese bread)                    :personal:recipe:
 :PROPERTIES:
 :CREATION-DATE: 2020-07-26
-:MODIFICATION-DATE: 2020-07-26
-:HASH:     00cda554441c4763b31962bc3117ca82
+:MODIFICATION-DATE: 2020-09-18
+:HASH:     440a1bfd04af8178b349689a82bbc687
 :PREVIOUS-HASH: 00cda554441c4763b31962bc3117ca82
 :END:
 
@@ -5240,20 +5234,6 @@ Mix milk, oil and salt and bring it to a boil. Mix 600g of the tapioca, to reall
 
 If you are making a vegan recipe, I really recommend mixing the tapioca starch onto boiling water, since you won't be using eggs as a binding agent.
 
-
-* JS :noexport:
-:PROPERTIES:
-:CREATION-DATE: 2020-07-23
-:MODIFICATION-DATE: 2020-07-23
-:HASH:     72143a77a9244e9b00eccf733f7a68b2
-:END:
-#+BEGIN_SRC js
-var util = require("util");
-console.log(123)
-#+END_SRC
-
-#+RESULTS:
-: 123
 * Make cheap headphones sound better on linux / ubuntu                 :tech:blog:
 :PROPERTIES:
 :CREATION-DATE: 2020-07-23
