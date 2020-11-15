@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- 2020-11-15 Sun 17:47 -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Some intuition for Geometric Algebra product contractions and expansions</title>
+<meta name="generator" content="Org mode">
+<meta name="author" content="ivanaf">
+<link rel="stylesheet" type="text/css" href="css/org.css"/>
+<link rel="icon" href="ico/favicon.ico" type="image/x- icon">
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2019 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        displayAlign: "center",
+        displayIndent: "0em",
+
+        "HTML-CSS": { scale: 100,
+                        linebreaks: { automatic: "false" },
+                        webFont: "TeX"
+                       },
+        SVG: {scale: 100,
+              linebreaks: { automatic: "false" },
+              font: "TeX"},
+        NativeMML: {scale: 100},
+        TeX: { equationNumbers: {autoNumber: "AMS"},
+               MultLineWidth: "85%",
+               TagSide: "right",
+               TagIndent: ".8em"
+             }
+});
+</script>
+<script type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML"></script>
+</head>
+<body>
+<div id="content">
+<div class="head">
+<div class="title">
+<p>
+<a href="index.html">Ivanaf</a>
+</p>
+
+</div>
+
+<menu>
+<ul class="org-ul">
+<li><a href="index.html">Home</a></li>
+<li><a href="journal.html">Journal</a></li>
+<li><a href="about.html">About</a></li>
+<li><a href="resume.html">Resume</a></li>
+<li><a href="portfolio.html">Portfolio</a></li>
+<li><a href="contact.html">Contact</a></li>
+<li><a href="projects_ideas.html">Messy Ideas</a></li>
+</ul>
+</menu>
+
+</div>
+
+<p>
+ </p><h1>
+Some intuition for Geometric Algebra product contractions and expansions
+ </h1><p>
+</p>
+
+<p>
+<span class=page-date> <small>
+2020-11-15, updated 2020-11-15 &#x2014; <a href='journal.html#math' class='math tagbutton'>math</a>  &nbsp  <a href="index.html">⇦index</a> &#x2013; <a href="revista_contigo.html">Revista Contigo⇨</a> 
+</small> </span> 
+</p>
+<nav id="table-of-contents">
+<input id="toggle-toc" style="display: none; visibility: hidden;" type="checkbox">
+<label for="toggle-toc">
+ <h2> <b> Table of Contents </b> </h2>
+ </label>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#a_cdot_b_wedge_c">1. \[a \cdot (B \wedge C)\]</a></li>
+<li><a href="#contraction">2. Contraction</a></li>
+</ul>
+</div>
+</nav> 
+<p>
+One of the best materials for learning about inner product contractions is, <a href="https://www.researchgate.net/publication/2842332_The_Inner_Products_of_Geometric_Algebra">The Inner Products of Geometric Algebra</a>, by Leo Dorst.
+Here I'll write some intuition to help you remember those results.
+</p>
+
+<p>
+First, notice that every product is linear, therefore we can always think about what happens in a product by thinking about what happens with the orthogonal and parallel components. We will use the term "dimension", in a very informal way. For example, if I have the vector \(e_1\) and the vector \(e_2\), and we "sum" their dimensions, we obtain \(e_1 \wedge e_2\). If we have the blade \(e_1 \wedge e_2\) and we remove the dimension \(e^1\), we obtain \(e^2\). 
+</p>
+<div id="outline-container-a_cdot_b_wedge_c" class="outline-2">
+<h2 id="a_cdot_b_wedge_c"><span class="section-number-2">1</span> \[a \cdot (B \wedge C)\]</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+Lets start with:
+\[a \cdot (B \wedge C)\] , where \(B\) and \(C\) are \[k\]-blades with \(k\ge1\). What this formula is saying, intuitively, is that we take 2 blades, \(B\) and \(C\), we add their dimensions, to get a blade of higher dimension, and then we remove the dimensions of \(a\).
+</p>
+
+<p>
+For the product to not be null. at most one of \(B\) or \(C\) has the dimension of \(a\). If it is \(B\), then the formula is equivalent to 
+\[(a \cdot B) \wedge C)\]
+Because removing the dimension of \(a\) from \(B \wedge C\), is equivalent to removing it from \(B\), and then adding the dimension \(C\).
+</p>
+
+<p>
+If instead it is \(C\), then, we need to remove the dimension of \(a\) from \(C\), so we will have a term \[\pm? B \wedge (a \cdot C)\], where we need to reason about what should the sign be. 
+</p>
+
+<p>
+We can split \(C\) into 2 parts, \(a \cdot C\), therefore we have 
+\[a \cdot(B \wedge a \wedge C') = a \cdot(a \wedge \hat{B} \wedge C') \],
+where \(\hat{B}\) is the grade inversion of B, i.e. equal to \(-B\), if \(B\) is odd. Therefore, 
+</p>
+
+<p>
+\[a \cdot (B \wedge C) = (a \cdot B) \wedge C) + \hat{B} \wedge (a \cdot C)\]  
+</p>
+
+<p>
+In other words, when taking the dot product of a vector with a blade, we can just "put" the vector next to the terms it would cancel, while taking into account grade inversion. For exmple:
+</p>
+
+<p>
+\[e_1 \cdot(e_2 \wedge e^1 \wedge e^3) = - e_2 \wedge (e_1 \cdot e^1 \wedge e^3) = -e_2 \wedge e_3\]
+</p>
+</div>
+</div>
+<div id="outline-container-contraction" class="outline-2">
+<h2 id="contraction"><span class="section-number-2">2</span> Contraction</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+The inner product/ dot product are slightly ambiguous. If we have \((A \cdot B)\), we don't know if we are removing dimensions from \(B\) or from \(A\), i.e. supposing that \(A\) is an \[a\]-blade and \(B\) is a  \[b\]-blade, we don't know if  \((A \cdot B)\) is an \[(a-b)\]-blade or \[(b-a)\]-blade, since we don't know which of them has the higher dimensions. So we define the left contraction inner product \(A \lrcorner B\)  to be removing the dimensions of \(A\) from \(B\), i.e. an \[(a-b)\]-blade (or 0, if \(b>a\).
+</p>
+
+<p>
+With this, we can think about:
+\[(A \wedge B) \lrcorner C =(A \lrcorner (B \lrcorner C))  \]
+i.e. removing the dimensions of both \(A\) and \(B\) from \(C\) is the same as removing the dimensions of \(B\) from \(C\), and then removing the dimensions of \(A\) from the result.
+</p>
+</div></div>
+<br>
+<div class="comments">
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+/* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'ivanaf'; // Required - Replace '<example>' with your forum shortname
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    var showComments = function() {
+    var button = document.getElementById('comment-button')
+        button.style.display = 'none'
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        };
+    </script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<button id="comment-button" onclick="showComments()">Show comments</button>
+</div>
+<div><div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: Ivan Tadeu Ferreira Antunes Filho</p>
+<p class="date">Date: 2020-11-15 Sun 17:47</p>
+<p class="author">Github:  <a href="https://github.com/itf/">github.com/itf</a></p>
+<p class="creator">Made with <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.50 (<a href="https://orgmode.org">Org</a> mode 9.1.9) and <a href="https://github.com/itf/org-export-head">Org export head</a> </p>
+</div>
+</body>
+</html>
