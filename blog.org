@@ -1352,7 +1352,7 @@ addEventListeners();
 #+CAPTION: 
 [[./img/ivan.jpg]]
 #+END_CENTER
-I am Ivan Tadeu Ferreira Antunes Filho. Master of Engineering in Computer Science student from MIT.   I'm really excited about science, technology and photography. 
+I am Ivan Tadeu Ferreira Antunes Filho. Master of Engineering in Computer Science from MIT, currently working at Radix Labs as a Software Engineer.   I'm really excited about science, technology and photography. 
 
 I currently work as a software engineer at Radix Labs.
 ** Recent stuff
@@ -1469,7 +1469,7 @@ TV.
 - [[http://www.atitudesaopaulo.com.br/?p=8167][Depois da aula...O universo complementar das Olimpíadas Científicas]]
 - [[http://jornaldagazeta.tvgazeta.com.br/index.php?option=com_videoflow&task=play&id=7947][(Video) Um aluno de 17 anos na elite mundial]]
 - [[http://globotv.globo.com/tv-morena/mstv-1a-edicao-campo-grande/v/fetec-e-aberta-com-participacao-de-estudantes-de-escolas-publicas-e-particulares/2204230/][(Video) Fetec é aberta com participação de estudantes de escolas públicas e particulares]]
-- [[http://www.correiodoestado.com.br/noticias/feira-de-tecnologia-comeca-hoje-no-ginasio-moreninho_163798/][Feira de Tecnologia começa hoje no Ginásio Moreninho]]
+- [[https://correiodoestado.com.br//noticias/feira-de-tecnologia-comeca-hoje-no-ginasio-moreninho/163798][Feira de Tecnologia começa hoje no Ginásio Moreninho]]
 - [[http://g1.globo.com/educacao/noticia/2011/07/brasileiros-ganham-medalhas-em-olimpiada-internacional-de-fisica.html][Brasileiros ganham medalhas em olimpíada internacional de física]]
 - [[http://g1.globo.com/educacao/noticia/2013/03/referencia-em-tecnologia-mit-admite-quatro-brasileiros-para-graduacao.html][Referência em tecnologia, MIT admite quatro brasileiros para graduação]]
 - [[http://www.terra.com.br/noticias/educacao/infograficos/olimpiadas-escolares/][Olimpíadas Escolares -- Terra Educação]]
@@ -1483,6 +1483,10 @@ TV.
 #+ATTR_ORG: :width 300
 #+CAPTION: Picture for the magazine Contigo!, one of the main Celebrities' magazine in 2012.
 [[./jpg/Imagem_002.jpg]]
+
+#+ATTR_ORG: :width 300
+#+CAPTION: Picture on the largest newspaper in Brazil (Folha).
+[[file:./img/16004082860554037.jpg][file:./img/16004082860554037.jpg]]
 *** Other
 I've helped taking care of far too many injured wild animals while I lived in Brazil. It is hard to describe the experience, but you can see some [[Me and animals][pictures here]].
 
@@ -5305,4 +5309,33 @@ Em 2012 eu apareci na [[https://pt.wikipedia.org/wiki/Contigo!][Revista Contigo!
 #+ATTR_ORG: :width 300
 #+CAPTION: 
 [[./jpg/Imagem_004.jpg]]
+* Some intuition for Geometric Algebra product contractions and expansions :math:
+One of the best materials for learning about inner product contractions is, [[https://www.researchgate.net/publication/2842332_The_Inner_Products_of_Geometric_Algebra][The Inner Products of Geometric Algebra]], by Leo Dorst.
+Here I'll write some intuition to help you remember those results.
 
+First, notice that every product is linear, therefore we can always think about what happens in a product by thinking about what happens with the orthogonal and parallel components. We will use the term "dimension", in a very informal way. For example, if I have the vector $e_1$ and the vector $e_2$, and we "sum" their dimensions, we obtain $e_1 \wedge e_2$. If we have the blade $e_1 \wedge e_2$ and we remove the dimension $e^1$, we obtain $e^2$. 
+** $$a \cdot (B \wedge C)$$
+Lets start with:
+$$a \cdot (B \wedge C)$$ , where $B$ and $C$ are \[k\]-blades with $k\ge1$. What this formula is saying, intuitively, is that we take 2 blades, $B$ and $C$, we add their dimensions, to get a blade of higher dimension, and then we remove the dimensions of $a$.
+
+For the product to not be null. at most one of $B$ or $C$ has the dimension of $a$. If it is $B$, then the formula is equivalent to 
+$$(a \cdot B) \wedge C)$$
+Because removing the dimension of $a$ from $B \wedge C$, is equivalent to removing it from $B$, and then adding the dimension $C$.
+
+If instead it is $C$, then, we need to remove the dimension of $a$ from $C$, so we will have a term $$\pm? B \wedge (a \cdot C)$$, where we need to reason about what should the sign be. 
+
+We can split $C$ into 2 parts, $a \cdot C$, therefore we have 
+$$a \cdot(B \wedge a \wedge C') = a \cdot(a \wedge \hat{B} \wedge C') $$,
+where $\hat{B}$ is the grade inversion of B, i.e. equal to $-B$, if $B$ is odd. Therefore, 
+
+$$a \cdot (B \wedge C) = (a \cdot B) \wedge C) + \hat{B} \wedge (a \cdot C)$$  
+
+In other words, when taking the dot product of a vector with a blade, we can just "put" the vector next to the terms it would cancel, while taking into account grade inversion. For exmple:
+
+$$e_1 \cdot(e_2 \wedge e^1 \wedge e^3) = - e_2 \wedge (e_1 \cdot e^1 \wedge e^3) = -e_2 \wedge e_3$$
+** Contraction
+The inner product/ dot product are slightly ambiguous. If we have $(A \cdot B)$, we don't know if we are removing dimensions from $B$ or from $A$, i.e. supposing that $A$ is an \[a\]-blade and $B$ is a  \[b\]-blade, we don't know if  $(A \cdot B)$ is an \[(a-b)\]-blade or \[(b-a)\]-blade, since we don't know which of them has the higher dimensions. So we define the left contraction inner product $A \lrcorner B$  to be removing the dimensions of $A$ from $B$, i.e. an \[(a-b)\]-blade (or 0, if $b>a$.
+
+With this, we can think about:
+$$(A \wedge B) \lrcorner C =(A \lrcorner (B \lrcorner C))  $$
+i.e. removing the dimensions of both $A$ and $B$ from $C$ is the same as removing the dimensions of $B$ from $C$, and then removing the dimensions of $A$ from the result.
