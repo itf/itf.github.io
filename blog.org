@@ -5309,12 +5309,12 @@ Em 2012 eu apareci na [[https://pt.wikipedia.org/wiki/Contigo!][Revista Contigo!
 #+ATTR_ORG: :width 300
 #+CAPTION: 
 [[./jpg/Imagem_004.jpg]]
-* Some intuition for Geometric Algebra product contractions and expansions :math:
+* Some intuition for Geometric Algebra product contractions and expansions :math:blog:
 :PROPERTIES:
 :CREATION-DATE: 2020-11-15
 :MODIFICATION-DATE: 2020-11-15
-:HASH:     c5324a32e158452d2c1d4a900a8e0f50
-:PREVIOUS-HASH: 914ca8b110923fb44cd7357f9f843042
+:HASH:     5b39d0a1457f3532f44befe3c0344905
+:PREVIOUS-HASH: c5324a32e158452d2c1d4a900a8e0f50
 :END:
 One of the best materials for learning about inner product contractions is, [[https://www.researchgate.net/publication/2842332_The_Inner_Products_of_Geometric_Algebra][The Inner Products of Geometric Algebra]], by Leo Dorst.
 Here I'll write some intuition to help you remember those results.
