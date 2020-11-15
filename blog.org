@@ -63,7 +63,7 @@ Auto resize images when inserting (optional) maybe?
 :CREATION-DATE: 2019-05-24
 :MODIFICATION-DATE: 2020-09-18
 :HASH:     3f72174e0cfdc73bc83fc431619aac80
-:PREVIOUS-HASH: 6b5f545f114d4c087858ce7613b3dfb3
+:PREVIOUS-HASH: 3f72174e0cfdc73bc83fc431619aac80
 :END:
 This is the code that runs this blog! I might as well have it here as well!
 #+include: "./exporter.el" src elisp
@@ -951,7 +951,7 @@ alphanumeric characters only."
   :CREATION-DATE: 2018-09-09
   :MODIFICATION-DATE: 2020-09-18
   :HASH:     f63fd321f08a5ff5209fbb76b3f27602
-  :PREVIOUS-HASH: 12ac5daab0272e5bbeb4960cac8765e8
+  :PREVIOUS-HASH: f63fd321f08a5ff5209fbb76b3f27602
   :export_options: num:nil
   :END:
 #+BEGIN_EXPORT html 
@@ -1342,8 +1342,8 @@ addEventListeners();
 * About
   :PROPERTIES:
   :CREATION-DATE: 2018-09-09
-  :MODIFICATION-DATE: 2020-07-28
-  :HASH:     6eb0fc1055249caf79fd340e76558aa0
+  :MODIFICATION-DATE: 2020-11-15
+  :HASH:     1118a324dc3394d1b8783453ff4fcba2
   :PREVIOUS-HASH: 6eb0fc1055249caf79fd340e76558aa0
   :END:
 
@@ -5201,7 +5201,7 @@ https://developer.mozilla.org/en-US/docs/Web/API/Web_Storage_API
 :CREATION-DATE: 2020-07-26
 :MODIFICATION-DATE: 2020-09-18
 :HASH:     440a1bfd04af8178b349689a82bbc687
-:PREVIOUS-HASH: 00cda554441c4763b31962bc3117ca82
+:PREVIOUS-HASH: 440a1bfd04af8178b349689a82bbc687
 :END:
 
 Brazilian cheese bread is a super forgiving recipe: as long as you use tapioca flour and you don't underbake it, you can change the ingredients to your hearts content.
@@ -5310,13 +5310,18 @@ Em 2012 eu apareci na [[https://pt.wikipedia.org/wiki/Contigo!][Revista Contigo!
 #+CAPTION: 
 [[./jpg/Imagem_004.jpg]]
 * Some intuition for Geometric Algebra product contractions and expansions :math:
+:PROPERTIES:
+:CREATION-DATE: 2020-11-15
+:MODIFICATION-DATE: 2020-11-15
+:HASH:     914ca8b110923fb44cd7357f9f843042
+:END:
 One of the best materials for learning about inner product contractions is, [[https://www.researchgate.net/publication/2842332_The_Inner_Products_of_Geometric_Algebra][The Inner Products of Geometric Algebra]], by Leo Dorst.
 Here I'll write some intuition to help you remember those results.
 
 First, notice that every product is linear, therefore we can always think about what happens in a product by thinking about what happens with the orthogonal and parallel components. We will use the term "dimension", in a very informal way. For example, if I have the vector $e_1$ and the vector $e_2$, and we "sum" their dimensions, we obtain $e_1 \wedge e_2$. If we have the blade $e_1 \wedge e_2$ and we remove the dimension $e^1$, we obtain $e^2$. 
 ** $$a \cdot (B \wedge C)$$
 Lets start with:
-$$a \cdot (B \wedge C)$$ , where $B$ and $C$ are \[k\]-blades with $k\ge1$. What this formula is saying, intuitively, is that we take 2 blades, $B$ and $C$, we add their dimensions, to get a blade of higher dimension, and then we remove the dimensions of $a$.
+$$a \cdot (B \wedge C)$$ , where $B$ and $C$ are $k$-blades with $k\ge1$. What this formula is saying, intuitively, is that we take 2 blades, $B$ and $C$, we add their dimensions, to get a blade of higher dimension, and then we remove the dimensions of $a$.
 
 For the product to not be null. at most one of $B$ or $C$ has the dimension of $a$. If it is $B$, then the formula is equivalent to 
 $$(a \cdot B) \wedge C)$$
@@ -5334,7 +5339,7 @@ In other words, when taking the dot product of a vector with a blade, we can jus
 
 $$e_1 \cdot(e_2 \wedge e^1 \wedge e^3) = - e_2 \wedge (e_1 \cdot e^1 \wedge e^3) = -e_2 \wedge e_3$$
 ** Contraction
-The inner product/ dot product are slightly ambiguous. If we have $(A \cdot B)$, we don't know if we are removing dimensions from $B$ or from $A$, i.e. supposing that $A$ is an \[a\]-blade and $B$ is a  \[b\]-blade, we don't know if  $(A \cdot B)$ is an \[(a-b)\]-blade or \[(b-a)\]-blade, since we don't know which of them has the higher dimensions. So we define the left contraction inner product $A \lrcorner B$  to be removing the dimensions of $A$ from $B$, i.e. an \[(a-b)\]-blade (or 0, if $b>a$.
+The inner product/ dot product are slightly ambiguous. If we have $(A \cdot B)$, we don't know if we are removing dimensions from $B$ or from $A$, i.e. supposing that $A$ is an $a$-blade and $B$ is a  $b$-blade, we don't know if  $(A \cdot B)$ is an $(a-b)$-blade or $(b-a)$-blade, since we don't know which of them has the higher dimensions. So we define the left contraction inner product $A \lrcorner B$  to be removing the dimensions of $A$ from $B$, i.e. an $(a-b)$-blade (or 0, if $b>a$.
 
 With this, we can think about:
 $$(A \wedge B) \lrcorner C =(A \lrcorner (B \lrcorner C))  $$
