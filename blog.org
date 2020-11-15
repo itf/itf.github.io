@@ -5313,8 +5313,8 @@ Em 2012 eu apareci na [[https://pt.wikipedia.org/wiki/Contigo!][Revista Contigo!
 :PROPERTIES:
 :CREATION-DATE: 2020-11-15
 :MODIFICATION-DATE: 2020-11-15
-:HASH:     5b39d0a1457f3532f44befe3c0344905
-:PREVIOUS-HASH: c5324a32e158452d2c1d4a900a8e0f50
+:HASH:     b190913a51721eab688dafbc9301d665
+:PREVIOUS-HASH: 5b39d0a1457f3532f44befe3c0344905
 :END:
 One of the best materials for learning about inner product contractions is, [[https://www.researchgate.net/publication/2842332_The_Inner_Products_of_Geometric_Algebra][The Inner Products of Geometric Algebra]], by Leo Dorst.
 Here I'll write some intuition to help you remember those results.
@@ -5330,7 +5330,7 @@ Because removing the dimension of $a$ from $B \wedge C$, is equivalent to removi
 
 If instead it is $C$, then, we need to remove the dimension of $a$ from $C$, so we will have a term $$\pm? B \wedge (a \cdot C)$$, where we need to reason about what should the sign be. 
 
-We can split $C$ into 2 parts, $a \cdot C$, therefore we have 
+We can split $C$ into 2 parts, $a \wedge C'$, therefore we have 
 $$a \cdot(B \wedge a \wedge C') = a \cdot(a \wedge \hat{B} \wedge C') $$,
 where $\hat{B}$ is the grade inversion of B, i.e. equal to $-B$, if $B$ is odd. Therefore, 
 
