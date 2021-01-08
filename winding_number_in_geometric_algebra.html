@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- 2021-01-08 Fri 00:30 -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Winding number in geometric algebra</title>
+<meta name="generator" content="Org mode">
+<meta name="author" content="ivanaf">
+<link rel="stylesheet" type="text/css" href="css/org.css"/>
+<link rel="icon" href="ico/favicon.ico" type="image/x- icon">
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2019 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        displayAlign: "center",
+        displayIndent: "0em",
+
+        "HTML-CSS": { scale: 100,
+                        linebreaks: { automatic: "false" },
+                        webFont: "TeX"
+                       },
+        SVG: {scale: 100,
+              linebreaks: { automatic: "false" },
+              font: "TeX"},
+        NativeMML: {scale: 100},
+        TeX: { equationNumbers: {autoNumber: "AMS"},
+               MultLineWidth: "85%",
+               TagSide: "right",
+               TagIndent: ".8em"
+             }
+});
+</script>
+<script type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML"></script>
+</head>
+<body>
+<div id="content">
+<div class="head">
+<div class="title">
+<p>
+<a href="index.html">Ivanaf</a>
+</p>
+
+</div>
+
+<menu>
+<ul class="org-ul">
+<li><a href="index.html">Home</a></li>
+<li><a href="journal.html">Journal</a></li>
+<li><a href="about.html">About</a></li>
+<li><a href="resume.html">Resume</a></li>
+<li><a href="portfolio.html">Portfolio</a></li>
+<li><a href="contact.html">Contact</a></li>
+<li><a href="projects_ideas.html">Messy Ideas</a></li>
+</ul>
+</menu>
+
+</div>
+
+<p>
+ </p><h1>
+Winding number in geometric algebra
+ </h1><p>
+</p>
+
+<p>
+<span class=page-date> <small>
+2021-01-08, updated 2021-01-08 &#x2014;   &nbsp  <a href="index.html">⇦index</a> &#x2013; <a href="making_zoontycoon2_ultimate_edition_run_on_wine_on_ubuntu.html">Making zoontycoon2 ultimate edition run on wine on ubuntu.⇨</a> 
+</small> </span> 
+</p>
+<nav id="table-of-contents">
+<input id="toggle-toc" style="display: none; visibility: hidden;" type="checkbox">
+<label for="toggle-toc">
+ <h2> <b> Table of Contents </b> </h2>
+ </label>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#2_dimensions">1. 2 dimensions</a></li>
+<li><a href="#more_dimensions">2. More dimensions</a></li>
+<li><a href="#using_this_with_functions">3. Using this with functions</a></li>
+</ul>
+</div>
+</nav> 
+
+<p>
+From the wikipedia, <a href="https://en.wikipedia.org/wiki/Winding_number#Complex_analysis">https://en.wikipedia.org/wiki/Winding_number#Complex_analysis</a>, we can see the definition of winding number in complex analysis. 
+</p>
+<div id="outline-container-2_dimensions" class="outline-2">
+<h2 id="2_dimensions"><span class="section-number-2">1</span> 2 dimensions</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+And so we can adapt it to geometric algebra in 2 dimensions.
+</p>
+
+<p>
+Let \(\partial M\) be a curve (we are calling it \(\delta M\) because we will later perform the analysis using the fundamental theorem of calculus for geometric algebra), and let \(j\), be the pseudo scalar in 2 dimensions.
+</p>
+
+<p>
+The winding number is:
+\[\frac{1}{2\pi j} \oint_{\partial M}  d\mathbf{x} \frac{\mathbf{x}}{|x|^{-2}} = \frac{1}{2\pi j}\oint_{\partial M}  d\mathbf{x} \mathbf{x}^{-1} \]
+</p>
+
+<p>
+The scalar component will cancel itself, and just the bivector component is left, therefore we divide by the pseudoscalar. And 2&pi; is the length of the boundary of a circle.
+</p>
+
+<p>
+Using the fundamental theorem of calculus for geometric calculus (Alan Macdonald - Vector and Geometric Calculus, section 10.1), supposing that \(M\) is a surface. 
+</p>
+
+<p>
+\[\frac{1}{2\pi j}\oint_{\partial M}  d\mathbf{x} \mathbf{x}^{-1} = \frac{1}{2\pi j} \int_{ M}  d\mathbf{x^2} \partial\left(\mathbf{x}^{-1}\right)\]
+</p>
+
+<p>
+\(\partial\left(\mathbf{x}^{-1}\right)\) is equal to 0 at every place except the origin, but we can "include the origin" by using a kronecker delta
+</p>
+
+<p>
+\[\frac{1}{2\pi j}\oint_{\partial M}  d\mathbf{x} \mathbf{x}^{-1} = \int_{ M}  d\mathbf{x^2} \delta_\mathbf{x}(\mathbf{x}) = \begin{cases}
+    1,& \text{if the volume includes the origin}\\
+    0,              & \text{otherwise}
+\end{cases}
+\]
+</p>
+</div>
+</div>
+<div id="outline-container-more_dimensions" class="outline-2">
+<h2 id="more_dimensions"><span class="section-number-2">2</span> More dimensions</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+We can extend this to more dimensions. Let \(n\) be the dimensions, and let \(A_n\) be the \(n-1\) dimensional area of the \(n\) dimensional unit sphere. Then:
+\[\frac{1}{A_n}\oint_{\partial M}  d\mathbf{x^{n-1}} \frac{\mathbf{x}}{|x|^n} = \int_{ M}  d\mathbf{x^n} \delta_\mathbf{x}(\mathbf{x}) = \begin{cases}
+    1,& \text{if the volume includes the origin}\\
+    0,              & \text{otherwise}
+\end{cases}
+\]
+</p>
+
+<p>
+for 3 dimensions you should recognize this equation from the electrical field of a point charge in the origin.
+</p>
+</div>
+</div>
+<div id="outline-container-using_this_with_functions" class="outline-2">
+<h2 id="using_this_with_functions"><span class="section-number-2">3</span> Using this with functions</h2>
+<div class="outline-text-2" id="text-3">
+<p>
+Let say you wanna find the \(0\)s of a function, and you are using the winding number algorithm <a href="https://www.youtube.com/watch?v=b7FxPsqfkOY">https://www.youtube.com/watch?v=b7FxPsqfkOY</a>. 
+</p>
+
+<p>
+TODO
+</p>
+</div></div>
+<br>
+<div class="comments">
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+/* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'ivanaf'; // Required - Replace '<example>' with your forum shortname
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    var showComments = function() {
+    var button = document.getElementById('comment-button')
+        button.style.display = 'none'
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        };
+    </script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<button id="comment-button" onclick="showComments()">Show comments</button>
+</div>
+<div><div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: Ivan Tadeu Ferreira Antunes Filho</p>
+<p class="date">Date: 2021-01-08 Fri 00:30</p>
+<p class="author">Github:  <a href="https://github.com/itf/">github.com/itf</a></p>
+<p class="creator">Made with <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.50 (<a href="https://orgmode.org">Org</a> mode 9.1.9) and <a href="https://github.com/itf/org-export-head">Org export head</a> </p>
+</div>
+</body>
+</html>
