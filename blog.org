@@ -1527,7 +1527,7 @@ Please download the PDF version [[file:pdflib/IvanFilho-ResumeFall2018.pdf][here
   :PREVIOUS-HASH: 21420b4c979a1da54175a51349c0e4a1
   :END:
 
-Contact me through email (ivan af @ mit). If you need to meet with me, below is my schedule. \\
+Contact me through email (ivanaf @alum.mit.edu). If you need to meet with me, below is my schedule. \\
 [[https://www.instagram.com/ivan_af_/][Instagram]] [[https://www.facebook.com/itadeufa][FB]]
 
 
@@ -5309,12 +5309,12 @@ Em 2012 eu apareci na [[https://pt.wikipedia.org/wiki/Contigo!][Revista Contigo!
 #+ATTR_ORG: :width 300
 #+CAPTION: 
 [[./jpg/Imagem_004.jpg]]
-* Some intuition for Geometric Algebra product contractions and expansions :math:blog:
+* Some intuition for Geometric Algebra product contractions and expansions :math:
 :PROPERTIES:
 :CREATION-DATE: 2020-11-15
 :MODIFICATION-DATE: 2020-11-15
 :HASH:     b190913a51721eab688dafbc9301d665
-:PREVIOUS-HASH: 5b39d0a1457f3532f44befe3c0344905
+:PREVIOUS-HASH: b190913a51721eab688dafbc9301d665
 :END:
 One of the best materials for learning about inner product contractions is, [[https://www.researchgate.net/publication/2842332_The_Inner_Products_of_Geometric_Algebra][The Inner Products of Geometric Algebra]], by Leo Dorst.
 Here I'll write some intuition to help you remember those results.
@@ -5345,3 +5345,79 @@ The inner product/ dot product are slightly ambiguous. If we have $(A \cdot B)$,
 With this, we can think about:
 $$(A \wedge B) \lrcorner C =(A \lrcorner (B \lrcorner C))  $$
 i.e. removing the dimensions of both $A$ and $B$ from $C$ is the same as removing the dimensions of $B$ from $C$, and then removing the dimensions of $A$ from the result.
+* Making zoontycoon2 ultimate edition run on wine on ubuntu. :games:
+:PROPERTIES:
+:CREATION-DATE: 2021-01-08
+:MODIFICATION-DATE: 2021-01-08
+:HASH:     5799a1da9caf4ac23a6ddb68eec03cef
+:PREVIOUS-HASH: 5799a1da9caf4ac23a6ddb68eec03cef
+:END:
+
+To find soundcards on directx you will need:
+#+BEGIN_SRC 
+winetricks mfc42
+#+END_SRC
+
+For the graphs, you need native directx9
+#+BEGIN_SRC 
+winetricks directx9
+#+END_SRC
+
+Other information about my current setup: I'm running it in my default wine prefix, (~/.wine), configured to be a 32bit prefix. I've configured this prefix to use Alsa audio, instead of pulseaudio.
+
+I've also installed dxvk (before installing directx9), and since I'm using an intel graphics card
+#+BEGIN_SRC 
+sudo apt-get install mesa-vulkan-drivers mesa-vulkan-drivers:i386
+sudo apt-get install libvulkan1 libvulkan1:i386
+#+END_SRC
+
+
+You also need to have the program properly installed in wine. If you somehow have a version that can run without being installed, this will cause it to not find the audiocards.
+
+If you have problems with the windows size, make wine start in windowed mode.
+* Winding number in geometric algebra :math:blog:
+:PROPERTIES:
+:CREATION-DATE: 2021-01-08
+:MODIFICATION-DATE: 2021-01-08
+:HASH:     32ea88e7504a36d9e758a06ccd42bef6
+:PREVIOUS-HASH: 32ea88e7504a36d9e758a06ccd42bef6
+:END:
+
+From the wikipedia, https://en.wikipedia.org/wiki/Winding_number#Complex_analysis, we can see the definition of winding number in complex analysis. 
+** 2 dimensions
+And so we can adapt it to geometric algebra in 2 dimensions.
+
+Let $\partial M$ be a curve (we are calling it $\delta M$ because we will later perform the analysis using the fundamental theorem of calculus for geometric algebra), and let $j$, be the pseudo scalar in 2 dimensions.
+
+The winding number is:
+$$\frac{1}{2\pi j} \oint_{\partial M}  d\mathbf{x} \frac{\mathbf{x}}{|x|^{-2}} = \frac{1}{2\pi j}\oint_{\partial M}  d\mathbf{x} \mathbf{x}^{-1} $$
+
+The scalar component will cancel itself, and just the bivector component is left, therefore we divide by the pseudoscalar. And 2\pi is the length of the boundary of a circle.
+
+Using the fundamental theorem of calculus for geometric calculus (Alan Macdonald - Vector and Geometric Calculus, section 10.1), supposing that $M$ is a surface. 
+
+$$\frac{1}{2\pi j}\oint_{\partial M}  d\mathbf{x} \mathbf{x}^{-1} = \frac{1}{2\pi j} \int_{ M}  d\mathbf{x^2} \partial\left(\mathbf{x}^{-1}\right)$$
+
+$\partial\left(\mathbf{x}^{-1}\right)$ is equal to 0 at every place except the origin, but we can "include the origin" by using a kronecker delta
+
+$$\frac{1}{2\pi j}\oint_{\partial M}  d\mathbf{x} \mathbf{x}^{-1} = \int_{ M}  d\mathbf{x^2} \delta_\mathbf{x}(\mathbf{x}) = \begin{cases}
+    1,& \text{if the volume includes the origin}\\
+    0,              & \text{otherwise}
+\end{cases}
+$$
+** More dimensions
+We can extend this to more dimensions. Let $n$ be the dimensions, and let $A_n$ be the $n-1$ dimensional area of the $n$ dimensional unit sphere. Then:
+$$\frac{1}{A_n}\oint_{\partial M}  d\mathbf{x^{n-1}} \frac{\mathbf{x}}{|x|^n} = \int_{ M}  d\mathbf{x^n} \delta_\mathbf{x}(\mathbf{x}) = \begin{cases}
+    1,& \text{if the volume includes the origin}\\
+    0,              & \text{otherwise}
+\end{cases}
+$$
+
+for 3 dimensions you should recognize this equation from the electrical field of a point charge in the origin.
+** Using this with functions
+Let say you wanna find the \(0\)s of a function, and you are using the winding number algorithm https://www.youtube.com/watch?v=b7FxPsqfkOY. 
+
+ TODO
+* Resetting oneshot original (2014, RPGmaker) on wine, linux :games:
+
+To reset the game, go to `.config/Oneshot`, and delete the files there. To change the ending, you can use a hexeditor to edit the ending file.
