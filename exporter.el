@@ -19,10 +19,12 @@
 
 (setq org-export-head-tags-page "Tags") ; used for the tags to link to a page
 
-(setq org-export-head-link-files-to-export (list "file" "video")) ;;Link types whose paths are gonna be copied with hard links
+(setq org-export-head-using-video-links t) ;helper function to add [[video:path]] links
+(setq org-export-head-using-inline-js t) ;helper function to add inline-js to babel
+(setq org-export-head-link-files-to-export (list "file" "video")) ;;Link types whose paths are gonna be copied with hard links, example[[video:path]]
 ;useful if using custom links
 
-(setq org-export-head-using-video-links t)
+
 
 (setq org-export-head-click-toc-h2 t) ;; Make the header of TOC clickable, so you can write CSS for click to display
 
@@ -106,7 +108,7 @@ are exported to a filename derived from the headline text."
          (let* ((headline-name (org-export-head--headline))
                 (headline-alist (gethash headline-name headlines-hash nil))
                 (macro-alist (append headline-alist global-macros))) ;;in reverse order so that headline properties can overshadow these
-           (org-export-head--replace-headline-macros macro-alist)))
+           (org-export-head--replace-headline-macros macro-alist headlines-list headlines-hash)))
      "-noexport-noreexport")
 
   
@@ -261,14 +263,20 @@ to check if the hash has changed"
    #'(lambda()
        (let* ((entry-tags (assoc "ALLTAGS" (org-entry-properties)))
              (entry-tags (when entry-tags (delete "" (split-string (cdr entry-tags) ":"))))
-             (url org-export-head-tags-page)
+             (url (org-export-head--escape org-export-head-tags-page))
              (tags-text-url "")
-             (tags-text ""))
+             (tags-text "")
+             (tags-buttons-front "")
+             (tags-buttons ""))
          (dolist (tag entry-tags)
            (unless (or (string= tag "reexport") (string= tag "noexport") (string= tag "noreexport"))
-             (setq  tags-text-url (concat tags-text-url "[[file:" (org-export-head--escape url) ".org::#" tag "][#"tag"]] "))  
-             (setq  tags-text (concat tags-text tag " "))))
+             (setq  tags-text-url (concat tags-text-url "[[file:"  url ".org::#" tag "][#"tag"]] "))  
+             (setq  tags-text (concat tags-text tag " "))
+             (setq tags-buttons-front (concat tags-buttons-front "@@html:<a href='#" tag "' class='" tag " tagbutton'>" tag "</a>@@ "))
+             (setq tags-buttons (concat tags-buttons "@@html:<a href='" url ".html#" tag "' class='" tag " tagbutton'>" tag "</a>@@ "))))
          (org-set-property "TAGSURL" tags-text-url)
+         (org-set-property "TAGSFRONT" tags-buttons-front)
+         (org-set-property "TAGSBUTTONS" tags-buttons)
          (org-set-property "TAGSTEXT" tags-text)))
    "-noexport"))
 
@@ -358,7 +366,7 @@ As well as a list of the headline names"
   (org-export-head--escape (org-export-head--headline)))
 
 
-(defun org-export-head--replace-headline-macros(macro-alist)
+(defun org-export-head--replace-headline-macros(macro-alist headlines-list headlines-hash)
   "Replace macros of the type ###TEXT### They can contain information such as date
 or previous and next post.
 Any headline property can be used as a macro of this type."
@@ -400,8 +408,24 @@ Where match is a tag or -tag or combination of them."
     (org-export-head--goto-footer)
     (insert text)))
 
+
+
+(defun org-export-head--wrap-in-div-class (text classes)
+  "Wraps the text in a div with classes equal to the list of classes"
+  (let ((classes-str (string-join classes " ")))
+  (concat (org-export-head--div-class-start classes) text (org-export-head--div-class-end classes))))
+
+(defun org-export-head--div-class-start (classes)
+  "Wraps the text in a div with classes equal to the list of classes"
+  (let ((classes-str (string-join classes " ")))
+  (concat "@@html:<div class=\""classes-str" post\">@@" )))
+
+(defun org-export-head--div-end ()
+  "Wrapes the text in a div with classes equal to the list of classes"
+  "@@html:</div>@@")
+
 (defun org-export-head--generate-index-alist (headlines-list headlines-hash)
-  "Geneates an org list with the index of the website and inserts it in an alist"
+  "Geneates an org list with all the different index options of the website and inserts it in an alist"
   (let ((index "")
         (reverse-index "")
         (index-with-dates "")
@@ -410,79 +434,116 @@ Where match is a tag or -tag or combination of them."
         (all-tags-reverse "\n")
         (all-tags-with-dates "\n")
         (all-tags-with-summaries "\n")
+        (index-with-summaries-tags "")
+        (index-with-tags "")
+        (index-tags "")
         (tags ())
-        (tags-indexes ()))
-    (dolist (headline-name headlines-list)
-      (let* ((headline-alist (gethash headline-name headlines-hash nil))
-             (entry-tags (assoc "ALLTAGS" headline-alist))
-             (entry-tags (when entry-tags (delete "" (split-string (cdr entry-tags) ":"))))
-             (creation-date (cdr (assoc "CREATION-DATE" headline-alist)))
-             (modification-date (cdr (assoc "MODIFICATION-DATE" headline-alist)))
-             (summary (string-trim (cdr (assoc "SUMMARY" headline-alist))))
-             (index-entry (concat "- [["headline-name"]["headline-name"]]\n"))
-             (index-entry-with-date (concat "- @@html:<b>@@[["headline-name"]["headline-name"]]@@html:</b>@@"
-                                       "@@html:<span class=\"page-date\">@@"
-                                       " (" creation-date", updated " modification-date ")"
-                                       "@@html:</span>@@" "\n" ))
-             (index-entry-with-summary 
-              (concat  index-entry-with-date 
-                       (unless (= (length summary) 0) 
-                         (concat "   @@html:<br>@@" summary "\n")))))
-        
-        (setq index (concat index index-entry))
-        (setq reverse-index (concat index-entry reverse-index))
-        (setq index-with-dates (concat  index-with-dates index-entry-with-date))
-        (setq index-with-summaries (concat  index-with-summaries index-entry-with-summary))
+        (tags-indexes ())
+        (tags-buttons ()))
+    (cl-flet ((class-start(tags) (org-export-head--div-class-start tags))
+              (class-end() (org-export-head--div-end))) 
+      (dolist (headline-name headlines-list)
+        (let* ((headline-alist (gethash headline-name headlines-hash nil))
+               (entry-tags (assoc "ALLTAGS" headline-alist))
+               (entry-tags (when entry-tags  (split-string (cdr entry-tags) ":")))
+               (entry-tags (delete "" entry-tags))
+               (entry-tags (delete "noexport" entry-tags))
+               (entry-tags (delete "reexport" entry-tags))
+               (entry-tags (delete "noreexport" entry-tags))
+               (creation-date (cdr (assoc "CREATION-DATE" headline-alist)))
+               (modification-date (cdr (assoc "MODIFICATION-DATE" headline-alist)))
+               (summary (string-trim (cdr (assoc "SUMMARY" headline-alist))))
+               (summary-html (concat "" (unless (= (length summary) 0) 
+                                          (concat "   @@html:<br>@@" summary))))
+               (tags-buttons (cdr (assoc "TAGSFRONT" headline-alist)))
+               (headline-link (concat "- " (class-start entry-tags) " @@html:<b>@@[["headline-name"]["headline-name"]]@@html:</b>@@"))
+               (index-entry (concat headline-link (class-end)))
+               (date (concat "@@html:<span class=\"page-date\">@@"
+                             " (" creation-date", updated " modification-date ")"
+                             "@@html:</span>@@"  ))
+               (index-entry-with-date (concat headline-link  date (class-end)))
+               (index-entry-with-summary 
+                (concat headline-link  date " " summary-html (class-end)))
+               (index-entry-with-summary-tags
+                (concat headline-link  date " " tags-buttons summary-html (class-end)))
+               (index-entry-with-tags
+                (concat headline-link  date " " tags-buttons (class-end))))
+          (setq index (concat index index-entry "\n"))
+          (setq reverse-index (concat index-entry "\n" reverse-index) )
+          (setq index-with-dates (concat  index-with-dates index-entry-with-date "\n"))
+          (setq index-with-summaries (concat  index-with-summaries index-entry-with-summary "\n"))
+          (when entry-tags
+            (setq index-with-summaries-tags (concat index-with-summaries-tags index-entry-with-summary-tags "\n"))
+            (setq index-with-tags (concat index-with-tags index-entry-with-tags "\n")))
+          
+          (dolist (tag entry-tags)
+            (if (not (member tag tags))
+                (setq tags (cons tag tags)))
+            (dolist (suffix '("" "-reverse" "-with-dates" "-with-summaries" "-with-summaries-tags" "-with-tags"))
+              ;; Initialize tags lists
+              (let ((tag-index-name (upcase (concat tag suffix))))
+                (unless (assoc tag-index-name tags-indexes) 
+                  (setq tags-indexes (cons `(,tag-index-name . "")  tags-indexes)))))
 
-        (dolist (tag entry-tags)
-          (if (not (member tag tags))
-              (setq tags (cons tag tags)))
-          (dolist (suffix '("" "-reverse" "-with-dates" "-with-summaries"))
-            ;; Initialize tags lists
-            (let ((tag-index-name (upcase (concat tag suffix))))
-              (unless (assoc tag-index-name tags-indexes) 
-                (setq tags-indexes (cons `(,tag-index-name . "")  tags-indexes)))))
+            ;;Add tag indexes to list
+            (let* ((tag (upcase tag))
+                   (tag-reverse (upcase (concat tag "-reverse")))
+                   (tag-with-dates (upcase (concat tag "-with-dates")))
+                   (tag-with-summaries (upcase (concat tag "-with-summaries")))
+                   (tag-with-summaries-tags (upcase (concat tag "-with-summaries-tags")))
+                   (tag-with-tags (upcase (concat tag "-with-tags")))
+                   (tag-assoc (assoc tag tags-indexes))
+                   (tag-assoc-reverse (assoc tag-reverse tags-indexes))
+                   (tag-assoc-with-dates (assoc tag-with-dates tags-indexes))
+                   (tag-assoc-with-summaries (assoc tag-with-summaries tags-indexes))
+                   (tag-assoc-with-summaries-tags (assoc tag-with-summaries-tags tags-indexes))
+                   (tag-assoc-with-tags (assoc tag-with-tags tags-indexes))
+                   (tag-index (cdr tag-assoc))
+                   (tag-index-reverse (cdr tag-assoc-reverse))
+                   (tag-index-with-dates (cdr tag-assoc-with-dates))
+                   (tag-index-with-summaries (cdr tag-assoc-with-summaries))
+                   (tag-index-with-summaries-tags (cdr tag-assoc-with-summaries-tags))
+                   (tag-index-with-tags (cdr tag-assoc-with-tags)))
 
-          ;;Add tag indexes to list
-          (let* ((tag (upcase tag))
-                (tag-reverse (upcase (concat tag "-reverse")))
-                (tag-with-dates (upcase (concat tag "-with-dates")))
-                (tag-with-summaries (upcase (concat tag "-with-summaries")))
-                (tag-assoc (assoc tag tags-indexes))
-                (tag-assoc-reverse (assoc tag-reverse tags-indexes))
-                (tag-assoc-with-dates (assoc tag-with-dates tags-indexes))
-                (tag-assoc-with-summaries (assoc tag-with-summaries tags-indexes))
-                (tag-index (cdr tag-assoc))
-                (tag-index-reverse (cdr tag-assoc-reverse))
-                (tag-index-with-dates (cdr tag-assoc-with-dates))
-                (tag-index-with-summaries (cdr tag-assoc-with-summaries)))
 
-            (setf (cdr tag-assoc) (concat tag-index index-entry))
-            (setf (cdr tag-assoc-reverse) (concat index-entry tag-index-reverse ))
-            (setf (cdr tag-assoc-with-dates) (concat tag-index-with-dates index-entry-with-date))
-            (setf (cdr tag-assoc-with-summaries) (concat tag-index-with-summaries index-entry-with-summary))))))
-    
-    ;; Now we create an index for all tags, to be able to have tag pages
-    (sort tags (lambda (a b) (string<  a  b))) ; Sort the tags for the index of all tags
-    (dolist (tag tags)
-      (unless (or (string= tag "reexport") (string= tag "noexport") (string= tag "noreexport"))
-      (let* ((tag-reverse (upcase (concat tag "-reverse")))
-            (tag-with-dates (upcase (concat tag "-with-dates")))
-            (tag-with-summaries (upcase (concat tag "-with-summaries")))
-            (tag-with-summaries-list (cdr (assoc tag-with-summaries tags-indexes)))
-            (tag-list (cdr (assoc tag tags-indexes)))
-            (tag-reverse-list (cdr (assoc tag-reverse tags-indexes)))
-            (tag-with-dates-list (cdr (assoc tag-with-dates tags-indexes))))
-        (setq all-tags (concat all-tags "** " tag "\n" tag-list))
-        (setq all-tags-reverse (concat all-tags-reverse "** " tag "\n" tag-reverse-list))
-        (setq all-tags-with-dates (concat all-tags-with-dates "** " tag "\n" tag-with-dates-list))
-        (setq all-tags-with-summaries (concat all-tags-with-summaries "** " tag "\n" tag-with-summaries-list)))))
-            
+              
+              (setf (cdr tag-assoc) (concat tag-index index-entry "\n"))
+              (setf (cdr tag-assoc-reverse) (concat index-entry "\n" tag-index-reverse ))
+              (setf (cdr tag-assoc-with-dates) (concat tag-index-with-dates index-entry-with-date "\n"))
+              (setf (cdr tag-assoc-with-summaries) (concat tag-index-with-summaries index-entry-with-summary "\n"))
+              (setf (cdr tag-assoc-with-summaries-tags) (concat tag-index-with-summaries-tags index-entry-with-summary-tags "\n"))
+              (setf (cdr tag-assoc-with-tags) (concat tag-index-with-tags index-entry-with-tags "\n"))
+              (setf (cdr tag-assoc-with-summaries-tags) (concat tag-index-with-summaries-tags index-entry-with-summary-tags "\n"))))))
+      
+      ;; Now we create an index for all tags, to be able to have tag pages
+      (setq tags (cl-sort tags 'string-lessp :key 'downcase)) ;first sort them
+      (dolist (tag tags)
+        (unless (or (string= tag "reexport") (string= tag "noexport") (string= tag "noreexport"))
+          (let* ((tag-reverse (upcase (concat tag "-reverse")))
+                 (tag-with-dates (upcase (concat tag "-with-dates")))
+                 (tag-with-summaries (upcase (concat tag "-with-summaries")))
+                 (tag-with-summaries-list (cdr (assoc tag-with-summaries tags-indexes)))
+                 (tag-list (cdr (assoc tag tags-indexes)))
+                 (tag-reverse-list (cdr (assoc tag-reverse tags-indexes)))
+                 (tag-with-dates-list (cdr (assoc tag-with-dates tags-indexes))))
+            (setq all-tags (concat all-tags "** " tag "\n" tag-list))
+            (setq all-tags-reverse (concat all-tags-reverse "** " tag "\n" tag-reverse-list))
+            (setq all-tags-with-dates (concat all-tags-with-dates "** " tag "\n" tag-with-dates-list))
+            (setq all-tags-with-summaries (concat all-tags-with-summaries "** " tag "\n" tag-with-summaries-list)))))
+      
 
-    (append 
-     (list (cons "INDEX" index) (cons "INDEX-REVERSE" reverse-index)  (cons "INDEX-WITH-DATES" index-with-dates) (cons "INDEX-WITH-SUMMARIES" index-with-summaries) 
-           (cons "ALL-TAGS" all-tags) (cons "ALL-TAGS-REVERSE" all-tags-reverse)  (cons "ALL-TAGS-WITH-DATES" all-tags-with-dates) (cons "ALL-TAGS-WITH-SUMMARIES" all-tags-with-summaries))
-     tags-indexes)))
+      ;;Kinda bad, generates the tag buttons for each tag. Ideally should be done only if requested
+      (dolist (tag tags)
+        (unless (or (string= tag "reexport") (string= tag "noexport") (string= tag "noreexport"))
+          (setq tags-buttons (cons `(,(upcase (concat tag "-tags")) .  ,(org-export--get-tag-buttons tag))  tags-buttons))))
+     
+
+      (setq index-tags (org-export--get-tag-buttons))
+      (append 
+       (list (cons "INDEX" index) (cons "INDEX-TAGS" index-tags) (cons "INDEX-REVERSE" reverse-index)  (cons "INDEX-WITH-DATES" index-with-dates) (cons "INDEX-WITH-SUMMARIES" index-with-summaries) (cons "INDEX-WITH-SUMMARIES-TAGS" index-with-summaries-tags)
+             (cons "INDEX-WITH-TAGS" index-with-tags)
+             (cons "ALL-TAGS" all-tags) (cons "ALL-TAGS-REVERSE" all-tags-reverse)  (cons "ALL-TAGS-WITH-DATES" all-tags-with-dates) (cons "ALL-TAGS-WITH-SUMMARIES" all-tags-with-summaries))
+       tags-indexes tags-buttons))))
 
 ;;END OF NON AST (non org-element) SESSION
 
@@ -668,6 +729,15 @@ alphanumeric characters only."
           (otherwise path)))
       (org-link-set-parameters "video" :export 'org-export-head-export-video)))
 
+(if org-export-head-using-inline-js
+    (progn
+      (add-to-list 'org-src-lang-modes '("inline-js" . javascript)) ;; js2 if you're fancy
+      (defvar org-babel-default-header-args:inline-js
+        '((:results . "html")
+          (:exports . "results")))
+      (defun org-babel-execute:inline-js (body _params)
+        (format "<script type=\"text/javascript\">\n%s\n</script>" body))))
+
 (let ((file  (elt argv 0))
       (dir  (elt argv 1))
       (reexport  (elt argv 2)))
@@ -694,4 +764,58 @@ alphanumeric characters only."
                          "</nav> \n")))
         toc))))
 
+
+;;by jkitcking https://stackoverflow.com/a/27527252/5881930
+(defun org-export--get-tag-counts (&optional match)
+  (let* ((all-tags '())
+        (ignore (or match ""))
+        (match (concat (or match "") "-noexport")))
+    (org-map-entries
+     (lambda ()
+       (let ((tag-string (car (last (org-heading-components)))))
+     (when tag-string   
+       (setq all-tags
+         (append all-tags (split-string tag-string ":" t)))))) match)
+    ;; now get counts
+    (remove nil (loop for tag in (-uniq all-tags) 
+                      collect 
+                      (unless (or (string= tag "reexport") (string= tag "noexport") (string= tag "noreexport") (string= tag ignore))
+                        (cons tag (cl-count tag all-tags :test 'string=)))))))
+
+
+(defun org-export--downcase-car(x)
+  (downcase (car x)))
+
+(defun org-export--get-tag-buttons  (&optional match num)
+  "Gets the tag buttons for the pages that match 'match'"
+  (let* ((tags-counts (org-export--get-tag-counts match))
+         (tags-counts (cl-sort tags-counts  'string-lessp :key 'org-export--downcase-car)) ;first sort them
+        (tags-buttons ""))
+    (dolist (tag-tupl tags-counts)
+      (let ((tag (car tag-tupl))
+            (tagN (number-to-string (cdr tag-tupl))))
+        (if num
+            (setq tags-buttons (concat tags-buttons "@@html:<a href='#" tag "' class='tagbutton tagindex " tag"'>" tag " "tagN  "</a>@@ "))
+          (setq tags-buttons (concat tags-buttons "@@html:<a href='#" tag "' class='tagbutton tagindex " tag "'>" tag "</a>@@ ")))))
+    tags-buttons))
+
+
+(defun org-export-head-refile-subtree-at-point()
+  (interactive)
+  "Cuts the subtree leaving the header"
+  (save-excursion
+    (deactivate-mark t)
+    (let* ((start (org-export-head--goto-header t))
+           (end (org-end-of-subtree t))
+          (buffer (current-buffer))
+          (content (buffer-substring start end)))
+      (let* ((file-name (read-file-name "Move subtree to file:" nil nil 'confirm (concat  (nth 4 (org-heading-components)) ".org"))))
+        (with-temp-buffer
+          (insert content)
+          (write-file file-name))
+        (let ((relative-file-name (file-relative-name file-name)))
+          (insert (concat "#+INCLUDE \"" relative-file-name "\"\n"))
+          (insert (concat "@@comment: [[file:" relative-file-name "]] @@"))
+          (delete-region start  end)
+      content)))))
 

@@ -61,9 +61,9 @@ Auto resize images when inserting (optional) maybe?
 * Code   :tech:code:blog:
 :PROPERTIES:
 :CREATION-DATE: 2019-05-24
-:MODIFICATION-DATE: 2020-09-18
-:HASH:     3f72174e0cfdc73bc83fc431619aac80
-:PREVIOUS-HASH: 3f72174e0cfdc73bc83fc431619aac80
+:MODIFICATION-DATE: 2022-07-22
+:HASH:     c64c7fdfb03968ead433fc84882f511c
+:PREVIOUS-HASH: 11dc7aa0708573dde6d3a0e9d03c3b77
 :END:
 This is the code that runs this blog! I might as well have it here as well!
 #+include: "./exporter.el" src elisp
@@ -97,8 +97,12 @@ This is the code that runs this blog! I might as well have it here as well!
 ;useful if using custom links
 
 
-
 (setq org-export-head-click-toc-h2 t) ;; Make the header of TOC clickable, so you can write CSS for click to display
+
+(setq org-export-head-resize-images t)
+(setq org-export-head-resize-images-width 640)
+(setq org-export-head-resize-images-height 640)
+(setq org-export-head-resize-images-max-size 300000);0.3mb
 
 ;;End config
 
@@ -663,20 +667,46 @@ Only modifies links if file exists"
            (new-hard-link-path (concat directory-path new-relative-path))
            (new-hard-link-directory (file-name-directory new-hard-link-path)))
       
-      ;;Fix the AST
-      ;;If image, remove description so it will become a real image instead of a link
-      (unless (or (member extension img-extensions))
-        (apply #'org-element-adopt-elements link-copy link-description))
-      (org-element-put-property link-copy :path new-relative-path)
-      (org-element-set-element link  link-copy)
       
       ;;Create hard link folder
       (make-directory new-hard-link-directory t)
       ;;Create hard link, not replacing if it already exists, catching error if file does not exist
-      (condition-case nil
-          (add-name-to-file path new-hard-link-path nil)
-        (error nil)))))
+      (let ((new-file
+             (condition-case nil
+                 (add-name-to-file path new-hard-link-path nil)
+               (error nil))))
+        ;;Fix the AST
+        ;;If image, remove description so it will become a real image instead of a link
+        (if (not (member extension img-extensions))
+            (apply #'org-element-adopt-elements link-copy link-description)
+        (if org-export-head-resize-images
+            (let ((new-description (org-export-head--resize-image new-hard-link-path org-export-head-resize-images-width org-export-head-resize-images-height org-export-head-resize-images-max-size)))
+              (org-element-adopt-elements link-copy (concat "file:"(org-export-head--replace-in-string directory-path "" new-description))))
+              ))
+        (org-element-put-property link-copy :path new-relative-path)
+        (org-element-set-element link  link-copy)
+        
+        new-file
+        ))))
 
+(defun org-export-head--replace-in-string (what with in)
+"https://stackoverflow.com/a/17325791/5881930"
+  (replace-regexp-in-string (regexp-quote what) with in nil 'literal))
+
+(defun org-export-head--resize-image (path width height max-bytes) 
+  "resizes path to width height, keeping proportions, if file larger than max bytes"
+  (let* ((swidth (number-to-string width))
+         (sheight (number-to-string height))
+         (resized-path (concat (file-name-sans-extension path) swidth "x" sheight "." (file-name-extension path)))
+         (size-bytes (file-attribute-size (file-attributes path))))
+    (if (> size-bytes max-bytes)
+        (progn (if (not (file-exists-p resized-path))
+                   (call-process "convert" nil t nil path 
+                                 "-resize"
+                                 (concat  swidth "x" sheight">") 
+                                 resized-path))
+               resized-path)
+      path)))
 
 (defun org-export-head--insert-next-previous-headline(headlines-hash headlines-list)
   "Decides what is the next and the previous post and create macro"
@@ -1522,9 +1552,9 @@ Please download the PDF version [[file:pdflib/IvanFilho-ResumeFall2018.pdf][here
 * Contact
   :PROPERTIES:
   :CREATION-DATE: 2018-09-09
-  :MODIFICATION-DATE: 2020-07-28
-  :HASH:     21420b4c979a1da54175a51349c0e4a1
-  :PREVIOUS-HASH: 21420b4c979a1da54175a51349c0e4a1
+  :MODIFICATION-DATE: 2022-07-22
+  :HASH:     9232197184edcbd4aa718413edd0d338
+  :PREVIOUS-HASH: 9232197184edcbd4aa718413edd0d338
   :END:
 
 Contact me through email (ivanaf @alum.mit.edu). If you need to meet with me, below is my schedule. \\
@@ -5419,5 +5449,96 @@ Let say you wanna find the \(0\)s of a function, and you are using the winding n
 
  TODO
 * Resetting oneshot original (2014, RPGmaker) on wine, linux :games:
+:PROPERTIES:
+:CREATION-DATE: 2022-07-22
+:MODIFICATION-DATE: 2022-07-22
+:HASH:     3024b1b6db53f605c9134cbb2b60df1b
+:PREVIOUS-HASH: 3024b1b6db53f605c9134cbb2b60df1b
+:END:
 
 To reset the game, go to `.config/Oneshot`, and delete the files there. To change the ending, you can use a hexeditor to edit the ending file.
+* Resizing images using imagemagick for blog
+:PROPERTIES:
+:CREATION-DATE: 2022-07-22
+:MODIFICATION-DATE: 2022-07-22
+:HASH:     5b70e397a92b70e1e30abcaa1c6778f7
+:PREVIOUS-HASH: 5b70e397a92b70e1e30abcaa1c6778f7
+:END:
+#+BEGIN_SRC emacs-lisp 
+(defun org-export-head--resize-image (path width height max-bytes) 
+  (let* ((swidth (number-to-string width))
+         (sheight (number-to-string height))
+         (resized-path (concat (file-name-sans-extension path) swidth "x" sheight "," (file-name-extension path)))
+         (size-bytes (file-attribute-size (file-attributes path))))
+    (if (> size-bytes max-bytes)
+        (progn (if (not (file-exists-p resized-path))
+                   (call-process "convert" nil t nil path 
+                                 "-resize"
+                                 (concat  swidth "x" sheight">") 
+                                 resized-path))
+               resized-path)
+      path)))
+#+END_SRC
+
+#+RESULTS:
+: org-export-head--resize-image
+#+BEGIN_SRC emacs-lisp 
+(concat "a" "a")
+(file-name-extension "test/t/t.png")
+(org-export-head--resize-image "./png/thesis.png" 20 20 500000)
+#+END_SRC
+
+#+RESULTS:
+: ./png/thesis.png
+
+#+BEGIN_SRC emacs-lisp 
+(file-attribute-size (file-attributes "./png/thesis.png"))
+#+END_SRC
+
+#+RESULTS:
+: 27086
+#+BEGIN_SRC emacs-lisp 
+(defun element-at-point ()
+(interactive)
+(insert (org-element-contents(org-element-at-point))))
+#+END_SRC
+
+#+RESULTS:
+: element-at-point
+#+BEGIN_SRC emacs-lisp 
+(let* ((ast (org-element-parse-buffer)))
+  (org-element-map ast 'link
+    (lambda (link)
+      (progn
+        (setq lololo link)
+        (insert  (org-element-contents link))))))
+#+END_SRC
+#+BEGIN_SRC emacs-lisp 
+(org-element-contents  lololo)
+(setq lolo (org-element-copy lololo))
+lolo
+#+END_SRC
+
+#+RESULTS:
+| link | (:type elisp :path (org-export-head "../publish/") :format bracket :raw-link elisp:(org-export-head "../publish/") :application nil :search-option nil :begin 414 :end 455 :contents-begin nil :contents-end nil :post-blank 0 :parent nil) |
+
+#+BEGIN_SRC emacs-lisp 
+(org-element-adopt-elements lolo "test2")
+
+#+END_SRC
+
+#+RESULTS:
+| link | (:type elisp :path (org-export-head "../publish/") :format bracket :raw-link elisp:(org-export-head "../publish/") :application nil :search-option nil :begin 414 :end 455 :contents-begin nil :contents-end nil :post-blank 0 :parent nil) | test2 | test2 | test2 |
+
+
+#+BEGIN_SRC emacs-lisp 
+(org-element-contents lolo)
+#+END_SRC
+
+#+RESULTS:
+| test2 | test2 |
+
+| link | (:type elisp :path (org-export-head "../publish/") :format bracket :raw-link elisp:(org-export-head "../publish/") :application nil :search-option nil :begin 414 :end 461 :contents-begin 455 :contents-end 459 :post-blank 0 :parent nil) | test2 |
+#+ATTR_ORG: :width 300
+#+CAPTION: 
+[[./jpg/Imagem_131.jpg]]
