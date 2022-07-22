@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- 2022-07-22 Fri 19:37 -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Resizing images using imagemagick for blog</title>
+<meta name="generator" content="Org mode">
+<meta name="author" content="ivanaf">
+<link rel="stylesheet" type="text/css" href="css/org.css"/>
+<link rel="icon" href="ico/favicon.ico" type="image/x- icon">
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2019 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="content">
+<div class="head">
+<div class="title">
+<p>
+<a href="index.html">Ivanaf</a>
+</p>
+
+</div>
+
+<menu>
+<ul class="org-ul">
+<li><a href="index.html">Home</a></li>
+<li><a href="journal.html">Journal</a></li>
+<li><a href="about.html">About</a></li>
+<li><a href="resume.html">Resume</a></li>
+<li><a href="portfolio.html">Portfolio</a></li>
+<li><a href="contact.html">Contact</a></li>
+<li><a href="projects_ideas.html">Messy Ideas</a></li>
+</ul>
+</menu>
+
+</div>
+
+<p>
+ </p><h1>
+Resizing images using imagemagick for blog
+ </h1><p>
+</p>
+
+<p>
+<span class=page-date> <small>
+2022-07-22, updated 2022-07-22 &#x2014;   &nbsp  <a href="index.html">⇦index</a> &#x2013; <a href="resetting_oneshot_original_2014_rpgmaker_on_wine_linux.html">Resetting oneshot original (2014, RPGmaker) on wine, linux⇨</a> 
+</small> </span> 
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(<span style="color: #a626a4;">defun</span> <span style="color: #0184bc;">org-export-head--resize-image</span> (path width height max-bytes) 
+  (<span style="color: #a626a4;">let*</span> ((swidth (number-to-string width))
+         (sheight (number-to-string height))
+         (resized-path (concat (file-name-sans-extension path) swidth <span style="color: #50a14f;">"x"</span> sheight <span style="color: #50a14f;">","</span> (file-name-extension path)))
+         (size-bytes (file-attribute-size (file-attributes path))))
+    (<span style="color: #a626a4;">if</span> (&gt; size-bytes max-bytes)
+        (<span style="color: #a626a4;">progn</span> (<span style="color: #a626a4;">if</span> (not (file-exists-p resized-path))
+                   (call-process <span style="color: #50a14f;">"convert"</span> nil t nil path 
+                                 <span style="color: #50a14f;">"-resize"</span>
+                                 (concat  swidth <span style="color: #50a14f;">"x"</span> sheight<span style="color: #50a14f;">"&gt;"</span>) 
+                                 resized-path))
+               resized-path)
+      path)))
+</pre>
+</div>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(concat <span style="color: #50a14f;">"a"</span> <span style="color: #50a14f;">"a"</span>)
+(file-name-extension <span style="color: #50a14f;">"test/t/t.png"</span>)
+(org-export-head--resize-image <span style="color: #50a14f;">"./png/thesis.png"</span> 20 20 500000)
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(file-attribute-size (file-attributes <span style="color: #50a14f;">"./png/thesis.png"</span>))
+</pre>
+</div>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(<span style="color: #a626a4;">defun</span> <span style="color: #0184bc;">element-at-point</span> ()
+(<span style="color: #a626a4;">interactive</span>)
+(insert (org-element-contents(org-element-at-point))))
+</pre>
+</div>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(<span style="color: #a626a4;">let*</span> ((ast (org-element-parse-buffer)))
+  (org-element-map ast 'link
+    (<span style="color: #a626a4;">lambda</span> (link)
+      (<span style="color: #a626a4;">progn</span>
+        (<span style="color: #a626a4;">setq</span> lololo link)
+        (insert  (org-element-contents link))))))
+</pre>
+</div>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(org-element-contents  lololo)
+(<span style="color: #a626a4;">setq</span> lolo (org-element-copy lololo))
+lolo
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(org-element-adopt-elements lolo <span style="color: #50a14f;">"test2"</span>)
+</pre>
+</div>
+
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp">(org-element-contents lolo)
+</pre>
+</div>
+
+<table>
+
+
+<colgroup>
+<col  class="org-left">
+
+<col  class="org-left">
+
+<col  class="org-left">
+</colgroup>
+<tbody>
+<tr>
+<td class="org-left">link</td>
+<td class="org-left">(:type elisp :path (org-export-head "../publish/") :format bracket :raw-link elisp:(org-export-head "../publish/") :application nil :search-option nil :begin 414 :end 461 :contents-begin 455 :contents-end 459 :post-blank 0 :parent nil)</td>
+<td class="org-left">test2</td>
+</tr>
+</tbody>
+</table>
+
+<figure>
+<a href="./jpg/Imagem_131.jpg"><img src="./jpg/Imagem_131640x640.jpg" alt="Imagem_131640x640.jpg"></a>
+
+</figure>
+</div></div>
+<br>
+<div class="comments">
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+/* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'ivanaf'; // Required - Replace '<example>' with your forum shortname
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    var showComments = function() {
+    var button = document.getElementById('comment-button')
+        button.style.display = 'none'
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        };
+    </script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<button id="comment-button" onclick="showComments()">Show comments</button>
+</div>
+<div><div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: Ivan Tadeu Ferreira Antunes Filho</p>
+<p class="date">Date: 2022-07-22 Fri 19:37</p>
+<p class="author">Github:  <a href="https://github.com/itf/">github.com/itf</a></p>
+<p class="creator">Made with <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.50 (<a href="https://orgmode.org">Org</a> mode 9.1.9) and <a href="https://github.com/itf/org-export-head">Org export head</a> </p>
+</div>
+</body>
+</html>

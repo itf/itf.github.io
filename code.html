@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2020-09-18 Fri 01:31 -->
+<!-- 2022-07-22 Fri 19:36 -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Code</title>
@@ -88,7 +88,7 @@ Code
 
 <p>
 <span class=page-date> <small>
-2019-05-24, updated 2020-09-18 &#x2014; <a href='journal.html#tech' class='tech tagbutton'>tech</a> <a href='journal.html#code' class='code tagbutton'>code</a> <a href='journal.html#blog' class='blog tagbutton'>blog</a>  &nbsp  <a href="index.html">⇦index</a> &#x2013; <a href="index.html">index⇨</a> 
+2019-05-24, updated 2022-07-22 &#x2014; <a href='journal.html#tech' class='tech tagbutton'>tech</a> <a href='journal.html#code' class='code tagbutton'>code</a> <a href='journal.html#blog' class='blog tagbutton'>blog</a>  &nbsp  <a href="index.html">⇦index</a> &#x2013; <a href="index.html">index⇨</a> 
 </small> </span> 
 </p>
 <p>
@@ -116,10 +116,12 @@ This is the code that runs this blog! I might as well have it here as well!
 
 (<span style="color: #a626a4;">setq</span> org-export-head-tags-page <span style="color: #50a14f;">"Tags"</span>) <span style="color: #a0a1a7; font-weight: bold;">; </span><span style="color: #a0a1a7;">used for the tags to link to a page</span>
 
-(<span style="color: #a626a4;">setq</span> org-export-head-link-files-to-export (list <span style="color: #50a14f;">"file"</span> <span style="color: #50a14f;">"video"</span>)) <span style="color: #a0a1a7; font-weight: bold;">;;</span><span style="color: #a0a1a7;">Link types whose paths are gonna be copied with hard links</span>
+(<span style="color: #a626a4;">setq</span> org-export-head-using-video-links t) <span style="color: #a0a1a7; font-weight: bold;">;</span><span style="color: #a0a1a7;">helper function to add [[video:path]] links</span>
+(<span style="color: #a626a4;">setq</span> org-export-head-using-inline-js t) <span style="color: #a0a1a7; font-weight: bold;">;</span><span style="color: #a0a1a7;">helper function to add inline-js to babel</span>
+(<span style="color: #a626a4;">setq</span> org-export-head-link-files-to-export (list <span style="color: #50a14f;">"file"</span> <span style="color: #50a14f;">"video"</span>)) <span style="color: #a0a1a7; font-weight: bold;">;;</span><span style="color: #a0a1a7;">Link types whose paths are gonna be copied with hard links, example[[video:path]]</span>
 <span style="color: #a0a1a7; font-weight: bold;">;</span><span style="color: #a0a1a7;">useful if using custom links</span>
 
-(<span style="color: #a626a4;">setq</span> org-export-head-using-video-links t)
+
 
 (<span style="color: #a626a4;">setq</span> org-export-head-click-toc-h2 t) <span style="color: #a0a1a7; font-weight: bold;">;; </span><span style="color: #a0a1a7;">Make the header of TOC clickable, so you can write CSS for click to display</span>
 
@@ -203,7 +205,7 @@ This is the code that runs this blog! I might as well have it here as well!
          (<span style="color: #a626a4;">let*</span> ((headline-name (org-export-head--headline))
                 (headline-alist (gethash headline-name headlines-hash nil))
                 (macro-alist (append headline-alist global-macros))) <span style="color: #a0a1a7; font-weight: bold;">;;</span><span style="color: #a0a1a7;">in reverse order so that headline properties can overshadow these</span>
-           (org-export-head--replace-headline-macros macro-alist)))
+           (org-export-head--replace-headline-macros macro-alist headlines-list headlines-hash)))
      <span style="color: #50a14f;">"-noexport-noreexport"</span>)
 
   
@@ -358,14 +360,20 @@ This is the code that runs this blog! I might as well have it here as well!
    #'(lambda()
        (<span style="color: #a626a4;">let*</span> ((entry-tags (assoc <span style="color: #50a14f;">"ALLTAGS"</span> (org-entry-properties)))
              (entry-tags (<span style="color: #a626a4;">when</span> entry-tags (delete <span style="color: #50a14f;">""</span> (split-string (cdr entry-tags) <span style="color: #50a14f;">":"</span>))))
-             (url org-export-head-tags-page)
+             (url (org-export-head--escape org-export-head-tags-page))
              (tags-text-url <span style="color: #50a14f;">""</span>)
-             (tags-text <span style="color: #50a14f;">""</span>))
+             (tags-text <span style="color: #50a14f;">""</span>)
+             (tags-buttons-front <span style="color: #50a14f;">""</span>)
+             (tags-buttons <span style="color: #50a14f;">""</span>))
          (<span style="color: #a626a4;">dolist</span> (tag entry-tags)
            (<span style="color: #a626a4;">unless</span> (<span style="color: #a626a4;">or</span> (string= tag <span style="color: #50a14f;">"reexport"</span>) (string= tag <span style="color: #50a14f;">"noexport"</span>) (string= tag <span style="color: #50a14f;">"noreexport"</span>))
-             (<span style="color: #a626a4;">setq</span>  tags-text-url (concat tags-text-url <span style="color: #50a14f;">"[[file:"</span> (org-export-head--escape url) <span style="color: #50a14f;">".org::#"</span> tag <span style="color: #50a14f;">"][#"</span>tag<span style="color: #50a14f;">"]] "</span>))  
-             (<span style="color: #a626a4;">setq</span>  tags-text (concat tags-text tag <span style="color: #50a14f;">" "</span>))))
+             (<span style="color: #a626a4;">setq</span>  tags-text-url (concat tags-text-url <span style="color: #50a14f;">"[[file:"</span>  url <span style="color: #50a14f;">".org::#"</span> tag <span style="color: #50a14f;">"][#"</span>tag<span style="color: #50a14f;">"]] "</span>))  
+             (<span style="color: #a626a4;">setq</span>  tags-text (concat tags-text tag <span style="color: #50a14f;">" "</span>))
+             (<span style="color: #a626a4;">setq</span> tags-buttons-front (concat tags-buttons-front <span style="color: #50a14f;">"@@html:&lt;a href='#"</span> tag <span style="color: #50a14f;">"' class='"</span> tag <span style="color: #50a14f;">" tagbutton'&gt;"</span> tag <span style="color: #50a14f;">"&lt;/a&gt;@@ "</span>))
+             (<span style="color: #a626a4;">setq</span> tags-buttons (concat tags-buttons <span style="color: #50a14f;">"@@html:&lt;a href='"</span> url <span style="color: #50a14f;">".html#"</span> tag <span style="color: #50a14f;">"' class='"</span> tag <span style="color: #50a14f;">" tagbutton'&gt;"</span> tag <span style="color: #50a14f;">"&lt;/a&gt;@@ "</span>))))
          (org-set-property <span style="color: #50a14f;">"TAGSURL"</span> tags-text-url)
+         (org-set-property <span style="color: #50a14f;">"TAGSFRONT"</span> tags-buttons-front)
+         (org-set-property <span style="color: #50a14f;">"TAGSBUTTONS"</span> tags-buttons)
          (org-set-property <span style="color: #50a14f;">"TAGSTEXT"</span> tags-text)))
    <span style="color: #50a14f;">"-noexport"</span>))
 
@@ -455,7 +463,7 @@ This is the code that runs this blog! I might as well have it here as well!
   (org-export-head--escape (org-export-head--headline)))
 
 
-(<span style="color: #a626a4;">defun</span> <span style="color: #0184bc;">org-export-head--replace-headline-macros</span>(macro-alist)
+(<span style="color: #a626a4;">defun</span> <span style="color: #0184bc;">org-export-head--replace-headline-macros</span>(macro-alist headlines-list headlines-hash)
   <span style="color: #50a14f; font-style: italic;">"Replace macros of the type  They can contain information such as date</span>
 <span style="color: #50a14f; font-style: italic;">or previous and next post.</span>
 <span style="color: #50a14f; font-style: italic;">Any headline property can be used as a macro of this type."</span>
@@ -497,8 +505,24 @@ This is the code that runs this blog! I might as well have it here as well!
     (org-export-head--goto-footer)
     (insert text)))
 
+
+
+(<span style="color: #a626a4;">defun</span> <span style="color: #0184bc;">org-export-head--wrap-in-div-class</span> (text classes)
+  <span style="color: #50a14f; font-style: italic;">"Wraps the text in a div with classes equal to the list of classes"</span>
+  (<span style="color: #a626a4;">let</span> ((classes-str (string-join classes <span style="color: #50a14f;">" "</span>)))
+  (concat (org-export-head--div-class-start classes) text (org-export-head--div-class-end classes))))
+
+(<span style="color: #a626a4;">defun</span> <span style="color: #0184bc;">org-export-head--div-class-start</span> (classes)
+  <span style="color: #50a14f; font-style: italic;">"Wraps the text in a div with classes equal to the list of classes"</span>
+  (<span style="color: #a626a4;">let</span> ((classes-str (string-join classes <span style="color: #50a14f;">" "</span>)))
+  (concat <span style="color: #50a14f;">"@@html:&lt;div class=\""</span>classes-str<span style="color: #50a14f;">" post\"&gt;@@"</span> )))
+
+(<span style="color: #a626a4;">defun</span> <span style="color: #0184bc;">org-export-head--div-end</span> ()
+  <span style="color: #50a14f; font-style: italic;">"Wrapes the text in a div with classes equal to the list of classes"</span>
+  <span style="color: #50a14f;">"@@html:&lt;/div&gt;@@"</span>)
+
 (<span style="color: #a626a4;">defun</span> <span style="color: #0184bc;">org-export-head--generate-index-alist</span> (headlines-list headlines-hash)
-  <span style="color: #50a14f; font-style: italic;">"Geneates an org list with the index of the website and inserts it in an alist"</span>
+  <span style="color: #50a14f; font-style: italic;">"Geneates an org list with all the different index options of the website and inserts it in an alist"</span>
   (<span style="color: #a626a4;">let</span> ((index <span style="color: #50a14f;">""</span>)
         (reverse-index <span style="color: #50a14f;">""</span>)
         (index-with-dates <span style="color: #50a14f;">""</span>)
@@ -507,79 +531,116 @@ This is the code that runs this blog! I might as well have it here as well!
         (all-tags-reverse <span style="color: #50a14f;">"\n"</span>)
         (all-tags-with-dates <span style="color: #50a14f;">"\n"</span>)
         (all-tags-with-summaries <span style="color: #50a14f;">"\n"</span>)
+        (index-with-summaries-tags <span style="color: #50a14f;">""</span>)
+        (index-with-tags <span style="color: #50a14f;">""</span>)
+        (index-tags <span style="color: #50a14f;">""</span>)
         (tags ())
-        (tags-indexes ()))
-    (<span style="color: #a626a4;">dolist</span> (headline-name headlines-list)
-      (<span style="color: #a626a4;">let*</span> ((headline-alist (gethash headline-name headlines-hash nil))
-             (entry-tags (assoc <span style="color: #50a14f;">"ALLTAGS"</span> headline-alist))
-             (entry-tags (<span style="color: #a626a4;">when</span> entry-tags (delete <span style="color: #50a14f;">""</span> (split-string (cdr entry-tags) <span style="color: #50a14f;">":"</span>))))
-             (creation-date (cdr (assoc <span style="color: #50a14f;">"CREATION-DATE"</span> headline-alist)))
-             (modification-date (cdr (assoc <span style="color: #50a14f;">"MODIFICATION-DATE"</span> headline-alist)))
-             (summary (string-trim (cdr (assoc <span style="color: #50a14f;">"SUMMARY"</span> headline-alist))))
-             (index-entry (concat <span style="color: #50a14f;">"- [["</span>headline-name<span style="color: #50a14f;">"]["</span>headline-name<span style="color: #50a14f;">"]]\n"</span>))
-             (index-entry-with-date (concat <span style="color: #50a14f;">"- @@html:&lt;b&gt;@@[["</span>headline-name<span style="color: #50a14f;">"]["</span>headline-name<span style="color: #50a14f;">"]]@@html:&lt;/b&gt;@@"</span>
-                                       <span style="color: #50a14f;">"@@html:&lt;span class=\"page-date\"&gt;@@"</span>
-                                       <span style="color: #50a14f;">" ("</span> creation-date<span style="color: #50a14f;">", updated "</span> modification-date <span style="color: #50a14f;">")"</span>
-                                       <span style="color: #50a14f;">"@@html:&lt;/span&gt;@@"</span> <span style="color: #50a14f;">"\n"</span> ))
-             (index-entry-with-summary 
-              (concat  index-entry-with-date 
-                       (<span style="color: #a626a4;">unless</span> (= (length summary) 0) 
-                         (concat <span style="color: #50a14f;">"   @@html:&lt;br&gt;@@"</span> summary <span style="color: #50a14f;">"\n"</span>)))))
-        
-        (<span style="color: #a626a4;">setq</span> index (concat index index-entry))
-        (<span style="color: #a626a4;">setq</span> reverse-index (concat index-entry reverse-index))
-        (<span style="color: #a626a4;">setq</span> index-with-dates (concat  index-with-dates index-entry-with-date))
-        (<span style="color: #a626a4;">setq</span> index-with-summaries (concat  index-with-summaries index-entry-with-summary))
+        (tags-indexes ())
+        (tags-buttons ()))
+    (<span style="color: #a626a4;">cl-flet</span> ((class-start(tags) (org-export-head--div-class-start tags))
+              (class-end() (org-export-head--div-end))) 
+      (<span style="color: #a626a4;">dolist</span> (headline-name headlines-list)
+        (<span style="color: #a626a4;">let*</span> ((headline-alist (gethash headline-name headlines-hash nil))
+               (entry-tags (assoc <span style="color: #50a14f;">"ALLTAGS"</span> headline-alist))
+               (entry-tags (<span style="color: #a626a4;">when</span> entry-tags  (split-string (cdr entry-tags) <span style="color: #50a14f;">":"</span>)))
+               (entry-tags (delete <span style="color: #50a14f;">""</span> entry-tags))
+               (entry-tags (delete <span style="color: #50a14f;">"noexport"</span> entry-tags))
+               (entry-tags (delete <span style="color: #50a14f;">"reexport"</span> entry-tags))
+               (entry-tags (delete <span style="color: #50a14f;">"noreexport"</span> entry-tags))
+               (creation-date (cdr (assoc <span style="color: #50a14f;">"CREATION-DATE"</span> headline-alist)))
+               (modification-date (cdr (assoc <span style="color: #50a14f;">"MODIFICATION-DATE"</span> headline-alist)))
+               (summary (string-trim (cdr (assoc <span style="color: #50a14f;">"SUMMARY"</span> headline-alist))))
+               (summary-html (concat <span style="color: #50a14f;">""</span> (<span style="color: #a626a4;">unless</span> (= (length summary) 0) 
+                                          (concat <span style="color: #50a14f;">"   @@html:&lt;br&gt;@@"</span> summary))))
+               (tags-buttons (cdr (assoc <span style="color: #50a14f;">"TAGSFRONT"</span> headline-alist)))
+               (headline-link (concat <span style="color: #50a14f;">"- "</span> (class-start entry-tags) <span style="color: #50a14f;">" @@html:&lt;b&gt;@@[["</span>headline-name<span style="color: #50a14f;">"]["</span>headline-name<span style="color: #50a14f;">"]]@@html:&lt;/b&gt;@@"</span>))
+               (index-entry (concat headline-link (class-end)))
+               (date (concat <span style="color: #50a14f;">"@@html:&lt;span class=\"page-date\"&gt;@@"</span>
+                             <span style="color: #50a14f;">" ("</span> creation-date<span style="color: #50a14f;">", updated "</span> modification-date <span style="color: #50a14f;">")"</span>
+                             <span style="color: #50a14f;">"@@html:&lt;/span&gt;@@"</span>  ))
+               (index-entry-with-date (concat headline-link  date (class-end)))
+               (index-entry-with-summary 
+                (concat headline-link  date <span style="color: #50a14f;">" "</span> summary-html (class-end)))
+               (index-entry-with-summary-tags
+                (concat headline-link  date <span style="color: #50a14f;">" "</span> tags-buttons summary-html (class-end)))
+               (index-entry-with-tags
+                (concat headline-link  date <span style="color: #50a14f;">" "</span> tags-buttons (class-end))))
+          (<span style="color: #a626a4;">setq</span> index (concat index index-entry <span style="color: #50a14f;">"\n"</span>))
+          (<span style="color: #a626a4;">setq</span> reverse-index (concat index-entry <span style="color: #50a14f;">"\n"</span> reverse-index) )
+          (<span style="color: #a626a4;">setq</span> index-with-dates (concat  index-with-dates index-entry-with-date <span style="color: #50a14f;">"\n"</span>))
+          (<span style="color: #a626a4;">setq</span> index-with-summaries (concat  index-with-summaries index-entry-with-summary <span style="color: #50a14f;">"\n"</span>))
+          (<span style="color: #a626a4;">when</span> entry-tags
+            (<span style="color: #a626a4;">setq</span> index-with-summaries-tags (concat index-with-summaries-tags index-entry-with-summary-tags <span style="color: #50a14f;">"\n"</span>))
+            (<span style="color: #a626a4;">setq</span> index-with-tags (concat index-with-tags index-entry-with-tags <span style="color: #50a14f;">"\n"</span>)))
+          
+          (<span style="color: #a626a4;">dolist</span> (tag entry-tags)
+            (<span style="color: #a626a4;">if</span> (not (member tag tags))
+                (<span style="color: #a626a4;">setq</span> tags (cons tag tags)))
+            (<span style="color: #a626a4;">dolist</span> (suffix '(<span style="color: #50a14f;">""</span> <span style="color: #50a14f;">"-reverse"</span> <span style="color: #50a14f;">"-with-dates"</span> <span style="color: #50a14f;">"-with-summaries"</span> <span style="color: #50a14f;">"-with-summaries-tags"</span> <span style="color: #50a14f;">"-with-tags"</span>))
+              <span style="color: #a0a1a7; font-weight: bold;">;; </span><span style="color: #a0a1a7;">Initialize tags lists</span>
+              (<span style="color: #a626a4;">let</span> ((tag-index-name (upcase (concat tag suffix))))
+                (<span style="color: #a626a4;">unless</span> (assoc tag-index-name tags-indexes) 
+                  (<span style="color: #a626a4;">setq</span> tags-indexes (cons `(,tag-index-name . <span style="color: #50a14f;">""</span>)  tags-indexes)))))
 
-        (<span style="color: #a626a4;">dolist</span> (tag entry-tags)
-          (<span style="color: #a626a4;">if</span> (not (member tag tags))
-              (<span style="color: #a626a4;">setq</span> tags (cons tag tags)))
-          (<span style="color: #a626a4;">dolist</span> (suffix '(<span style="color: #50a14f;">""</span> <span style="color: #50a14f;">"-reverse"</span> <span style="color: #50a14f;">"-with-dates"</span> <span style="color: #50a14f;">"-with-summaries"</span>))
-            <span style="color: #a0a1a7; font-weight: bold;">;; </span><span style="color: #a0a1a7;">Initialize tags lists</span>
-            (<span style="color: #a626a4;">let</span> ((tag-index-name (upcase (concat tag suffix))))
-              (<span style="color: #a626a4;">unless</span> (assoc tag-index-name tags-indexes) 
-                (<span style="color: #a626a4;">setq</span> tags-indexes (cons `(,tag-index-name . <span style="color: #50a14f;">""</span>)  tags-indexes)))))
+            <span style="color: #a0a1a7; font-weight: bold;">;;</span><span style="color: #a0a1a7;">Add tag indexes to list</span>
+            (<span style="color: #a626a4;">let*</span> ((tag (upcase tag))
+                   (tag-reverse (upcase (concat tag <span style="color: #50a14f;">"-reverse"</span>)))
+                   (tag-with-dates (upcase (concat tag <span style="color: #50a14f;">"-with-dates"</span>)))
+                   (tag-with-summaries (upcase (concat tag <span style="color: #50a14f;">"-with-summaries"</span>)))
+                   (tag-with-summaries-tags (upcase (concat tag <span style="color: #50a14f;">"-with-summaries-tags"</span>)))
+                   (tag-with-tags (upcase (concat tag <span style="color: #50a14f;">"-with-tags"</span>)))
+                   (tag-assoc (assoc tag tags-indexes))
+                   (tag-assoc-reverse (assoc tag-reverse tags-indexes))
+                   (tag-assoc-with-dates (assoc tag-with-dates tags-indexes))
+                   (tag-assoc-with-summaries (assoc tag-with-summaries tags-indexes))
+                   (tag-assoc-with-summaries-tags (assoc tag-with-summaries-tags tags-indexes))
+                   (tag-assoc-with-tags (assoc tag-with-tags tags-indexes))
+                   (tag-index (cdr tag-assoc))
+                   (tag-index-reverse (cdr tag-assoc-reverse))
+                   (tag-index-with-dates (cdr tag-assoc-with-dates))
+                   (tag-index-with-summaries (cdr tag-assoc-with-summaries))
+                   (tag-index-with-summaries-tags (cdr tag-assoc-with-summaries-tags))
+                   (tag-index-with-tags (cdr tag-assoc-with-tags)))
 
-          <span style="color: #a0a1a7; font-weight: bold;">;;</span><span style="color: #a0a1a7;">Add tag indexes to list</span>
-          (<span style="color: #a626a4;">let*</span> ((tag (upcase tag))
-                (tag-reverse (upcase (concat tag <span style="color: #50a14f;">"-reverse"</span>)))
-                (tag-with-dates (upcase (concat tag <span style="color: #50a14f;">"-with-dates"</span>)))
-                (tag-with-summaries (upcase (concat tag <span style="color: #50a14f;">"-with-summaries"</span>)))
-                (tag-assoc (assoc tag tags-indexes))
-                (tag-assoc-reverse (assoc tag-reverse tags-indexes))
-                (tag-assoc-with-dates (assoc tag-with-dates tags-indexes))
-                (tag-assoc-with-summaries (assoc tag-with-summaries tags-indexes))
-                (tag-index (cdr tag-assoc))
-                (tag-index-reverse (cdr tag-assoc-reverse))
-                (tag-index-with-dates (cdr tag-assoc-with-dates))
-                (tag-index-with-summaries (cdr tag-assoc-with-summaries)))
 
-            (<span style="color: #a626a4;">setf</span> (cdr tag-assoc) (concat tag-index index-entry))
-            (<span style="color: #a626a4;">setf</span> (cdr tag-assoc-reverse) (concat index-entry tag-index-reverse ))
-            (<span style="color: #a626a4;">setf</span> (cdr tag-assoc-with-dates) (concat tag-index-with-dates index-entry-with-date))
-            (<span style="color: #a626a4;">setf</span> (cdr tag-assoc-with-summaries) (concat tag-index-with-summaries index-entry-with-summary))))))
-    
-    <span style="color: #a0a1a7; font-weight: bold;">;; </span><span style="color: #a0a1a7;">Now we create an index for all tags, to be able to have tag pages</span>
-    (sort tags (<span style="color: #a626a4;">lambda</span> (a b) (string&lt;  a  b))) <span style="color: #a0a1a7; font-weight: bold;">; </span><span style="color: #a0a1a7;">Sort the tags for the index of all tags</span>
-    (<span style="color: #a626a4;">dolist</span> (tag tags)
-      (<span style="color: #a626a4;">unless</span> (<span style="color: #a626a4;">or</span> (string= tag <span style="color: #50a14f;">"reexport"</span>) (string= tag <span style="color: #50a14f;">"noexport"</span>) (string= tag <span style="color: #50a14f;">"noreexport"</span>))
-      (<span style="color: #a626a4;">let*</span> ((tag-reverse (upcase (concat tag <span style="color: #50a14f;">"-reverse"</span>)))
-            (tag-with-dates (upcase (concat tag <span style="color: #50a14f;">"-with-dates"</span>)))
-            (tag-with-summaries (upcase (concat tag <span style="color: #50a14f;">"-with-summaries"</span>)))
-            (tag-with-summaries-list (cdr (assoc tag-with-summaries tags-indexes)))
-            (tag-list (cdr (assoc tag tags-indexes)))
-            (tag-reverse-list (cdr (assoc tag-reverse tags-indexes)))
-            (tag-with-dates-list (cdr (assoc tag-with-dates tags-indexes))))
-        (<span style="color: #a626a4;">setq</span> all-tags (concat all-tags <span style="color: #50a14f;">"** "</span> tag <span style="color: #50a14f;">"\n"</span> tag-list))
-        (<span style="color: #a626a4;">setq</span> all-tags-reverse (concat all-tags-reverse <span style="color: #50a14f;">"** "</span> tag <span style="color: #50a14f;">"\n"</span> tag-reverse-list))
-        (<span style="color: #a626a4;">setq</span> all-tags-with-dates (concat all-tags-with-dates <span style="color: #50a14f;">"** "</span> tag <span style="color: #50a14f;">"\n"</span> tag-with-dates-list))
-        (<span style="color: #a626a4;">setq</span> all-tags-with-summaries (concat all-tags-with-summaries <span style="color: #50a14f;">"** "</span> tag <span style="color: #50a14f;">"\n"</span> tag-with-summaries-list)))))
-            
+              
+              (<span style="color: #a626a4;">setf</span> (cdr tag-assoc) (concat tag-index index-entry <span style="color: #50a14f;">"\n"</span>))
+              (<span style="color: #a626a4;">setf</span> (cdr tag-assoc-reverse) (concat index-entry <span style="color: #50a14f;">"\n"</span> tag-index-reverse ))
+              (<span style="color: #a626a4;">setf</span> (cdr tag-assoc-with-dates) (concat tag-index-with-dates index-entry-with-date <span style="color: #50a14f;">"\n"</span>))
+              (<span style="color: #a626a4;">setf</span> (cdr tag-assoc-with-summaries) (concat tag-index-with-summaries index-entry-with-summary <span style="color: #50a14f;">"\n"</span>))
+              (<span style="color: #a626a4;">setf</span> (cdr tag-assoc-with-summaries-tags) (concat tag-index-with-summaries-tags index-entry-with-summary-tags <span style="color: #50a14f;">"\n"</span>))
+              (<span style="color: #a626a4;">setf</span> (cdr tag-assoc-with-tags) (concat tag-index-with-tags index-entry-with-tags <span style="color: #50a14f;">"\n"</span>))
+              (<span style="color: #a626a4;">setf</span> (cdr tag-assoc-with-summaries-tags) (concat tag-index-with-summaries-tags index-entry-with-summary-tags <span style="color: #50a14f;">"\n"</span>))))))
+      
+      <span style="color: #a0a1a7; font-weight: bold;">;; </span><span style="color: #a0a1a7;">Now we create an index for all tags, to be able to have tag pages</span>
+      (<span style="color: #a626a4;">setq</span> tags (cl-sort tags 'string-lessp <span style="color: #e44649;">:key</span> 'downcase)) <span style="color: #a0a1a7; font-weight: bold;">;</span><span style="color: #a0a1a7;">first sort them</span>
+      (<span style="color: #a626a4;">dolist</span> (tag tags)
+        (<span style="color: #a626a4;">unless</span> (<span style="color: #a626a4;">or</span> (string= tag <span style="color: #50a14f;">"reexport"</span>) (string= tag <span style="color: #50a14f;">"noexport"</span>) (string= tag <span style="color: #50a14f;">"noreexport"</span>))
+          (<span style="color: #a626a4;">let*</span> ((tag-reverse (upcase (concat tag <span style="color: #50a14f;">"-reverse"</span>)))
+                 (tag-with-dates (upcase (concat tag <span style="color: #50a14f;">"-with-dates"</span>)))
+                 (tag-with-summaries (upcase (concat tag <span style="color: #50a14f;">"-with-summaries"</span>)))
+                 (tag-with-summaries-list (cdr (assoc tag-with-summaries tags-indexes)))
+                 (tag-list (cdr (assoc tag tags-indexes)))
+                 (tag-reverse-list (cdr (assoc tag-reverse tags-indexes)))
+                 (tag-with-dates-list (cdr (assoc tag-with-dates tags-indexes))))
+            (<span style="color: #a626a4;">setq</span> all-tags (concat all-tags <span style="color: #50a14f;">"** "</span> tag <span style="color: #50a14f;">"\n"</span> tag-list))
+            (<span style="color: #a626a4;">setq</span> all-tags-reverse (concat all-tags-reverse <span style="color: #50a14f;">"** "</span> tag <span style="color: #50a14f;">"\n"</span> tag-reverse-list))
+            (<span style="color: #a626a4;">setq</span> all-tags-with-dates (concat all-tags-with-dates <span style="color: #50a14f;">"** "</span> tag <span style="color: #50a14f;">"\n"</span> tag-with-dates-list))
+            (<span style="color: #a626a4;">setq</span> all-tags-with-summaries (concat all-tags-with-summaries <span style="color: #50a14f;">"** "</span> tag <span style="color: #50a14f;">"\n"</span> tag-with-summaries-list)))))
+      
 
-    (append 
-     (list (cons <span style="color: #50a14f;">"INDEX"</span> index) (cons <span style="color: #50a14f;">"INDEX-REVERSE"</span> reverse-index)  (cons <span style="color: #50a14f;">"INDEX-WITH-DATES"</span> index-with-dates) (cons <span style="color: #50a14f;">"INDEX-WITH-SUMMARIES"</span> index-with-summaries) 
-           (cons <span style="color: #50a14f;">"ALL-TAGS"</span> all-tags) (cons <span style="color: #50a14f;">"ALL-TAGS-REVERSE"</span> all-tags-reverse)  (cons <span style="color: #50a14f;">"ALL-TAGS-WITH-DATES"</span> all-tags-with-dates) (cons <span style="color: #50a14f;">"ALL-TAGS-WITH-SUMMARIES"</span> all-tags-with-summaries))
-     tags-indexes)))
+      <span style="color: #a0a1a7; font-weight: bold;">;;</span><span style="color: #a0a1a7;">Kinda bad, generates the tag buttons for each tag. Ideally should be done only if requested</span>
+      (<span style="color: #a626a4;">dolist</span> (tag tags)
+        (<span style="color: #a626a4;">unless</span> (<span style="color: #a626a4;">or</span> (string= tag <span style="color: #50a14f;">"reexport"</span>) (string= tag <span style="color: #50a14f;">"noexport"</span>) (string= tag <span style="color: #50a14f;">"noreexport"</span>))
+          (<span style="color: #a626a4;">setq</span> tags-buttons (cons `(,(upcase (concat tag <span style="color: #50a14f;">"-tags"</span>)) .  ,(org-export--get-tag-buttons tag))  tags-buttons))))
+     
+
+      (<span style="color: #a626a4;">setq</span> index-tags (org-export--get-tag-buttons))
+      (append 
+       (list (cons <span style="color: #50a14f;">"INDEX"</span> index) (cons <span style="color: #50a14f;">"INDEX-TAGS"</span> index-tags) (cons <span style="color: #50a14f;">"INDEX-REVERSE"</span> reverse-index)  (cons <span style="color: #50a14f;">"INDEX-WITH-DATES"</span> index-with-dates) (cons <span style="color: #50a14f;">"INDEX-WITH-SUMMARIES"</span> index-with-summaries) (cons <span style="color: #50a14f;">"INDEX-WITH-SUMMARIES-TAGS"</span> index-with-summaries-tags)
+             (cons <span style="color: #50a14f;">"INDEX-WITH-TAGS"</span> index-with-tags)
+             (cons <span style="color: #50a14f;">"ALL-TAGS"</span> all-tags) (cons <span style="color: #50a14f;">"ALL-TAGS-REVERSE"</span> all-tags-reverse)  (cons <span style="color: #50a14f;">"ALL-TAGS-WITH-DATES"</span> all-tags-with-dates) (cons <span style="color: #50a14f;">"ALL-TAGS-WITH-SUMMARIES"</span> all-tags-with-summaries))
+       tags-indexes tags-buttons))))
 
 <span style="color: #a0a1a7; font-weight: bold;">;;</span><span style="color: #a0a1a7;">END OF NON AST (non org-element) SESSION</span>
 
@@ -765,6 +826,15 @@ This is the code that runs this blog! I might as well have it here as well!
           (otherwise path)))
       (org-link-set-parameters <span style="color: #50a14f;">"video"</span> <span style="color: #e44649;">:export</span> 'org-export-head-export-video)))
 
+(<span style="color: #a626a4;">if</span> org-export-head-using-inline-js
+    (<span style="color: #a626a4;">progn</span>
+      (add-to-list 'org-src-lang-modes '(<span style="color: #50a14f;">"inline-js"</span> . javascript)) <span style="color: #a0a1a7; font-weight: bold;">;; </span><span style="color: #a0a1a7;">js2 if you're fancy</span>
+      (<span style="color: #a626a4;">defvar</span> <span style="color: #8b4513;">org-babel-default-header-args:inline-js</span>
+        '((<span style="color: #e44649;">:results</span> . <span style="color: #50a14f;">"html"</span>)
+          (<span style="color: #e44649;">:exports</span> . <span style="color: #50a14f;">"results"</span>)))
+      (<span style="color: #a626a4;">defun</span> <span style="color: #0184bc;">org-babel-execute:inline-js</span> (body _params)
+        (format <span style="color: #50a14f;">"&lt;script type=\"text/javascript\"&gt;\n%s\n&lt;/script&gt;"</span> body))))
+
 (<span style="color: #a626a4;">let</span> ((file  (elt argv 0))
       (dir  (elt argv 1))
       (reexport  (elt argv 2)))
@@ -790,6 +860,61 @@ This is the code that runs this blog! I might as well have it here as well!
                          <span style="color: #50a14f;">"&lt;/div&gt;\n"</span>
                          <span style="color: #50a14f;">"&lt;/nav&gt; \n"</span>)))
         toc))))
+
+
+<span style="color: #a0a1a7; font-weight: bold;">;;</span><span style="color: #a0a1a7;">by jkitcking https://stackoverflow.com/a/27527252/5881930</span>
+(<span style="color: #a626a4;">defun</span> <span style="color: #0184bc;">org-export--get-tag-counts</span> (<span style="color: #c18401;">&amp;optional</span> match)
+  (<span style="color: #a626a4;">let*</span> ((all-tags '())
+        (ignore (<span style="color: #a626a4;">or</span> match <span style="color: #50a14f;">""</span>))
+        (match (concat (<span style="color: #a626a4;">or</span> match <span style="color: #50a14f;">""</span>) <span style="color: #50a14f;">"-noexport"</span>)))
+    (org-map-entries
+     (<span style="color: #a626a4;">lambda</span> ()
+       (<span style="color: #a626a4;">let</span> ((tag-string (car (last (org-heading-components)))))
+     (<span style="color: #a626a4;">when</span> tag-string   
+       (<span style="color: #a626a4;">setq</span> all-tags
+         (append all-tags (split-string tag-string <span style="color: #50a14f;">":"</span> t)))))) <span style="color: #ff0000; font-weight: bold;">match)</span>
+    <span style="color: #a0a1a7; font-weight: bold;">;; </span><span style="color: #a0a1a7;">now get counts</span>
+    (remove nil (<span style="color: #a626a4;">loop</span> for tag in (-uniq all-tags) 
+                      collect 
+                      (<span style="color: #a626a4;">unless</span> (<span style="color: #a626a4;">or</span> (string= tag <span style="color: #50a14f;">"reexport"</span>) (string= tag <span style="color: #50a14f;">"noexport"</span>) (string= tag <span style="color: #50a14f;">"noreexport"</span>) (string= tag ignore))
+                        (cons tag (cl-count tag all-tags <span style="color: #e44649;">:test</span> 'string=)))))))
+
+
+(<span style="color: #a626a4;">defun</span> <span style="color: #0184bc;">org-export--downcase-car</span>(x)
+  (downcase (car x)))
+
+(<span style="color: #a626a4;">defun</span> <span style="color: #0184bc;">org-export--get-tag-buttons</span>  (<span style="color: #c18401;">&amp;optional</span> match num)
+  <span style="color: #50a14f; font-style: italic;">"Gets the tag buttons for the pages that match 'match'"</span>
+  (<span style="color: #a626a4;">let*</span> ((tags-counts (org-export--get-tag-counts match))
+         (tags-counts (cl-sort tags-counts  'string-lessp <span style="color: #e44649;">:key</span> 'org-export--downcase-car)) <span style="color: #a0a1a7; font-weight: bold;">;</span><span style="color: #a0a1a7;">first sort them</span>
+        (tags-buttons <span style="color: #50a14f;">""</span>))
+    (<span style="color: #a626a4;">dolist</span> (tag-tupl tags-counts)
+      (<span style="color: #a626a4;">let</span> ((tag (car tag-tupl))
+            (tagN (number-to-string (cdr tag-tupl))))
+        (<span style="color: #a626a4;">if</span> num
+            (<span style="color: #a626a4;">setq</span> tags-buttons (concat tags-buttons <span style="color: #50a14f;">"@@html:&lt;a href='#"</span> tag <span style="color: #50a14f;">"' class='tagbutton tagindex "</span> tag<span style="color: #50a14f;">"'&gt;"</span> tag <span style="color: #50a14f;">" "</span>tagN  <span style="color: #50a14f;">"&lt;/a&gt;@@ "</span>))
+          (<span style="color: #a626a4;">setq</span> tags-buttons (concat tags-buttons <span style="color: #50a14f;">"@@html:&lt;a href='#"</span> tag <span style="color: #50a14f;">"' class='tagbutton tagindex "</span> tag <span style="color: #50a14f;">"'&gt;"</span> tag <span style="color: #50a14f;">"&lt;/a&gt;@@ "</span>)))))
+    tags-buttons))
+
+
+(<span style="color: #a626a4;">defun</span> <span style="color: #0184bc;">org-export-head-refile-subtree-at-point</span>()
+  (<span style="color: #a626a4;">interactive</span>)
+  <span style="color: #50a14f;">"Cuts the subtree leaving the header"</span>
+  (<span style="color: #a626a4;">save-excursion</span>
+    (deactivate-mark t)
+    (<span style="color: #a626a4;">let*</span> ((start (org-export-head--goto-header t))
+           (end (org-end-of-subtree t))
+          (buffer (current-buffer))
+          (content (buffer-substring start end)))
+      (<span style="color: #a626a4;">let*</span> ((file-name (read-file-name <span style="color: #50a14f;">"Move subtree to file:"</span> nil nil 'confirm (concat  (nth 4 (org-heading-components)) <span style="color: #50a14f;">".org"</span>))))
+        (<span style="color: #a626a4;">with-temp-buffer</span>
+          (insert content)
+          (write-file file-name))
+        (<span style="color: #a626a4;">let</span> ((relative-file-name (file-relative-name file-name)))
+          (insert (concat <span style="color: #50a14f;">"#+INCLUDE \""</span> relative-file-name <span style="color: #50a14f;">"\"\n"</span>))
+          (insert (concat <span style="color: #50a14f;">"@@comment: [[file:"</span> relative-file-name <span style="color: #50a14f;">"]] @@"</span>))
+          (delete-region start  end)
+      content)))))
 </pre>
 </div>
 
@@ -817,7 +942,7 @@ This is the code that runs this blog! I might as well have it here as well!
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Ivan Tadeu Ferreira Antunes Filho</p>
-<p class="date">Date: 2020-09-18 Fri 01:31</p>
+<p class="date">Date: 2022-07-22 Fri 19:36</p>
 <p class="author">Github:  <a href="https://github.com/itf/">github.com/itf</a></p>
 <p class="creator">Made with <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.50 (<a href="https://orgmode.org">Org</a> mode 9.1.9) and <a href="https://github.com/itf/org-export-head">Org export head</a> </p>
 </div>
