@@ -62,8 +62,8 @@ Auto resize images when inserting (optional) maybe?
 :PROPERTIES:
 :CREATION-DATE: 2019-05-24
 :MODIFICATION-DATE: 2022-07-22
-:HASH:     c64c7fdfb03968ead433fc84882f511c
-:PREVIOUS-HASH: 11dc7aa0708573dde6d3a0e9d03c3b77
+:HASH:     82a9d906b2d2dd1620d4b4baafa460c7
+:PREVIOUS-HASH: c64c7fdfb03968ead433fc84882f511c
 :END:
 This is the code that runs this blog! I might as well have it here as well!
 #+include: "./exporter.el" src elisp
@@ -5457,88 +5457,3 @@ Let say you wanna find the \(0\)s of a function, and you are using the winding n
 :END:
 
 To reset the game, go to `.config/Oneshot`, and delete the files there. To change the ending, you can use a hexeditor to edit the ending file.
-* Resizing images using imagemagick for blog
-:PROPERTIES:
-:CREATION-DATE: 2022-07-22
-:MODIFICATION-DATE: 2022-07-22
-:HASH:     5b70e397a92b70e1e30abcaa1c6778f7
-:PREVIOUS-HASH: 5b70e397a92b70e1e30abcaa1c6778f7
-:END:
-#+BEGIN_SRC emacs-lisp 
-(defun org-export-head--resize-image (path width height max-bytes) 
-  (let* ((swidth (number-to-string width))
-         (sheight (number-to-string height))
-         (resized-path (concat (file-name-sans-extension path) swidth "x" sheight "," (file-name-extension path)))
-         (size-bytes (file-attribute-size (file-attributes path))))
-    (if (> size-bytes max-bytes)
-        (progn (if (not (file-exists-p resized-path))
-                   (call-process "convert" nil t nil path 
-                                 "-resize"
-                                 (concat  swidth "x" sheight">") 
-                                 resized-path))
-               resized-path)
-      path)))
-#+END_SRC
-
-#+RESULTS:
-: org-export-head--resize-image
-#+BEGIN_SRC emacs-lisp 
-(concat "a" "a")
-(file-name-extension "test/t/t.png")
-(org-export-head--resize-image "./png/thesis.png" 20 20 500000)
-#+END_SRC
-
-#+RESULTS:
-: ./png/thesis.png
-
-#+BEGIN_SRC emacs-lisp 
-(file-attribute-size (file-attributes "./png/thesis.png"))
-#+END_SRC
-
-#+RESULTS:
-: 27086
-#+BEGIN_SRC emacs-lisp 
-(defun element-at-point ()
-(interactive)
-(insert (org-element-contents(org-element-at-point))))
-#+END_SRC
-
-#+RESULTS:
-: element-at-point
-#+BEGIN_SRC emacs-lisp 
-(let* ((ast (org-element-parse-buffer)))
-  (org-element-map ast 'link
-    (lambda (link)
-      (progn
-        (setq lololo link)
-        (insert  (org-element-contents link))))))
-#+END_SRC
-#+BEGIN_SRC emacs-lisp 
-(org-element-contents  lololo)
-(setq lolo (org-element-copy lololo))
-lolo
-#+END_SRC
-
-#+RESULTS:
-| link | (:type elisp :path (org-export-head "../publish/") :format bracket :raw-link elisp:(org-export-head "../publish/") :application nil :search-option nil :begin 414 :end 455 :contents-begin nil :contents-end nil :post-blank 0 :parent nil) |
-
-#+BEGIN_SRC emacs-lisp 
-(org-element-adopt-elements lolo "test2")
-
-#+END_SRC
-
-#+RESULTS:
-| link | (:type elisp :path (org-export-head "../publish/") :format bracket :raw-link elisp:(org-export-head "../publish/") :application nil :search-option nil :begin 414 :end 455 :contents-begin nil :contents-end nil :post-blank 0 :parent nil) | test2 | test2 | test2 |
-
-
-#+BEGIN_SRC emacs-lisp 
-(org-element-contents lolo)
-#+END_SRC
-
-#+RESULTS:
-| test2 | test2 |
-
-| link | (:type elisp :path (org-export-head "../publish/") :format bracket :raw-link elisp:(org-export-head "../publish/") :application nil :search-option nil :begin 414 :end 461 :contents-begin 455 :contents-end 459 :post-blank 0 :parent nil) | test2 |
-#+ATTR_ORG: :width 300
-#+CAPTION: 
-[[./jpg/Imagem_131.jpg]]
