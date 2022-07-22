@@ -63,7 +63,7 @@ Auto resize images when inserting (optional) maybe?
 :CREATION-DATE: 2019-05-24
 :MODIFICATION-DATE: 2022-07-22
 :HASH:     82a9d906b2d2dd1620d4b4baafa460c7
-:PREVIOUS-HASH: c64c7fdfb03968ead433fc84882f511c
+:PREVIOUS-HASH: 82a9d906b2d2dd1620d4b4baafa460c7
 :END:
 This is the code that runs this blog! I might as well have it here as well!
 #+include: "./exporter.el" src elisp
@@ -1534,7 +1534,7 @@ I've also had previous blogs:
 This resume is a bit out out-of-date.
 
 #+BEGIN_EXPORT html
-<object id='pdf' data='pdf/IvanFilho-ResumeFall2018.pdf' type='application/pdf' class='pdf-viewer'>
+<object id='pdf' data='pdf/resumeSummer2022.pdf' type='application/pdf' class='pdf-viewer'>
   Your browser does not support PDF objects in HTML.<br>
 </object>
 
@@ -1548,7 +1548,7 @@ This resume is a bit out out-of-date.
 <!-- Copyright (c) 2016 Saswat Padhi, The MIT License (MIT).-->
 #+END_EXPORT
 
-Please download the PDF version [[file:pdflib/IvanFilho-ResumeFall2018.pdf][here]]
+Please download the PDF version [[file:pdf/resumeSummer2022.pdf][here]]
 * Contact
   :PROPERTIES:
   :CREATION-DATE: 2018-09-09
