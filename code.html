@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2022-07-23 Sat 02:22 -->
+<!-- 2022-07-23 Sat 05:11 -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Code</title>
@@ -88,7 +88,7 @@ Code
 
 <p>
 <span class=page-date> <small>
-2019-05-24, updated 2022-07-23 &#x2014; <a href='tags.html#tech' class='tech tagbutton'>tech</a> <a href='tags.html#code' class='code tagbutton'>code</a> <a href='tags.html#blog' class='blog tagbutton'>blog</a>  &nbsp  <a href="index.html">⇦index</a> &#x2013; <a href="index.html">index⇨</a> 
+2019-05-24, updated 2022-07-23 &#x2014; <a href='journal.html#tech' class='tech tagbutton'>tech</a> <a href='journal.html#code' class='code tagbutton'>code</a> <a href='journal.html#blog' class='blog tagbutton'>blog</a>  &nbsp  <a href="index.html">⇦index</a> &#x2013; <a href="index.html">index⇨</a> 
 </small> </span> 
 </p>
 <p>
@@ -114,7 +114,7 @@ This is the code that runs this blog! I might as well have it here as well!
 <span class="org-string">&lt;p class=\"author\"&gt;Github:  &lt;a href=\"https://github.com/itf/\"&gt;github.com/itf&lt;/a&gt;&lt;/p&gt;</span>
 <span class="org-string">&lt;p class=\"creator\"&gt;Made with %c and &lt;a href=\"https://github.com/itf/org-export-head\"&gt;Org export head&lt;/a&gt; &lt;/p&gt;"</span>)
 
-(<span class="org-keyword">setq</span> org-export-head-tags-page <span class="org-string">"Tags"</span>) <span class="org-comment-delimiter">; </span><span class="org-comment">used for the tags to link to a page</span>
+(<span class="org-keyword">setq</span> org-export-head-tags-page <span class="org-string">"Journal"</span>) <span class="org-comment-delimiter">; </span><span class="org-comment">used for the tags to link to a page</span>
 
 (<span class="org-keyword">setq</span> org-export-head-using-video-links t) <span class="org-comment-delimiter">;</span><span class="org-comment">helper function to add [[video:path]] links</span>
 (<span class="org-keyword">setq</span> org-export-head-using-inline-js t) <span class="org-comment-delimiter">;</span><span class="org-comment">helper function to add inline-js to babel</span>
@@ -360,7 +360,7 @@ This is the code that runs this blog! I might as well have it here as well!
    <span class="org-string">"-noexport"</span>))
 
 (<span class="org-keyword">defun</span> <span class="org-function-name">org-export-head--create-entry-tags</span>()
-  <span class="org-doc">"Creates list of tags with lin"</span>
+  <span class="org-doc">"Creates list of tags with link"</span>
   (org-export-head--run-on-each-heading 
    #'(lambda()
        (<span class="org-keyword">let*</span> ((entry-tags (assoc <span class="org-string">"ALLTAGS"</span> (org-entry-properties)))
@@ -990,7 +990,7 @@ This is the code that runs this blog! I might as well have it here as well!
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Ivan Tadeu Ferreira Antunes Filho</p>
-<p class="date">Date: 2022-07-23 Sat 02:22</p>
+<p class="date">Date: 2022-07-23 Sat 05:11</p>
 <p class="author">Github:  <a href="https://github.com/itf/">github.com/itf</a></p>
 <p class="creator">Made with <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.1 (<a href="https://orgmode.org">Org</a> mode 9.3) and <a href="https://github.com/itf/org-export-head">Org export head</a> </p>
 </div>
