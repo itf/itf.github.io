@@ -3,7 +3,7 @@
 ;; The above line is bash trickery  https://stackoverflow.com/questions/6238331/emacs-shell-scripts-how-to-put-initial-options-into-the-script#6259330
 
 
-
+(require 'org)
 
 
 ;; based on http://pragmaticemacs.com/emacs/export-org-mode-headlines-to-separate-files/
@@ -27,6 +27,11 @@
 
 
 (setq org-export-head-click-toc-h2 t) ;; Make the header of TOC clickable, so you can write CSS for click to display
+
+(setq org-export-head-resize-images t)
+(setq org-export-head-resize-images-width 640)
+(setq org-export-head-resize-images-height 640)
+(setq org-export-head-resize-images-max-size 300000);0.3mb
 
 ;;End config
 
@@ -591,20 +596,46 @@ Only modifies links if file exists"
            (new-hard-link-path (concat directory-path new-relative-path))
            (new-hard-link-directory (file-name-directory new-hard-link-path)))
       
-      ;;Fix the AST
-      ;;If image, remove description so it will become a real image instead of a link
-      (unless (or (member extension img-extensions))
-        (apply #'org-element-adopt-elements link-copy link-description))
-      (org-element-put-property link-copy :path new-relative-path)
-      (org-element-set-element link  link-copy)
       
       ;;Create hard link folder
       (make-directory new-hard-link-directory t)
       ;;Create hard link, not replacing if it already exists, catching error if file does not exist
-      (condition-case nil
-          (add-name-to-file path new-hard-link-path nil)
-        (error nil)))))
+      (let ((new-file
+             (condition-case nil
+                 (add-name-to-file path new-hard-link-path nil)
+               (error nil))))
+        ;;Fix the AST
+        ;;If image, remove description so it will become a real image instead of a link
+        (if (not (member extension img-extensions))
+            (apply #'org-element-adopt-elements link-copy link-description)
+        (if org-export-head-resize-images
+            (let ((new-description (org-export-head--resize-image new-hard-link-path org-export-head-resize-images-width org-export-head-resize-images-height org-export-head-resize-images-max-size)))
+              (org-element-adopt-elements link-copy (concat "file:"(org-export-head--replace-in-string directory-path "" new-description))))
+              ))
+        (org-element-put-property link-copy :path new-relative-path)
+        (org-element-set-element link  link-copy)
+        
+        new-file
+        ))))
 
+(defun org-export-head--replace-in-string (what with in)
+"https://stackoverflow.com/a/17325791/5881930"
+  (replace-regexp-in-string (regexp-quote what) with in nil 'literal))
+
+(defun org-export-head--resize-image (path width height max-bytes) 
+  "resizes path to width height, keeping proportions, if file larger than max bytes"
+  (let* ((swidth (number-to-string width))
+         (sheight (number-to-string height))
+         (resized-path (concat (file-name-sans-extension path) swidth "x" sheight "." (file-name-extension path)))
+         (size-bytes (file-attribute-size (file-attributes path))))
+    (if (> size-bytes max-bytes)
+        (progn (if (not (file-exists-p resized-path))
+                   (call-process "convert" nil t nil path 
+                                 "-resize"
+                                 (concat  swidth "x" sheight">") 
+                                 resized-path))
+               resized-path)
+      path)))
 
 (defun org-export-head--insert-next-previous-headline(headlines-hash headlines-list)
   "Decides what is the next and the previous post and create macro"
@@ -707,6 +738,15 @@ alphanumeric characters only."
   (require 'ox)
   (require 'cl)
   (require 'subr-x)
+(require 'package)
+(add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
+(setq package-load-list '((htmlize t)))
+(package-initialize)
+
+(unless (package-installed-p 'htmlize)
+  (package-refresh-contents)
+  (package-install 'htmlize))
+  (setq org-confirm-babel-evaluate nil)
   (org-mode)
   (transient-mark-mode) ;necessary for using org-map-entries
   (outline-show-all) 
@@ -714,37 +754,6 @@ alphanumeric characters only."
   (save-buffer)))
 
 
-;;; START utils
-;;Add video links
-(if org-export-head-using-video-links 
-    (progn
-      (defun org-export-head-export-video (path desc format)
-        "Format video links for export."
-        (cl-case format
-          (html (concat "<video controls>
-    <source src=\""path"\">
-    Sorry, your browser doesn't support embedded videos.
-</video>" ))
-          (latex (format "\\href{%s}{%s}" path (or desc path)))
-          (otherwise path)))
-      (org-link-set-parameters "video" :export 'org-export-head-export-video)))
-
-(if org-export-head-using-inline-js
-    (progn
-      (add-to-list 'org-src-lang-modes '("inline-js" . javascript)) ;; js2 if you're fancy
-      (defvar org-babel-default-header-args:inline-js
-        '((:results . "html")
-          (:exports . "results")))
-      (defun org-babel-execute:inline-js (body _params)
-        (format "<script type=\"text/javascript\">\n%s\n</script>" body))))
-
-(let ((file  (elt argv 0))
-      (dir  (elt argv 1))
-      (reexport  (elt argv 2)))
-  (if (or (not file) (not dir))
-      (message "usage  FILE DIR [export]")
-    (message "Exportinf %s to %s" file dir)
-    (org-export-head-other-file file dir reexport)))
 
 ;;Inpired by https://emacs.stackexchange.com/questions/51251/org-mode-html-export-table-of-contents-without-h2
 ;;from ox-html.el
@@ -777,7 +786,9 @@ alphanumeric characters only."
        (setq all-tags
          (append all-tags (split-string tag-string ":" t)))))) match)
     ;; now get counts
-    (remove nil (loop for tag in (-uniq all-tags) 
+    (remove nil (loop for tag in (remove-duplicates all-tags
+                   :test (lambda (x y) (or (null y) (equal x y)))
+                   :from-end t) 
                       collect 
                       (unless (or (string= tag "reexport") (string= tag "noexport") (string= tag "noreexport") (string= tag ignore))
                         (cons tag (cl-count tag all-tags :test 'string=)))))))
@@ -819,3 +830,35 @@ alphanumeric characters only."
           (delete-region start  end)
       content)))))
 
+
+;;; START utils
+;;Add video links
+(if org-export-head-using-video-links 
+    (progn
+      (defun org-export-head-export-video (path desc format)
+        "Format video links for export."
+        (cl-case format
+          (html (concat "<video controls>
+    <source src=\""path"\">
+    Sorry, your browser doesn't support embedded videos.
+</video>" ))
+          (latex (format "\\href{%s}{%s}" path (or desc path)))
+          (otherwise path)))
+      (org-link-set-parameters "video" :export 'org-export-head-export-video)))
+
+(if org-export-head-using-inline-js
+    (progn
+      (add-to-list 'org-src-lang-modes '("inline-js" . javascript)) ;; js2 if you're fancy
+      (defvar org-babel-default-header-args:inline-js
+        '((:results . "html")
+          (:exports . "results")))
+      (defun org-babel-execute:inline-js (body _params)
+        (format "<script type=\"text/javascript\">\n%s\n</script>" body))))
+
+(let ((file  (elt argv 0))
+      (dir  (elt argv 1))
+      (reexport  (elt argv 2)))
+  (if (or (not file) (not dir))
+      (message "usage  FILE DIR [export]")
+    (message "Exportinf %s to %s" file dir)
+    (org-export-head-other-file file dir reexport)))

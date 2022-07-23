@@ -5,7 +5,11 @@
 #+HTML_HEAD: <link rel="icon" href="ico/favicon.ico" type="image/x- icon">
 # -*- eval: (load (concat (file-name-directory buffer-file-name) "exporter.el")); -*-
 -#+OPTIONS: \n:t
-* Export command :noexport: 
+* Export command :noexport:
+
+  [[shell: ./exporter.el blog.org ../publish/]]
+  [[shell: ./exporter.el blog.org ../publish/ t]]
+[[elisp:(revert-buffer)]]
 [[elisp:(org-export-head "../publish/")]]
   [[elisp:(org-export-head-reexport "../publish/")]]
   [[shell:cd ../publish  && git add . && git commit -m "new post!" && git push]]
@@ -46,6 +50,12 @@ You can also use ###INDEX-WITH-DATES###  or ###TAG-WITH-DATES###, or simply ###I
 
 You can use ###ALL-TAGS### to create a page that displays all tags. 
 * TODO :noexport:
+  :PROPERTIES:
+  :CREATION-DATE: 2022-07-22
+  :MODIFICATION-DATE: 2022-07-22
+  :HASH:     9a5170449542157d6ecca02652b4699e
+  :PREVIOUS-HASH: 9a5170449542157d6ecca02652b4699e
+  :END:
 Buttons tags
 refile to another file
 better way to include a file and test for modification and import it. A good way might be to add a "TODO" which is REFILED.
@@ -61,9 +71,9 @@ Auto resize images when inserting (optional) maybe?
 * Code   :tech:code:blog:
 :PROPERTIES:
 :CREATION-DATE: 2019-05-24
-:MODIFICATION-DATE: 2022-07-22
-:HASH:     82a9d906b2d2dd1620d4b4baafa460c7
-:PREVIOUS-HASH: 82a9d906b2d2dd1620d4b4baafa460c7
+:MODIFICATION-DATE: 2022-07-23
+:HASH:     c671f217cb2b83307293dc48496e7754
+:PREVIOUS-HASH: bce82e483f8da9a4ffc349e6b4ba94f3
 :END:
 This is the code that runs this blog! I might as well have it here as well!
 #+include: "./exporter.el" src elisp
@@ -1526,9 +1536,9 @@ I've also had previous blogs:
 * Resume 
   :PROPERTIES:
   :CREATION-DATE: 2018-09-09
-  :MODIFICATION-DATE: 2020-07-26
-  :HASH:     03ced9a493c581f41809db532e86f858
-  :PREVIOUS-HASH: 03ced9a493c581f41809db532e86f858
+  :MODIFICATION-DATE: 2022-07-22
+  :HASH:     32caf4fae6812bb8a096f34af9526ed4
+  :PREVIOUS-HASH: 32caf4fae6812bb8a096f34af9526ed4
   :END:
 
 This resume is a bit out out-of-date.
@@ -4047,9 +4057,9 @@ I hope that the one who survived has found nice places to hide its head every ti
 * Tikz snippet preview in orgmode :emacs:tech:blog:
   :PROPERTIES:
   :CREATION-DATE: 2019-05-09
-  :MODIFICATION-DATE: 2019-05-18
-  :HASH:     7d68e358e08e556ec4dcb3f6807510e7
-  :PREVIOUS-HASH: 7d68e358e08e556ec4dcb3f6807510e7
+  :MODIFICATION-DATE: 2022-07-23
+  :HASH:     8f564a4d814f14900b13aca809dcd44b
+  :PREVIOUS-HASH: 090b17e8b94bafde93f0d8747dd35a1c
   :END:
 For some reason, in my installation, both dvipng, and imagemgick don't work when using tikz, with errors such as the following when using a latex src block,
 #+BEGIN_quote
@@ -4066,13 +4076,15 @@ My solution was to set use dvisvgm
 
 This allows me to simply insert tikz code in my file, and the latex fragment will display it, as long as I have added the necessary header.
 
+TODO dvisvgm has been broken after I updated emacs
 #+BEGIN_SRC org
 #+latex_header: \usepackage{tikz}
 #+END_SRC
 
 
-#+HEADER: :file ./svg/example.svg 
-#+HEADER: :results output raw :headers '("\\usepackage{tikz}")
+#+LATEX_HEADER: \usepackage{tikz}
+#+HEADER: :file ./svg/example.svg
+#+HEADER: :results file raw :headers '("\\usepackage{tikz}")
 #+HEADER: :fit yes :exports both
 #+BEGIN_src latex
 \begin{tikzpicture}
@@ -4084,7 +4096,6 @@ This allows me to simply insert tikz code in my file, and the latex fragment wil
 
 #+RESULTS:
 [[file:./svg/example.svg]]
-
 
 
 It is also considerably faster than using dvipng, at least on my machine. 
