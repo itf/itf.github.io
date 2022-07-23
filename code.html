@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2022-07-22 Fri 19:36 -->
+<!-- 2022-07-23 Sat 02:22 -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Code</title>
@@ -14,7 +14,7 @@
 @licstart  The following is the entire license notice for the
 JavaScript code in this tag.
 
-Copyright (C) 2012-2019 Free Software Foundation, Inc.
+Copyright (C) 2012-2020 Free Software Foundation, Inc.
 
 The JavaScript code in this tag is free software: you can
 redistribute it and/or modify it under the terms of the GNU
@@ -88,7 +88,7 @@ Code
 
 <p>
 <span class=page-date> <small>
-2019-05-24, updated 2022-07-22 &#x2014; <a href='journal.html#tech' class='tech tagbutton'>tech</a> <a href='journal.html#code' class='code tagbutton'>code</a> <a href='journal.html#blog' class='blog tagbutton'>blog</a>  &nbsp  <a href="index.html">⇦index</a> &#x2013; <a href="index.html">index⇨</a> 
+2019-05-24, updated 2022-07-23 &#x2014; <a href='tags.html#tech' class='tech tagbutton'>tech</a> <a href='tags.html#code' class='code tagbutton'>code</a> <a href='tags.html#blog' class='blog tagbutton'>blog</a>  &nbsp  <a href="index.html">⇦index</a> &#x2013; <a href="index.html">index⇨</a> 
 </small> </span> 
 </p>
 <p>
@@ -96,228 +96,233 @@ This is the code that runs this blog! I might as well have it here as well!
 </p>
 <div class="org-src-container">
 <pre class="src src-elisp">#! /bin/sh
-<span style="color: #50a14f;">":"</span><span style="color: #a0a1a7; font-weight: bold;">; </span><span style="color: #a0a1a7;">exec emacs --no-site-file --script "$0" "$@" # -*-emacs-lisp-*- </span>
-<span style="color: #a0a1a7; font-weight: bold;">;; </span><span style="color: #a0a1a7;">The above line is bash trickery  https://stackoverflow.com/questions/6238331/emacs-shell-scripts-how-to-put-initial-options-into-the-script#6259330</span>
+<span class="org-string">":"</span><span class="org-comment-delimiter">; </span><span class="org-comment">exec emacs --no-site-file --script "$0" "$@" # -*-emacs-lisp-*- </span>
+<span class="org-comment-delimiter">;; </span><span class="org-comment">The above line is bash trickery  https://stackoverflow.com/questions/6238331/emacs-shell-scripts-how-to-put-initial-options-into-the-script#6259330</span>
+
+
+(<span class="org-keyword">require</span> '<span class="org-constant">org</span>)
+
+
+<span class="org-comment-delimiter">;; </span><span class="org-comment">based on http://pragmaticemacs.com/emacs/export-org-mode-headlines-to-separate-files/</span>
+<span class="org-comment-delimiter">;; </span><span class="org-comment">export headlines to separate files</span>
+<span class="org-comment-delimiter">;; </span><span class="org-comment">http://emacs.stackexchange.com/questions/2259/how-to-export-top-level-headings-of-org-mode-buffer-to-separate-files</span>
+
+<span class="org-comment-delimiter">;;; </span><span class="org-comment">Begin config</span>
+(<span class="org-keyword">setq</span> org-export-head--html-postamble 
+<span class="org-string">"&lt;p class=\"author\"&gt;Author: Ivan Tadeu Ferreira Antunes Filho&lt;/p&gt;</span>
+<span class="org-string">&lt;p class=\"date\"&gt;Date: %T&lt;/p&gt;</span>
+<span class="org-string">&lt;p class=\"author\"&gt;Github:  &lt;a href=\"https://github.com/itf/\"&gt;github.com/itf&lt;/a&gt;&lt;/p&gt;</span>
+<span class="org-string">&lt;p class=\"creator\"&gt;Made with %c and &lt;a href=\"https://github.com/itf/org-export-head\"&gt;Org export head&lt;/a&gt; &lt;/p&gt;"</span>)
+
+(<span class="org-keyword">setq</span> org-export-head-tags-page <span class="org-string">"Tags"</span>) <span class="org-comment-delimiter">; </span><span class="org-comment">used for the tags to link to a page</span>
+
+(<span class="org-keyword">setq</span> org-export-head-using-video-links t) <span class="org-comment-delimiter">;</span><span class="org-comment">helper function to add [[video:path]] links</span>
+(<span class="org-keyword">setq</span> org-export-head-using-inline-js t) <span class="org-comment-delimiter">;</span><span class="org-comment">helper function to add inline-js to babel</span>
+(<span class="org-keyword">setq</span> org-export-head-link-files-to-export (list <span class="org-string">"file"</span> <span class="org-string">"video"</span>)) <span class="org-comment-delimiter">;;</span><span class="org-comment">Link types whose paths are gonna be copied with hard links, example[[video:path]]</span>
+<span class="org-comment-delimiter">;</span><span class="org-comment">useful if using custom links</span>
 
 
 
+(<span class="org-keyword">setq</span> org-export-head-click-toc-h2 t) <span class="org-comment-delimiter">;; </span><span class="org-comment">Make the header of TOC clickable, so you can write CSS for click to display</span>
 
+(<span class="org-keyword">setq</span> org-export-head-resize-images t)
+(<span class="org-keyword">setq</span> org-export-head-resize-images-width 640)
+(<span class="org-keyword">setq</span> org-export-head-resize-images-height 640)
+(<span class="org-keyword">setq</span> org-export-head-resize-images-max-size 300000)<span class="org-comment-delimiter">;</span><span class="org-comment">0.3mb</span>
 
-<span style="color: #a0a1a7; font-weight: bold;">;; </span><span style="color: #a0a1a7;">based on http://pragmaticemacs.com/emacs/export-org-mode-headlines-to-separate-files/</span>
-<span style="color: #a0a1a7; font-weight: bold;">;; </span><span style="color: #a0a1a7;">export headlines to separate files</span>
-<span style="color: #a0a1a7; font-weight: bold;">;; </span><span style="color: #a0a1a7;">http://emacs.stackexchange.com/questions/2259/how-to-export-top-level-headings-of-org-mode-buffer-to-separate-files</span>
+<span class="org-comment-delimiter">;;</span><span class="org-comment">End config</span>
 
-<span style="color: #a0a1a7; font-weight: bold;">;;; </span><span style="color: #a0a1a7;">Begin config</span>
-(<span style="color: #a626a4;">setq</span> org-export-head--html-postamble 
-<span style="color: #50a14f;">"&lt;p class=\"author\"&gt;Author: Ivan Tadeu Ferreira Antunes Filho&lt;/p&gt;</span>
-<span style="color: #50a14f;">&lt;p class=\"date\"&gt;Date: %T&lt;/p&gt;</span>
-<span style="color: #50a14f;">&lt;p class=\"author\"&gt;Github:  &lt;a href=\"https://github.com/itf/\"&gt;github.com/itf&lt;/a&gt;&lt;/p&gt;</span>
-<span style="color: #50a14f;">&lt;p class=\"creator\"&gt;Made with %c and &lt;a href=\"https://github.com/itf/org-export-head\"&gt;Org export head&lt;/a&gt; &lt;/p&gt;"</span>)
-
-(<span style="color: #a626a4;">setq</span> org-export-head-tags-page <span style="color: #50a14f;">"Tags"</span>) <span style="color: #a0a1a7; font-weight: bold;">; </span><span style="color: #a0a1a7;">used for the tags to link to a page</span>
-
-(<span style="color: #a626a4;">setq</span> org-export-head-using-video-links t) <span style="color: #a0a1a7; font-weight: bold;">;</span><span style="color: #a0a1a7;">helper function to add [[video:path]] links</span>
-(<span style="color: #a626a4;">setq</span> org-export-head-using-inline-js t) <span style="color: #a0a1a7; font-weight: bold;">;</span><span style="color: #a0a1a7;">helper function to add inline-js to babel</span>
-(<span style="color: #a626a4;">setq</span> org-export-head-link-files-to-export (list <span style="color: #50a14f;">"file"</span> <span style="color: #50a14f;">"video"</span>)) <span style="color: #a0a1a7; font-weight: bold;">;;</span><span style="color: #a0a1a7;">Link types whose paths are gonna be copied with hard links, example[[video:path]]</span>
-<span style="color: #a0a1a7; font-weight: bold;">;</span><span style="color: #a0a1a7;">useful if using custom links</span>
-
-
-
-(<span style="color: #a626a4;">setq</span> org-export-head-click-toc-h2 t) <span style="color: #a0a1a7; font-weight: bold;">;; </span><span style="color: #a0a1a7;">Make the header of TOC clickable, so you can write CSS for click to display</span>
-
-<span style="color: #a0a1a7; font-weight: bold;">;;</span><span style="color: #a0a1a7;">End config</span>
-
-(<span style="color: #a626a4;">defun</span> <span style="color: #0184bc;">org-export-head--run-on-temp-copy-buffer</span> (function-to-run <span style="color: #c18401;">&amp;rest</span> args)
-  <span style="color: #50a14f; font-style: italic;">"Runs function on a temp buffer with the contents of the original buffer"</span>
-  (<span style="color: #a626a4;">save-excursion</span>
-    (<span style="color: #a626a4;">let</span> ((temp-buffer (generate-new-buffer <span style="color: #50a14f;">"tmp"</span>)))
+(<span class="org-keyword">defun</span> <span class="org-function-name">org-export-head--run-on-temp-copy-buffer</span> (function-to-run <span class="org-type">&amp;rest</span> args)
+  <span class="org-doc">"Runs function on a temp buffer with the contents of the original buffer"</span>
+  (<span class="org-keyword">save-excursion</span>
+    (<span class="org-keyword">let</span> ((temp-buffer (generate-new-buffer <span class="org-string">"tmp"</span>)))
       (copy-to-buffer temp-buffer (point-min) (point-max)) 
-      (<span style="color: #a626a4;">with-current-buffer</span> temp-buffer 
+      (<span class="org-keyword">with-current-buffer</span> temp-buffer 
         (org-mode) 
         (outline-show-all) 
         (apply function-to-run args))
       (kill-buffer temp-buffer))))
 
-(<span style="color: #a626a4;">defun</span> <span style="color: #0184bc;">org-export-head</span> (<span style="color: #c18401;">&amp;optional</span> directory-name backend reexport)
-  <span style="color: #50a14f; font-style: italic;">"Updates the hashes and reexport all changed headings if reexport is nil.</span>
-<span style="color: #50a14f; font-style: italic;">Reexports all headings if reexport is non-nil"</span>
-  (<span style="color: #a626a4;">interactive</span>)
-  (<span style="color: #a626a4;">let</span> ((directory-name (<span style="color: #a626a4;">or</span> directory-name (read-directory-name <span style="color: #50a14f;">"Directory:"</span>)))
-        (backend (<span style="color: #a626a4;">or</span> backend <span style="color: #50a14f;">"html"</span>)))
+(<span class="org-keyword">defun</span> <span class="org-function-name">org-export-head</span> (<span class="org-type">&amp;optional</span> directory-name backend reexport)
+  <span class="org-doc">"Updates the hashes and reexport all changed headings if reexport is nil.</span>
+<span class="org-doc">Reexports all headings if reexport is non-nil"</span>
+  (<span class="org-keyword">interactive</span>)
+  (<span class="org-keyword">let</span> ((directory-name (<span class="org-keyword">or</span> directory-name (read-directory-name <span class="org-string">"Directory:"</span>)))
+        (backend (<span class="org-keyword">or</span> backend <span class="org-string">"html"</span>)))
     (make-directory directory-name t)
     (org-export-head--run-on-temp-copy-buffer #'org-export-head--modify-buffer-ast directory-name backend reexport)
     (org-export-head--update-hashes)))
 
 
-(<span style="color: #a626a4;">defun</span> <span style="color: #0184bc;">org-export-head-reexport</span> (<span style="color: #c18401;">&amp;optional</span> directory-name backend)
-  <span style="color: #50a14f; font-style: italic;">"Reexports all the headings"</span>
-  (<span style="color: #a626a4;">interactive</span>)
+(<span class="org-keyword">defun</span> <span class="org-function-name">org-export-head-reexport</span> (<span class="org-type">&amp;optional</span> directory-name backend)
+  <span class="org-doc">"Reexports all the headings"</span>
+  (<span class="org-keyword">interactive</span>)
   (org-export-head directory-name backend t))
 
 
-<span style="color: #a0a1a7; font-weight: bold;">;;</span><span style="color: #a0a1a7;">TODO this function should return a list of hashes to update the original buffer</span>
-(<span style="color: #a626a4;">defun</span> <span style="color: #0184bc;">org-export-head--modify-buffer-ast</span> (directory-path backend reexport)
-  <span style="color: #50a14f; font-style: italic;">"Export all subtrees that are *not* tagged with :noexport: to</span>
-<span style="color: #50a14f; font-style: italic;">separate files.</span>
+<span class="org-comment-delimiter">;;</span><span class="org-comment">TODO this function should return a list of hashes to update the original buffer</span>
+(<span class="org-keyword">defun</span> <span class="org-function-name">org-export-head--modify-buffer-ast</span> (directory-path backend reexport)
+  <span class="org-doc">"Export all subtrees that are *not* tagged with :noexport: to</span>
+<span class="org-doc">separate files.</span>
 
-<span style="color: #50a14f; font-style: italic;">Subtrees that do not have the :EXPORT_FILE_NAME: property set</span>
-<span style="color: #50a14f; font-style: italic;">are exported to a filename derived from the headline text."</span>
+<span class="org-doc">Subtrees that do not have the :EXPORT_FILE_NAME: property set</span>
+<span class="org-doc">are exported to a filename derived from the headline text."</span>
   (org-export-head--update-hashes)
   (org-export-expand-include-keyword)
 
-  <span style="color: #a0a1a7; font-weight: bold;">;; </span><span style="color: #a0a1a7;">Create summaries before deleting the posts</span>
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Create summaries before deleting the posts</span>
   (org-export-head--create-summaries)
-  (org-export-head--create-entry-tags) <span style="color: #a0a1a7; font-weight: bold;">;; </span><span style="color: #a0a1a7;">creates tag lists</span>
-  <span style="color: #a0a1a7; font-weight: bold;">;; </span><span style="color: #a0a1a7;">Delete content that has already been exported and set it to noreexport</span>
-  (<span style="color: #a626a4;">if</span> (not reexport)
+  (org-export-head--create-entry-tags) <span class="org-comment-delimiter">;; </span><span class="org-comment">creates tag lists</span>
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Delete content that has already been exported and set it to noreexport</span>
+  (<span class="org-keyword">if</span> (not reexport)
       (org-export-head--delete-noreexport))
 
-  
 
-  <span style="color: #a0a1a7; font-weight: bold;">;;</span><span style="color: #a0a1a7;">Get headlines, and generate macros (previous post, etc)</span>
-  (<span style="color: #a626a4;">let*</span> ((headlines-hash-list (org-export-head--get-headlines))
+
+  <span class="org-comment-delimiter">;;</span><span class="org-comment">Get headlines, and generate macros (previous post, etc)</span>
+  (<span class="org-keyword">let*</span> ((headlines-hash-list (org-export-head--get-headlines))
          (headlines-hash (car headlines-hash-list))
          (headlines-list (cdr headlines-hash-list))
-         <span style="color: #a0a1a7; font-weight: bold;">;;</span><span style="color: #a0a1a7;">Insert extra things in the headlines-hash to be used for fixing the macros</span>
-         <span style="color: #a0a1a7; font-weight: bold;">;;</span><span style="color: #a0a1a7;">To define new headline-level macros, add extra functions here</span>
+         <span class="org-comment-delimiter">;;</span><span class="org-comment">Insert extra things in the headlines-hash to be used for fixing the macros</span>
+         <span class="org-comment-delimiter">;;</span><span class="org-comment">To define new headline-level macros, add extra functions here</span>
          (headlines-hash (org-export-head--insert-next-previous-headline headlines-hash headlines-list))
          (headlines-hash (org-export-head--add-title-macro headlines-hash headlines-list))
-         <span style="color: #a0a1a7; font-weight: bold;">;;</span><span style="color: #a0a1a7;">Now we get global macros such as the index and the reversed index</span>
+         <span class="org-comment-delimiter">;;</span><span class="org-comment">Now we get global macros such as the index and the reversed index</span>
          (global-macros (org-export-head--generate-index-alist headlines-list headlines-hash))
-         
-
-         <span style="color: #a0a1a7; font-weight: bold;">;;</span><span style="color: #a0a1a7;">Now we get the templates. At the moment it is only the header</span>
-         (header (org-export-head--get-content-subtree-match <span style="color: #50a14f;">"header"</span>))
-         <span style="color: #a0a1a7; font-weight: bold;">;;</span><span style="color: #a0a1a7;">And now the footer, for example, for comments</span>
-         (footer (org-export-head--get-content-subtree-match <span style="color: #50a14f;">"footer"</span>)))
 
 
-    <span style="color: #a0a1a7; font-weight: bold;">;;</span><span style="color: #a0a1a7;">For each not noexport/noreexport headline apply the template, i.e. copy contents</span>
+         <span class="org-comment-delimiter">;;</span><span class="org-comment">Now we get the templates. At the moment it is only the header</span>
+         (header (org-export-head--get-content-subtree-match <span class="org-string">"header"</span>))
+         <span class="org-comment-delimiter">;;</span><span class="org-comment">And now the footer, for example, for comments</span>
+         (footer (org-export-head--get-content-subtree-match <span class="org-string">"footer"</span>)))
+
+
+    <span class="org-comment-delimiter">;;</span><span class="org-comment">For each not noexport/noreexport headline apply the template, i.e. copy contents</span>
     (org-export-head--run-on-each-heading 
      #'(lambda ()
          (org-export-head--insert-on-header header)
          (org-export-head--insert-on-footer footer))
-     <span style="color: #50a14f;">"-noexport-noreexport"</span>)
+     <span class="org-string">"-noexport-noreexport"</span>)
 
-    <span style="color: #a0a1a7; font-weight: bold;">;;</span><span style="color: #a0a1a7;">After applying the template we replace the macros on all places</span>
+    <span class="org-comment-delimiter">;;</span><span class="org-comment">After applying the template we replace the macros on all places</span>
     (org-export-head--run-on-each-heading 
      #'(lambda ()
-         (<span style="color: #a626a4;">let*</span> ((headline-name (org-export-head--headline))
+         (<span class="org-keyword">let*</span> ((headline-name (org-export-head--headline))
                 (headline-alist (gethash headline-name headlines-hash nil))
-                (macro-alist (append headline-alist global-macros))) <span style="color: #a0a1a7; font-weight: bold;">;;</span><span style="color: #a0a1a7;">in reverse order so that headline properties can overshadow these</span>
+                (macro-alist (append headline-alist global-macros))) <span class="org-comment-delimiter">;;</span><span class="org-comment">in reverse order so that headline properties can overshadow these</span>
            (org-export-head--replace-headline-macros macro-alist headlines-list headlines-hash)))
-     <span style="color: #50a14f;">"-noexport-noreexport"</span>)
+     <span class="org-string">"-noexport-noreexport"</span>)
 
-  
-    <span style="color: #a0a1a7; font-weight: bold;">;;</span><span style="color: #a0a1a7;">Get the parser tree and the headlines that will become files</span>
-    (<span style="color: #a626a4;">let*</span>  ((ast (org-element-parse-buffer)))
-      
- 
-        <span style="color: #a0a1a7; font-weight: bold;">;;</span><span style="color: #a0a1a7;">Fix links -- order is important. First external than fuzzy links</span>
+
+    <span class="org-comment-delimiter">;;</span><span class="org-comment">Get the parser tree and the headlines that will become files</span>
+    (<span class="org-keyword">let*</span>  ((ast (org-element-parse-buffer)))
+
+
+        <span class="org-comment-delimiter">;;</span><span class="org-comment">Fix links -- order is important. First external than fuzzy links</span>
         (org-element-map ast 'link
-          (<span style="color: #a626a4;">lambda</span> (link)
-            (<span style="color: #a626a4;">let*</span> ((link (<span style="color: #a626a4;">or</span> (org-export-head--fix-file-external-link-ast directory-path link) link))
-                   (link (<span style="color: #a626a4;">or</span> (org-export-head--fix-local-link-ast headlines-hash link) link))))))
-      
-      <span style="color: #a0a1a7; font-weight: bold;">;;</span><span style="color: #a0a1a7;">Convert the buffer to contain the new AST, </span>
-      <span style="color: #a0a1a7; font-weight: bold;">;;</span><span style="color: #a0a1a7;">this is needed because the exporter expects the content to be in a buffer</span>
+          (<span class="org-keyword">lambda</span> (link)
+            (<span class="org-keyword">let*</span> ((link (<span class="org-keyword">or</span> (org-export-head--fix-file-external-link-ast directory-path link) link))
+                   (link (<span class="org-keyword">or</span> (org-export-head--fix-local-link-ast headlines-hash link) link))))))
+
+      <span class="org-comment-delimiter">;;</span><span class="org-comment">Convert the buffer to contain the new AST, </span>
+      <span class="org-comment-delimiter">;;</span><span class="org-comment">this is needed because the exporter expects the content to be in a buffer</span>
       (erase-buffer) 
       (insert (org-element-interpret-data ast))
-      
-      
+
+
       (outline-show-all)
-      
-      <span style="color: #a0a1a7; font-weight: bold;">;;</span><span style="color: #a0a1a7;">Finally export all the headers</span>
-      
+
+      <span class="org-comment-delimiter">;;</span><span class="org-comment">Finally export all the headers</span>
+
       (org-export-head-export-headers directory-path backend))))
-  
 
 
-<span style="color: #a0a1a7; font-weight: bold;">;;</span><span style="color: #a0a1a7;">Not everything can be done using the AST, sadly.</span>
-<span style="color: #a0a1a7; font-weight: bold;">;;</span><span style="color: #a0a1a7;">Org element has no support for adding custom properties to headlines</span>
-<span style="color: #a0a1a7; font-weight: bold;">;;</span><span style="color: #a0a1a7;">Nor does it have a nice interface to grab the contents without the property drawer</span>
-<span style="color: #a0a1a7; font-weight: bold;">;;</span><span style="color: #a0a1a7;">Ideally everything would be done using the AST and org-element, since it is </span>
-<span style="color: #a0a1a7; font-weight: bold;">;;</span><span style="color: #a0a1a7;">Less prone to writting bugs when using it. </span>
-<span style="color: #a0a1a7; font-weight: bold;">;;</span><span style="color: #a0a1a7;">So right now it is only used for fixing links</span>
 
-<span style="color: #a0a1a7; font-weight: bold;">;;</span><span style="color: #a0a1a7;">START OF NON AST (non org-element) SESSION</span>
-(<span style="color: #a626a4;">defun</span> <span style="color: #0184bc;">org-export-head--run-on-each-heading</span>(fn match  <span style="color: #c18401;">&amp;rest</span> args)
-  <span style="color: #50a14f; font-style: italic;">"Puts the point on each heading and runs the function. Needed for exporting all headings</span>
-<span style="color: #50a14f; font-style: italic;">   from  http://pragmaticemacs.com/emacs/export-org-mode-headlines-to-separate-files/"</span>
-  (<span style="color: #a626a4;">save-excursion</span>
+<span class="org-comment-delimiter">;;</span><span class="org-comment">Not everything can be done using the AST, sadly.</span>
+<span class="org-comment-delimiter">;;</span><span class="org-comment">Org element has no support for adding custom properties to headlines</span>
+<span class="org-comment-delimiter">;;</span><span class="org-comment">Nor does it have a nice interface to grab the contents without the property drawer</span>
+<span class="org-comment-delimiter">;;</span><span class="org-comment">Ideally everything would be done using the AST and org-element, since it is </span>
+<span class="org-comment-delimiter">;;</span><span class="org-comment">Less prone to writting bugs when using it. </span>
+<span class="org-comment-delimiter">;;</span><span class="org-comment">So right now it is only used for fixing links</span>
+
+<span class="org-comment-delimiter">;;</span><span class="org-comment">START OF NON AST (non org-element) SESSION</span>
+(<span class="org-keyword">defun</span> <span class="org-function-name">org-export-head--run-on-each-heading</span>(fn match  <span class="org-type">&amp;rest</span> args)
+  <span class="org-doc">"Puts the point on each heading and runs the function. Needed for exporting all headings</span>
+<span class="org-doc">   from  http://pragmaticemacs.com/emacs/export-org-mode-headlines-to-separate-files/"</span>
+  (<span class="org-keyword">save-excursion</span>
     (goto-char (point-min))
-    (goto-char (re-search-forward <span style="color: #50a14f;">"^*"</span>))
+    (goto-char (re-search-forward <span class="org-string">"^*"</span>))
     (set-mark (line-beginning-position))
     (goto-char (point-max))
     (org-map-entries
-     (<span style="color: #a626a4;">lambda</span> ()
+     (<span class="org-keyword">lambda</span> ()
        (apply fn args))
      match 'region-start-level)
     (deactivate-mark)))
 
-(<span style="color: #a626a4;">defun</span> <span style="color: #0184bc;">org-export-head-export-headers</span> (directory-name backend)
-  <span style="color: #50a14f; font-style: italic;">"Exports each heading to directory-name using backend"</span>
-  (<span style="color: #a626a4;">if</span> (equal backend <span style="color: #50a14f;">"html"</span>)
+(<span class="org-keyword">defun</span> <span class="org-function-name">org-export-head-export-headers</span> (directory-name backend)
+  <span class="org-doc">"Exports each heading to directory-name using backend"</span>
+  (<span class="org-keyword">if</span> (equal backend <span class="org-string">"html"</span>)
       (org-export-head--run-on-each-heading 
        #'(lambda ()
            (org-set-property
-            <span style="color: #50a14f;">"EXPORT_FILE_NAME"</span>
+            <span class="org-string">"EXPORT_FILE_NAME"</span>
             (concat directory-name (org-export-head--escaped-headline)))
            (deactivate-mark)
-           (<span style="color: #a626a4;">let</span> ((org-html-postamble org-export-head--html-postamble))
-                (<span style="color: #a626a4;">cl-letf</span> (((symbol-function 'org-export-get-reference) (symbol-function 'org-export-get-reference-custom)))
-                  (<span style="color: #a626a4;">if</span> org-export-head-click-toc-h2
-                      (<span style="color: #a626a4;">cl-letf</span> (((symbol-function 'org-html-toc) (symbol-function 'org-export-head--custom-toc)))
+           (<span class="org-keyword">let</span> ((org-html-postamble org-export-head--html-postamble))
+                (<span class="org-keyword">cl-letf</span> (((symbol-function 'org-export-get-reference) (symbol-function 'org-export-get-reference-custom)))
+                  (<span class="org-keyword">if</span> org-export-head-click-toc-h2
+                      (<span class="org-keyword">cl-letf</span> (((symbol-function 'org-html-toc) (symbol-function 'org-export-head--custom-toc)))
                         (org-html-export-to-html nil t)))))
-           (set-buffer-modified-p t)) <span style="color: #50a14f;">"-noexport-noreexport"</span>))
-  (<span style="color: #a626a4;">if</span> (equal backend <span style="color: #50a14f;">"pdf"</span>)
+           (set-buffer-modified-p t)) <span class="org-string">"-noexport-noreexport"</span>))
+  (<span class="org-keyword">if</span> (equal backend <span class="org-string">"pdf"</span>)
       (org-export-head--run-on-each-heading 
        #'(lambda ()
            (org-set-property
-            <span style="color: #50a14f;">"EXPORT_FILE_NAME"</span>
+            <span class="org-string">"EXPORT_FILE_NAME"</span>
             (concat directory-name (org-export-head--escaped-headline)))
            (deactivate-mark)
            (org-latex-export-to-pdf nil t)
-           (set-buffer-modified-p t)) <span style="color: #50a14f;">"-noexport-noreexport"</span>)))
+           (set-buffer-modified-p t)) <span class="org-string">"-noexport-noreexport"</span>)))
 
-(<span style="color: #a626a4;">defun</span> <span style="color: #0184bc;">org-export-head--goto-header</span>(<span style="color: #c18401;">&amp;optional</span> no-new-line)
-  <span style="color: #50a14f; font-style: italic;">"Puts point after property-block if it exists, in an empty line</span>
-<span style="color: #50a14f; font-style: italic;">  by creating a new line, unless no-new-line is non nil and returns point"</span>
-  (<span style="color: #a626a4;">interactive</span>)
+(<span class="org-keyword">defun</span> <span class="org-function-name">org-export-head--goto-header</span>(<span class="org-type">&amp;optional</span> no-new-line)
+  <span class="org-doc">"Puts point after property-block if it exists, in an empty line</span>
+<span class="org-doc">  by creating a new line, unless no-new-line is non nil and returns point"</span>
+  (<span class="org-keyword">interactive</span>)
   (org-back-to-heading t)
-  (<span style="color: #a626a4;">let*</span> ((beg-end (org-get-property-block))
+  (<span class="org-keyword">let*</span> ((beg-end (org-get-property-block))
          (end (cdr beg-end)))
-    (goto-char (<span style="color: #a626a4;">or</span> end (point))))
-  (goto-char (point-at-bol 2)) <span style="color: #a0a1a7; font-weight: bold;">;;</span><span style="color: #a0a1a7;">Advance one line</span>
-  (<span style="color: #a626a4;">if</span> (not no-new-line) 
-      (<span style="color: #a626a4;">progn</span>
+    (goto-char (<span class="org-keyword">or</span> end (point))))
+  (goto-char (point-at-bol 2)) <span class="org-comment-delimiter">;;</span><span class="org-comment">Advance one line</span>
+  (<span class="org-keyword">if</span> (not no-new-line) 
+      (<span class="org-keyword">progn</span>
         (newline)
-        (goto-char (point-at-bol 0)))) <span style="color: #a0a1a7; font-weight: bold;">;;</span><span style="color: #a0a1a7;">Go back one line</span>
+        (goto-char (point-at-bol 0)))) <span class="org-comment-delimiter">;;</span><span class="org-comment">Go back one line</span>
   (point))
 
-(<span style="color: #a626a4;">defun</span> <span style="color: #0184bc;">org-export-head--goto-footer</span>(<span style="color: #c18401;">&amp;optional</span> no-new-line)
-  <span style="color: #50a14f; font-style: italic;">"Puts point at end of ubtree and returns point"</span>
-  (<span style="color: #a626a4;">interactive</span>)
+(<span class="org-keyword">defun</span> <span class="org-function-name">org-export-head--goto-footer</span>(<span class="org-type">&amp;optional</span> no-new-line)
+  <span class="org-doc">"Puts point at end of ubtree and returns point"</span>
+  (<span class="org-keyword">interactive</span>)
   (org-end-of-subtree)
-  (<span style="color: #a626a4;">if</span> (not no-new-line) 
-      (<span style="color: #a626a4;">progn</span>
+  (<span class="org-keyword">if</span> (not no-new-line) 
+      (<span class="org-keyword">progn</span>
         (newline)))
   (point))
 
 
-(<span style="color: #a626a4;">defun</span> <span style="color: #0184bc;">org-export-head--get-content-subtree-at-point</span>()
-  (<span style="color: #a626a4;">interactive</span>)
-  <span style="color: #50a14f;">"Gets the content of the subtree at point, performing the necessary includes</span>
-<span style="color: #50a14f;">to check if the hash has changed"</span>
-  (<span style="color: #a626a4;">save-excursion</span>
+(<span class="org-keyword">defun</span> <span class="org-function-name">org-export-head--get-content-subtree-at-point</span>()
+  (<span class="org-keyword">interactive</span>)
+  <span class="org-string">"Gets the content of the subtree at point, performing the necessary includes</span>
+<span class="org-string">to check if the hash has changed"</span>
+  (<span class="org-keyword">save-excursion</span>
     (deactivate-mark t)
-    (<span style="color: #a626a4;">let*</span> ((start (org-export-head--goto-header t))
+    (<span class="org-keyword">let*</span> ((start (org-export-head--goto-header t))
           (end (org-end-of-subtree t))
           (buffer (current-buffer))
           (content (buffer-substring start end))
-          (include-re <span style="color: #50a14f;">"^[ \t]*#\\+INCLUDE:"</span>))
-      (<span style="color: #a626a4;">if</span> (string-match include-re content)
-          (<span style="color: #a626a4;">with-temp-buffer</span>
+          (include-re <span class="org-string">"^[ \t]*#\\+INCLUDE:"</span>))
+      (<span class="org-keyword">if</span> (string-match include-re content)
+          (<span class="org-keyword">with-temp-buffer</span>
             (insert content)
             (org-mode)
             (org-export-expand-include-keyword)
@@ -325,270 +330,270 @@ This is the code that runs this blog! I might as well have it here as well!
       content))))
 
 
-(<span style="color: #a626a4;">defun</span> <span style="color: #0184bc;">org-export-head--get-summary-at-point</span>(<span style="color: #c18401;">&amp;optional</span> n-paragraphs n-chars)
-  <span style="color: #50a14f; font-style: italic;">"Gets the summary of the subtree at point"</span>
-  (<span style="color: #a626a4;">interactive</span>)
-  (<span style="color: #a626a4;">save-excursion</span>
+(<span class="org-keyword">defun</span> <span class="org-function-name">org-export-head--get-summary-at-point</span>(<span class="org-type">&amp;optional</span> n-paragraphs n-chars)
+  <span class="org-doc">"Gets the summary of the subtree at point"</span>
+  (<span class="org-keyword">interactive</span>)
+  (<span class="org-keyword">save-excursion</span>
     (deactivate-mark t)
-    (<span style="color: #a626a4;">let*</span> ((n-paragraphs (<span style="color: #a626a4;">or</span> n-paragraphs 1))
-           (n-chars (<span style="color: #a626a4;">or</span> n-chars 200))
+    (<span class="org-keyword">let*</span> ((n-paragraphs (<span class="org-keyword">or</span> n-paragraphs 1))
+           (n-chars (<span class="org-keyword">or</span> n-chars 200))
           (start (org-export-head--goto-header t))
-          (endmax (<span style="color: #a626a4;">save-excursion</span> (org-end-of-subtree t)))
+          (endmax (<span class="org-keyword">save-excursion</span> (org-end-of-subtree t)))
           (endparagraph
-           (<span style="color: #a626a4;">save-excursion</span>
-             (<span style="color: #a626a4;">dotimes</span> (i n-paragraphs)
+           (<span class="org-keyword">save-excursion</span>
+             (<span class="org-keyword">dotimes</span> (i n-paragraphs)
                (org-forward-paragraph))
              (- (point) 1)))
           (end (min endmax endparagraph (+ start n-chars))))
       (buffer-substring start end))))
 
 
-(<span style="color: #a626a4;">defun</span> <span style="color: #0184bc;">org-export-head--create-summaries</span>()
-  <span style="color: #50a14f; font-style: italic;">"Creates summary for all the headings"</span>
+(<span class="org-keyword">defun</span> <span class="org-function-name">org-export-head--create-summaries</span>()
+  <span class="org-doc">"Creates summary for all the headings"</span>
   (org-export-head--run-on-each-heading 
    #'(lambda()
-       (<span style="color: #a626a4;">let*</span> ((summary (org-entry-get-with-inheritance <span style="color: #50a14f;">"SUMMARY"</span>))
-              (summary (<span style="color: #a626a4;">or</span> summary (org-export-head--get-summary-at-point)))
-              (summary (replace-regexp-in-string <span style="color: #50a14f;">"\n"</span> <span style="color: #50a14f;">" "</span> summary)))
-         (<span style="color: #a626a4;">if</span> summary
-             (org-set-property <span style="color: #50a14f;">"SUMMARY"</span> summary))))
-   <span style="color: #50a14f;">"-noexport"</span>))
+       (<span class="org-keyword">let*</span> ((summary (org-entry-get-with-inheritance <span class="org-string">"SUMMARY"</span>))
+              (summary (<span class="org-keyword">or</span> summary (org-export-head--get-summary-at-point)))
+              (summary (replace-regexp-in-string <span class="org-string">"\n"</span> <span class="org-string">" "</span> summary)))
+         (<span class="org-keyword">if</span> summary
+             (org-set-property <span class="org-string">"SUMMARY"</span> summary))))
+   <span class="org-string">"-noexport"</span>))
 
-(<span style="color: #a626a4;">defun</span> <span style="color: #0184bc;">org-export-head--create-entry-tags</span>()
-  <span style="color: #50a14f; font-style: italic;">"Creates list of tags with lin"</span>
+(<span class="org-keyword">defun</span> <span class="org-function-name">org-export-head--create-entry-tags</span>()
+  <span class="org-doc">"Creates list of tags with lin"</span>
   (org-export-head--run-on-each-heading 
    #'(lambda()
-       (<span style="color: #a626a4;">let*</span> ((entry-tags (assoc <span style="color: #50a14f;">"ALLTAGS"</span> (org-entry-properties)))
-             (entry-tags (<span style="color: #a626a4;">when</span> entry-tags (delete <span style="color: #50a14f;">""</span> (split-string (cdr entry-tags) <span style="color: #50a14f;">":"</span>))))
+       (<span class="org-keyword">let*</span> ((entry-tags (assoc <span class="org-string">"ALLTAGS"</span> (org-entry-properties)))
+             (entry-tags (<span class="org-keyword">when</span> entry-tags (delete <span class="org-string">""</span> (split-string (cdr entry-tags) <span class="org-string">":"</span>))))
              (url (org-export-head--escape org-export-head-tags-page))
-             (tags-text-url <span style="color: #50a14f;">""</span>)
-             (tags-text <span style="color: #50a14f;">""</span>)
-             (tags-buttons-front <span style="color: #50a14f;">""</span>)
-             (tags-buttons <span style="color: #50a14f;">""</span>))
-         (<span style="color: #a626a4;">dolist</span> (tag entry-tags)
-           (<span style="color: #a626a4;">unless</span> (<span style="color: #a626a4;">or</span> (string= tag <span style="color: #50a14f;">"reexport"</span>) (string= tag <span style="color: #50a14f;">"noexport"</span>) (string= tag <span style="color: #50a14f;">"noreexport"</span>))
-             (<span style="color: #a626a4;">setq</span>  tags-text-url (concat tags-text-url <span style="color: #50a14f;">"[[file:"</span>  url <span style="color: #50a14f;">".org::#"</span> tag <span style="color: #50a14f;">"][#"</span>tag<span style="color: #50a14f;">"]] "</span>))  
-             (<span style="color: #a626a4;">setq</span>  tags-text (concat tags-text tag <span style="color: #50a14f;">" "</span>))
-             (<span style="color: #a626a4;">setq</span> tags-buttons-front (concat tags-buttons-front <span style="color: #50a14f;">"@@html:&lt;a href='#"</span> tag <span style="color: #50a14f;">"' class='"</span> tag <span style="color: #50a14f;">" tagbutton'&gt;"</span> tag <span style="color: #50a14f;">"&lt;/a&gt;@@ "</span>))
-             (<span style="color: #a626a4;">setq</span> tags-buttons (concat tags-buttons <span style="color: #50a14f;">"@@html:&lt;a href='"</span> url <span style="color: #50a14f;">".html#"</span> tag <span style="color: #50a14f;">"' class='"</span> tag <span style="color: #50a14f;">" tagbutton'&gt;"</span> tag <span style="color: #50a14f;">"&lt;/a&gt;@@ "</span>))))
-         (org-set-property <span style="color: #50a14f;">"TAGSURL"</span> tags-text-url)
-         (org-set-property <span style="color: #50a14f;">"TAGSFRONT"</span> tags-buttons-front)
-         (org-set-property <span style="color: #50a14f;">"TAGSBUTTONS"</span> tags-buttons)
-         (org-set-property <span style="color: #50a14f;">"TAGSTEXT"</span> tags-text)))
-   <span style="color: #50a14f;">"-noexport"</span>))
+             (tags-text-url <span class="org-string">""</span>)
+             (tags-text <span class="org-string">""</span>)
+             (tags-buttons-front <span class="org-string">""</span>)
+             (tags-buttons <span class="org-string">""</span>))
+         (<span class="org-keyword">dolist</span> (tag entry-tags)
+           (<span class="org-keyword">unless</span> (<span class="org-keyword">or</span> (string= tag <span class="org-string">"reexport"</span>) (string= tag <span class="org-string">"noexport"</span>) (string= tag <span class="org-string">"noreexport"</span>))
+             (<span class="org-keyword">setq</span>  tags-text-url (concat tags-text-url <span class="org-string">"[[file:"</span>  url <span class="org-string">".org::#"</span> tag <span class="org-string">"][#"</span>tag<span class="org-string">"]] "</span>))  
+             (<span class="org-keyword">setq</span>  tags-text (concat tags-text tag <span class="org-string">" "</span>))
+             (<span class="org-keyword">setq</span> tags-buttons-front (concat tags-buttons-front <span class="org-string">"@@html:&lt;a href='#"</span> tag <span class="org-string">"' class='"</span> tag <span class="org-string">" tagbutton'&gt;"</span> tag <span class="org-string">"&lt;/a&gt;@@ "</span>))
+             (<span class="org-keyword">setq</span> tags-buttons (concat tags-buttons <span class="org-string">"@@html:&lt;a href='"</span> url <span class="org-string">".html#"</span> tag <span class="org-string">"' class='"</span> tag <span class="org-string">" tagbutton'&gt;"</span> tag <span class="org-string">"&lt;/a&gt;@@ "</span>))))
+         (org-set-property <span class="org-string">"TAGSURL"</span> tags-text-url)
+         (org-set-property <span class="org-string">"TAGSFRONT"</span> tags-buttons-front)
+         (org-set-property <span class="org-string">"TAGSBUTTONS"</span> tags-buttons)
+         (org-set-property <span class="org-string">"TAGSTEXT"</span> tags-text)))
+   <span class="org-string">"-noexport"</span>))
 
 
 
-<span style="color: #a0a1a7; font-weight: bold;">;;; </span><span style="color: #a0a1a7;">HASH code</span>
-<span style="color: #a0a1a7; font-weight: bold;">;;</span><span style="color: #a0a1a7;">Idea from https://emacs.stackexchange.com/a/39376/20165</span>
-(<span style="color: #a626a4;">defun</span> <span style="color: #0184bc;">org-export-head--update-hashes</span>()
-  <span style="color: #50a14f; font-style: italic;">"Updates the hashes of all the headings"</span>
+<span class="org-comment-delimiter">;;; </span><span class="org-comment">HASH code</span>
+<span class="org-comment-delimiter">;;</span><span class="org-comment">Idea from https://emacs.stackexchange.com/a/39376/20165</span>
+(<span class="org-keyword">defun</span> <span class="org-function-name">org-export-head--update-hashes</span>()
+  <span class="org-doc">"Updates the hashes of all the headings"</span>
   (org-export-head--run-on-each-heading 
    #'(lambda()
-       (<span style="color: #a626a4;">let</span> ((new-hash  (format <span style="color: #50a14f;">"%s"</span> (org-export-head-get-hash-value-content)))
-             (old-hash (org-entry-get-with-inheritance <span style="color: #50a14f;">"HASH"</span>))
-             (older-hash (org-entry-get-with-inheritance <span style="color: #50a14f;">"PREVIOUS-HASH"</span>))) 
-         (<span style="color: #a626a4;">if</span> (not old-hash)
-             (<span style="color: #a626a4;">progn</span>
-               (org-set-property <span style="color: #50a14f;">"CREATION-DATE"</span> (format-time-string <span style="color: #50a14f;">"%Y-%m-%d"</span>))))
-         <span style="color: #a0a1a7; font-weight: bold;">;;</span><span style="color: #a0a1a7;">If there was a change made</span>
-         (<span style="color: #a626a4;">if</span> (not (equal new-hash old-hash))
-             (<span style="color: #a626a4;">progn</span>
-               (org-set-property <span style="color: #50a14f;">"MODIFICATION-DATE"</span> (format-time-string <span style="color: #50a14f;">"%Y-%m-%d"</span>))
-               (org-set-property <span style="color: #50a14f;">"HASH"</span> new-hash)))
-         <span style="color: #a0a1a7; font-weight: bold;">;;</span><span style="color: #a0a1a7;">Setting property is expensive</span>
-         (<span style="color: #a626a4;">if</span> (not (equal old-hash older-hash))
-               (org-set-property <span style="color: #50a14f;">"PREVIOUS-HASH"</span> (<span style="color: #a626a4;">or</span> old-hash <span style="color: #50a14f;">""</span>)))))
-   <span style="color: #50a14f;">"-noexport"</span>))
+       (<span class="org-keyword">let</span> ((new-hash  (format <span class="org-string">"%s"</span> (org-export-head-get-hash-value-content)))
+             (old-hash (org-entry-get-with-inheritance <span class="org-string">"HASH"</span>))
+             (older-hash (org-entry-get-with-inheritance <span class="org-string">"PREVIOUS-HASH"</span>))) 
+         (<span class="org-keyword">if</span> (not old-hash)
+             (<span class="org-keyword">progn</span>
+               (org-set-property <span class="org-string">"CREATION-DATE"</span> (format-time-string <span class="org-string">"%Y-%m-%d"</span>))))
+         <span class="org-comment-delimiter">;;</span><span class="org-comment">If there was a change made</span>
+         (<span class="org-keyword">if</span> (not (equal new-hash old-hash))
+             (<span class="org-keyword">progn</span>
+               (org-set-property <span class="org-string">"MODIFICATION-DATE"</span> (format-time-string <span class="org-string">"%Y-%m-%d"</span>))
+               (org-set-property <span class="org-string">"HASH"</span> new-hash)))
+         <span class="org-comment-delimiter">;;</span><span class="org-comment">Setting property is expensive</span>
+         (<span class="org-keyword">if</span> (not (equal old-hash older-hash))
+               (org-set-property <span class="org-string">"PREVIOUS-HASH"</span> (<span class="org-keyword">or</span> old-hash <span class="org-string">""</span>)))))
+   <span class="org-string">"-noexport"</span>))
 
 
-(<span style="color: #a626a4;">defun</span> <span style="color: #0184bc;">org-export-head-get-hash-value-content</span>()
-  <span style="color: #50a14f; font-style: italic;">"Gets the hash of the subtree at point"</span>
+(<span class="org-keyword">defun</span> <span class="org-function-name">org-export-head-get-hash-value-content</span>()
+  <span class="org-doc">"Gets the hash of the subtree at point"</span>
   (org-export-head-hash-function (org-export-head--get-content-subtree-at-point)))
 
-(<span style="color: #a626a4;">defun</span> <span style="color: #0184bc;">org-export-head-hash-function</span>(text)
-  <span style="color: #50a14f; font-style: italic;">"Function to calculate the hash of text.</span>
-<span style="color: #50a14f; font-style: italic;">Can be changed to something such as (length text) to run even faster.</span>
-<span style="color: #50a14f; font-style: italic;">Shouldn't rally affect the time to export unless your file contains over 100 thousand lines of text"</span>
+(<span class="org-keyword">defun</span> <span class="org-function-name">org-export-head-hash-function</span>(text)
+  <span class="org-doc">"Function to calculate the hash of text.</span>
+<span class="org-doc">Can be changed to something such as (length text) to run even faster.</span>
+<span class="org-doc">Shouldn't rally affect the time to export unless your file contains over 100 thousand lines of text"</span>
   (md5 text))
 
-<span style="color: #a0a1a7; font-weight: bold;">;;;</span><span style="color: #a0a1a7;">END HASH CODE</span>
+<span class="org-comment-delimiter">;;;</span><span class="org-comment">END HASH CODE</span>
 
-(<span style="color: #a626a4;">defun</span> <span style="color: #0184bc;">org-export-head--delete-noreexport</span>()
-  <span style="color: #50a14f; font-style: italic;">"Faster export by deleting things that won't be exported so we don't process them and their links"</span>
+(<span class="org-keyword">defun</span> <span class="org-function-name">org-export-head--delete-noreexport</span>()
+  <span class="org-doc">"Faster export by deleting things that won't be exported so we don't process them and their links"</span>
   (org-export-head--run-on-each-heading 
    #'(lambda()
-       (<span style="color: #a626a4;">let</span> ((old-hash (org-entry-get-with-inheritance <span style="color: #50a14f;">"PREVIOUS-HASH"</span>))
-             (new-hash (org-entry-get-with-inheritance <span style="color: #50a14f;">"HASH"</span>)))    
-         <span style="color: #a0a1a7; font-weight: bold;">;;</span><span style="color: #a0a1a7;">If there was a change made</span>
-         (<span style="color: #a626a4;">if</span> (equal new-hash old-hash)
-             (<span style="color: #a626a4;">progn</span>
-               (org-toggle-tag <span style="color: #50a14f;">"noreexport"</span> 'on)
-               <span style="color: #a0a1a7; font-weight: bold;">;;</span><span style="color: #a0a1a7;">faster export by deleting noexport things before processing</span>
+       (<span class="org-keyword">let</span> ((old-hash (org-entry-get-with-inheritance <span class="org-string">"PREVIOUS-HASH"</span>))
+             (new-hash (org-entry-get-with-inheritance <span class="org-string">"HASH"</span>)))    
+         <span class="org-comment-delimiter">;;</span><span class="org-comment">If there was a change made</span>
+         (<span class="org-keyword">if</span> (equal new-hash old-hash)
+             (<span class="org-keyword">progn</span>
+               (org-toggle-tag <span class="org-string">"noreexport"</span> 'on)
+               <span class="org-comment-delimiter">;;</span><span class="org-comment">faster export by deleting noexport things before processing</span>
                (org-export-head--erase-content-subtree))))) 
-   <span style="color: #50a14f;">"-noexport-reexport"</span>))
+   <span class="org-string">"-noexport-reexport"</span>))
 
-(<span style="color: #a626a4;">defun</span> <span style="color: #0184bc;">org-export-head--erase-content-subtree</span>()
-  (<span style="color: #a626a4;">save-excursion</span>
-    (<span style="color: #a626a4;">let</span> ((start (org-export-head--goto-header t))
+(<span class="org-keyword">defun</span> <span class="org-function-name">org-export-head--erase-content-subtree</span>()
+  (<span class="org-keyword">save-excursion</span>
+    (<span class="org-keyword">let</span> ((start (org-export-head--goto-header t))
           (end (org-end-of-subtree)))
       (delete-region start end))))
 
 
 
-(<span style="color: #a626a4;">defun</span> <span style="color: #0184bc;">org-export-head--get-headlines</span> ()
-  <span style="color: #50a14f; font-style: italic;">"Returns a tuple that contains a hashtable of headline name to Alist of headline properties</span>
-<span style="color: #50a14f; font-style: italic;">As well as a list of the headline names"</span>
-  (message <span style="color: #50a14f;">"1"</span>)
-  (<span style="color: #a626a4;">flet</span> ((make-hash ()
-                   (make-hash-table <span style="color: #e44649;">:test</span> 'equal))
+(<span class="org-keyword">defun</span> <span class="org-function-name">org-export-head--get-headlines</span> ()
+  <span class="org-doc">"Returns a tuple that contains a hashtable of headline name to Alist of headline properties</span>
+<span class="org-doc">As well as a list of the headline names"</span>
+  (message <span class="org-string">"1"</span>)
+  (<span class="org-keyword">flet</span> ((make-hash ()
+                   (make-hash-table <span class="org-builtin">:test</span> 'equal))
          (add-to-hash (hashtable)
                       (puthash (org-export-head--headline) (org-entry-properties) hashtable)))
-    (<span style="color: #a626a4;">let</span> ((headlines-hash (make-hash))
+    (<span class="org-keyword">let</span> ((headlines-hash (make-hash))
           (headlines-list ()))
       (org-export-head--run-on-each-heading 
        #'(lambda()
-           
+
            (add-to-hash headlines-hash)
-           (<span style="color: #a626a4;">setq</span> headlines-list (cons (org-export-head--headline) headlines-list)))
-       <span style="color: #50a14f;">"-noexport"</span>)
+           (<span class="org-keyword">setq</span> headlines-list (cons (org-export-head--headline) headlines-list)))
+       <span class="org-string">"-noexport"</span>)
       (cons headlines-hash headlines-list))))
 
 
-(<span style="color: #a626a4;">defun</span> <span style="color: #0184bc;">org-export-head--headline</span> ()
-  <span style="color: #50a14f; font-style: italic;">"Gets the headline title if point is at the headline"</span>
+(<span class="org-keyword">defun</span> <span class="org-function-name">org-export-head--headline</span> ()
+  <span class="org-doc">"Gets the headline title if point is at the headline"</span>
   (nth 4 (org-heading-components)))
 
-(<span style="color: #a626a4;">defun</span> <span style="color: #0184bc;">org-export-head--escaped-headline</span> ()
+(<span class="org-keyword">defun</span> <span class="org-function-name">org-export-head--escaped-headline</span> ()
   (org-export-head--escape (org-export-head--headline)))
 
 
-(<span style="color: #a626a4;">defun</span> <span style="color: #0184bc;">org-export-head--replace-headline-macros</span>(macro-alist headlines-list headlines-hash)
-  <span style="color: #50a14f; font-style: italic;">"Replace macros of the type  They can contain information such as date</span>
-<span style="color: #50a14f; font-style: italic;">or previous and next post.</span>
-<span style="color: #50a14f; font-style: italic;">Any headline property can be used as a macro of this type."</span>
-  (<span style="color: #a626a4;">save-excursion</span>
-    <span style="color: #a0a1a7; font-weight: bold;">;;</span><span style="color: #a0a1a7;">Let's find the end of the headline as a marker, since it can move</span>
-    (<span style="color: #a626a4;">let</span> ((subtree-end-marker  (<span style="color: #a626a4;">save-excursion</span> (org-end-of-subtree) (point-marker)))) 
-      <span style="color: #a0a1a7; font-weight: bold;">;; </span><span style="color: #a0a1a7;">End of subtree might change because of macro expansion, so it is recalculated.</span>
-      <span style="color: #a0a1a7; font-weight: bold;">;; </span><span style="color: #a0a1a7;">Macros might be substituted for something smaller, so we move the point on to the left at the end.</span>
-      (<span style="color: #a626a4;">while</span> (re-search-forward <span style="color: #50a14f;">"\\#\\#\\#</span><span style="color: #000000; font-weight: bold;">\\</span><span style="color: #000000; font-weight: bold;">(</span><span style="color: #50a14f;">[-A-Za-z_]+</span><span style="color: #000000; font-weight: bold;">\\</span><span style="color: #000000; font-weight: bold;">)</span><span style="color: #50a14f;">\\#\\#\\#"</span> (marker-position subtree-end-marker) t)
-        (<span style="color: #a626a4;">unless</span> (org-in-src-block-p)
-          (<span style="color: #a626a4;">let*</span> ((macro (match-string-no-properties 1))
+(<span class="org-keyword">defun</span> <span class="org-function-name">org-export-head--replace-headline-macros</span>(macro-alist headlines-list headlines-hash)
+  <span class="org-doc">"Replace macros of the type  They can contain information such as date</span>
+<span class="org-doc">or previous and next post.</span>
+<span class="org-doc">Any headline property can be used as a macro of this type."</span>
+  (<span class="org-keyword">save-excursion</span>
+    <span class="org-comment-delimiter">;;</span><span class="org-comment">Let's find the end of the headline as a marker, since it can move</span>
+    (<span class="org-keyword">let</span> ((subtree-end-marker  (<span class="org-keyword">save-excursion</span> (org-end-of-subtree) (point-marker)))) 
+      <span class="org-comment-delimiter">;; </span><span class="org-comment">End of subtree might change because of macro expansion, so it is recalculated.</span>
+      <span class="org-comment-delimiter">;; </span><span class="org-comment">Macros might be substituted for something smaller, so we move the point on to the left at the end.</span>
+      (<span class="org-keyword">while</span> (re-search-forward <span class="org-string">"\\#\\#\\#</span><span class="org-string"><span class="org-regexp-grouping-backslash">\\</span></span><span class="org-string"><span class="org-regexp-grouping-construct">(</span></span><span class="org-string">[-A-Za-z_]+</span><span class="org-string"><span class="org-regexp-grouping-backslash">\\</span></span><span class="org-string"><span class="org-regexp-grouping-construct">)</span></span><span class="org-string">\\#\\#\\#"</span> (marker-position subtree-end-marker) t)
+        (<span class="org-keyword">unless</span> (org-in-src-block-p)
+          (<span class="org-keyword">let*</span> ((macro (match-string-no-properties 1))
                  (macro-subs (cdr (assoc macro macro-alist))))
-            (<span style="color: #a626a4;">if</span> macro-subs
+            (<span class="org-keyword">if</span> macro-subs
                 (replace-match  macro-subs t t)
-              (replace-match <span style="color: #50a14f;">""</span>))
+              (replace-match <span class="org-string">""</span>))
             (backward-char)))))))
 
 
-(<span style="color: #a626a4;">defun</span> <span style="color: #0184bc;">org-export-head--get-content-subtree-match</span>(match)
-  <span style="color: #50a14f; font-style: italic;">"Get content of the subtree that matches \"match\"  </span>
-<span style="color: #50a14f; font-style: italic;">Where match is a tag or -tag or combination of them."</span>
-  (<span style="color: #a626a4;">save-excursion</span>
-  (<span style="color: #a626a4;">let</span> ((content <span style="color: #50a14f;">""</span>)) 
+(<span class="org-keyword">defun</span> <span class="org-function-name">org-export-head--get-content-subtree-match</span>(match)
+  <span class="org-doc">"Get content of the subtree that matches \"match\"  </span>
+<span class="org-doc">Where match is a tag or -tag or combination of them."</span>
+  (<span class="org-keyword">save-excursion</span>
+  (<span class="org-keyword">let</span> ((content <span class="org-string">""</span>)) 
     (org-export-head--run-on-each-heading
      #'(lambda() 
-         (<span style="color: #a626a4;">setq</span> content (concat content (org-export-head--get-content-subtree-at-point)))) 
+         (<span class="org-keyword">setq</span> content (concat content (org-export-head--get-content-subtree-at-point)))) 
      match)
     content)))
 
-(<span style="color: #a626a4;">defun</span> <span style="color: #0184bc;">org-export-head--insert-on-header</span> (text)
-  <span style="color: #50a14f; font-style: italic;">"Insert text on the header of the subtree, but after the property box"</span>
-  (<span style="color: #a626a4;">save-excursion</span>
+(<span class="org-keyword">defun</span> <span class="org-function-name">org-export-head--insert-on-header</span> (text)
+  <span class="org-doc">"Insert text on the header of the subtree, but after the property box"</span>
+  (<span class="org-keyword">save-excursion</span>
     (org-export-head--goto-header)
     (insert text)))
 
-(<span style="color: #a626a4;">defun</span> <span style="color: #0184bc;">org-export-head--insert-on-footer</span> (text)
-  <span style="color: #50a14f; font-style: italic;">"Insert text on the footer (end) of the subtree"</span>
-  (<span style="color: #a626a4;">save-excursion</span>
+(<span class="org-keyword">defun</span> <span class="org-function-name">org-export-head--insert-on-footer</span> (text)
+  <span class="org-doc">"Insert text on the footer (end) of the subtree"</span>
+  (<span class="org-keyword">save-excursion</span>
     (org-export-head--goto-footer)
     (insert text)))
 
 
 
-(<span style="color: #a626a4;">defun</span> <span style="color: #0184bc;">org-export-head--wrap-in-div-class</span> (text classes)
-  <span style="color: #50a14f; font-style: italic;">"Wraps the text in a div with classes equal to the list of classes"</span>
-  (<span style="color: #a626a4;">let</span> ((classes-str (string-join classes <span style="color: #50a14f;">" "</span>)))
+(<span class="org-keyword">defun</span> <span class="org-function-name">org-export-head--wrap-in-div-class</span> (text classes)
+  <span class="org-doc">"Wraps the text in a div with classes equal to the list of classes"</span>
+  (<span class="org-keyword">let</span> ((classes-str (string-join classes <span class="org-string">" "</span>)))
   (concat (org-export-head--div-class-start classes) text (org-export-head--div-class-end classes))))
 
-(<span style="color: #a626a4;">defun</span> <span style="color: #0184bc;">org-export-head--div-class-start</span> (classes)
-  <span style="color: #50a14f; font-style: italic;">"Wraps the text in a div with classes equal to the list of classes"</span>
-  (<span style="color: #a626a4;">let</span> ((classes-str (string-join classes <span style="color: #50a14f;">" "</span>)))
-  (concat <span style="color: #50a14f;">"@@html:&lt;div class=\""</span>classes-str<span style="color: #50a14f;">" post\"&gt;@@"</span> )))
+(<span class="org-keyword">defun</span> <span class="org-function-name">org-export-head--div-class-start</span> (classes)
+  <span class="org-doc">"Wraps the text in a div with classes equal to the list of classes"</span>
+  (<span class="org-keyword">let</span> ((classes-str (string-join classes <span class="org-string">" "</span>)))
+  (concat <span class="org-string">"@@html:&lt;div class=\""</span>classes-str<span class="org-string">" post\"&gt;@@"</span> )))
 
-(<span style="color: #a626a4;">defun</span> <span style="color: #0184bc;">org-export-head--div-end</span> ()
-  <span style="color: #50a14f; font-style: italic;">"Wrapes the text in a div with classes equal to the list of classes"</span>
-  <span style="color: #50a14f;">"@@html:&lt;/div&gt;@@"</span>)
+(<span class="org-keyword">defun</span> <span class="org-function-name">org-export-head--div-end</span> ()
+  <span class="org-doc">"Wrapes the text in a div with classes equal to the list of classes"</span>
+  <span class="org-string">"@@html:&lt;/div&gt;@@"</span>)
 
-(<span style="color: #a626a4;">defun</span> <span style="color: #0184bc;">org-export-head--generate-index-alist</span> (headlines-list headlines-hash)
-  <span style="color: #50a14f; font-style: italic;">"Geneates an org list with all the different index options of the website and inserts it in an alist"</span>
-  (<span style="color: #a626a4;">let</span> ((index <span style="color: #50a14f;">""</span>)
-        (reverse-index <span style="color: #50a14f;">""</span>)
-        (index-with-dates <span style="color: #50a14f;">""</span>)
-        (index-with-summaries <span style="color: #50a14f;">""</span>)
-        (all-tags <span style="color: #50a14f;">"\n"</span>)
-        (all-tags-reverse <span style="color: #50a14f;">"\n"</span>)
-        (all-tags-with-dates <span style="color: #50a14f;">"\n"</span>)
-        (all-tags-with-summaries <span style="color: #50a14f;">"\n"</span>)
-        (index-with-summaries-tags <span style="color: #50a14f;">""</span>)
-        (index-with-tags <span style="color: #50a14f;">""</span>)
-        (index-tags <span style="color: #50a14f;">""</span>)
+(<span class="org-keyword">defun</span> <span class="org-function-name">org-export-head--generate-index-alist</span> (headlines-list headlines-hash)
+  <span class="org-doc">"Geneates an org list with all the different index options of the website and inserts it in an alist"</span>
+  (<span class="org-keyword">let</span> ((index <span class="org-string">""</span>)
+        (reverse-index <span class="org-string">""</span>)
+        (index-with-dates <span class="org-string">""</span>)
+        (index-with-summaries <span class="org-string">""</span>)
+        (all-tags <span class="org-string">"\n"</span>)
+        (all-tags-reverse <span class="org-string">"\n"</span>)
+        (all-tags-with-dates <span class="org-string">"\n"</span>)
+        (all-tags-with-summaries <span class="org-string">"\n"</span>)
+        (index-with-summaries-tags <span class="org-string">""</span>)
+        (index-with-tags <span class="org-string">""</span>)
+        (index-tags <span class="org-string">""</span>)
         (tags ())
         (tags-indexes ())
         (tags-buttons ()))
-    (<span style="color: #a626a4;">cl-flet</span> ((class-start(tags) (org-export-head--div-class-start tags))
+    (<span class="org-keyword">cl-flet</span> ((class-start(tags) (org-export-head--div-class-start tags))
               (class-end() (org-export-head--div-end))) 
-      (<span style="color: #a626a4;">dolist</span> (headline-name headlines-list)
-        (<span style="color: #a626a4;">let*</span> ((headline-alist (gethash headline-name headlines-hash nil))
-               (entry-tags (assoc <span style="color: #50a14f;">"ALLTAGS"</span> headline-alist))
-               (entry-tags (<span style="color: #a626a4;">when</span> entry-tags  (split-string (cdr entry-tags) <span style="color: #50a14f;">":"</span>)))
-               (entry-tags (delete <span style="color: #50a14f;">""</span> entry-tags))
-               (entry-tags (delete <span style="color: #50a14f;">"noexport"</span> entry-tags))
-               (entry-tags (delete <span style="color: #50a14f;">"reexport"</span> entry-tags))
-               (entry-tags (delete <span style="color: #50a14f;">"noreexport"</span> entry-tags))
-               (creation-date (cdr (assoc <span style="color: #50a14f;">"CREATION-DATE"</span> headline-alist)))
-               (modification-date (cdr (assoc <span style="color: #50a14f;">"MODIFICATION-DATE"</span> headline-alist)))
-               (summary (string-trim (cdr (assoc <span style="color: #50a14f;">"SUMMARY"</span> headline-alist))))
-               (summary-html (concat <span style="color: #50a14f;">""</span> (<span style="color: #a626a4;">unless</span> (= (length summary) 0) 
-                                          (concat <span style="color: #50a14f;">"   @@html:&lt;br&gt;@@"</span> summary))))
-               (tags-buttons (cdr (assoc <span style="color: #50a14f;">"TAGSFRONT"</span> headline-alist)))
-               (headline-link (concat <span style="color: #50a14f;">"- "</span> (class-start entry-tags) <span style="color: #50a14f;">" @@html:&lt;b&gt;@@[["</span>headline-name<span style="color: #50a14f;">"]["</span>headline-name<span style="color: #50a14f;">"]]@@html:&lt;/b&gt;@@"</span>))
+      (<span class="org-keyword">dolist</span> (headline-name headlines-list)
+        (<span class="org-keyword">let*</span> ((headline-alist (gethash headline-name headlines-hash nil))
+               (entry-tags (assoc <span class="org-string">"ALLTAGS"</span> headline-alist))
+               (entry-tags (<span class="org-keyword">when</span> entry-tags  (split-string (cdr entry-tags) <span class="org-string">":"</span>)))
+               (entry-tags (delete <span class="org-string">""</span> entry-tags))
+               (entry-tags (delete <span class="org-string">"noexport"</span> entry-tags))
+               (entry-tags (delete <span class="org-string">"reexport"</span> entry-tags))
+               (entry-tags (delete <span class="org-string">"noreexport"</span> entry-tags))
+               (creation-date (cdr (assoc <span class="org-string">"CREATION-DATE"</span> headline-alist)))
+               (modification-date (cdr (assoc <span class="org-string">"MODIFICATION-DATE"</span> headline-alist)))
+               (summary (string-trim (cdr (assoc <span class="org-string">"SUMMARY"</span> headline-alist))))
+               (summary-html (concat <span class="org-string">""</span> (<span class="org-keyword">unless</span> (= (length summary) 0) 
+                                          (concat <span class="org-string">"   @@html:&lt;br&gt;@@"</span> summary))))
+               (tags-buttons (cdr (assoc <span class="org-string">"TAGSFRONT"</span> headline-alist)))
+               (headline-link (concat <span class="org-string">"- "</span> (class-start entry-tags) <span class="org-string">" @@html:&lt;b&gt;@@[["</span>headline-name<span class="org-string">"]["</span>headline-name<span class="org-string">"]]@@html:&lt;/b&gt;@@"</span>))
                (index-entry (concat headline-link (class-end)))
-               (date (concat <span style="color: #50a14f;">"@@html:&lt;span class=\"page-date\"&gt;@@"</span>
-                             <span style="color: #50a14f;">" ("</span> creation-date<span style="color: #50a14f;">", updated "</span> modification-date <span style="color: #50a14f;">")"</span>
-                             <span style="color: #50a14f;">"@@html:&lt;/span&gt;@@"</span>  ))
+               (date (concat <span class="org-string">"@@html:&lt;span class=\"page-date\"&gt;@@"</span>
+                             <span class="org-string">" ("</span> creation-date<span class="org-string">", updated "</span> modification-date <span class="org-string">")"</span>
+                             <span class="org-string">"@@html:&lt;/span&gt;@@"</span>  ))
                (index-entry-with-date (concat headline-link  date (class-end)))
                (index-entry-with-summary 
-                (concat headline-link  date <span style="color: #50a14f;">" "</span> summary-html (class-end)))
+                (concat headline-link  date <span class="org-string">" "</span> summary-html (class-end)))
                (index-entry-with-summary-tags
-                (concat headline-link  date <span style="color: #50a14f;">" "</span> tags-buttons summary-html (class-end)))
+                (concat headline-link  date <span class="org-string">" "</span> tags-buttons summary-html (class-end)))
                (index-entry-with-tags
-                (concat headline-link  date <span style="color: #50a14f;">" "</span> tags-buttons (class-end))))
-          (<span style="color: #a626a4;">setq</span> index (concat index index-entry <span style="color: #50a14f;">"\n"</span>))
-          (<span style="color: #a626a4;">setq</span> reverse-index (concat index-entry <span style="color: #50a14f;">"\n"</span> reverse-index) )
-          (<span style="color: #a626a4;">setq</span> index-with-dates (concat  index-with-dates index-entry-with-date <span style="color: #50a14f;">"\n"</span>))
-          (<span style="color: #a626a4;">setq</span> index-with-summaries (concat  index-with-summaries index-entry-with-summary <span style="color: #50a14f;">"\n"</span>))
-          (<span style="color: #a626a4;">when</span> entry-tags
-            (<span style="color: #a626a4;">setq</span> index-with-summaries-tags (concat index-with-summaries-tags index-entry-with-summary-tags <span style="color: #50a14f;">"\n"</span>))
-            (<span style="color: #a626a4;">setq</span> index-with-tags (concat index-with-tags index-entry-with-tags <span style="color: #50a14f;">"\n"</span>)))
-          
-          (<span style="color: #a626a4;">dolist</span> (tag entry-tags)
-            (<span style="color: #a626a4;">if</span> (not (member tag tags))
-                (<span style="color: #a626a4;">setq</span> tags (cons tag tags)))
-            (<span style="color: #a626a4;">dolist</span> (suffix '(<span style="color: #50a14f;">""</span> <span style="color: #50a14f;">"-reverse"</span> <span style="color: #50a14f;">"-with-dates"</span> <span style="color: #50a14f;">"-with-summaries"</span> <span style="color: #50a14f;">"-with-summaries-tags"</span> <span style="color: #50a14f;">"-with-tags"</span>))
-              <span style="color: #a0a1a7; font-weight: bold;">;; </span><span style="color: #a0a1a7;">Initialize tags lists</span>
-              (<span style="color: #a626a4;">let</span> ((tag-index-name (upcase (concat tag suffix))))
-                (<span style="color: #a626a4;">unless</span> (assoc tag-index-name tags-indexes) 
-                  (<span style="color: #a626a4;">setq</span> tags-indexes (cons `(,tag-index-name . <span style="color: #50a14f;">""</span>)  tags-indexes)))))
+                (concat headline-link  date <span class="org-string">" "</span> tags-buttons (class-end))))
+          (<span class="org-keyword">setq</span> index (concat index index-entry <span class="org-string">"\n"</span>))
+          (<span class="org-keyword">setq</span> reverse-index (concat index-entry <span class="org-string">"\n"</span> reverse-index) )
+          (<span class="org-keyword">setq</span> index-with-dates (concat  index-with-dates index-entry-with-date <span class="org-string">"\n"</span>))
+          (<span class="org-keyword">setq</span> index-with-summaries (concat  index-with-summaries index-entry-with-summary <span class="org-string">"\n"</span>))
+          (<span class="org-keyword">when</span> entry-tags
+            (<span class="org-keyword">setq</span> index-with-summaries-tags (concat index-with-summaries-tags index-entry-with-summary-tags <span class="org-string">"\n"</span>))
+            (<span class="org-keyword">setq</span> index-with-tags (concat index-with-tags index-entry-with-tags <span class="org-string">"\n"</span>)))
 
-            <span style="color: #a0a1a7; font-weight: bold;">;;</span><span style="color: #a0a1a7;">Add tag indexes to list</span>
-            (<span style="color: #a626a4;">let*</span> ((tag (upcase tag))
-                   (tag-reverse (upcase (concat tag <span style="color: #50a14f;">"-reverse"</span>)))
-                   (tag-with-dates (upcase (concat tag <span style="color: #50a14f;">"-with-dates"</span>)))
-                   (tag-with-summaries (upcase (concat tag <span style="color: #50a14f;">"-with-summaries"</span>)))
-                   (tag-with-summaries-tags (upcase (concat tag <span style="color: #50a14f;">"-with-summaries-tags"</span>)))
-                   (tag-with-tags (upcase (concat tag <span style="color: #50a14f;">"-with-tags"</span>)))
+          (<span class="org-keyword">dolist</span> (tag entry-tags)
+            (<span class="org-keyword">if</span> (not (member tag tags))
+                (<span class="org-keyword">setq</span> tags (cons tag tags)))
+            (<span class="org-keyword">dolist</span> (suffix '(<span class="org-string">""</span> <span class="org-string">"-reverse"</span> <span class="org-string">"-with-dates"</span> <span class="org-string">"-with-summaries"</span> <span class="org-string">"-with-summaries-tags"</span> <span class="org-string">"-with-tags"</span>))
+              <span class="org-comment-delimiter">;; </span><span class="org-comment">Initialize tags lists</span>
+              (<span class="org-keyword">let</span> ((tag-index-name (upcase (concat tag suffix))))
+                (<span class="org-keyword">unless</span> (assoc tag-index-name tags-indexes) 
+                  (<span class="org-keyword">setq</span> tags-indexes (cons `(,tag-index-name . <span class="org-string">""</span>)  tags-indexes)))))
+
+            <span class="org-comment-delimiter">;;</span><span class="org-comment">Add tag indexes to list</span>
+            (<span class="org-keyword">let*</span> ((tag (upcase tag))
+                   (tag-reverse (upcase (concat tag <span class="org-string">"-reverse"</span>)))
+                   (tag-with-dates (upcase (concat tag <span class="org-string">"-with-dates"</span>)))
+                   (tag-with-summaries (upcase (concat tag <span class="org-string">"-with-summaries"</span>)))
+                   (tag-with-summaries-tags (upcase (concat tag <span class="org-string">"-with-summaries-tags"</span>)))
+                   (tag-with-tags (upcase (concat tag <span class="org-string">"-with-tags"</span>)))
                    (tag-assoc (assoc tag tags-indexes))
                    (tag-assoc-reverse (assoc tag-reverse tags-indexes))
                    (tag-assoc-with-dates (assoc tag-with-dates tags-indexes))
@@ -603,318 +608,361 @@ This is the code that runs this blog! I might as well have it here as well!
                    (tag-index-with-tags (cdr tag-assoc-with-tags)))
 
 
-              
-              (<span style="color: #a626a4;">setf</span> (cdr tag-assoc) (concat tag-index index-entry <span style="color: #50a14f;">"\n"</span>))
-              (<span style="color: #a626a4;">setf</span> (cdr tag-assoc-reverse) (concat index-entry <span style="color: #50a14f;">"\n"</span> tag-index-reverse ))
-              (<span style="color: #a626a4;">setf</span> (cdr tag-assoc-with-dates) (concat tag-index-with-dates index-entry-with-date <span style="color: #50a14f;">"\n"</span>))
-              (<span style="color: #a626a4;">setf</span> (cdr tag-assoc-with-summaries) (concat tag-index-with-summaries index-entry-with-summary <span style="color: #50a14f;">"\n"</span>))
-              (<span style="color: #a626a4;">setf</span> (cdr tag-assoc-with-summaries-tags) (concat tag-index-with-summaries-tags index-entry-with-summary-tags <span style="color: #50a14f;">"\n"</span>))
-              (<span style="color: #a626a4;">setf</span> (cdr tag-assoc-with-tags) (concat tag-index-with-tags index-entry-with-tags <span style="color: #50a14f;">"\n"</span>))
-              (<span style="color: #a626a4;">setf</span> (cdr tag-assoc-with-summaries-tags) (concat tag-index-with-summaries-tags index-entry-with-summary-tags <span style="color: #50a14f;">"\n"</span>))))))
-      
-      <span style="color: #a0a1a7; font-weight: bold;">;; </span><span style="color: #a0a1a7;">Now we create an index for all tags, to be able to have tag pages</span>
-      (<span style="color: #a626a4;">setq</span> tags (cl-sort tags 'string-lessp <span style="color: #e44649;">:key</span> 'downcase)) <span style="color: #a0a1a7; font-weight: bold;">;</span><span style="color: #a0a1a7;">first sort them</span>
-      (<span style="color: #a626a4;">dolist</span> (tag tags)
-        (<span style="color: #a626a4;">unless</span> (<span style="color: #a626a4;">or</span> (string= tag <span style="color: #50a14f;">"reexport"</span>) (string= tag <span style="color: #50a14f;">"noexport"</span>) (string= tag <span style="color: #50a14f;">"noreexport"</span>))
-          (<span style="color: #a626a4;">let*</span> ((tag-reverse (upcase (concat tag <span style="color: #50a14f;">"-reverse"</span>)))
-                 (tag-with-dates (upcase (concat tag <span style="color: #50a14f;">"-with-dates"</span>)))
-                 (tag-with-summaries (upcase (concat tag <span style="color: #50a14f;">"-with-summaries"</span>)))
+
+              (<span class="org-keyword">setf</span> (cdr tag-assoc) (concat tag-index index-entry <span class="org-string">"\n"</span>))
+              (<span class="org-keyword">setf</span> (cdr tag-assoc-reverse) (concat index-entry <span class="org-string">"\n"</span> tag-index-reverse ))
+              (<span class="org-keyword">setf</span> (cdr tag-assoc-with-dates) (concat tag-index-with-dates index-entry-with-date <span class="org-string">"\n"</span>))
+              (<span class="org-keyword">setf</span> (cdr tag-assoc-with-summaries) (concat tag-index-with-summaries index-entry-with-summary <span class="org-string">"\n"</span>))
+              (<span class="org-keyword">setf</span> (cdr tag-assoc-with-summaries-tags) (concat tag-index-with-summaries-tags index-entry-with-summary-tags <span class="org-string">"\n"</span>))
+              (<span class="org-keyword">setf</span> (cdr tag-assoc-with-tags) (concat tag-index-with-tags index-entry-with-tags <span class="org-string">"\n"</span>))
+              (<span class="org-keyword">setf</span> (cdr tag-assoc-with-summaries-tags) (concat tag-index-with-summaries-tags index-entry-with-summary-tags <span class="org-string">"\n"</span>))))))
+
+      <span class="org-comment-delimiter">;; </span><span class="org-comment">Now we create an index for all tags, to be able to have tag pages</span>
+      (<span class="org-keyword">setq</span> tags (cl-sort tags 'string-lessp <span class="org-builtin">:key</span> 'downcase)) <span class="org-comment-delimiter">;</span><span class="org-comment">first sort them</span>
+      (<span class="org-keyword">dolist</span> (tag tags)
+        (<span class="org-keyword">unless</span> (<span class="org-keyword">or</span> (string= tag <span class="org-string">"reexport"</span>) (string= tag <span class="org-string">"noexport"</span>) (string= tag <span class="org-string">"noreexport"</span>))
+          (<span class="org-keyword">let*</span> ((tag-reverse (upcase (concat tag <span class="org-string">"-reverse"</span>)))
+                 (tag-with-dates (upcase (concat tag <span class="org-string">"-with-dates"</span>)))
+                 (tag-with-summaries (upcase (concat tag <span class="org-string">"-with-summaries"</span>)))
                  (tag-with-summaries-list (cdr (assoc tag-with-summaries tags-indexes)))
                  (tag-list (cdr (assoc tag tags-indexes)))
                  (tag-reverse-list (cdr (assoc tag-reverse tags-indexes)))
                  (tag-with-dates-list (cdr (assoc tag-with-dates tags-indexes))))
-            (<span style="color: #a626a4;">setq</span> all-tags (concat all-tags <span style="color: #50a14f;">"** "</span> tag <span style="color: #50a14f;">"\n"</span> tag-list))
-            (<span style="color: #a626a4;">setq</span> all-tags-reverse (concat all-tags-reverse <span style="color: #50a14f;">"** "</span> tag <span style="color: #50a14f;">"\n"</span> tag-reverse-list))
-            (<span style="color: #a626a4;">setq</span> all-tags-with-dates (concat all-tags-with-dates <span style="color: #50a14f;">"** "</span> tag <span style="color: #50a14f;">"\n"</span> tag-with-dates-list))
-            (<span style="color: #a626a4;">setq</span> all-tags-with-summaries (concat all-tags-with-summaries <span style="color: #50a14f;">"** "</span> tag <span style="color: #50a14f;">"\n"</span> tag-with-summaries-list)))))
-      
+            (<span class="org-keyword">setq</span> all-tags (concat all-tags <span class="org-string">"** "</span> tag <span class="org-string">"\n"</span> tag-list))
+            (<span class="org-keyword">setq</span> all-tags-reverse (concat all-tags-reverse <span class="org-string">"** "</span> tag <span class="org-string">"\n"</span> tag-reverse-list))
+            (<span class="org-keyword">setq</span> all-tags-with-dates (concat all-tags-with-dates <span class="org-string">"** "</span> tag <span class="org-string">"\n"</span> tag-with-dates-list))
+            (<span class="org-keyword">setq</span> all-tags-with-summaries (concat all-tags-with-summaries <span class="org-string">"** "</span> tag <span class="org-string">"\n"</span> tag-with-summaries-list)))))
 
-      <span style="color: #a0a1a7; font-weight: bold;">;;</span><span style="color: #a0a1a7;">Kinda bad, generates the tag buttons for each tag. Ideally should be done only if requested</span>
-      (<span style="color: #a626a4;">dolist</span> (tag tags)
-        (<span style="color: #a626a4;">unless</span> (<span style="color: #a626a4;">or</span> (string= tag <span style="color: #50a14f;">"reexport"</span>) (string= tag <span style="color: #50a14f;">"noexport"</span>) (string= tag <span style="color: #50a14f;">"noreexport"</span>))
-          (<span style="color: #a626a4;">setq</span> tags-buttons (cons `(,(upcase (concat tag <span style="color: #50a14f;">"-tags"</span>)) .  ,(org-export--get-tag-buttons tag))  tags-buttons))))
-     
 
-      (<span style="color: #a626a4;">setq</span> index-tags (org-export--get-tag-buttons))
+      <span class="org-comment-delimiter">;;</span><span class="org-comment">Kinda bad, generates the tag buttons for each tag. Ideally should be done only if requested</span>
+      (<span class="org-keyword">dolist</span> (tag tags)
+        (<span class="org-keyword">unless</span> (<span class="org-keyword">or</span> (string= tag <span class="org-string">"reexport"</span>) (string= tag <span class="org-string">"noexport"</span>) (string= tag <span class="org-string">"noreexport"</span>))
+          (<span class="org-keyword">setq</span> tags-buttons (cons `(,(upcase (concat tag <span class="org-string">"-tags"</span>)) .  ,(org-export--get-tag-buttons tag))  tags-buttons))))
+
+
+      (<span class="org-keyword">setq</span> index-tags (org-export--get-tag-buttons))
       (append 
-       (list (cons <span style="color: #50a14f;">"INDEX"</span> index) (cons <span style="color: #50a14f;">"INDEX-TAGS"</span> index-tags) (cons <span style="color: #50a14f;">"INDEX-REVERSE"</span> reverse-index)  (cons <span style="color: #50a14f;">"INDEX-WITH-DATES"</span> index-with-dates) (cons <span style="color: #50a14f;">"INDEX-WITH-SUMMARIES"</span> index-with-summaries) (cons <span style="color: #50a14f;">"INDEX-WITH-SUMMARIES-TAGS"</span> index-with-summaries-tags)
-             (cons <span style="color: #50a14f;">"INDEX-WITH-TAGS"</span> index-with-tags)
-             (cons <span style="color: #50a14f;">"ALL-TAGS"</span> all-tags) (cons <span style="color: #50a14f;">"ALL-TAGS-REVERSE"</span> all-tags-reverse)  (cons <span style="color: #50a14f;">"ALL-TAGS-WITH-DATES"</span> all-tags-with-dates) (cons <span style="color: #50a14f;">"ALL-TAGS-WITH-SUMMARIES"</span> all-tags-with-summaries))
+       (list (cons <span class="org-string">"INDEX"</span> index) (cons <span class="org-string">"INDEX-TAGS"</span> index-tags) (cons <span class="org-string">"INDEX-REVERSE"</span> reverse-index)  (cons <span class="org-string">"INDEX-WITH-DATES"</span> index-with-dates) (cons <span class="org-string">"INDEX-WITH-SUMMARIES"</span> index-with-summaries) (cons <span class="org-string">"INDEX-WITH-SUMMARIES-TAGS"</span> index-with-summaries-tags)
+             (cons <span class="org-string">"INDEX-WITH-TAGS"</span> index-with-tags)
+             (cons <span class="org-string">"ALL-TAGS"</span> all-tags) (cons <span class="org-string">"ALL-TAGS-REVERSE"</span> all-tags-reverse)  (cons <span class="org-string">"ALL-TAGS-WITH-DATES"</span> all-tags-with-dates) (cons <span class="org-string">"ALL-TAGS-WITH-SUMMARIES"</span> all-tags-with-summaries))
        tags-indexes tags-buttons))))
 
-<span style="color: #a0a1a7; font-weight: bold;">;;</span><span style="color: #a0a1a7;">END OF NON AST (non org-element) SESSION</span>
+<span class="org-comment-delimiter">;;</span><span class="org-comment">END OF NON AST (non org-element) SESSION</span>
 
 
-(<span style="color: #a626a4;">defun</span> <span style="color: #0184bc;">org-export-head--fix-local-link-ast</span> (headlines link)
-  <span style="color: #50a14f; font-style: italic;">"Fixes fuzzy links to headlines, so the they point to new files"</span>
-  (<span style="color: #a626a4;">flet</span> ((get-hash (element set)
+(<span class="org-keyword">defun</span> <span class="org-function-name">org-export-head--fix-local-link-ast</span> (headlines link)
+  <span class="org-doc">"Fixes fuzzy links to headlines, so the they point to new files"</span>
+  (<span class="org-keyword">flet</span> ((get-hash (element set)
                    (gethash element set nil)))
-    (<span style="color: #a626a4;">when</span> (string= (org-element-property <span style="color: #e44649;">:type</span> link) <span style="color: #50a14f;">"fuzzy"</span>)
-      (<span style="color: #a626a4;">let*</span> ((path  (org-element-property <span style="color: #e44649;">:path</span> link))
+    (<span class="org-keyword">when</span> (string= (org-element-property <span class="org-builtin">:type</span> link) <span class="org-string">"fuzzy"</span>)
+      (<span class="org-keyword">let*</span> ((path  (org-element-property <span class="org-builtin">:path</span> link))
              (new-path (get-hash path headlines))) 
-        (<span style="color: #a626a4;">if</span> new-path
-          (<span style="color: #a626a4;">let</span> ((link-copy (org-element-copy link)))
+        (<span class="org-keyword">if</span> new-path
+          (<span class="org-keyword">let</span> ((link-copy (org-element-copy link)))
             (apply #'org-element-adopt-elements link-copy (org-element-contents link))
-            (org-element-put-property link-copy <span style="color: #e44649;">:type</span> <span style="color: #50a14f;">"file"</span>)
-            (org-element-put-property link-copy <span style="color: #e44649;">:path</span> (concat (org-export-head--escape path) <span style="color: #50a14f;">".org"</span>))
+            (org-element-put-property link-copy <span class="org-builtin">:type</span> <span class="org-string">"file"</span>)
+            (org-element-put-property link-copy <span class="org-builtin">:path</span> (concat (org-export-head--escape path) <span class="org-string">".org"</span>))
             (org-element-set-element link link-copy))
-          <span style="color: #a0a1a7; font-weight: bold;">;; </span><span style="color: #a0a1a7;">else: need to check if the link is linking to a subheadline</span>
-         (<span style="color: #a626a4;">save-excursion</span>         
+          <span class="org-comment-delimiter">;; </span><span class="org-comment">else: need to check if the link is linking to a subheadline</span>
+         (<span class="org-keyword">save-excursion</span>         
            (org-link-search path)
-           <span style="color: #a0a1a7; font-weight: bold;">;; </span><span style="color: #a0a1a7;">If the same heading contains multiple subheadings, each with the same name; it will simply link to the first one</span>
-           (<span style="color: #a626a4;">let</span> ((link-copy (org-element-copy link)))
+           <span class="org-comment-delimiter">;; </span><span class="org-comment">If the same heading contains multiple subheadings, each with the same name; it will simply link to the first one</span>
+           (<span class="org-keyword">let</span> ((link-copy (org-element-copy link)))
             (apply #'org-element-adopt-elements link-copy (org-element-contents link))
-            (org-element-put-property link-copy <span style="color: #e44649;">:type</span> <span style="color: #50a14f;">"file"</span>)
-            (org-element-put-property link-copy <span style="color: #e44649;">:path</span> (concat (org-export-head--escape (org-find-top-headline)) <span style="color: #50a14f;">".org"</span>))
-            (org-element-put-property link-copy <span style="color: #e44649;">:search-option</span> (concat <span style="color: #50a14f;">"#"</span> (org-export-head--escape path)))
+            (org-element-put-property link-copy <span class="org-builtin">:type</span> <span class="org-string">"file"</span>)
+            (org-element-put-property link-copy <span class="org-builtin">:path</span> (concat (org-export-head--escape (org-find-top-headline)) <span class="org-string">".org"</span>))
+            (org-element-put-property link-copy <span class="org-builtin">:search-option</span> (concat <span class="org-string">"#"</span> (org-export-head--escape path)))
             (org-element-set-element link link-copy))
            ))))))
 
 
-(<span style="color: #a626a4;">defun</span> <span style="color: #0184bc;">org-export-head--fix-file-external-link-ast</span> (directory-path link)
-  <span style="color: #50a14f; font-style: italic;">"Creates hard links to the external files in the output directory</span>
-<span style="color: #50a14f; font-style: italic;">Only modifies links if file exists"</span>
-  (<span style="color: #a626a4;">when</span> (<span style="color: #a626a4;">and</span> (member (org-element-property <span style="color: #e44649;">:type</span> link) org-export-head-link-files-to-export)  (file-exists-p (org-element-property <span style="color: #e44649;">:path</span> link)))
-    (<span style="color: #a626a4;">let*</span> ((path (org-element-property <span style="color: #e44649;">:path</span> link))
+(<span class="org-keyword">defun</span> <span class="org-function-name">org-export-head--fix-file-external-link-ast</span> (directory-path link)
+  <span class="org-doc">"Creates hard links to the external files in the output directory</span>
+<span class="org-doc">Only modifies links if file exists"</span>
+  (<span class="org-keyword">when</span> (<span class="org-keyword">and</span> (member (org-element-property <span class="org-builtin">:type</span> link) org-export-head-link-files-to-export)  (file-exists-p (org-element-property <span class="org-builtin">:path</span> link)))
+    (<span class="org-keyword">let*</span> ((path (org-element-property <span class="org-builtin">:path</span> link))
            (link-copy (org-element-copy link))
            (extension (file-name-extension path))
-           (img-extensions '(<span style="color: #50a14f;">"jpg"</span> <span style="color: #50a14f;">"tiff"</span> <span style="color: #50a14f;">"png"</span> <span style="color: #50a14f;">"bmp"</span>))
+           (img-extensions '(<span class="org-string">"jpg"</span> <span class="org-string">"tiff"</span> <span class="org-string">"png"</span> <span class="org-string">"bmp"</span>))
            (link-description (org-element-contents link))
-           <span style="color: #a0a1a7; font-weight: bold;">;;</span><span style="color: #a0a1a7;">Removes ../ from the releative path of the file to force it to be moved to a subfolder</span>
-           <span style="color: #a0a1a7; font-weight: bold;">;;</span><span style="color: #a0a1a7;">of the current dir. This causes some file conflits in edge cases</span>
-           <span style="color: #a0a1a7; font-weight: bold;">;;</span><span style="color: #a0a1a7;">e.g: ../images and ../../images will map to the same place. This should be rare in normal usage</span>
+           <span class="org-comment-delimiter">;;</span><span class="org-comment">Removes ../ from the releative path of the file to force it to be moved to a subfolder</span>
+           <span class="org-comment-delimiter">;;</span><span class="org-comment">of the current dir. This causes some file conflits in edge cases</span>
+           <span class="org-comment-delimiter">;;</span><span class="org-comment">e.g: ../images and ../../images will map to the same place. This should be rare in normal usage</span>
            (new-relative-path 
-            (concat <span style="color: #50a14f;">"./"</span> (file-name-extension path) <span style="color: #50a14f;">"/"</span> (file-name-nondirectory path)))
+            (concat <span class="org-string">"./"</span> (file-name-extension path) <span class="org-string">"/"</span> (file-name-nondirectory path)))
            (new-hard-link-path (concat directory-path new-relative-path))
            (new-hard-link-directory (file-name-directory new-hard-link-path)))
-      
-      <span style="color: #a0a1a7; font-weight: bold;">;;</span><span style="color: #a0a1a7;">Fix the AST</span>
-      <span style="color: #a0a1a7; font-weight: bold;">;;</span><span style="color: #a0a1a7;">If image, remove description so it will become a real image instead of a link</span>
-      (<span style="color: #a626a4;">unless</span> (<span style="color: #a626a4;">or</span> (member extension img-extensions))
-        (apply #'org-element-adopt-elements link-copy link-description))
-      (org-element-put-property link-copy <span style="color: #e44649;">:path</span> new-relative-path)
-      (org-element-set-element link  link-copy)
-      
-      <span style="color: #a0a1a7; font-weight: bold;">;;</span><span style="color: #a0a1a7;">Create hard link folder</span>
+
+
+      <span class="org-comment-delimiter">;;</span><span class="org-comment">Create hard link folder</span>
       (make-directory new-hard-link-directory t)
-      <span style="color: #a0a1a7; font-weight: bold;">;;</span><span style="color: #a0a1a7;">Create hard link, not replacing if it already exists, catching error if file does not exist</span>
-      (<span style="color: #a626a4;">condition-case</span> nil
-          (add-name-to-file path new-hard-link-path nil)
-        (<span style="color: #ff0000; font-weight: bold;">error</span> nil)))))
+      <span class="org-comment-delimiter">;;</span><span class="org-comment">Create hard link, not replacing if it already exists, catching error if file does not exist</span>
+      (<span class="org-keyword">let</span> ((new-file
+             (<span class="org-keyword">condition-case</span> nil
+                 (add-name-to-file path new-hard-link-path nil)
+               (<span class="org-warning">error</span> nil))))
+        <span class="org-comment-delimiter">;;</span><span class="org-comment">Fix the AST</span>
+        <span class="org-comment-delimiter">;;</span><span class="org-comment">If image, remove description so it will become a real image instead of a link</span>
+        (<span class="org-keyword">if</span> (not (member extension img-extensions))
+            (apply #'org-element-adopt-elements link-copy link-description)
+        (<span class="org-keyword">if</span> org-export-head-resize-images
+            (<span class="org-keyword">let</span> ((new-description (org-export-head--resize-image new-hard-link-path org-export-head-resize-images-width org-export-head-resize-images-height org-export-head-resize-images-max-size)))
+              (org-element-adopt-elements link-copy (concat <span class="org-string">"file:"</span>(org-export-head--replace-in-string directory-path <span class="org-string">""</span> new-description))))
+              ))
+        (org-element-put-property link-copy <span class="org-builtin">:path</span> new-relative-path)
+        (org-element-set-element link  link-copy)
 
+        new-file
+        ))))
 
-(<span style="color: #a626a4;">defun</span> <span style="color: #0184bc;">org-export-head--insert-next-previous-headline</span>(headlines-hash headlines-list)
-  <span style="color: #50a14f; font-style: italic;">"Decides what is the next and the previous post and create macro"</span>
-  (<span style="color: #a626a4;">let*</span> ((temp-list (cons nil headlines-list))
+(<span class="org-keyword">defun</span> <span class="org-function-name">org-export-head--replace-in-string</span> (what with in)
+<span class="org-doc">"https://stackoverflow.com/a/17325791/5881930"</span>
+  (replace-regexp-in-string (regexp-quote what) with in nil 'literal))
+
+(<span class="org-keyword">defun</span> <span class="org-function-name">org-export-head--resize-image</span> (path width height max-bytes) 
+  <span class="org-doc">"resizes path to width height, keeping proportions, if file larger than max bytes"</span>
+  (<span class="org-keyword">let*</span> ((swidth (number-to-string width))
+         (sheight (number-to-string height))
+         (resized-path (concat (file-name-sans-extension path) swidth <span class="org-string">"x"</span> sheight <span class="org-string">"."</span> (file-name-extension path)))
+         (size-bytes (file-attribute-size (file-attributes path))))
+    (<span class="org-keyword">if</span> (&gt; size-bytes max-bytes)
+        (<span class="org-keyword">progn</span> (<span class="org-keyword">if</span> (not (file-exists-p resized-path))
+                   (call-process <span class="org-string">"convert"</span> nil t nil path 
+                                 <span class="org-string">"-resize"</span>
+                                 (concat  swidth <span class="org-string">"x"</span> sheight<span class="org-string">"&gt;"</span>) 
+                                 resized-path))
+               resized-path)
+      path)))
+
+(<span class="org-keyword">defun</span> <span class="org-function-name">org-export-head--insert-next-previous-headline</span>(headlines-hash headlines-list)
+  <span class="org-doc">"Decides what is the next and the previous post and create macro"</span>
+  (<span class="org-keyword">let*</span> ((temp-list (cons nil headlines-list))
          (len (length headlines-list)))
-    (<span style="color: #a626a4;">dotimes</span> (i len)
-      (<span style="color: #a626a4;">let*</span> ((previous (nth 0 temp-list))
+    (<span class="org-keyword">dotimes</span> (i len)
+      (<span class="org-keyword">let*</span> ((previous (nth 0 temp-list))
              (headline-name (nth 1 temp-list))
             (next (nth 2 temp-list))
             (headline (gethash headline-name headlines-hash nil))
             (new-properties 
-             (list (cons <span style="color: #50a14f;">"PREVIOUS"</span> (<span style="color: #a626a4;">or</span> next <span style="color: #50a14f;">"index"</span>))
-                   (cons <span style="color: #50a14f;">"NEXT"</span> (<span style="color: #a626a4;">or</span> previous <span style="color: #50a14f;">"index"</span>))))
-            (headline (append headline new-properties))) <span style="color: #a0a1a7; font-weight: bold;">;; </span><span style="color: #a0a1a7;">In reverse order, to allow headline properties to shadow this.</span>
+             (list (cons <span class="org-string">"PREVIOUS"</span> (<span class="org-keyword">or</span> next <span class="org-string">"index"</span>))
+                   (cons <span class="org-string">"NEXT"</span> (<span class="org-keyword">or</span> previous <span class="org-string">"index"</span>))))
+            (headline (append headline new-properties))) <span class="org-comment-delimiter">;; </span><span class="org-comment">In reverse order, to allow headline properties to shadow this.</span>
         (puthash headline-name headline headlines-hash))
-        (<span style="color: #a626a4;">setq</span> temp-list (cdr temp-list))))
+        (<span class="org-keyword">setq</span> temp-list (cdr temp-list))))
   headlines-hash)
-      
-(<span style="color: #a626a4;">defun</span> <span style="color: #0184bc;">org-export-head--add-title-macro</span>(headlines-hash headlines-list)
-  <span style="color: #50a14f; font-style: italic;">"Creates title macro"</span>
-  (<span style="color: #a626a4;">let*</span> ((temp-list (cons nil headlines-list))
+
+(<span class="org-keyword">defun</span> <span class="org-function-name">org-export-head--add-title-macro</span>(headlines-hash headlines-list)
+  <span class="org-doc">"Creates title macro"</span>
+  (<span class="org-keyword">let*</span> ((temp-list (cons nil headlines-list))
         (len (length headlines-list)))
-    (<span style="color: #a626a4;">dotimes</span> (i len)
-      (<span style="color: #a626a4;">let*</span> ((headline-name (nth 1 temp-list))
+    (<span class="org-keyword">dotimes</span> (i len)
+      (<span class="org-keyword">let*</span> ((headline-name (nth 1 temp-list))
             (headline (gethash headline-name headlines-hash nil))
             (new-properties 
-             (list (cons <span style="color: #50a14f;">"TITLE"</span> headline-name)))
-            (headline (append headline new-properties))) <span style="color: #a0a1a7; font-weight: bold;">;; </span><span style="color: #a0a1a7;">In reverse order, to allow headline properties to shadow this.</span>
+             (list (cons <span class="org-string">"TITLE"</span> headline-name)))
+            (headline (append headline new-properties))) <span class="org-comment-delimiter">;; </span><span class="org-comment">In reverse order, to allow headline properties to shadow this.</span>
         (puthash headline-name headline headlines-hash))
-        (<span style="color: #a626a4;">setq</span> temp-list (cdr temp-list))))
+        (<span class="org-keyword">setq</span> temp-list (cdr temp-list))))
   headlines-hash)
 
 
-(<span style="color: #a626a4;">defun</span> <span style="color: #0184bc;">org-export-head--headline-to-file</span>(headline-name)
-  <span style="color: #50a14f; font-style: italic;">"Generate the file name of the headline"</span>
-  (concat (org-export-head--escape headline-name) <span style="color: #50a14f;">".org"</span>))
+(<span class="org-keyword">defun</span> <span class="org-function-name">org-export-head--headline-to-file</span>(headline-name)
+  <span class="org-doc">"Generate the file name of the headline"</span>
+  (concat (org-export-head--escape headline-name) <span class="org-string">".org"</span>))
 
 
-(<span style="color: #a626a4;">defun</span> <span style="color: #0184bc;">org-export-head--escape</span>(text)
-  (<span style="color: #a626a4;">when</span> text
-    (<span style="color: #a626a4;">let*</span> ((text (replace-regexp-in-string <span style="color: #50a14f;">" "</span> <span style="color: #50a14f;">"_"</span> text))
-           (text (replace-regexp-in-string <span style="color: #50a14f;">"/"</span> <span style="color: #50a14f;">"-"</span> text))
-           (text  (replace-regexp-in-string <span style="color: #50a14f;">"[</span><span style="color: #50a14f; font-weight: bold;">^</span><span style="color: #50a14f;">[:alnum:]-_]"</span> <span style="color: #50a14f;">""</span> (downcase text))))
+(<span class="org-keyword">defun</span> <span class="org-function-name">org-export-head--escape</span>(text)
+  (<span class="org-keyword">when</span> text
+    (<span class="org-keyword">let*</span> ((text (replace-regexp-in-string <span class="org-string">" "</span> <span class="org-string">"_"</span> text))
+           (text (replace-regexp-in-string <span class="org-string">"/"</span> <span class="org-string">"-"</span> text))
+           (text  (replace-regexp-in-string <span class="org-string">"[</span><span class="org-string"><span class="org-negation-char">^</span></span><span class="org-string">[:alnum:]-_]"</span> <span class="org-string">""</span> (downcase text))))
       text)))
 
 
-<span style="color: #a0a1a7; font-weight: bold;">;;</span><span style="color: #a0a1a7;">Nice export headings http://ivanmalison.github.io/dotfiles/#usemyowndefaultnamingschemefororgheadings</span>
-(<span style="color: #a626a4;">defun</span> <span style="color: #0184bc;">imalison:org-get-raw-value</span> (item)
-  (<span style="color: #a626a4;">when</span> (listp item)
-    (<span style="color: #a626a4;">let*</span> ((property-list (cadr item)))
-      (<span style="color: #a626a4;">when</span> property-list (plist-get property-list <span style="color: #e44649;">:raw-value</span>)))))
+<span class="org-comment-delimiter">;;</span><span class="org-comment">Nice export headings http://ivanmalison.github.io/dotfiles/#usemyowndefaultnamingschemefororgheadings</span>
+(<span class="org-keyword">defun</span> <span class="org-function-name">imalison:org-get-raw-value</span> (item)
+  (<span class="org-keyword">when</span> (listp item)
+    (<span class="org-keyword">let*</span> ((property-list (cadr item)))
+      (<span class="org-keyword">when</span> property-list (plist-get property-list <span class="org-builtin">:raw-value</span>)))))
 
-(<span style="color: #a626a4;">defun</span> <span style="color: #0184bc;">imalison:generate-name</span> (datum cache)
-  (<span style="color: #a626a4;">let</span> ((raw-value (imalison:org-get-raw-value datum)))
-    (<span style="color: #a626a4;">if</span> raw-value
+(<span class="org-keyword">defun</span> <span class="org-function-name">imalison:generate-name</span> (datum cache)
+  (<span class="org-keyword">let</span> ((raw-value (imalison:org-get-raw-value datum)))
+    (<span class="org-keyword">if</span> raw-value
         (org-export-head--escape raw-value)
-      <span style="color: #a0a1a7; font-weight: bold;">;; </span><span style="color: #a0a1a7;">This is the default implementation from org</span>
-      (<span style="color: #a626a4;">let</span> ((type (org-element-type datum)))
-        (format <span style="color: #50a14f;">"org%s%d"</span>
-                (<span style="color: #a626a4;">if</span> type
-                    (replace-regexp-in-string <span style="color: #50a14f;">"-"</span> <span style="color: #50a14f;">""</span> (symbol-name type))
-                    <span style="color: #50a14f;">"secondarystring"</span>)
-                (<span style="color: #a626a4;">incf</span> (gethash type cache 0)))))))
+      <span class="org-comment-delimiter">;; </span><span class="org-comment">This is the default implementation from org</span>
+      (<span class="org-keyword">let</span> ((type (org-element-type datum)))
+        (format <span class="org-string">"org%s%d"</span>
+                (<span class="org-keyword">if</span> type
+                    (replace-regexp-in-string <span class="org-string">"-"</span> <span class="org-string">""</span> (symbol-name type))
+                    <span class="org-string">"secondarystring"</span>)
+                (<span class="org-keyword">incf</span> (gethash type cache 0)))))))
 
 
-<span style="color: #a0a1a7; font-weight: bold;">;</span><span style="color: #a0a1a7;">(use-package ox)</span>
-<span style="color: #a0a1a7; font-weight: bold;">;  </span><span style="color: #a0a1a7;">:defer t</span>
-<span style="color: #a0a1a7; font-weight: bold;">;  </span><span style="color: #a0a1a7;">:config</span>
-  (<span style="color: #a626a4;">defun</span> <span style="color: #0184bc;">org-export-get-reference-custom</span> (datum info)
-    <span style="color: #50a14f; font-style: italic;">"Return a unique reference for DATUM, as a string.</span>
-<span style="color: #50a14f; font-style: italic;">DATUM is either an element or an object.  INFO is the current</span>
-<span style="color: #50a14f; font-style: italic;">export state, as a plist.  Returned reference consists of</span>
-<span style="color: #50a14f; font-style: italic;">alphanumeric characters only."</span>
-    (<span style="color: #a626a4;">let</span> ((type (org-element-type datum))
-          (cache (<span style="color: #a626a4;">or</span> (plist-get info <span style="color: #e44649;">:internal-references</span>)
-                     (<span style="color: #a626a4;">let</span> ((h (make-hash-table <span style="color: #e44649;">:test</span> #'eq)))
-                       (plist-put info <span style="color: #e44649;">:internal-references</span> h)
+<span class="org-comment-delimiter">;</span><span class="org-comment">(use-package ox)</span>
+<span class="org-comment-delimiter">;  </span><span class="org-comment">:defer t</span>
+<span class="org-comment-delimiter">;  </span><span class="org-comment">:config</span>
+  (<span class="org-keyword">defun</span> <span class="org-function-name">org-export-get-reference-custom</span> (datum info)
+    <span class="org-doc">"Return a unique reference for DATUM, as a string.</span>
+<span class="org-doc">DATUM is either an element or an object.  INFO is the current</span>
+<span class="org-doc">export state, as a plist.  Returned reference consists of</span>
+<span class="org-doc">alphanumeric characters only."</span>
+    (<span class="org-keyword">let</span> ((type (org-element-type datum))
+          (cache (<span class="org-keyword">or</span> (plist-get info <span class="org-builtin">:internal-references</span>)
+                     (<span class="org-keyword">let</span> ((h (make-hash-table <span class="org-builtin">:test</span> #'eq)))
+                       (plist-put info <span class="org-builtin">:internal-references</span> h)
                        h)))
-          (reverse-cache (<span style="color: #a626a4;">or</span> (plist-get info <span style="color: #e44649;">:taken-internal-references</span>)
-                             (<span style="color: #a626a4;">let</span> ((h (make-hash-table <span style="color: #e44649;">:test</span> 'equal)))
-                               (plist-put info <span style="color: #e44649;">:taken-internal-references</span> h)
+          (reverse-cache (<span class="org-keyword">or</span> (plist-get info <span class="org-builtin">:taken-internal-references</span>)
+                             (<span class="org-keyword">let</span> ((h (make-hash-table <span class="org-builtin">:test</span> 'equal)))
+                               (plist-put info <span class="org-builtin">:taken-internal-references</span> h)
                                h))))
-      (<span style="color: #a626a4;">or</span> (gethash datum cache)
-          (<span style="color: #a626a4;">let*</span> ((name (imalison:generate-name datum cache))
+      (<span class="org-keyword">or</span> (gethash datum cache)
+          (<span class="org-keyword">let*</span> ((name (imalison:generate-name datum cache))
                  (number (+ 1 (gethash name reverse-cache -1)))
-                 (new-name (format <span style="color: #50a14f;">"%s%s"</span> name (<span style="color: #a626a4;">if</span> (&lt; 0 number) (format <span style="color: #50a14f;">"%s%s"</span> <span style="color: #50a14f;">"."</span> number) <span style="color: #50a14f;">""</span>))))
+                 (new-name (format <span class="org-string">"%s%s"</span> name (<span class="org-keyword">if</span> (&lt; 0 number) (format <span class="org-string">"%s%s"</span> <span class="org-string">"."</span> number) <span class="org-string">""</span>))))
             (puthash name number reverse-cache)
             (puthash datum new-name cache)
             new-name))))
 
 
 
-(<span style="color: #a626a4;">defun</span> <span style="color: #0184bc;">org-export-head-other-file</span> (file directory-name <span style="color: #c18401;">&amp;optional</span> reexport)
-  <span style="color: #50a14f; font-style: italic;">"Main function of this script"</span>
+(<span class="org-keyword">defun</span> <span class="org-function-name">org-export-head-other-file</span> (file directory-name <span class="org-type">&amp;optional</span> reexport)
+  <span class="org-doc">"Main function of this script"</span>
   (find-file file)
-  (make-directory <span style="color: #50a14f;">"../.emacs-saves"</span> t)
-  (<span style="color: #a626a4;">let</span> ((backup-directory-alist `((<span style="color: #50a14f;">"."</span> .  <span style="color: #50a14f;">"../.emacs-saves/"</span>)))
-        (auto-save-file-name-transforms `((<span style="color: #50a14f;">".*"</span> <span style="color: #50a14f;">"../.emacs-saves/"</span> t))))
-    
-  (<span style="color: #a626a4;">require</span> '<span style="color: #008b8b;">ox</span>)
-  (<span style="color: #a626a4;">require</span> '<span style="color: #008b8b;">cl</span>)
-  (<span style="color: #a626a4;">require</span> '<span style="color: #008b8b;">subr-x</span>)
+  (make-directory <span class="org-string">"../.emacs-saves"</span> t)
+  (<span class="org-keyword">let</span> ((backup-directory-alist `((<span class="org-string">"."</span> .  <span class="org-string">"../.emacs-saves/"</span>)))
+        (auto-save-file-name-transforms `((<span class="org-string">".*"</span> <span class="org-string">"../.emacs-saves/"</span> t))))
+
+  (<span class="org-keyword">require</span> '<span class="org-constant">ox</span>)
+  (<span class="org-keyword">require</span> '<span class="org-constant">cl</span>)
+  (<span class="org-keyword">require</span> '<span class="org-constant">subr-x</span>)
+  (<span class="org-keyword">setq</span> org-src-fontify-natively t)
+(<span class="org-keyword">require</span> '<span class="org-constant">package</span>)
+(add-to-list 'package-archives '(<span class="org-string">"melpa"</span> . <span class="org-string">"http://melpa.org/packages/"</span>))
+(<span class="org-keyword">setq</span> package-load-list '((htmlize t)))
+(package-initialize)
+
+(<span class="org-keyword">unless</span> (package-installed-p 'htmlize)
+  (package-refresh-contents)
+  (package-install 'htmlize))
+  (<span class="org-keyword">require</span> '<span class="org-constant">htmlize</span>)
+  (<span class="org-keyword">setq</span> org-export-htmlize-output-type 'css)
+  (<span class="org-keyword">setq</span> org-html-htmlize-output-type 'css)
+  (<span class="org-keyword">setq</span> org-confirm-babel-evaluate nil)
   (org-mode)
-  (transient-mark-mode) <span style="color: #a0a1a7; font-weight: bold;">;</span><span style="color: #a0a1a7;">necessary for using org-map-entries</span>
+  (transient-mark-mode) <span class="org-comment-delimiter">;</span><span class="org-comment">necessary for using org-map-entries</span>
   (outline-show-all) 
-  (org-export-head (concat directory-name <span style="color: #50a14f;">"/"</span>) nil reexport)
+  (org-export-head (concat directory-name <span class="org-string">"/"</span>) nil reexport)
   (save-buffer)))
 
 
-<span style="color: #a0a1a7; font-weight: bold;">;;; </span><span style="color: #a0a1a7;">START utils</span>
-<span style="color: #a0a1a7; font-weight: bold;">;;</span><span style="color: #a0a1a7;">Add video links</span>
-(<span style="color: #a626a4;">if</span> org-export-head-using-video-links 
-    (<span style="color: #a626a4;">progn</span>
-      (<span style="color: #a626a4;">defun</span> <span style="color: #0184bc;">org-export-head-export-video</span> (path desc format)
-        <span style="color: #50a14f; font-style: italic;">"Format video links for export."</span>
-        (<span style="color: #a626a4;">cl-case</span> format
-          (html (concat <span style="color: #50a14f;">"&lt;video controls&gt;</span>
-<span style="color: #50a14f;">    &lt;source src=\""</span>path<span style="color: #50a14f;">"\"&gt;</span>
-<span style="color: #50a14f;">    Sorry, your browser doesn't support embedded videos.</span>
-<span style="color: #50a14f;">&lt;/video&gt;"</span> ))
-          (latex (format <span style="color: #50a14f;">"\\href{%s}{%s}"</span> path (<span style="color: #a626a4;">or</span> desc path)))
-          (otherwise path)))
-      (org-link-set-parameters <span style="color: #50a14f;">"video"</span> <span style="color: #e44649;">:export</span> 'org-export-head-export-video)))
 
-(<span style="color: #a626a4;">if</span> org-export-head-using-inline-js
-    (<span style="color: #a626a4;">progn</span>
-      (add-to-list 'org-src-lang-modes '(<span style="color: #50a14f;">"inline-js"</span> . javascript)) <span style="color: #a0a1a7; font-weight: bold;">;; </span><span style="color: #a0a1a7;">js2 if you're fancy</span>
-      (<span style="color: #a626a4;">defvar</span> <span style="color: #8b4513;">org-babel-default-header-args:inline-js</span>
-        '((<span style="color: #e44649;">:results</span> . <span style="color: #50a14f;">"html"</span>)
-          (<span style="color: #e44649;">:exports</span> . <span style="color: #50a14f;">"results"</span>)))
-      (<span style="color: #a626a4;">defun</span> <span style="color: #0184bc;">org-babel-execute:inline-js</span> (body _params)
-        (format <span style="color: #50a14f;">"&lt;script type=\"text/javascript\"&gt;\n%s\n&lt;/script&gt;"</span> body))))
-
-(<span style="color: #a626a4;">let</span> ((file  (elt argv 0))
-      (dir  (elt argv 1))
-      (reexport  (elt argv 2)))
-  (<span style="color: #a626a4;">if</span> (<span style="color: #a626a4;">or</span> (not file) (not dir))
-      (message <span style="color: #50a14f;">"usage  FILE DIR [export]"</span>)
-    (message <span style="color: #50a14f;">"Exportinf %s to %s"</span> file dir)
-    (org-export-head-other-file file dir reexport)))
-
-<span style="color: #a0a1a7; font-weight: bold;">;;</span><span style="color: #a0a1a7;">Inpired by https://emacs.stackexchange.com/questions/51251/org-mode-html-export-table-of-contents-without-h2</span>
-<span style="color: #a0a1a7; font-weight: bold;">;;</span><span style="color: #a0a1a7;">from ox-html.el</span>
-(<span style="color: #a626a4;">defun</span> <span style="color: #0184bc;">org-export-head--custom-toc</span>(depth info <span style="color: #c18401;">&amp;optional</span> scope)
-  (<span style="color: #a626a4;">let</span> ((toc-entries
-         (mapcar (<span style="color: #a626a4;">lambda</span> (headline)
-                   (cons (org-html--format-toc-headline headline info)
-                         (org-export-get-relative-level headline info)))
-                 (org-export-collect-headlines info depth scope))))
-    (<span style="color: #a626a4;">when</span> toc-entries
-      (<span style="color: #a626a4;">let</span> ((toc (concat <span style="color: #50a14f;">"&lt;nav id=\"table-of-contents\"&gt;\n"</span> 
-                  <span style="color: #50a14f;">"&lt;input id=\"toggle-toc\" style=\"display: none; visibility: hidden;\" type=\"checkbox\"&gt;\n"</span>
-                  <span style="color: #50a14f;">"&lt;label for=\"toggle-toc\"&gt;\n &lt;h2&gt; &lt;b&gt; Table of Contents &lt;/b&gt; &lt;/h2&gt;\n &lt;/label&gt;\n"</span>
-                  <span style="color: #50a14f;">"&lt;div id=\"text-table-of-contents\"&gt;"</span>
-                         (org-html--toc-text toc-entries)
-                         <span style="color: #50a14f;">"&lt;/div&gt;\n"</span>
-                         <span style="color: #50a14f;">"&lt;/nav&gt; \n"</span>)))
+<span class="org-comment-delimiter">;;</span><span class="org-comment">Inpired by https://emacs.stackexchange.com/questions/51251/org-mode-html-export-table-of-contents-without-h2</span>
+<span class="org-comment-delimiter">;;</span><span class="org-comment">from ox-html.el</span>
+(<span class="org-keyword">defun</span> <span class="org-function-name">org-export-head--custom-toc</span>(depth info <span class="org-type">&amp;optional</span> scope)
+  (<span class="org-keyword">let</span> ((toc-entries
+       (mapcar (<span class="org-keyword">lambda</span> (headline)
+                 (cons (org-html--format-toc-headline headline info)
+                       (org-export-get-relative-level headline info)))
+               (org-export-collect-headlines info depth scope))))
+    (<span class="org-keyword">when</span> toc-entries
+      (<span class="org-keyword">let</span> ((toc (concat <span class="org-string">"&lt;nav id=\"table-of-contents\"&gt;\n"</span> 
+                  <span class="org-string">"&lt;input id=\"toggle-toc\" style=\"display: none; visibility: hidden;\" type=\"checkbox\"&gt;\n"</span>
+                  <span class="org-string">"&lt;label for=\"toggle-toc\"&gt;\n &lt;h2&gt; &lt;b&gt; Table of Contents &lt;/b&gt; &lt;/h2&gt;\n &lt;/label&gt;\n"</span>
+                  <span class="org-string">"&lt;div id=\"text-table-of-contents\"&gt;"</span>
+                       (org-html--toc-text toc-entries)
+                       <span class="org-string">"&lt;/div&gt;\n"</span>
+                         <span class="org-string">"&lt;/nav&gt; \n"</span>)))
         toc))))
 
 
-<span style="color: #a0a1a7; font-weight: bold;">;;</span><span style="color: #a0a1a7;">by jkitcking https://stackoverflow.com/a/27527252/5881930</span>
-(<span style="color: #a626a4;">defun</span> <span style="color: #0184bc;">org-export--get-tag-counts</span> (<span style="color: #c18401;">&amp;optional</span> match)
-  (<span style="color: #a626a4;">let*</span> ((all-tags '())
-        (ignore (<span style="color: #a626a4;">or</span> match <span style="color: #50a14f;">""</span>))
-        (match (concat (<span style="color: #a626a4;">or</span> match <span style="color: #50a14f;">""</span>) <span style="color: #50a14f;">"-noexport"</span>)))
+<span class="org-comment-delimiter">;;</span><span class="org-comment">by jkitcking https://stackoverflow.com/a/27527252/5881930</span>
+(<span class="org-keyword">defun</span> <span class="org-function-name">org-export--get-tag-counts</span> (<span class="org-type">&amp;optional</span> match)
+  (<span class="org-keyword">let*</span> ((all-tags '())
+        (ignore (<span class="org-keyword">or</span> match <span class="org-string">""</span>))
+        (match (concat (<span class="org-keyword">or</span> match <span class="org-string">""</span>) <span class="org-string">"-noexport"</span>)))
     (org-map-entries
-     (<span style="color: #a626a4;">lambda</span> ()
-       (<span style="color: #a626a4;">let</span> ((tag-string (car (last (org-heading-components)))))
-     (<span style="color: #a626a4;">when</span> tag-string   
-       (<span style="color: #a626a4;">setq</span> all-tags
-         (append all-tags (split-string tag-string <span style="color: #50a14f;">":"</span> t)))))) <span style="color: #ff0000; font-weight: bold;">match)</span>
-    <span style="color: #a0a1a7; font-weight: bold;">;; </span><span style="color: #a0a1a7;">now get counts</span>
-    (remove nil (<span style="color: #a626a4;">loop</span> for tag in (-uniq all-tags) 
+     (<span class="org-keyword">lambda</span> ()
+       (<span class="org-keyword">let</span> ((tag-string (car (last (org-heading-components)))))
+     (<span class="org-keyword">when</span> tag-string   
+       (<span class="org-keyword">setq</span> all-tags
+         (append all-tags (split-string tag-string <span class="org-string">":"</span> t)))))) <span class="org-warning">match)</span>
+    <span class="org-comment-delimiter">;; </span><span class="org-comment">now get counts</span>
+    (remove nil (<span class="org-keyword">loop</span> for tag in (remove-duplicates all-tags
+                   <span class="org-builtin">:test</span> (<span class="org-keyword">lambda</span> (x y) (<span class="org-keyword">or</span> (null y) (equal x y)))
+                   <span class="org-builtin">:from-end</span> t) 
                       collect 
-                      (<span style="color: #a626a4;">unless</span> (<span style="color: #a626a4;">or</span> (string= tag <span style="color: #50a14f;">"reexport"</span>) (string= tag <span style="color: #50a14f;">"noexport"</span>) (string= tag <span style="color: #50a14f;">"noreexport"</span>) (string= tag ignore))
-                        (cons tag (cl-count tag all-tags <span style="color: #e44649;">:test</span> 'string=)))))))
+                      (<span class="org-keyword">unless</span> (<span class="org-keyword">or</span> (string= tag <span class="org-string">"reexport"</span>) (string= tag <span class="org-string">"noexport"</span>) (string= tag <span class="org-string">"noreexport"</span>) (string= tag ignore))
+                        (cons tag (cl-count tag all-tags <span class="org-builtin">:test</span> 'string=)))))))
 
 
-(<span style="color: #a626a4;">defun</span> <span style="color: #0184bc;">org-export--downcase-car</span>(x)
+(<span class="org-keyword">defun</span> <span class="org-function-name">org-export--downcase-car</span>(x)
   (downcase (car x)))
 
-(<span style="color: #a626a4;">defun</span> <span style="color: #0184bc;">org-export--get-tag-buttons</span>  (<span style="color: #c18401;">&amp;optional</span> match num)
-  <span style="color: #50a14f; font-style: italic;">"Gets the tag buttons for the pages that match 'match'"</span>
-  (<span style="color: #a626a4;">let*</span> ((tags-counts (org-export--get-tag-counts match))
-         (tags-counts (cl-sort tags-counts  'string-lessp <span style="color: #e44649;">:key</span> 'org-export--downcase-car)) <span style="color: #a0a1a7; font-weight: bold;">;</span><span style="color: #a0a1a7;">first sort them</span>
-        (tags-buttons <span style="color: #50a14f;">""</span>))
-    (<span style="color: #a626a4;">dolist</span> (tag-tupl tags-counts)
-      (<span style="color: #a626a4;">let</span> ((tag (car tag-tupl))
+(<span class="org-keyword">defun</span> <span class="org-function-name">org-export--get-tag-buttons</span>  (<span class="org-type">&amp;optional</span> match num)
+  <span class="org-doc">"Gets the tag buttons for the pages that match 'match'"</span>
+  (<span class="org-keyword">let*</span> ((tags-counts (org-export--get-tag-counts match))
+         (tags-counts (cl-sort tags-counts  'string-lessp <span class="org-builtin">:key</span> 'org-export--downcase-car)) <span class="org-comment-delimiter">;</span><span class="org-comment">first sort them</span>
+        (tags-buttons <span class="org-string">""</span>))
+    (<span class="org-keyword">dolist</span> (tag-tupl tags-counts)
+      (<span class="org-keyword">let</span> ((tag (car tag-tupl))
             (tagN (number-to-string (cdr tag-tupl))))
-        (<span style="color: #a626a4;">if</span> num
-            (<span style="color: #a626a4;">setq</span> tags-buttons (concat tags-buttons <span style="color: #50a14f;">"@@html:&lt;a href='#"</span> tag <span style="color: #50a14f;">"' class='tagbutton tagindex "</span> tag<span style="color: #50a14f;">"'&gt;"</span> tag <span style="color: #50a14f;">" "</span>tagN  <span style="color: #50a14f;">"&lt;/a&gt;@@ "</span>))
-          (<span style="color: #a626a4;">setq</span> tags-buttons (concat tags-buttons <span style="color: #50a14f;">"@@html:&lt;a href='#"</span> tag <span style="color: #50a14f;">"' class='tagbutton tagindex "</span> tag <span style="color: #50a14f;">"'&gt;"</span> tag <span style="color: #50a14f;">"&lt;/a&gt;@@ "</span>)))))
+        (<span class="org-keyword">if</span> num
+            (<span class="org-keyword">setq</span> tags-buttons (concat tags-buttons <span class="org-string">"@@html:&lt;a href='#"</span> tag <span class="org-string">"' class='tagbutton tagindex "</span> tag<span class="org-string">"'&gt;"</span> tag <span class="org-string">" "</span>tagN  <span class="org-string">"&lt;/a&gt;@@ "</span>))
+          (<span class="org-keyword">setq</span> tags-buttons (concat tags-buttons <span class="org-string">"@@html:&lt;a href='#"</span> tag <span class="org-string">"' class='tagbutton tagindex "</span> tag <span class="org-string">"'&gt;"</span> tag <span class="org-string">"&lt;/a&gt;@@ "</span>)))))
     tags-buttons))
 
 
-(<span style="color: #a626a4;">defun</span> <span style="color: #0184bc;">org-export-head-refile-subtree-at-point</span>()
-  (<span style="color: #a626a4;">interactive</span>)
-  <span style="color: #50a14f;">"Cuts the subtree leaving the header"</span>
-  (<span style="color: #a626a4;">save-excursion</span>
+(<span class="org-keyword">defun</span> <span class="org-function-name">org-export-head-refile-subtree-at-point</span>()
+  (<span class="org-keyword">interactive</span>)
+  <span class="org-string">"Cuts the subtree leaving the header"</span>
+  (<span class="org-keyword">save-excursion</span>
     (deactivate-mark t)
-    (<span style="color: #a626a4;">let*</span> ((start (org-export-head--goto-header t))
+    (<span class="org-keyword">let*</span> ((start (org-export-head--goto-header t))
            (end (org-end-of-subtree t))
           (buffer (current-buffer))
           (content (buffer-substring start end)))
-      (<span style="color: #a626a4;">let*</span> ((file-name (read-file-name <span style="color: #50a14f;">"Move subtree to file:"</span> nil nil 'confirm (concat  (nth 4 (org-heading-components)) <span style="color: #50a14f;">".org"</span>))))
-        (<span style="color: #a626a4;">with-temp-buffer</span>
+      (<span class="org-keyword">let*</span> ((file-name (read-file-name <span class="org-string">"Move subtree to file:"</span> nil nil 'confirm (concat  (nth 4 (org-heading-components)) <span class="org-string">".org"</span>))))
+        (<span class="org-keyword">with-temp-buffer</span>
           (insert content)
           (write-file file-name))
-        (<span style="color: #a626a4;">let</span> ((relative-file-name (file-relative-name file-name)))
-          (insert (concat <span style="color: #50a14f;">"#+INCLUDE \""</span> relative-file-name <span style="color: #50a14f;">"\"\n"</span>))
-          (insert (concat <span style="color: #50a14f;">"@@comment: [[file:"</span> relative-file-name <span style="color: #50a14f;">"]] @@"</span>))
+        (<span class="org-keyword">let</span> ((relative-file-name (file-relative-name file-name)))
+          (insert (concat <span class="org-string">"#+INCLUDE \""</span> relative-file-name <span class="org-string">"\"\n"</span>))
+          (insert (concat <span class="org-string">"@@comment: [[file:"</span> relative-file-name <span class="org-string">"]] @@"</span>))
           (delete-region start  end)
       content)))))
+
+
+<span class="org-comment-delimiter">;;; </span><span class="org-comment">START utils</span>
+<span class="org-comment-delimiter">;;</span><span class="org-comment">Add video links</span>
+(<span class="org-keyword">if</span> org-export-head-using-video-links 
+    (<span class="org-keyword">progn</span>
+      (<span class="org-keyword">defun</span> <span class="org-function-name">org-export-head-export-video</span> (path desc format)
+        <span class="org-doc">"Format video links for export."</span>
+        (<span class="org-keyword">cl-case</span> format
+          (html (concat <span class="org-string">"&lt;video controls&gt;</span>
+<span class="org-string">    &lt;source src=\""</span>path<span class="org-string">"\"&gt;</span>
+<span class="org-string">    Sorry, your browser doesn't support embedded videos.</span>
+<span class="org-string">&lt;/video&gt;"</span> ))
+          (latex (format <span class="org-string">"\\href{%s}{%s}"</span> path (<span class="org-keyword">or</span> desc path)))
+          (otherwise path)))
+      (org-link-set-parameters <span class="org-string">"video"</span> <span class="org-builtin">:export</span> 'org-export-head-export-video)))
+
+(<span class="org-keyword">if</span> org-export-head-using-inline-js
+    (<span class="org-keyword">progn</span>
+      (add-to-list 'org-src-lang-modes '(<span class="org-string">"inline-js"</span> . javascript)) <span class="org-comment-delimiter">;; </span><span class="org-comment">js2 if you're fancy</span>
+      (<span class="org-keyword">defvar</span> <span class="org-variable-name">org-babel-default-header-args:inline-js</span>
+        '((<span class="org-builtin">:results</span> . <span class="org-string">"html"</span>)
+          (<span class="org-builtin">:exports</span> . <span class="org-string">"results"</span>)))
+      (<span class="org-keyword">defun</span> <span class="org-function-name">org-babel-execute:inline-js</span> (body _params)
+        (format <span class="org-string">"&lt;script type=\"text/javascript\"&gt;\n%s\n&lt;/script&gt;"</span> body))))
+
+(<span class="org-keyword">let</span> ((file  (elt argv 0))
+      (dir  (elt argv 1))
+      (reexport  (elt argv 2)))
+  (<span class="org-keyword">if</span> (<span class="org-keyword">or</span> (not file) (not dir))
+      (message <span class="org-string">"usage  FILE DIR [export]"</span>)
+    (message <span class="org-string">"Exportinf %s to %s"</span> file dir)
+    (org-export-head-other-file file dir reexport)))
 </pre>
 </div>
 
@@ -942,9 +990,9 @@ This is the code that runs this blog! I might as well have it here as well!
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Ivan Tadeu Ferreira Antunes Filho</p>
-<p class="date">Date: 2022-07-22 Fri 19:36</p>
+<p class="date">Date: 2022-07-23 Sat 02:22</p>
 <p class="author">Github:  <a href="https://github.com/itf/">github.com/itf</a></p>
-<p class="creator">Made with <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.50 (<a href="https://orgmode.org">Org</a> mode 9.1.9) and <a href="https://github.com/itf/org-export-head">Org export head</a> </p>
+<p class="creator">Made with <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.1 (<a href="https://orgmode.org">Org</a> mode 9.3) and <a href="https://github.com/itf/org-export-head">Org export head</a> </p>
 </div>
 </body>
 </html>

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2022-07-22 Fri 19:37 -->
+<!-- 2022-07-23 Sat 02:22 -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Tikz snippet preview in orgmode</title>
@@ -14,7 +14,7 @@
 @licstart  The following is the entire license notice for the
 JavaScript code in this tag.
 
-Copyright (C) 2012-2019 Free Software Foundation, Inc.
+Copyright (C) 2012-2020 Free Software Foundation, Inc.
 
 The JavaScript code in this tag is free software: you can
 redistribute it and/or modify it under the terms of the GNU
@@ -88,7 +88,7 @@ Tikz snippet preview in orgmode
 
 <p>
 <span class=page-date> <small>
-2019-05-09, updated 2019-05-18 &#x2014; <a href='journal.html#emacs' class='emacs tagbutton'>emacs</a> <a href='journal.html#tech' class='tech tagbutton'>tech</a> <a href='journal.html#blog' class='blog tagbutton'>blog</a>  &nbsp  <a href="emacs_tramp_asking_for_password.html">⇦Emacs Tramp asking for password</a> &#x2013; <a href="baby_white-woodpeckers_are_dumb.html">Baby white-woodpeckers are dumb⇨</a> 
+2019-05-09, updated 2022-07-23 &#x2014; <a href='tags.html#emacs' class='emacs tagbutton'>emacs</a> <a href='tags.html#tech' class='tech tagbutton'>tech</a> <a href='tags.html#blog' class='blog tagbutton'>blog</a>  &nbsp  <a href="emacs_tramp_asking_for_password.html">⇦Emacs Tramp asking for password</a> &#x2013; <a href="baby_white-woodpeckers_are_dumb.html">Baby white-woodpeckers are dumb⇨</a> 
 </small> </span> 
 </p>
 <p>
@@ -109,7 +109,7 @@ My solution was to set use dvisvgm
 </p>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(<span style="color: #a626a4;">setq</span> org-preview-latex-default-process 'dvisvgm)
+<pre class="src src-emacs-lisp">(<span class="org-keyword">setq</span> org-preview-latex-default-process 'dvisvgm)
 </pre>
 </div>
 
@@ -117,18 +117,21 @@ My solution was to set use dvisvgm
 This allows me to simply insert tikz code in my file, and the latex fragment will display it, as long as I have added the necessary header.
 </p>
 
+<p>
+TODO dvisvgm has been broken after I updated emacs
+</p>
 <div class="org-src-container">
-<pre class="src src-org"><span style="color: #a0a1a7;">#+latex_header: \usepackage{tikz}</span>
+<pre class="src src-org"><span class="org-org-meta-line">#+latex_header: \usepackage{tikz}</span>
 </pre>
 </div>
 
 
 <div class="org-src-container">
-<pre class="src src-latex"><span style="color: #a626a4;">\begin</span>{<span style="color: #0184bc;">tikzpicture</span>}
-<span style="color: #a626a4;">\draw</span>[-&gt;] (-3,0) -- (-2,0) arc[radius=0.5cm,start angle=-180,end angle=0] (-1,0) -- (1,0) arc[radius=0.5cm,start angle=180,end angle=0] (2,0) -- (3,0);
-<span style="color: #a626a4;">\filldraw</span> (-1.5,0) circle[radius=1mm];
-<span style="color: #a626a4;">\filldraw</span> (1.5,0) circle[radius=1mm];
-<span style="color: #a626a4;">\end</span>{<span style="color: #0184bc;">tikzpicture</span>}
+<pre class="src src-latex"><span class="org-keyword">\begin</span>{<span class="org-function-name">tikzpicture</span>}
+<span class="org-keyword">\draw</span>[-&gt;] (-3,0) -- (-2,0) arc[radius=0.5cm,start angle=-180,end angle=0] (-1,0) -- (1,0) arc[radius=0.5cm,start angle=180,end angle=0] (2,0) -- (3,0);
+<span class="org-keyword">\filldraw</span> (-1.5,0) circle[radius=1mm];
+<span class="org-keyword">\filldraw</span> (1.5,0) circle[radius=1mm];
+<span class="org-keyword">\end</span>{<span class="org-function-name">tikzpicture</span>}
 </pre>
 </div>
 
@@ -138,7 +141,6 @@ This allows me to simply insert tikz code in my file, and the latex fragment wil
 Sorry, your browser does not support SVG.</object>
 
 </figure>
-
 
 
 <p>
@@ -151,16 +153,16 @@ If you want to use the image in your html export, instead of your pdf export, yo
 </p>
 
 <div class="org-src-container">
-<pre class="src src-org"><span style="color: #a0a1a7;">#+HEADER: :file ./svg/example.svg </span>
-<span style="color: #a0a1a7;">#+HEADER: :results output raw :headers '("\\usepackage{tikz}")</span>
-<span style="color: #a0a1a7;">#+HEADER: :fit yes </span>
-<span style="color: #a0a1a7;">#+BEGIN_src latex</span>
-<span style="color: #a626a4;">\begin</span><span style="color: #7f7f7f;">{</span><span style="color: #0184bc;">tikzpicture</span><span style="color: #7f7f7f;">}</span>
-<span style="color: #a626a4;">\draw</span><span style="color: #7f7f7f;">[-&gt;] (-3,0) -- (-2,0) arc[radius=0.5cm,start angle=-180,end angle=0] (-1,0) -- (1,0) arc[radius=0.5cm,start angle=180,end angle=0] (2,0) -- (3,0);</span>
-<span style="color: #a626a4;">\filldraw</span><span style="color: #7f7f7f;"> (-1.5,0) circle[radius=1mm];</span>
-<span style="color: #a626a4;">\filldraw</span><span style="color: #7f7f7f;"> (1.5,0) circle[radius=1mm];</span>
-<span style="color: #a626a4;">\end</span><span style="color: #7f7f7f;">{</span><span style="color: #0184bc;">tikzpicture</span><span style="color: #7f7f7f;">}</span>
-<span style="color: #a0a1a7;">#+END_SRC </span>
+<pre class="src src-org"><span class="org-org-meta-line">#+HEADER: :file ./svg/example.svg </span>
+<span class="org-org-meta-line">#+HEADER: :results output raw :headers '("\\usepackage{tikz}")</span>
+<span class="org-org-meta-line">#+HEADER: :fit yes </span>
+<span class="org-org-block-begin-line">#+BEGIN_src latex</span>
+<span class="org-org-block"><span class="org-keyword">\begin</span></span><span class="org-org-block">{</span><span class="org-org-block"><span class="org-function-name">tikzpicture</span></span><span class="org-org-block">}</span>
+<span class="org-org-block"><span class="org-keyword">\draw</span></span><span class="org-org-block">[-&gt;] (-3,0) -- (-2,0) arc[radius=0.5cm,start angle=-180,end angle=0] (-1,0) -- (1,0) arc[radius=0.5cm,start angle=180,end angle=0] (2,0) -- (3,0);</span>
+<span class="org-org-block"><span class="org-keyword">\filldraw</span></span><span class="org-org-block"> (-1.5,0) circle[radius=1mm];</span>
+<span class="org-org-block"><span class="org-keyword">\filldraw</span></span><span class="org-org-block"> (1.5,0) circle[radius=1mm];</span>
+<span class="org-org-block"><span class="org-keyword">\end</span></span><span class="org-org-block">{</span><span class="org-org-block"><span class="org-function-name">tikzpicture</span></span><span class="org-org-block">}</span>
+<span class="org-org-block-end-line">#+END_SRC </span>
 </pre>
 </div>
 </div></div>
@@ -186,9 +188,9 @@ If you want to use the image in your html export, instead of your pdf export, yo
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Ivan Tadeu Ferreira Antunes Filho</p>
-<p class="date">Date: 2022-07-22 Fri 19:37</p>
+<p class="date">Date: 2022-07-23 Sat 02:22</p>
 <p class="author">Github:  <a href="https://github.com/itf/">github.com/itf</a></p>
-<p class="creator">Made with <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.50 (<a href="https://orgmode.org">Org</a> mode 9.1.9) and <a href="https://github.com/itf/org-export-head">Org export head</a> </p>
+<p class="creator">Made with <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.1 (<a href="https://orgmode.org">Org</a> mode 9.3) and <a href="https://github.com/itf/org-export-head">Org export head</a> </p>
 </div>
 </body>
 </html>

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2022-07-22 Fri 19:37 -->
+<!-- 2022-07-23 Sat 02:22 -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Magically setup emacsclient</title>
@@ -14,7 +14,7 @@
 @licstart  The following is the entire license notice for the
 JavaScript code in this tag.
 
-Copyright (C) 2012-2019 Free Software Foundation, Inc.
+Copyright (C) 2012-2020 Free Software Foundation, Inc.
 
 The JavaScript code in this tag is free software: you can
 redistribute it and/or modify it under the terms of the GNU
@@ -88,7 +88,7 @@ Magically setup emacsclient
 
 <p>
 <span class=page-date> <small>
-2019-05-25, updated 2019-08-02 &#x2014; <a href='journal.html#emacs' class='emacs tagbutton'>emacs</a> <a href='journal.html#tech' class='tech tagbutton'>tech</a>  &nbsp  <a href="blogging_past_and_not_blogging_rant.html">⇦Blogging, past and not blogging rant</a> &#x2013; <a href="automatic_latex_fragment_toggling_in_org-mode.html">Automatic Latex Fragment Toggling in org-mode⇨</a> 
+2019-05-25, updated 2019-08-02 &#x2014; <a href='tags.html#emacs' class='emacs tagbutton'>emacs</a> <a href='tags.html#tech' class='tech tagbutton'>tech</a>  &nbsp  <a href="blogging_past_and_not_blogging_rant.html">⇦Blogging, past and not blogging rant</a> &#x2013; <a href="automatic_latex_fragment_toggling_in_org-mode.html">Automatic Latex Fragment Toggling in org-mode⇨</a> 
 </small> </span> 
 </p>
 <p>
@@ -100,43 +100,43 @@ One tiny improvement over the function defined on the <a href="https://en.reddit
 e in the same ways as done by the server package.
 </p>
 <div class="org-src-container">
-<pre class="src src-emacs-lisp"><span style="color: #a0a1a7; font-weight: bold;">;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;</span>
-<span style="color: #a0a1a7; font-weight: bold;">;; </span><span style="color: #a0a1a7;">from: https://en.reddit.com/r/emacs/comments/4586eq/quick_emacs_snippet_to_automatically_use/</span>
-<span style="color: #a0a1a7; font-weight: bold;">;;</span>
-<span style="color: #a0a1a7; font-weight: bold;">;; </span><span style="color: #a0a1a7;">Automagical EmacsClient functionality</span>
-<span style="color: #a0a1a7; font-weight: bold;">;;</span>
-<span style="color: #a0a1a7; font-weight: bold;">;; </span><span style="color: #a0a1a7;">Basically, if Emacs is already running, this shunts things over to</span>
-<span style="color: #a0a1a7; font-weight: bold;">;; </span><span style="color: #a0a1a7;">the existing Emacs; otherwise, it readies itself to accept said</span>
-<span style="color: #a0a1a7; font-weight: bold;">;; </span><span style="color: #a0a1a7;">shunting.</span>
-<span style="color: #a0a1a7; font-weight: bold;">;;</span>
-<span style="color: #a0a1a7; font-weight: bold;">;; </span><span style="color: #a0a1a7;">This operates by detecting the existence of an Emacs server socket</span>
-<span style="color: #a0a1a7; font-weight: bold;">;; </span><span style="color: #a0a1a7;">file.  If a socket is found, Emacs will</span>
-<span style="color: #a0a1a7; font-weight: bold;">;; </span><span style="color: #a0a1a7;">spin up emacsclient and immediately exit itself.  Otherwise, Emacs</span>
-<span style="color: #a0a1a7; font-weight: bold;">;; </span><span style="color: #a0a1a7;">will start a new server.</span>
+<pre class="src src-emacs-lisp"><span class="org-comment-delimiter">;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;</span>
+<span class="org-comment-delimiter">;; </span><span class="org-comment">from: https://en.reddit.com/r/emacs/comments/4586eq/quick_emacs_snippet_to_automatically_use/</span>
+<span class="org-comment-delimiter">;;</span>
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Automagical EmacsClient functionality</span>
+<span class="org-comment-delimiter">;;</span>
+<span class="org-comment-delimiter">;; </span><span class="org-comment">Basically, if Emacs is already running, this shunts things over to</span>
+<span class="org-comment-delimiter">;; </span><span class="org-comment">the existing Emacs; otherwise, it readies itself to accept said</span>
+<span class="org-comment-delimiter">;; </span><span class="org-comment">shunting.</span>
+<span class="org-comment-delimiter">;;</span>
+<span class="org-comment-delimiter">;; </span><span class="org-comment">This operates by detecting the existence of an Emacs server socket</span>
+<span class="org-comment-delimiter">;; </span><span class="org-comment">file.  If a socket is found, Emacs will</span>
+<span class="org-comment-delimiter">;; </span><span class="org-comment">spin up emacsclient and immediately exit itself.  Otherwise, Emacs</span>
+<span class="org-comment-delimiter">;; </span><span class="org-comment">will start a new server.</span>
 
 
-(<span style="color: #a626a4;">defun</span> <span style="color: #0184bc;">server-already-running-p</span> ()
-  <span style="color: #50a14f; font-style: italic;">"Is Emacs already running?</span>
-<span style="color: #50a14f; font-style: italic;">Gets name based on server-force-delete."</span>
-       (<span style="color: #a626a4;">let</span> ((file (expand-file-name
+(<span class="org-keyword">defun</span> <span class="org-function-name">server-already-running-p</span> ()
+  <span class="org-doc">"Is Emacs already running?</span>
+<span class="org-doc">Gets name based on server-force-delete."</span>
+       (<span class="org-keyword">let</span> ((file (expand-file-name
                     server-name
-                    (<span style="color: #a626a4;">if</span> server-use-tcp
-                        server-auth-dir
-                      server-socket-dir))))
+                  (<span class="org-keyword">if</span> server-use-tcp
+                      server-auth-dir
+                    server-socket-dir))))
          (file-exists-p file)))
 
-(<span style="color: #a626a4;">defun</span> <span style="color: #0184bc;">server-shunt</span> ()
-  <span style="color: #50a14f; font-style: italic;">"Shunts to emacsclient"</span>
-       (<span style="color: #a626a4;">let</span> ((args (append '(<span style="color: #50a14f;">"emacsclient"</span> <span style="color: #50a14f;">"-a"</span> <span style="color: #50a14f;">"\"\""</span> <span style="color: #50a14f;">"-c"</span> <span style="color: #50a14f;">"-n"</span>)
+(<span class="org-keyword">defun</span> <span class="org-function-name">server-shunt</span> ()
+  <span class="org-doc">"Shunts to emacsclient"</span>
+       (<span class="org-keyword">let</span> ((args (append '(<span class="org-string">"emacsclient"</span> <span class="org-string">"-a"</span> <span class="org-string">"\"\""</span> <span class="org-string">"-c"</span> <span class="org-string">"-n"</span>)
                            (cdr command-line-args))))
-         (shell-command (substring (format <span style="color: #50a14f;">"%S"</span> args) 1 -1))
+         (shell-command (substring (format <span class="org-string">"%S"</span> args) 1 -1))
          (kill-emacs)))
 
-(<span style="color: #a626a4;">unless</span> (<span style="color: #a626a4;">featurep</span> '<span style="color: #008b8b;">server</span>)
-  (<span style="color: #a626a4;">unless</span> (boundp 'server-process)
-    (<span style="color: #a626a4;">require</span> '<span style="color: #008b8b;">server</span>)
-    (<span style="color: #a626a4;">if</span> (server-already-running-p) (server-shunt) (server-start))))
-<span style="color: #a0a1a7; font-weight: bold;">;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;</span>
+(<span class="org-keyword">unless</span> (<span class="org-keyword">featurep</span> '<span class="org-constant">server</span>)
+  (<span class="org-keyword">unless</span> (boundp 'server-process)
+    (<span class="org-keyword">require</span> '<span class="org-constant">server</span>)
+    (<span class="org-keyword">if</span> (server-already-running-p) (server-shunt) (server-start))))
+<span class="org-comment-delimiter">;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;</span>
 </pre>
 </div>
 </div></div>
@@ -162,9 +162,9 @@ e in the same ways as done by the server package.
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Ivan Tadeu Ferreira Antunes Filho</p>
-<p class="date">Date: 2022-07-22 Fri 19:37</p>
+<p class="date">Date: 2022-07-23 Sat 02:22</p>
 <p class="author">Github:  <a href="https://github.com/itf/">github.com/itf</a></p>
-<p class="creator">Made with <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.50 (<a href="https://orgmode.org">Org</a> mode 9.1.9) and <a href="https://github.com/itf/org-export-head">Org export head</a> </p>
+<p class="creator">Made with <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.1 (<a href="https://orgmode.org">Org</a> mode 9.3) and <a href="https://github.com/itf/org-export-head">Org export head</a> </p>
 </div>
 </body>
 </html>

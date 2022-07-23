@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2022-07-22 Fri 19:36 -->
+<!-- 2022-07-23 Sat 02:22 -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Export subtree with files</title>
@@ -14,7 +14,7 @@
 @licstart  The following is the entire license notice for the
 JavaScript code in this tag.
 
-Copyright (C) 2012-2019 Free Software Foundation, Inc.
+Copyright (C) 2012-2020 Free Software Foundation, Inc.
 
 The JavaScript code in this tag is free software: you can
 redistribute it and/or modify it under the terms of the GNU
@@ -88,7 +88,7 @@ Export subtree with files
 
 <p>
 <span class=page-date> <small>
-2018-09-13, updated 2020-07-26 &#x2014; <a href='journal.html#projects' class='projects tagbutton'>projects</a> <a href='journal.html#emacs' class='emacs tagbutton'>emacs</a> <a href='journal.html#tech' class='tech tagbutton'>tech</a> <a href='journal.html#blog' class='blog tagbutton'>blog</a>  &nbsp  <a href="scan_notes_with_laptop_webcam.html">⇦Scan notes with laptop webcam</a> &#x2013; <a href="simple_proof_weak_master_theorem.html">Simple proof weak master theorem⇨</a> 
+2018-09-13, updated 2020-07-26 &#x2014; <a href='tags.html#projects' class='projects tagbutton'>projects</a> <a href='tags.html#emacs' class='emacs tagbutton'>emacs</a> <a href='tags.html#tech' class='tech tagbutton'>tech</a> <a href='tags.html#blog' class='blog tagbutton'>blog</a>  &nbsp  <a href="scan_notes_with_laptop_webcam.html">⇦Scan notes with laptop webcam</a> &#x2013; <a href="simple_proof_weak_master_theorem.html">Simple proof weak master theorem⇨</a> 
 </small> </span> 
 </p>
 <nav id="table-of-contents">
@@ -140,7 +140,7 @@ This allows me to quickly generate a folder that contains all the files I wanna 
 <h2 id="warning"><span class="section-number-2">3</span> Warning:</h2>
 <div class="outline-text-2" id="text-3">
 <p>
-The file links when exporting to latex need to be of the form [[<a href="file">file</a>] [name of the link]]. I other words, they need a description. Links without descriptions are interpreted as images, even if they have extensions such as pdf.
+The file links when exporting to latex need to be of the form <a href="file] [name of the link">file] [name of the link</a>. I other words, they need a description. Links without descriptions are interpreted as images, even if they have extensions such as pdf.
 </p>
 </div>
 </div>
@@ -148,85 +148,85 @@ The file links when exporting to latex need to be of the form [[<a href="file">f
 <h2 id="code"><span class="section-number-2">4</span> Code</h2>
 <div class="outline-text-2" id="text-4">
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(<span style="color: #a626a4;">require</span> '<span style="color: #008b8b;">ox</span>)
+<pre class="src src-emacs-lisp">(<span class="org-keyword">require</span> '<span class="org-constant">ox</span>)
 
 
-(<span style="color: #a626a4;">defun</span> <span style="color: #0184bc;">export-with-files-export</span> (<span style="color: #c18401;">&amp;optional</span> directory-name)
-  (<span style="color: #a626a4;">interactive</span>)
-  (<span style="color: #a626a4;">let</span> ((directory-name (<span style="color: #a626a4;">or</span> directory-name (read-directory-name <span style="color: #50a14f;">"Directory:"</span>))))
+(<span class="org-keyword">defun</span> <span class="org-function-name">export-with-files-export</span> (<span class="org-type">&amp;optional</span> directory-name)
+  (<span class="org-keyword">interactive</span>)
+  (<span class="org-keyword">let</span> ((directory-name (<span class="org-keyword">or</span> directory-name (read-directory-name <span class="org-string">"Directory:"</span>))))
     (make-directory directory-name t)
     (widen)
     (org-narrow-to-subtree)
-    
-    <span style="color: #a0a1a7; font-weight: bold;">;;</span><span style="color: #a0a1a7;">Create copy of the </span>
-    (<span style="color: #a626a4;">org-export-with-buffer-copy</span>
-     (<span style="color: #a626a4;">let*</span> ((ast (org-element-parse-buffer)))
+
+    <span class="org-comment-delimiter">;;</span><span class="org-comment">Create copy of the </span>
+    (<span class="org-keyword">org-export-with-buffer-copy</span>
+     (<span class="org-keyword">let*</span> ((ast (org-element-parse-buffer)))
        (org-element-map ast 'link
-         (<span style="color: #a626a4;">lambda</span> (link)
+         (<span class="org-keyword">lambda</span> (link)
            (export-with-files--fix-file-external-link-ast directory-name link)))
-       
-       
-       <span style="color: #a0a1a7; font-weight: bold;">;;</span><span style="color: #a0a1a7;">Convert the buffer to contain the new AST, </span>
-        <span style="color: #a0a1a7; font-weight: bold;">;;</span><span style="color: #a0a1a7;">this is needed because the exporter expects the content to be in a buffer</span>
+
+
+       <span class="org-comment-delimiter">;;</span><span class="org-comment">Convert the buffer to contain the new AST, </span>
+        <span class="org-comment-delimiter">;;</span><span class="org-comment">this is needed because the exporter expects the content to be in a buffer</span>
        (erase-buffer) 
        (insert (org-element-interpret-data ast))
-       
+
        (outline-show-all)
        (goto-char (point-min))
-       (<span style="color: #a626a4;">let*</span> ((file-name  (export-with-files--escaped-headline))
+       (<span class="org-keyword">let*</span> ((file-name  (export-with-files--escaped-headline))
               (new-file-name (concat directory-name file-name)))
-         <span style="color: #a0a1a7; font-weight: bold;">;; </span><span style="color: #a0a1a7;">Make the buffer file be in the new directory, because</span>
-         <span style="color: #a0a1a7; font-weight: bold;">;; </span><span style="color: #a0a1a7;">org-latex-export-to-pdf always export to the working directory of the buffer</span>
-         (set-visited-file-name (concat new-file-name <span style="color: #50a14f;">".org"</span>))
+         <span class="org-comment-delimiter">;; </span><span class="org-comment">Make the buffer file be in the new directory, because</span>
+         <span class="org-comment-delimiter">;; </span><span class="org-comment">org-latex-export-to-pdf always export to the working directory of the buffer</span>
+         (set-visited-file-name (concat new-file-name <span class="org-string">".org"</span>))
 
-         <span style="color: #a0a1a7; font-weight: bold;">;; </span><span style="color: #a0a1a7;">Name of the tex file / pdf file</span>
+         <span class="org-comment-delimiter">;; </span><span class="org-comment">Name of the tex file / pdf file</span>
          (org-set-property
-          <span style="color: #50a14f;">"EXPORT_FILE_NAME"</span>
+          <span class="org-string">"EXPORT_FILE_NAME"</span>
           file-name)
          (deactivate-mark)
         (org-latex-export-to-pdf nil t)))))
   (widen))
-     
 
 
-(<span style="color: #a626a4;">defun</span> <span style="color: #0184bc;">export-with-files--fix-file-external-link-ast</span> (directory-path link)
-  <span style="color: #50a14f; font-style: italic;">"Creates hard links to the external files in the output directory"</span>
-  (<span style="color: #a626a4;">when</span> (string= (org-element-property <span style="color: #e44649;">:type</span> link) <span style="color: #50a14f;">"file"</span>)
-    (<span style="color: #a626a4;">let*</span> ((path (org-element-property <span style="color: #e44649;">:path</span> link))
+
+(<span class="org-keyword">defun</span> <span class="org-function-name">export-with-files--fix-file-external-link-ast</span> (directory-path link)
+  <span class="org-doc">"Creates hard links to the external files in the output directory"</span>
+  (<span class="org-keyword">when</span> (string= (org-element-property <span class="org-builtin">:type</span> link) <span class="org-string">"file"</span>)
+    (<span class="org-keyword">let*</span> ((path (org-element-property <span class="org-builtin">:path</span> link))
            (extension (file-name-extension path))
            (link-copy (org-element-copy link))
-           (img-extensions '(<span style="color: #50a14f;">"jpg"</span> <span style="color: #50a14f;">"tiff"</span> <span style="color: #50a14f;">"png"</span> <span style="color: #50a14f;">"bmp"</span>))
+           (img-extensions '(<span class="org-string">"jpg"</span> <span class="org-string">"tiff"</span> <span class="org-string">"png"</span> <span class="org-string">"bmp"</span>))
            (link-description (org-element-contents link))
-           <span style="color: #a0a1a7; font-weight: bold;">;; </span><span style="color: #a0a1a7;">Put files in subdirectories with the extension of the file</span>
+           <span class="org-comment-delimiter">;; </span><span class="org-comment">Put files in subdirectories with the extension of the file</span>
            (new-relative-path 
-            (concat <span style="color: #50a14f;">"./"</span> extension <span style="color: #50a14f;">"/"</span> (file-name-nondirectory path)))
+            (concat <span class="org-string">"./"</span> extension <span class="org-string">"/"</span> (file-name-nondirectory path)))
            (new-hard-link-path (concat directory-path new-relative-path))
            (new-hard-link-directory (file-name-directory new-hard-link-path)))
-      
-      <span style="color: #a0a1a7; font-weight: bold;">;;</span><span style="color: #a0a1a7;">Fix the AST</span>
-      <span style="color: #a0a1a7; font-weight: bold;">;;</span><span style="color: #a0a1a7;">If image, remove description so it will become a real image instead of a link</span>
-     (<span style="color: #a626a4;">unless</span> (<span style="color: #a626a4;">or</span> (member extension img-extensions) (not link-description))
+
+      <span class="org-comment-delimiter">;;</span><span class="org-comment">Fix the AST</span>
+      <span class="org-comment-delimiter">;;</span><span class="org-comment">If image, remove description so it will become a real image instead of a link</span>
+     (<span class="org-keyword">unless</span> (<span class="org-keyword">or</span> (member extension img-extensions) (not link-description))
       (apply #'org-element-adopt-elements link-copy link-description))
-      (org-element-put-property link-copy <span style="color: #e44649;">:path</span> new-relative-path)
+      (org-element-put-property link-copy <span class="org-builtin">:path</span> new-relative-path)
       (org-element-set-element link  link-copy)
-      
-      <span style="color: #a0a1a7; font-weight: bold;">;;</span><span style="color: #a0a1a7;">Create hard link folder</span>
+
+      <span class="org-comment-delimiter">;;</span><span class="org-comment">Create hard link folder</span>
       (make-directory new-hard-link-directory t)
-      <span style="color: #a0a1a7; font-weight: bold;">;;</span><span style="color: #a0a1a7;">Create hard link, not replacing if it already exists, catching error if file does not exist</span>
-      (<span style="color: #a626a4;">condition-case</span> nil
+      <span class="org-comment-delimiter">;;</span><span class="org-comment">Create hard link, not replacing if it already exists, catching error if file does not exist</span>
+      (<span class="org-keyword">condition-case</span> nil
           (add-name-to-file path new-hard-link-path nil)
-        (<span style="color: #ff0000; font-weight: bold;">error</span> nil)))))
+        (<span class="org-warning">error</span> nil)))))
 
 
 
-(<span style="color: #a626a4;">defun</span> <span style="color: #0184bc;">export-with-files--escaped-headline</span> ()
+(<span class="org-keyword">defun</span> <span class="org-function-name">export-with-files--escaped-headline</span> ()
   (export-with-files--escape
    (nth 4 (org-heading-components))))
 
-(<span style="color: #a626a4;">defun</span> <span style="color: #0184bc;">export-with-files--escape</span>(text)
-  (replace-regexp-in-string <span style="color: #50a14f;">"[\\?.,!:]"</span> <span style="color: #50a14f;">""</span>
-   (replace-regexp-in-string <span style="color: #50a14f;">"/"</span> <span style="color: #50a14f;">"-"</span> 
-    (replace-regexp-in-string <span style="color: #50a14f;">" "</span> <span style="color: #50a14f;">"_"</span> text))))
+(<span class="org-keyword">defun</span> <span class="org-function-name">export-with-files--escape</span>(text)
+  (replace-regexp-in-string <span class="org-string">"[\\?.,!:]"</span> <span class="org-string">""</span>
+   (replace-regexp-in-string <span class="org-string">"/"</span> <span class="org-string">"-"</span> 
+    (replace-regexp-in-string <span class="org-string">" "</span> <span class="org-string">"_"</span> text))))
 </pre>
 </div>
 </div></div>
@@ -254,9 +254,9 @@ The file links when exporting to latex need to be of the form [[<a href="file">f
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Ivan Tadeu Ferreira Antunes Filho</p>
-<p class="date">Date: 2022-07-22 Fri 19:36</p>
+<p class="date">Date: 2022-07-23 Sat 02:22</p>
 <p class="author">Github:  <a href="https://github.com/itf/">github.com/itf</a></p>
-<p class="creator">Made with <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.50 (<a href="https://orgmode.org">Org</a> mode 9.1.9) and <a href="https://github.com/itf/org-export-head">Org export head</a> </p>
+<p class="creator">Made with <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.1 (<a href="https://orgmode.org">Org</a> mode 9.3) and <a href="https://github.com/itf/org-export-head">Org export head</a> </p>
 </div>
 </body>
 </html>

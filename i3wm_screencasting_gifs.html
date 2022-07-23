@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2022-07-22 Fri 19:37 -->
+<!-- 2022-07-23 Sat 02:22 -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>i3wm screencasting gifs</title>
@@ -14,7 +14,7 @@
 @licstart  The following is the entire license notice for the
 JavaScript code in this tag.
 
-Copyright (C) 2012-2019 Free Software Foundation, Inc.
+Copyright (C) 2012-2020 Free Software Foundation, Inc.
 
 The JavaScript code in this tag is free software: you can
 redistribute it and/or modify it under the terms of the GNU
@@ -88,7 +88,7 @@ i3wm screencasting gifs
 
 <p>
 <span class=page-date> <small>
-2019-05-24, updated 2019-05-25 &#x2014; <a href='journal.html#tech' class='tech tagbutton'>tech</a> <a href='journal.html#blog' class='blog tagbutton'>blog</a>  &nbsp  <a href="animating_gifs_in_orgmode.html">⇦Animating gifs in orgmode</a> &#x2013; <a href="disqus_and_javascript_random_thoughts.html">Disqus and javascript random thoughts⇨</a> 
+2019-05-24, updated 2019-05-25 &#x2014; <a href='tags.html#tech' class='tech tagbutton'>tech</a> <a href='tags.html#blog' class='blog tagbutton'>blog</a>  &nbsp  <a href="animating_gifs_in_orgmode.html">⇦Animating gifs in orgmode</a> &#x2013; <a href="disqus_and_javascript_random_thoughts.html">Disqus and javascript random thoughts⇨</a> 
 </small> </span> 
 </p>
 <nav id="table-of-contents">
@@ -147,34 +147,34 @@ It uses <code>byzanz</code> to record the screen, and <code>slop</code> to selec
 </p>
 
 <div class="org-src-container">
-<pre class="src src-bash"><span style="color: #a0a1a7; font-weight: bold;">#</span><span style="color: #a0a1a7;">!/usr/bin/</span><span style="color: #a626a4;">env</span><span style="color: #a0a1a7;"> bash</span>
-<span style="color: #8b4513;">DIR</span>=<span style="color: #50a14f;">"$( cd "$( dirname "${BASH_SOURCE[0]}" )" &amp;&amp; pwd )"</span>
-<span style="color: #8b4513;">IS_RECORDING_PID</span>=<span style="color: #ff00ff;">`pgrep -a -f is-recording | cut -f1 -d' '`</span>
-<span style="color: #8b4513;">IS_RECORDING_SH</span>=$<span style="color: #8b4513;">HOME</span>/.files/i3/is-recording.sh
+<pre class="src src-bash"><span class="org-comment-delimiter">#</span><span class="org-comment">!/usr/bin/</span><span class="org-keyword">env</span><span class="org-comment"> bash</span>
+<span class="org-variable-name">DIR</span>=<span class="org-string">"$( cd "$( dirname "${BASH_SOURCE[0]}" )" &amp;&amp; pwd )"</span>
+<span class="org-variable-name">IS_RECORDING_PID</span>=<span class="org-sh-quoted-exec">`pgrep -a -f is-recording | cut -f1 -d' '`</span>
+<span class="org-variable-name">IS_RECORDING_SH</span>=$<span class="org-variable-name">HOME</span>/.files/i3/is-recording.sh
 
-<span style="color: #a626a4;">if</span> [[ <span style="color: #50a14f;">"$IS_RECORDING_PID"</span> == <span style="color: #50a14f;">""</span> ]]; <span style="color: #a626a4;">then</span>
-        <span style="color: #e44649;">read</span> -r X Y W H &lt; &lt;(slop -n -l -c 0.157,0.333,0.466,0.4 -f <span style="color: #50a14f;">"%x %y %w %h"</span>)
-        <span style="color: #8b4513;">FILE_NAME</span>=~/Videos/Screencast-$(<span style="color: #ff00ff;">date</span> -Iseconds | cut -d<span style="color: #50a14f;">'+'</span> -f1)<span style="color: #e44649;">.</span>$<span style="color: #8b4513;">1</span>
-        <span style="color: #a626a4;">case</span> <span style="color: #50a14f;">"$1"</span><span style="color: #a626a4;"> in</span>
-                byzanz)
-                        byzanz-record -w $<span style="color: #8b4513;">W</span> -h $<span style="color: #8b4513;">H</span> -x $<span style="color: #8b4513;">X</span> -y $<span style="color: #8b4513;">Y</span> -c --exec=<span style="color: #50a14f;">"$IS_RECORDING_SH"</span> $<span style="color: #8b4513;">FILE_NAME</span> &gt;&amp; /dev/null
-                        ;;
-                gif)
-                        byzanz-record -w $<span style="color: #8b4513;">W</span> -h $<span style="color: #8b4513;">H</span> -x $<span style="color: #8b4513;">X</span> -y $<span style="color: #8b4513;">Y</span> -c --exec=<span style="color: #50a14f;">"$IS_RECORDING_SH"</span> $<span style="color: #8b4513;">FILE_NAME</span> &gt;&amp; /dev/null
-                        ;;
-                ogv)
-                        byzanz-record -a -w $<span style="color: #8b4513;">W</span> -h $<span style="color: #8b4513;">H</span> -x $<span style="color: #8b4513;">X</span> -y $<span style="color: #8b4513;">Y</span> -c --exec=<span style="color: #50a14f;">"$IS_RECORDING_SH"</span> $<span style="color: #8b4513;">FILE_NAME</span> &gt;&amp; /dev/null
+<span class="org-keyword">if</span> [[ <span class="org-string">"$IS_RECORDING_PID"</span> == <span class="org-string">""</span> ]]; <span class="org-keyword">then</span>
+      <span class="org-builtin">read</span> -r X Y W H &lt; &lt;(slop -n -l -c 0.157,0.333,0.466,0.4 -f <span class="org-string">"%x %y %w %h"</span>)
+      <span class="org-variable-name">FILE_NAME</span>=~/Videos/Screencast-$(<span class="org-sh-quoted-exec">date</span> -Iseconds | cut -d<span class="org-string">'+'</span> -f1)<span class="org-builtin">.</span>$<span class="org-variable-name">1</span>
+      <span class="org-keyword">case</span> <span class="org-string">"$1"</span><span class="org-keyword"> in</span>
+              byzanz)
+                      byzanz-record -w $<span class="org-variable-name">W</span> -h $<span class="org-variable-name">H</span> -x $<span class="org-variable-name">X</span> -y $<span class="org-variable-name">Y</span> -c --exec=<span class="org-string">"$IS_RECORDING_SH"</span> $<span class="org-variable-name">FILE_NAME</span> &gt;&amp; /dev/null
+                      ;;
+              gif)
+                      byzanz-record -w $<span class="org-variable-name">W</span> -h $<span class="org-variable-name">H</span> -x $<span class="org-variable-name">X</span> -y $<span class="org-variable-name">Y</span> -c --exec=<span class="org-string">"$IS_RECORDING_SH"</span> $<span class="org-variable-name">FILE_NAME</span> &gt;&amp; /dev/null
+                      ;;
+              ogv)
+                      byzanz-record -a -w $<span class="org-variable-name">W</span> -h $<span class="org-variable-name">H</span> -x $<span class="org-variable-name">X</span> -y $<span class="org-variable-name">Y</span> -c --exec=<span class="org-string">"$IS_RECORDING_SH"</span> $<span class="org-variable-name">FILE_NAME</span> &gt;&amp; /dev/null
 
-                        <span style="color: #a626a4;">if</span> [[ <span style="color: #50a14f;">"$2"</span> == <span style="color: #50a14f;">"--convert-to-gif"</span> ]]; <span style="color: #a626a4;">then</span>
-                                sleep 1
-                                $<span style="color: #8b4513;">DIR</span>/convert-ogv-to-gif.sh $<span style="color: #8b4513;">FILE_NAME</span> | xclip -selection clipboard
-                        <span style="color: #a626a4;">fi</span>
-                        ;;
-        <span style="color: #a626a4;">esac</span>
-<span style="color: #a626a4;">else</span>
-        polybar-msg hook is-recording 1
-        <span style="color: #e44649;">kill</span> $<span style="color: #8b4513;">IS_RECORDING_PID</span>
-<span style="color: #a626a4;">fi</span>
+                      <span class="org-keyword">if</span> [[ <span class="org-string">"$2"</span> == <span class="org-string">"--convert-to-gif"</span> ]]; <span class="org-keyword">then</span>
+                              sleep 1
+                              $<span class="org-variable-name">DIR</span>/convert-ogv-to-gif.sh $<span class="org-variable-name">FILE_NAME</span> | xclip -selection clipboard
+                      <span class="org-keyword">fi</span>
+                      ;;
+      <span class="org-keyword">esac</span>
+<span class="org-keyword">else</span>
+      polybar-msg hook is-recording 1
+      <span class="org-builtin">kill</span> $<span class="org-variable-name">IS_RECORDING_PID</span>
+<span class="org-keyword">fi</span>
 </pre>
 </div>
 </div>
@@ -186,13 +186,13 @@ It uses <code>byzanz</code> to record the screen, and <code>slop</code> to selec
 This is the process that when killed stops the recording. 
 </p>
 <div class="org-src-container">
-<pre class="src src-bash"><span style="color: #a0a1a7; font-weight: bold;">#</span><span style="color: #a0a1a7;">!/usr/bin/</span><span style="color: #a626a4;">env</span><span style="color: #a0a1a7;"> bash</span>
+<pre class="src src-bash"><span class="org-comment-delimiter">#</span><span class="org-comment">!/usr/bin/</span><span class="org-keyword">env</span><span class="org-comment"> bash</span>
 
 polybar-msg hook is-recording 2
 
-<span style="color: #a626a4;">while</span> true; <span style="color: #a626a4;">do</span>
-        sleep 60
-<span style="color: #a626a4;">done</span>
+<span class="org-keyword">while</span> true; <span class="org-keyword">do</span>
+      sleep 60
+<span class="org-keyword">done</span>
 </pre>
 </div>
 </div>
@@ -216,10 +216,10 @@ Therefore the first thing we should do is optimize the gif so that it is smaller
 This is the relevant change:
 </p>
 <div class="org-src-container">
-<pre class="src src-bash">                gif)
-                        byzanz-record -w $<span style="color: #8b4513;">W</span> -h $<span style="color: #8b4513;">H</span> -x $<span style="color: #8b4513;">X</span> -y $<span style="color: #8b4513;">Y</span> -c --exec=<span style="color: #50a14f;">"$IS_RECORDING_SH"</span> $<span style="color: #8b4513;">FILE_NAME</span>
-                        gifsicle --batch --optimize=3 $<span style="color: #8b4513;">FILE_NAME</span>
-                        ;;
+<pre class="src src-bash">gif)
+      byzanz-record -w $<span class="org-variable-name">W</span> -h $<span class="org-variable-name">H</span> -x $<span class="org-variable-name">X</span> -y $<span class="org-variable-name">Y</span> -c --exec=<span class="org-string">"$IS_RECORDING_SH"</span> $<span class="org-variable-name">FILE_NAME</span>
+      gifsicle --batch --optimize=3 $<span class="org-variable-name">FILE_NAME</span>
+      ;;
 </pre>
 </div>
 </div>
@@ -235,7 +235,7 @@ After you've save the file, it is useful to have it copied to the clipboard, so 
 This depends on <code>xclip</code>.
 </p>
 <div class="org-src-container">
-<pre class="src src-bash">        <span style="color: #e44649;">echo</span> $<span style="color: #8b4513;">FILE_NAME</span>| xclip -i -selection clipboard -t text/uri-list
+<pre class="src src-bash"><span class="org-builtin">echo</span> $<span class="org-variable-name">FILE_NAME</span>| xclip -i -selection clipboard -t text/uri-list
 </pre>
 </div>
 </div>
@@ -248,8 +248,8 @@ I do not use polybar. So instead I use <a href="https://github.com/vlevit/notify
 </p>
 
 <div class="org-src-container">
-<pre class="src src-bash">~/.config/i3/notify-send.sh/notify-send.sh -i display  <span style="color: #50a14f;">"finished recording"</span>
-<span style="color: #a626a4;">fi</span>
+<pre class="src src-bash">~/.config/i3/notify-send.sh/notify-send.sh -i display  <span class="org-string">"finished recording"</span>
+<span class="org-keyword">fi</span>
 </pre>
 </div>
 </div>
@@ -261,9 +261,9 @@ I do not use polybar. So instead I use <a href="https://github.com/vlevit/notify
 Webms are better than gifs when supported. They are supported by basically everything, except IOS devices and internet explorer. In other words, it is even better than being supported everywhere haha. 
 </p>
 <div class="org-src-container">
-<pre class="src src-bash">                webm)
-                        byzanz-record -w $<span style="color: #8b4513;">W</span> -h $<span style="color: #8b4513;">H</span> -x $<span style="color: #8b4513;">X</span> -y $<span style="color: #8b4513;">Y</span> -c --exec=<span style="color: #50a14f;">"$IS_RECORDING_SH"</span> $<span style="color: #8b4513;">FILE_NAME</span>
-                        ;;
+<pre class="src src-bash">webm)
+      byzanz-record -w $<span class="org-variable-name">W</span> -h $<span class="org-variable-name">H</span> -x $<span class="org-variable-name">X</span> -y $<span class="org-variable-name">Y</span> -c --exec=<span class="org-string">"$IS_RECORDING_SH"</span> $<span class="org-variable-name">FILE_NAME</span>
+      ;;
 </pre>
 </div>
 </div>
@@ -280,41 +280,41 @@ All  of the paths are based on the paths I've setup here, you should adapt them 
 </p>
 
 <div class="org-src-container">
-<pre class="src src-bash"><span style="color: #a0a1a7; font-weight: bold;">#</span><span style="color: #a0a1a7;">!/usr/bin/</span><span style="color: #a626a4;">env</span><span style="color: #a0a1a7;"> bash</span>
-<span style="color: #a0a1a7; font-weight: bold;">#</span><span style="color: #a0a1a7;">!/usr/bin/env bash</span>
-<span style="color: #8b4513;">DIR</span>=<span style="color: #50a14f;">"$( cd "$( dirname "${BASH_SOURCE[0]}" )" &amp;&amp; pwd )"</span>
-<span style="color: #8b4513;">IS_RECORDING_PID</span>=<span style="color: #ff00ff;">`pgrep -a -f is-recording | cut -f1 -d' '`</span>
-<span style="color: #8b4513;">IS_RECORDING_SH</span>=$<span style="color: #8b4513;">HOME</span>/.tools/is-recording.sh
+<pre class="src src-bash"><span class="org-comment-delimiter">#</span><span class="org-comment">!/usr/bin/</span><span class="org-keyword">env</span><span class="org-comment"> bash</span>
+<span class="org-comment-delimiter">#</span><span class="org-comment">!/usr/bin/env bash</span>
+<span class="org-variable-name">DIR</span>=<span class="org-string">"$( cd "$( dirname "${BASH_SOURCE[0]}" )" &amp;&amp; pwd )"</span>
+<span class="org-variable-name">IS_RECORDING_PID</span>=<span class="org-sh-quoted-exec">`pgrep -a -f is-recording | cut -f1 -d' '`</span>
+<span class="org-variable-name">IS_RECORDING_SH</span>=$<span class="org-variable-name">HOME</span>/.tools/is-recording.sh
 
-<span style="color: #a626a4;">if</span> [[ <span style="color: #50a14f;">"$IS_RECORDING_PID"</span> == <span style="color: #50a14f;">""</span> ]]; <span style="color: #a626a4;">then</span>
-        <span style="color: #e44649;">read</span> -r X Y W H &lt; &lt;(slop -n -l -c 0.157,0.333,0.466,0.4 -f <span style="color: #50a14f;">"%x %y %w %h"</span>)
-        <span style="color: #8b4513;">FILE_NAME</span>=~/Videos/Screencast-$(<span style="color: #ff00ff;">date</span> -Iseconds | cut -d<span style="color: #50a14f;">'+'</span> -f1)<span style="color: #e44649;">.</span>$<span style="color: #8b4513;">1</span>
-        <span style="color: #a626a4;">case</span> <span style="color: #50a14f;">"$1"</span><span style="color: #a626a4;"> in</span>
-                byzanz)
-                        byzanz-record -w $<span style="color: #8b4513;">W</span> -h $<span style="color: #8b4513;">H</span> -x $<span style="color: #8b4513;">X</span> -y $<span style="color: #8b4513;">Y</span> -c --exec=<span style="color: #50a14f;">"$IS_RECORDING_SH"</span> $<span style="color: #8b4513;">FILE_NAME</span> 
-                        ;;
-                gif)
-                        byzanz-record -w $<span style="color: #8b4513;">W</span> -h $<span style="color: #8b4513;">H</span> -x $<span style="color: #8b4513;">X</span> -y $<span style="color: #8b4513;">Y</span> -c --exec=<span style="color: #50a14f;">"$IS_RECORDING_SH"</span> $<span style="color: #8b4513;">FILE_NAME</span>
-                        gifsicle --batch --optimize=3 $<span style="color: #8b4513;">FILE_NAME</span>
-                        ;;
-                webm)
-                        byzanz-record -w $<span style="color: #8b4513;">W</span> -h $<span style="color: #8b4513;">H</span> -x $<span style="color: #8b4513;">X</span> -y $<span style="color: #8b4513;">Y</span> -c --exec=<span style="color: #50a14f;">"$IS_RECORDING_SH"</span> $<span style="color: #8b4513;">FILE_NAME</span>
-                        ;;
-                ogv)
-                        byzanz-record -a -w $<span style="color: #8b4513;">W</span> -h $<span style="color: #8b4513;">H</span> -x $<span style="color: #8b4513;">X</span> -y $<span style="color: #8b4513;">Y</span> -c --exec=<span style="color: #50a14f;">"$IS_RECORDING_SH"</span> $<span style="color: #8b4513;">FILE_NAME</span> 
+<span class="org-keyword">if</span> [[ <span class="org-string">"$IS_RECORDING_PID"</span> == <span class="org-string">""</span> ]]; <span class="org-keyword">then</span>
+      <span class="org-builtin">read</span> -r X Y W H &lt; &lt;(slop -n -l -c 0.157,0.333,0.466,0.4 -f <span class="org-string">"%x %y %w %h"</span>)
+      <span class="org-variable-name">FILE_NAME</span>=~/Videos/Screencast-$(<span class="org-sh-quoted-exec">date</span> -Iseconds | cut -d<span class="org-string">'+'</span> -f1)<span class="org-builtin">.</span>$<span class="org-variable-name">1</span>
+      <span class="org-keyword">case</span> <span class="org-string">"$1"</span><span class="org-keyword"> in</span>
+              byzanz)
+                      byzanz-record -w $<span class="org-variable-name">W</span> -h $<span class="org-variable-name">H</span> -x $<span class="org-variable-name">X</span> -y $<span class="org-variable-name">Y</span> -c --exec=<span class="org-string">"$IS_RECORDING_SH"</span> $<span class="org-variable-name">FILE_NAME</span> 
+                      ;;
+              gif)
+                      byzanz-record -w $<span class="org-variable-name">W</span> -h $<span class="org-variable-name">H</span> -x $<span class="org-variable-name">X</span> -y $<span class="org-variable-name">Y</span> -c --exec=<span class="org-string">"$IS_RECORDING_SH"</span> $<span class="org-variable-name">FILE_NAME</span>
+                      gifsicle --batch --optimize=3 $<span class="org-variable-name">FILE_NAME</span>
+                      ;;
+              webm)
+                      byzanz-record -w $<span class="org-variable-name">W</span> -h $<span class="org-variable-name">H</span> -x $<span class="org-variable-name">X</span> -y $<span class="org-variable-name">Y</span> -c --exec=<span class="org-string">"$IS_RECORDING_SH"</span> $<span class="org-variable-name">FILE_NAME</span>
+                      ;;
+              ogv)
+                      byzanz-record -a -w $<span class="org-variable-name">W</span> -h $<span class="org-variable-name">H</span> -x $<span class="org-variable-name">X</span> -y $<span class="org-variable-name">Y</span> -c --exec=<span class="org-string">"$IS_RECORDING_SH"</span> $<span class="org-variable-name">FILE_NAME</span> 
 
-                        <span style="color: #a626a4;">if</span> [[ <span style="color: #50a14f;">"$2"</span> == <span style="color: #50a14f;">"--convert-to-gif"</span> ]]; <span style="color: #a626a4;">then</span>
-                                sleep 1
-                                $<span style="color: #8b4513;">DIR</span>/convert-ogv-to-gif.sh $<span style="color: #8b4513;">FILE_NAME</span> | xclip -selection clipboard
-                        <span style="color: #a626a4;">fi</span>
-                        ;;
-        <span style="color: #a626a4;">esac</span>
-        <span style="color: #e44649;">echo</span> $<span style="color: #8b4513;">FILE_NAME</span>| xclip -i -selection clipboard -t text/uri-list
-<span style="color: #a626a4;">else</span>
-        <span style="color: #a0a1a7; font-weight: bold;">#</span><span style="color: #a0a1a7;">polybar-msg hook is-recording 1</span>
-        <span style="color: #e44649;">kill</span> $<span style="color: #8b4513;">IS_RECORDING_PID</span>
-        ~/.config/i3/notify-send.sh/notify-send.sh -i display  <span style="color: #50a14f;">"finished recording"</span>
-<span style="color: #a626a4;">fi</span>
+                      <span class="org-keyword">if</span> [[ <span class="org-string">"$2"</span> == <span class="org-string">"--convert-to-gif"</span> ]]; <span class="org-keyword">then</span>
+                              sleep 1
+                              $<span class="org-variable-name">DIR</span>/convert-ogv-to-gif.sh $<span class="org-variable-name">FILE_NAME</span> | xclip -selection clipboard
+                      <span class="org-keyword">fi</span>
+                      ;;
+      <span class="org-keyword">esac</span>
+      <span class="org-builtin">echo</span> $<span class="org-variable-name">FILE_NAME</span>| xclip -i -selection clipboard -t text/uri-list
+<span class="org-keyword">else</span>
+      <span class="org-comment-delimiter">#</span><span class="org-comment">polybar-msg hook is-recording 1</span>
+      <span class="org-builtin">kill</span> $<span class="org-variable-name">IS_RECORDING_PID</span>
+      ~/.config/i3/notify-send.sh/notify-send.sh -i display  <span class="org-string">"finished recording"</span>
+<span class="org-keyword">fi</span>
 </pre>
 </div>
 </div>
@@ -353,9 +353,9 @@ All  of the paths are based on the paths I've setup here, you should adapt them 
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Ivan Tadeu Ferreira Antunes Filho</p>
-<p class="date">Date: 2022-07-22 Fri 19:37</p>
+<p class="date">Date: 2022-07-23 Sat 02:22</p>
 <p class="author">Github:  <a href="https://github.com/itf/">github.com/itf</a></p>
-<p class="creator">Made with <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.50 (<a href="https://orgmode.org">Org</a> mode 9.1.9) and <a href="https://github.com/itf/org-export-head">Org export head</a> </p>
+<p class="creator">Made with <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.1 (<a href="https://orgmode.org">Org</a> mode 9.3) and <a href="https://github.com/itf/org-export-head">Org export head</a> </p>
 </div>
 </body>
 </html>

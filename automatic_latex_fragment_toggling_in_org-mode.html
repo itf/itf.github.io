@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2022-07-22 Fri 19:37 -->
+<!-- 2022-07-23 Sat 02:22 -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Automatic Latex Fragment Toggling in org-mode</title>
@@ -14,7 +14,7 @@
 @licstart  The following is the entire license notice for the
 JavaScript code in this tag.
 
-Copyright (C) 2012-2019 Free Software Foundation, Inc.
+Copyright (C) 2012-2020 Free Software Foundation, Inc.
 
 The JavaScript code in this tag is free software: you can
 redistribute it and/or modify it under the terms of the GNU
@@ -88,7 +88,7 @@ Automatic Latex Fragment Toggling in org-mode
 
 <p>
 <span class=page-date> <small>
-2019-05-25, updated 2019-05-25 &#x2014; <a href='journal.html#emacs' class='emacs tagbutton'>emacs</a> <a href='journal.html#tech' class='tech tagbutton'>tech</a> <a href='journal.html#blog' class='blog tagbutton'>blog</a>  &nbsp  <a href="magically_setup_emacsclient.html">⇦Magically setup emacsclient</a> &#x2013; <a href="animating_gifs_in_orgmode.html">Animating gifs in orgmode⇨</a> 
+2019-05-25, updated 2019-05-25 &#x2014; <a href='tags.html#emacs' class='emacs tagbutton'>emacs</a> <a href='tags.html#tech' class='tech tagbutton'>tech</a> <a href='tags.html#blog' class='blog tagbutton'>blog</a>  &nbsp  <a href="magically_setup_emacsclient.html">⇦Magically setup emacsclient</a> &#x2013; <a href="animating_gifs_in_orgmode.html">Animating gifs in orgmode⇨</a> 
 </small> </span> 
 </p>
 <p>
@@ -126,93 +126,93 @@ Putting this all together:
 
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(<span style="color: #a626a4;">defvar</span> <span style="color: #8b4513;">org-latex-fragment-last</span> nil
-  <span style="color: #50a14f; font-style: italic;">"Holds last fragment/environment you were on."</span>)
+<pre class="src src-emacs-lisp">(<span class="org-keyword">defvar</span> <span class="org-variable-name">org-latex-fragment-last</span> nil
+  <span class="org-doc">"Holds last fragment/environment you were on."</span>)
 
-(<span style="color: #a626a4;">defun</span> <span style="color: #0184bc;">my/org-latex-fragment--get-current-latex-fragment</span> ()
-  <span style="color: #50a14f; font-style: italic;">"Return the overlay associated with the image under point."</span>
-  (car (<span style="color: #a626a4;">--select</span> (eq (overlay-get it 'org-overlay-type) 'org-latex-overlay) (overlays-at (point)))))
+(<span class="org-keyword">defun</span> <span class="org-function-name">my/org-latex-fragment--get-current-latex-fragment</span> ()
+  <span class="org-doc">"Return the overlay associated with the image under point."</span>
+  (car (--select (eq (overlay-get it 'org-overlay-type) 'org-latex-overlay) (overlays-at (point)))))
 
-(<span style="color: #a626a4;">defun</span> <span style="color: #0184bc;">my/org-in-latex-fragment-p</span> ()
-    <span style="color: #50a14f; font-style: italic;">"Return the point where the latex fragment begins, if inside</span>
-<span style="color: #50a14f; font-style: italic;">  a latex fragment. Else return false"</span>
-    (<span style="color: #a626a4;">let*</span> ((el (org-element-context))
+(<span class="org-keyword">defun</span> <span class="org-function-name">my/org-in-latex-fragment-p</span> ()
+    <span class="org-doc">"Return the point where the latex fragment begins, if inside</span>
+<span class="org-doc">  a latex fragment. Else return false"</span>
+    (<span class="org-keyword">let*</span> ((el (org-element-context))
            (el-type (car el)))
-      (<span style="color: #a626a4;">and</span> (<span style="color: #a626a4;">or</span> (eq 'latex-fragment el-type) (eq 'latex-environment el-type))
-          (org-element-property <span style="color: #e44649;">:begin</span> el))))
+      (<span class="org-keyword">and</span> (<span class="org-keyword">or</span> (eq 'latex-fragment el-type) (eq 'latex-environment el-type))
+          (org-element-property <span class="org-builtin">:begin</span> el))))
 
-(<span style="color: #a626a4;">defun</span> <span style="color: #0184bc;">org-latex-fragment-toggle-auto</span> ()
-  <span style="color: #a0a1a7; font-weight: bold;">;; </span><span style="color: #a0a1a7;">Wait for the s</span>
-  (<span style="color: #a626a4;">interactive</span>)
-  (<span style="color: #a626a4;">while-no-input</span> 
+(<span class="org-keyword">defun</span> <span class="org-function-name">org-latex-fragment-toggle-auto</span> ()
+  <span class="org-comment-delimiter">;; </span><span class="org-comment">Wait for the s</span>
+  (<span class="org-keyword">interactive</span>)
+  (<span class="org-keyword">while-no-input</span> 
     (run-with-idle-timer 0.05 nil 'org-latex-fragment-toggle-helper)))
 
-(<span style="color: #a626a4;">defun</span> <span style="color: #0184bc;">org-latex-fragment-toggle-helper</span> ()
-    <span style="color: #50a14f; font-style: italic;">"Toggle a latex fragment image "</span>
-    (<span style="color: #a626a4;">condition-case</span> nil
-        (<span style="color: #a626a4;">and</span> (eq 'org-mode major-mode)
-             (<span style="color: #a626a4;">let*</span> ((begin (my/org-in-latex-fragment-p)))
-               (<span style="color: #a626a4;">cond</span>
-                <span style="color: #a0a1a7; font-weight: bold;">;; </span><span style="color: #a0a1a7;">were on a fragment and now on a new fragment</span>
-                ((<span style="color: #a626a4;">and</span>
-                  <span style="color: #a0a1a7; font-weight: bold;">;; </span><span style="color: #a0a1a7;">fragment we were on</span>
-                  org-latex-fragment-last
-                  <span style="color: #a0a1a7; font-weight: bold;">;; </span><span style="color: #a0a1a7;">and are on a fragment now</span>
+(<span class="org-keyword">defun</span> <span class="org-function-name">org-latex-fragment-toggle-helper</span> ()
+    <span class="org-doc">"Toggle a latex fragment image "</span>
+    (<span class="org-keyword">condition-case</span> nil
+        (<span class="org-keyword">and</span> (eq 'org-mode major-mode)
+             (<span class="org-keyword">let*</span> ((begin (my/org-in-latex-fragment-p)))
+             (<span class="org-keyword">cond</span>
+              <span class="org-comment-delimiter">;; </span><span class="org-comment">were on a fragment and now on a new fragment</span>
+              ((<span class="org-keyword">and</span>
+                <span class="org-comment-delimiter">;; </span><span class="org-comment">fragment we were on</span>
+                org-latex-fragment-last
+                <span class="org-comment-delimiter">;; </span><span class="org-comment">and are on a fragment now</span>
                   begin
-                  <span style="color: #a0a1a7; font-weight: bold;">;; </span><span style="color: #a0a1a7;">but not on the last one this is a little tricky. as you edit the</span>
-                  <span style="color: #a0a1a7; font-weight: bold;">;; </span><span style="color: #a0a1a7;">fragment, it is not equal to the last one. We use the begin</span>
-                  <span style="color: #a0a1a7; font-weight: bold;">;; </span><span style="color: #a0a1a7;">property which is less likely to change for the comparison.</span>
-                  (not (= begin
-                          org-latex-fragment-last)))
-                 <span style="color: #a0a1a7; font-weight: bold;">;; </span><span style="color: #a0a1a7;">go back to last one and put image back</span>
-                 (<span style="color: #a626a4;">save-excursion</span>
-                   (goto-char org-latex-fragment-last)
-                   (<span style="color: #a626a4;">when</span> (my/org-in-latex-fragment-p) (org-toggle-latex-fragment))
-                   <span style="color: #a0a1a7; font-weight: bold;">;; </span><span style="color: #a0a1a7;">now remove current imagea</span>
+                <span class="org-comment-delimiter">;; </span><span class="org-comment">but not on the last one this is a little tricky. as you edit the</span>
+                <span class="org-comment-delimiter">;; </span><span class="org-comment">fragment, it is not equal to the last one. We use the begin</span>
+                <span class="org-comment-delimiter">;; </span><span class="org-comment">property which is less likely to change for the comparison.</span>
+                (not (= begin
+                        org-latex-fragment-last)))
+               <span class="org-comment-delimiter">;; </span><span class="org-comment">go back to last one and put image back</span>
+               (<span class="org-keyword">save-excursion</span>
+                 (goto-char org-latex-fragment-last)
+                 (<span class="org-keyword">when</span> (my/org-in-latex-fragment-p) (org-toggle-latex-fragment))
+                 <span class="org-comment-delimiter">;; </span><span class="org-comment">now remove current imagea</span>
                    (goto-char begin)
-                   (<span style="color: #a626a4;">let</span> ((ov (my/org-latex-fragment--get-current-latex-fragment)))
-                     (<span style="color: #a626a4;">when</span> ov
-                       (delete-overlay ov)))
-                   <span style="color: #a0a1a7; font-weight: bold;">;; </span><span style="color: #a0a1a7;">and save new fragment</span>
-                   (<span style="color: #a626a4;">setq</span> org-latex-fragment-last begin)))
-                
-                <span style="color: #a0a1a7; font-weight: bold;">;; </span><span style="color: #a0a1a7;">were on a fragment and now are not on a fragment</span>
-                ((<span style="color: #a626a4;">and</span>
-                  <span style="color: #a0a1a7; font-weight: bold;">;; </span><span style="color: #a0a1a7;">not on a fragment now</span>
-                  (not begin)
-                  <span style="color: #a0a1a7; font-weight: bold;">;; </span><span style="color: #a0a1a7;">but we were on one</span>
-                  org-latex-fragment-last)
-                 <span style="color: #a0a1a7; font-weight: bold;">;; </span><span style="color: #a0a1a7;">put image back on</span>
-                 (<span style="color: #a626a4;">save-excursion</span>
-                   (goto-char org-latex-fragment-last)
-                   (<span style="color: #a626a4;">when</span> (my/org-in-latex-fragment-p)(org-toggle-latex-fragment)))
-                 
-                 <span style="color: #a0a1a7; font-weight: bold;">;; </span><span style="color: #a0a1a7;">unset last fragment</span>
-                 (<span style="color: #a626a4;">setq</span> org-latex-fragment-last nil))
-                
-                <span style="color: #a0a1a7; font-weight: bold;">;; </span><span style="color: #a0a1a7;">were not on a fragment, and now are</span>
-                ((<span style="color: #a626a4;">and</span>
-                  <span style="color: #a0a1a7; font-weight: bold;">;; </span><span style="color: #a0a1a7;">we were not one one</span>
-                  (not org-latex-fragment-last)
-                  <span style="color: #a0a1a7; font-weight: bold;">;; </span><span style="color: #a0a1a7;">but now we are</span>
-                  begin)
-                 (<span style="color: #a626a4;">save-excursion</span>
-                   (goto-char begin)
-                   <span style="color: #a0a1a7; font-weight: bold;">;; </span><span style="color: #a0a1a7;">remove image</span>
-                   (<span style="color: #a626a4;">let</span> ((ov (my/org-latex-fragment--get-current-latex-fragment)))
-                     (<span style="color: #a626a4;">when</span> ov
-                       (delete-overlay ov)))
-                   (<span style="color: #a626a4;">setq</span> org-latex-fragment-last begin)))
-                <span style="color: #a0a1a7; font-weight: bold;">;; </span><span style="color: #a0a1a7;">else not on a fragment</span>
+                 (<span class="org-keyword">let</span> ((ov (my/org-latex-fragment--get-current-latex-fragment)))
+                   (<span class="org-keyword">when</span> ov
+                     (delete-overlay ov)))
+                 <span class="org-comment-delimiter">;; </span><span class="org-comment">and save new fragment</span>
+                 (<span class="org-keyword">setq</span> org-latex-fragment-last begin)))
+
+              <span class="org-comment-delimiter">;; </span><span class="org-comment">were on a fragment and now are not on a fragment</span>
+              ((<span class="org-keyword">and</span>
+                <span class="org-comment-delimiter">;; </span><span class="org-comment">not on a fragment now</span>
+                (not begin)
+                <span class="org-comment-delimiter">;; </span><span class="org-comment">but we were on one</span>
+                org-latex-fragment-last)
+               <span class="org-comment-delimiter">;; </span><span class="org-comment">put image back on</span>
+               (<span class="org-keyword">save-excursion</span>
+                 (goto-char org-latex-fragment-last)
+                 (<span class="org-keyword">when</span> (my/org-in-latex-fragment-p)(org-toggle-latex-fragment)))
+
+               <span class="org-comment-delimiter">;; </span><span class="org-comment">unset last fragment</span>
+               (<span class="org-keyword">setq</span> org-latex-fragment-last nil))
+
+              <span class="org-comment-delimiter">;; </span><span class="org-comment">were not on a fragment, and now are</span>
+              ((<span class="org-keyword">and</span>
+                <span class="org-comment-delimiter">;; </span><span class="org-comment">we were not one one</span>
+                (not org-latex-fragment-last)
+                <span class="org-comment-delimiter">;; </span><span class="org-comment">but now we are</span>
+                begin)
+                 (<span class="org-keyword">save-excursion</span>
+                 (goto-char begin)
+                   <span class="org-comment-delimiter">;; </span><span class="org-comment">remove image</span>
+                 (<span class="org-keyword">let</span> ((ov (my/org-latex-fragment--get-current-latex-fragment)))
+                   (<span class="org-keyword">when</span> ov
+                     (delete-overlay ov)))
+                 (<span class="org-keyword">setq</span> org-latex-fragment-last begin)))
+                <span class="org-comment-delimiter">;; </span><span class="org-comment">else not on a fragment</span>
                 ((not begin)
-                 (<span style="color: #a626a4;">setq</span> org-latex-fragment-last nil)))))
-      (<span style="color: #ff0000; font-weight: bold;">error</span> nil)))
+                 (<span class="org-keyword">setq</span> org-latex-fragment-last nil)))))
+      (<span class="org-warning">error</span> nil)))
 
 
 
 (add-hook 'post-command-hook 'org-latex-fragment-toggle-auto)
-(<span style="color: #a626a4;">setq</span> org-latex-fragment-toggle-helper (byte-compile 'org-latex-fragment-toggle-helper))
-(<span style="color: #a626a4;">setq</span> org-latex-fragment-toggle-auto (byte-compile 'org-latex-fragment-toggle-auto))
+(<span class="org-keyword">setq</span> org-latex-fragment-toggle-helper (byte-compile 'org-latex-fragment-toggle-helper))
+(<span class="org-keyword">setq</span> org-latex-fragment-toggle-auto (byte-compile 'org-latex-fragment-toggle-auto))
 </pre>
 </div>
 
@@ -243,9 +243,9 @@ And here is an example!
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Ivan Tadeu Ferreira Antunes Filho</p>
-<p class="date">Date: 2022-07-22 Fri 19:37</p>
+<p class="date">Date: 2022-07-23 Sat 02:22</p>
 <p class="author">Github:  <a href="https://github.com/itf/">github.com/itf</a></p>
-<p class="creator">Made with <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.50 (<a href="https://orgmode.org">Org</a> mode 9.1.9) and <a href="https://github.com/itf/org-export-head">Org export head</a> </p>
+<p class="creator">Made with <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.1 (<a href="https://orgmode.org">Org</a> mode 9.3) and <a href="https://github.com/itf/org-export-head">Org export head</a> </p>
 </div>
 </body>
 </html>

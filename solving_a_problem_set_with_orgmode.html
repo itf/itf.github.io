@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2022-07-22 Fri 19:37 -->
+<!-- 2022-07-23 Sat 02:22 -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Solving a problem set with orgmode</title>
@@ -14,7 +14,7 @@
 @licstart  The following is the entire license notice for the
 JavaScript code in this tag.
 
-Copyright (C) 2012-2019 Free Software Foundation, Inc.
+Copyright (C) 2012-2020 Free Software Foundation, Inc.
 
 The JavaScript code in this tag is free software: you can
 redistribute it and/or modify it under the terms of the GNU
@@ -110,7 +110,7 @@ Solving a problem set with orgmode
 
 <p>
 <span class=page-date> <small>
-2018-09-17, updated 2019-02-28 &#x2014; <a href='journal.html#tech' class='tech tagbutton'>tech</a> <a href='journal.html#blog' class='blog tagbutton'>blog</a>  &nbsp  <a href="scan_notes_with_webcam_online_incomplete.html">⇦Scan notes with webcam online (incomplete)</a> &#x2013; <a href="scan_notes_with_laptop_webcam.html">Scan notes with laptop webcam⇨</a> 
+2018-09-17, updated 2019-02-28 &#x2014; <a href='tags.html#tech' class='tech tagbutton'>tech</a> <a href='tags.html#blog' class='blog tagbutton'>blog</a>  &nbsp  <a href="scan_notes_with_webcam_online_incomplete.html">⇦Scan notes with webcam online (incomplete)</a> &#x2013; <a href="scan_notes_with_laptop_webcam.html">Scan notes with laptop webcam⇨</a> 
 </small> </span> 
 </p>
 <p>
@@ -133,29 +133,29 @@ Being able to run arbitrary code during export allowed me to very easily generat
 </p>
 
 <div class="org-src-container">
-<pre class="src src-python" id="orgsrcblock1"><span style="color: #a626a4;">from</span> sympy <span style="color: #a626a4;">import</span> I
-<span style="color: #a626a4;">from</span> sympy <span style="color: #a626a4;">import</span> latex
-<span style="color: #a626a4;">from</span> sympy.matrices <span style="color: #a626a4;">import</span> *
-<span style="color: #a626a4;">import</span> sys
-<span style="color: #8b4513;">i</span>=I
+<pre class="src src-python" id="orgsrcblock1"><span class="org-keyword">from</span> sympy <span class="org-keyword">import</span> I
+<span class="org-keyword">from</span> sympy <span class="org-keyword">import</span> latex
+<span class="org-keyword">from</span> sympy.matrices <span class="org-keyword">import</span> *
+<span class="org-keyword">import</span> sys
+<span class="org-variable-name">i</span>=I
 
-<span style="color: #8b4513;">sigmax</span> = Matrix([[0,1],[1,0]])
-<span style="color: #8b4513;">sigmay</span> = Matrix([[0,-i],[i,0]])
-<span style="color: #8b4513;">sigmaz</span> = Matrix([[1,0],[0,-1]])
+<span class="org-variable-name">sigmax</span> = Matrix([[0,1],[1,0]])
+<span class="org-variable-name">sigmay</span> = Matrix([[0,-i],[i,0]])
+<span class="org-variable-name">sigmaz</span> = Matrix([[1,0],[0,-1]])
 
-<span style="color: #a626a4;">print</span>(<span style="color: #50a14f;">"\\begin{alignat*}{3}"</span>)
-<span style="color: #a626a4;">print</span>( <span style="color: #50a14f;">"\\\\ \sigma_{x} \sigma_{x} &amp;="</span> + latex(sigmax) + latex(sigmax) +<span style="color: #50a14f;">" &amp;&amp;= "</span> + latex(sigmax*sigmax) )
-<span style="color: #a626a4;">print</span>( <span style="color: #50a14f;">"\\\\ \sigma_{y} \sigma_{y} &amp;="</span> + latex(sigmay) + latex(sigmay) +<span style="color: #50a14f;">" &amp;&amp;= "</span> + latex(sigmay*sigmay) )
-<span style="color: #a626a4;">print</span>( <span style="color: #50a14f;">"\\\\ \sigma_{z} \sigma_{z} &amp;="</span> + latex(sigmaz) + latex(sigmaz) +<span style="color: #50a14f;">" &amp;&amp;= "</span> + latex(sigmaz*sigmaz) )
+<span class="org-keyword">print</span>(<span class="org-string">"\\begin{alignat*}{3}"</span>)
+<span class="org-keyword">print</span>( <span class="org-string">"\\\\ \sigma_{x} \sigma_{x} &amp;="</span> + latex(sigmax) + latex(sigmax) +<span class="org-string">" &amp;&amp;= "</span> + latex(sigmax*sigmax) )
+<span class="org-keyword">print</span>( <span class="org-string">"\\\\ \sigma_{y} \sigma_{y} &amp;="</span> + latex(sigmay) + latex(sigmay) +<span class="org-string">" &amp;&amp;= "</span> + latex(sigmay*sigmay) )
+<span class="org-keyword">print</span>( <span class="org-string">"\\\\ \sigma_{z} \sigma_{z} &amp;="</span> + latex(sigmaz) + latex(sigmaz) +<span class="org-string">" &amp;&amp;= "</span> + latex(sigmaz*sigmaz) )
 
-<span style="color: #a626a4;">print</span>( <span style="color: #50a14f;">"\\\\ \sigma_{x} \sigma_{y} &amp;="</span> + latex(sigmax) + latex(sigmay) +<span style="color: #50a14f;">" &amp;&amp;= "</span> + latex(sigmax*sigmay) )
-<span style="color: #a626a4;">print</span>( <span style="color: #50a14f;">"\\\\ \sigma_{y} \sigma_{z} &amp;="</span> + latex(sigmay) + latex(sigmaz) +<span style="color: #50a14f;">" &amp;&amp;= "</span> + latex(sigmay*sigmaz) )
-<span style="color: #a626a4;">print</span>( <span style="color: #50a14f;">"\\\\ \sigma_{z} \sigma_{x} &amp;="</span> + latex(sigmaz) + latex(sigmax) +<span style="color: #50a14f;">" &amp;&amp;= "</span> + latex(sigmaz*sigmax) )
+<span class="org-keyword">print</span>( <span class="org-string">"\\\\ \sigma_{x} \sigma_{y} &amp;="</span> + latex(sigmax) + latex(sigmay) +<span class="org-string">" &amp;&amp;= "</span> + latex(sigmax*sigmay) )
+<span class="org-keyword">print</span>( <span class="org-string">"\\\\ \sigma_{y} \sigma_{z} &amp;="</span> + latex(sigmay) + latex(sigmaz) +<span class="org-string">" &amp;&amp;= "</span> + latex(sigmay*sigmaz) )
+<span class="org-keyword">print</span>( <span class="org-string">"\\\\ \sigma_{z} \sigma_{x} &amp;="</span> + latex(sigmaz) + latex(sigmax) +<span class="org-string">" &amp;&amp;= "</span> + latex(sigmaz*sigmax) )
 
-<span style="color: #a626a4;">print</span>( <span style="color: #50a14f;">"\\\\ \sigma_{y} \sigma_{x} &amp;="</span> + latex(sigmay) + latex(sigmax) +<span style="color: #50a14f;">" &amp;&amp;= "</span> + latex(sigmay*sigmax) )
-<span style="color: #a626a4;">print</span>( <span style="color: #50a14f;">"\\\\ \sigma_{z} \sigma_{y} &amp;="</span> + latex(sigmaz) + latex(sigmay) +<span style="color: #50a14f;">" &amp;&amp;= "</span> + latex(sigmaz*sigmay) )
-<span style="color: #a626a4;">print</span>( <span style="color: #50a14f;">"\\\\ \sigma_{x} \sigma_{z} &amp;="</span> + latex(sigmax) + latex(sigmaz) +<span style="color: #50a14f;">" &amp;&amp;= "</span> + latex(sigmax*sigmaz) )
-<span style="color: #a626a4;">print</span>(<span style="color: #50a14f;">"\\\\ \\end{alignat*}"</span>)
+<span class="org-keyword">print</span>( <span class="org-string">"\\\\ \sigma_{y} \sigma_{x} &amp;="</span> + latex(sigmay) + latex(sigmax) +<span class="org-string">" &amp;&amp;= "</span> + latex(sigmay*sigmax) )
+<span class="org-keyword">print</span>( <span class="org-string">"\\\\ \sigma_{z} \sigma_{y} &amp;="</span> + latex(sigmaz) + latex(sigmay) +<span class="org-string">" &amp;&amp;= "</span> + latex(sigmaz*sigmay) )
+<span class="org-keyword">print</span>( <span class="org-string">"\\\\ \sigma_{x} \sigma_{z} &amp;="</span> + latex(sigmax) + latex(sigmaz) +<span class="org-string">" &amp;&amp;= "</span> + latex(sigmax*sigmaz) )
+<span class="org-keyword">print</span>(<span class="org-string">"\\\\ \\end{alignat*}"</span>)
 </pre>
 </div>
 
@@ -198,9 +198,9 @@ So in the end I could solve my problem set very efficiently, without having to w
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Ivan Tadeu Ferreira Antunes Filho</p>
-<p class="date">Date: 2022-07-22 Fri 19:37</p>
+<p class="date">Date: 2022-07-23 Sat 02:22</p>
 <p class="author">Github:  <a href="https://github.com/itf/">github.com/itf</a></p>
-<p class="creator">Made with <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.50 (<a href="https://orgmode.org">Org</a> mode 9.1.9) and <a href="https://github.com/itf/org-export-head">Org export head</a> </p>
+<p class="creator">Made with <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.1 (<a href="https://orgmode.org">Org</a> mode 9.3) and <a href="https://github.com/itf/org-export-head">Org export head</a> </p>
 </div>
 </body>
 </html>

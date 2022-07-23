@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2022-07-22 Fri 19:37 -->
+<!-- 2022-07-23 Sat 02:22 -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Projects ideas</title>
@@ -14,7 +14,7 @@
 @licstart  The following is the entire license notice for the
 JavaScript code in this tag.
 
-Copyright (C) 2012-2019 Free Software Foundation, Inc.
+Copyright (C) 2012-2020 Free Software Foundation, Inc.
 
 The JavaScript code in this tag is free software: you can
 redistribute it and/or modify it under the terms of the GNU
@@ -602,11 +602,11 @@ From: <a href="https://codepen.io/peternguyen/pen/hICga">https://codepen.io/pete
 </p>
 
 <div class="org-src-container">
-<pre class="src src-html"> &lt;<span style="color: #0184bc;">input</span> <span style="color: #8b4513;">id</span>=<span style="color: #50a14f;">"toggle"</span> <span style="color: #8b4513;">style</span>=<span style="color: #50a14f;">"display: none; visibility: hidden;"</span> <span style="color: #8b4513;">type</span>=<span style="color: #50a14f;">"checkbox"</span> checked&gt;
-  &lt;<span style="color: #0184bc;">label</span> <span style="color: #8b4513;">for</span>=<span style="color: #50a14f;">"toggle"</span>&gt;Table of contents&lt;/<span style="color: #0184bc;">label</span>&gt;
-  &lt;<span style="color: #0184bc;">div</span> <span style="color: #8b4513;">id</span>=<span style="color: #50a14f;">"expand"</span>&gt;
+<pre class="src src-html"> &lt;<span class="org-function-name">input</span> <span class="org-variable-name">id</span>=<span class="org-string">"toggle"</span> <span class="org-variable-name">style</span>=<span class="org-string">"display: none; visibility: hidden;"</span> <span class="org-variable-name">type</span>=<span class="org-string">"checkbox"</span> checked&gt;
+  &lt;<span class="org-function-name">label</span> <span class="org-variable-name">for</span>=<span class="org-string">"toggle"</span>&gt;Table of contents&lt;/<span class="org-function-name">label</span>&gt;
+  &lt;<span class="org-function-name">div</span> <span class="org-variable-name">id</span>=<span class="org-string">"expand"</span>&gt;
  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas porta non turpis faucibus lobortis. Curabitur non eros rutrum, gravida felis non, luctus velit. Ut commodo congue velit feugiat lobortis. Etiam nec dolor quis nulla bibendum blandit vitae nec enim. Maecenas id dignissim erat. Aenean ac mi nec ante venenatis interdum quis vel lacus.
- &lt;/<span style="color: #0184bc;">div</span>&gt;
+ &lt;/<span class="org-function-name">div</span>&gt;
 #expand {
   height: auto;
   visibility: hidden;
@@ -618,7 +618,7 @@ From: <a href="https://codepen.io/peternguyen/pen/hICga">https://codepen.io/pete
 #toggle:checked ~ #expand {
   height: auto;
   display: block;
-        overflow: auto; 
+      overflow: auto; 
   visibility:  visible;
   transition: max-height 0.3s linear, visibility 0.65s ease;
 }
@@ -626,23 +626,24 @@ From: <a href="https://codepen.io/peternguyen/pen/hICga">https://codepen.io/pete
 </div>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(<span style="color: #a626a4;">defun</span> <span style="color: #0184bc;">org-export-head--custom-toc-input</span>(depth info <span style="color: #c18401;">&amp;optional</span> scope)
-  (<span style="color: #a626a4;">let</span> ((toc-entries
-         (mapcar (<span style="color: #a626a4;">lambda</span> (headline)
-                   (cons (org-html--format-toc-headline headline info)
-                         (org-export-get-relative-level headline info)))
-                 (org-export-collect-headlines info depth scope))))
-    (<span style="color: #a626a4;">when</span> toc-entries
-      (<span style="color: #a626a4;">let</span> ((toc (concat <span style="color: #50a14f;">"&lt;nav id=\"table-of-contents\"&gt;\n"</span> 
-                  <span style="color: #50a14f;">"&lt;input id=\"toggle-toc\" style=\"display: none; visibility: hidden;\" type=\"checkbox\"&gt;\n"</span>
-                  <span style="color: #50a14f;">"&lt;label for=\"toggle-toc\"&gt;\n &lt;h2&gt; &lt;a&gt; Table of Contents &lt;/a&gt; &lt;/h2&gt;\n &lt;/label&gt;\n"</span>
-                  <span style="color: #50a14f;">"&lt;div id=\"text-table-of-contents\"&gt;"</span>
-                         (org-html--toc-text toc-entries)
-                         <span style="color: #50a14f;">"&lt;/div&gt;\n"</span>
-                         <span style="color: #50a14f;">"&lt;/nav&gt; \n"</span>)))
+<pre class="src src-emacs-lisp">(<span class="org-keyword">defun</span> <span class="org-function-name">org-export-head--custom-toc-input</span>(depth info <span class="org-type">&amp;optional</span> scope)
+  (<span class="org-keyword">let</span> ((toc-entries
+       (mapcar (<span class="org-keyword">lambda</span> (headline)
+                 (cons (org-html--format-toc-headline headline info)
+                       (org-export-get-relative-level headline info)))
+               (org-export-collect-headlines info depth scope))))
+    (<span class="org-keyword">when</span> toc-entries
+      (<span class="org-keyword">let</span> ((toc (concat <span class="org-string">"&lt;nav id=\"table-of-contents\"&gt;\n"</span> 
+                  <span class="org-string">"&lt;input id=\"toggle-toc\" style=\"display: none; visibility: hidden;\" type=\"checkbox\"&gt;\n"</span>
+                  <span class="org-string">"&lt;label for=\"toggle-toc\"&gt;\n &lt;h2&gt; &lt;a&gt; Table of Contents &lt;/a&gt; &lt;/h2&gt;\n &lt;/label&gt;\n"</span>
+                  <span class="org-string">"&lt;div id=\"text-table-of-contents\"&gt;"</span>
+                       (org-html--toc-text toc-entries)
+                       <span class="org-string">"&lt;/div&gt;\n"</span>
+                         <span class="org-string">"&lt;/nav&gt; \n"</span>)))
         toc))))
 </pre>
 </div>
+
 
 <div class="org-src-container">
 <pre class="src src-html">#table-of-contents #text-table-of-contents{
@@ -670,19 +671,19 @@ From: <a href="https://codepen.io/peternguyen/pen/hICga">https://codepen.io/pete
 </div>
 
 <div class="org-src-container">
-<pre class="src src-emacs-lisp">(<span style="color: #a626a4;">defun</span> <span style="color: #0184bc;">org-export-head--custom-toc</span>(depth info <span style="color: #c18401;">&amp;optional</span> scope)
-  (<span style="color: #a626a4;">let</span> ((toc-entries
-         (mapcar (<span style="color: #a626a4;">lambda</span> (headline)
-                   (cons (org-html--format-toc-headline headline info)
-                         (org-export-get-relative-level headline info)))
-                 (org-export-collect-headlines info depth scope))))
-    (<span style="color: #a626a4;">when</span> toc-entries
-      (<span style="color: #a626a4;">let</span> ((toc (concat <span style="color: #50a14f;">"&lt;nav id=\"table-of-contents\"&gt;\n"</span>
-                         <span style="color: #50a14f;">"&lt;a href=\"#text-table-of-contents\"&gt;\n &lt;h2&gt; &lt;b&gt;Table of Contents &lt;/b&gt; &lt;/h2&gt;\n &lt;/a&gt;\n"</span>
-                         <span style="color: #50a14f;">"&lt;div id=\"text-table-of-contents\"&gt;"</span>
-                         (org-html--toc-text toc-entries)
-                         <span style="color: #50a14f;">"&lt;/div&gt;\n"</span>
-                         <span style="color: #50a14f;">"&lt;/nav&gt; \n"</span>)))
+<pre class="src src-emacs-lisp">(<span class="org-keyword">defun</span> <span class="org-function-name">org-export-head--custom-toc</span>(depth info <span class="org-type">&amp;optional</span> scope)
+  (<span class="org-keyword">let</span> ((toc-entries
+       (mapcar (<span class="org-keyword">lambda</span> (headline)
+                 (cons (org-html--format-toc-headline headline info)
+                       (org-export-get-relative-level headline info)))
+               (org-export-collect-headlines info depth scope))))
+    (<span class="org-keyword">when</span> toc-entries
+      (<span class="org-keyword">let</span> ((toc (concat <span class="org-string">"&lt;nav id=\"table-of-contents\"&gt;\n"</span>
+                         <span class="org-string">"&lt;a href=\"#text-table-of-contents\"&gt;\n &lt;h2&gt; &lt;b&gt;Table of Contents &lt;/b&gt; &lt;/h2&gt;\n &lt;/a&gt;\n"</span>
+                         <span class="org-string">"&lt;div id=\"text-table-of-contents\"&gt;"</span>
+                       (org-html--toc-text toc-entries)
+                       <span class="org-string">"&lt;/div&gt;\n"</span>
+                         <span class="org-string">"&lt;/nav&gt; \n"</span>)))
         toc))))
 </pre>
 </div>
@@ -737,9 +738,9 @@ From: <a href="https://codepen.io/peternguyen/pen/hICga">https://codepen.io/pete
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Ivan Tadeu Ferreira Antunes Filho</p>
-<p class="date">Date: 2022-07-22 Fri 19:37</p>
+<p class="date">Date: 2022-07-23 Sat 02:22</p>
 <p class="author">Github:  <a href="https://github.com/itf/">github.com/itf</a></p>
-<p class="creator">Made with <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.0.50 (<a href="https://orgmode.org">Org</a> mode 9.1.9) and <a href="https://github.com/itf/org-export-head">Org export head</a> </p>
+<p class="creator">Made with <a href="https://www.gnu.org/software/emacs/">Emacs</a> 27.1 (<a href="https://orgmode.org">Org</a> mode 9.3) and <a href="https://github.com/itf/org-export-head">Org export head</a> </p>
 </div>
 </body>
 </html>
