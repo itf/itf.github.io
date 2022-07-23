@@ -738,6 +738,7 @@ alphanumeric characters only."
   (require 'ox)
   (require 'cl)
   (require 'subr-x)
+  (setq org-src-fontify-natively t)
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
 (setq package-load-list '((htmlize t)))
@@ -746,6 +747,9 @@ alphanumeric characters only."
 (unless (package-installed-p 'htmlize)
   (package-refresh-contents)
   (package-install 'htmlize))
+  (require 'htmlize)
+  (setq org-export-htmlize-output-type 'css)
+  (setq org-html-htmlize-output-type 'css)
   (setq org-confirm-babel-evaluate nil)
   (org-mode)
   (transient-mark-mode) ;necessary for using org-map-entries
